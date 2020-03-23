@@ -17,7 +17,7 @@ class App extends Component {
         .then((res) => res.json())
         .then((data) => {
             this.setState({
-                text: JSON.stringify(data);
+                text: JSON.stringify(data)
             })
         })
     }
