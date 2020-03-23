@@ -1,6 +1,8 @@
 {
-  "name": "mmlearnjs_frontend",
+  "name": "mmLearnJS_frontend",
   "version": "0.1.0",
+  "description": "frontend for mmlearnjs",
+  "main": "index.js",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -16,6 +18,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maks0bs/mmLearnJS_frontend.git"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -30,5 +36,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "keywords": [
+    "frontend",
+    "react",
+    "learn",
+    "js",
+    "redux"
+  ],
+  "author": "maks0bs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Maks0bs/mmLearnJS_frontend/issues"
   }
 }
