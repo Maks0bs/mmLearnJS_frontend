@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { REACT_APP_API_URL } from './constants'
 
 class App extends Component {
     constructor(props){
@@ -13,7 +14,7 @@ class App extends Component {
 
     componentDidMount(){
         //temporary test data to check networking
-        fetch('https://jsonplaceholder.typicode.com/posts')
+        fetch(REACT_APP_API_URL)
         .then((res) => res.json())
         .then((data) => {
             this.setState({
