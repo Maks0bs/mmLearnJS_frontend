@@ -1,5 +1,5 @@
 let reactAppApiUrl;
-if (process.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production'){
 	reactAppApiUrl = 'https://mmlearnjs-backend.herokuapp.com'
 }
 else{
