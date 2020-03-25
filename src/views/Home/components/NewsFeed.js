@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
-import { getData } from '../services/api'
+import { fetchNews } from '../services/actions'
+import { connect } from 'react-redux'
 
 class NewsFeed extends Component {
-	constructor(props){
-		super(props);
-
-		this.state = {
-			text: ''
-		}
-	}
-
+	
 	componentDidMount(){
         // temporary test data to check networking
-        getData()
-        .then((data) => {
-            this.setState({
-                text: JSON.stringify(data)
-            })
-        })
+        this.props.fetchNews()
     }
 
 	render() {
 		return (
 			<div>
-				{this.state.text}
+				{JSON.stringify(this.props.newsEntries)}
 			</div>
 		);
 	}
 }
 
-export default NewsFeed;
+let mapStateToProps = (state) => {
+	let { newsEntries } = state.viewsReducer.homeReducer
+	return {
+		newsEntries
+	}
+	
+}
+
+export default connect(
+	mapStateToProps,
+	{
+		fetchNews
+	}
+)(NewsFeed)
