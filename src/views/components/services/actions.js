@@ -2,7 +2,8 @@ import types from './actionTypes'
 
 export let showSigninModal = () => dispatch => {
 	dispatch({
-		type: types.signinModal.SHOW
+		type: types.signinModal.SHOW,
+		modalType: 'SIGNIN'
 	})
 }
 

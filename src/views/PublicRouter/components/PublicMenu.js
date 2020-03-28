@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { showSigninModal, hideSigninModal } from '../services/actions'
 
 let NavItem = props => {
 	if (props.brand){
@@ -80,14 +79,4 @@ class PublicMenu extends Component {
 	}
 }
 
-const mapDispatchToProps = dispatch => ({
-  	hideSigninModal: () => dispatch(hideSigninModal()),
-  	showSigninModal: (modalProps, modalType) => {
-    	dispatch(showSigninModal({ modalProps, modalType }))
-  	}
-})
-
-export default connect(
-	null,
-	mapDispatchToProps,
-)(withRouter(PublicMenu))
+export default withRouter(PublicMenu)
