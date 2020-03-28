@@ -6,7 +6,7 @@ class Home extends Component {
     render() {
         // don't forget to apply styling
         return (
-            <div>
+            <div className="row ml-2">
                 <NewsFeed />
             </div>
         );

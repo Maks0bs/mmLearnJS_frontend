@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Home from './views/Home'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import ClassroomRouter from './views/ClassroomRouter'
+import PublicRouter from './views/PublicRouter'
+
 
 class App extends Component {
 
     render() {
         return (
             <div>
-                <BrowserRouter>
+                <Router>
                     <Switch>
                         <Route
-                            exact
+                            path="/classroom"
+                            component={ClassroomRouter}
+                        />
+                        <Route
                             path="/"
-                            component={Home}
+                            component={PublicRouter}
                         />
                     </Switch>
-                </BrowserRouter>
+                    {/*maybe add a common footer for all pages*/}
+                </Router>
             </div>
         );
     }

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
-import homeReducer from '../../Home/services/reducer'
+import publicReducer from '../../PublicRouter/services/reducers'
 
 // here we collect ALL reducers from views directory
 export default combineReducers({
-	homeReducer
+	public: publicReducer
 })

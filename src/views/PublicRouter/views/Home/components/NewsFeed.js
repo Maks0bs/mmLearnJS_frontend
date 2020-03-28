@@ -19,12 +19,14 @@ class NewsFeed extends Component {
 }
 
 let mapStateToProps = (state) => {
-	let { newsEntries } = state.viewsReducer.homeReducer
+	let { newsEntries } = state.viewsReducer.public.homeReducer
 	return {
 		newsEntries
 	}
 	
 }
+
+// add propTypes
 
 export default connect(
 	mapStateToProps,
