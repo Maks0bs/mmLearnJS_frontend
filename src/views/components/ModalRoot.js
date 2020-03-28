@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
+import { hideModal } from './services/actions'
 
+Modal.setAppElement(document.getElementById('root'));
 
 class ModalRoot extends Component {
+
 	render() {
 		let { ModalComponent } = this.props;
 		if (!ModalComponent) {
@@ -19,15 +22,15 @@ class ModalRoot extends Component {
 						position: 'fixed',
 						backgroundColor: 'rgba(0, 0, 0, 0.4)',
 						zIndex: 10,
-						'overflow-y': 'hidden'
+						overflow: 'hidden'
 					},
 					content: {
 						margin: '2%',
+						padding: '0px',
 						left: '100px',
 						right: '100px'
 					}
 				}}
-				shouldCloseOnEsc={true}
 			>
 				<ModalComponent />
 			</Modal>
@@ -35,8 +38,6 @@ class ModalRoot extends Component {
 	}
 }
 
-
-// !!!!!!!!!!!!!!!
 let mapStateToProps = (state) => {
 	let { ModalComponent } = state.viewsReducer.components;
 	return {
