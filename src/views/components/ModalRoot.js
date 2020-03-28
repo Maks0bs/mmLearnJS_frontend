@@ -6,6 +6,26 @@ import { hideModal } from './services/actions'
 Modal.setAppElement(document.getElementById('root'));
 
 class ModalRoot extends Component {
+	constructor(){
+		super();
+	}
+
+	componentWillMount() {
+        console.log('mount');
+        document.addEventListener('mousedown', this.handleClick, false);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClick, false);
+    }
+
+    handleClick = (e) => {
+        if (this.contentRef && this.contentRef.contains(e.target)){
+            return;
+        }
+
+        this.props.hideModal();
+    }
 
 	render() {
 		let { ModalComponent } = this.props;
@@ -17,18 +37,17 @@ class ModalRoot extends Component {
 		return (
 			<Modal
 				isOpen={true}
+				contentRef={node => (this.contentRef = node)}
 				style={{
 					overlay: {
 						position: 'fixed',
 						backgroundColor: 'rgba(0, 0, 0, 0.4)',
-						zIndex: 10,
-						overflow: 'hidden'
+						zIndex: 10
 					},
 					content: {
-						margin: '2%',
 						padding: '0px',
-						left: '100px',
-						right: '100px'
+						left: '15%',
+						right: '15%'
 					}
 				}}
 			>
@@ -47,5 +66,5 @@ let mapStateToProps = (state) => {
 
 export default connect(
 	mapStateToProps,
-	null
+	{ hideModal }
 )(ModalRoot)
