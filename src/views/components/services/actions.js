@@ -1,13 +1,13 @@
 import types from './actionTypes'
 
-export let showSigninModal = () => dispatch => {
+export let showModal = (Component) => dispatch => {
 	dispatch({
 		type: types.signinModal.SHOW,
-		modalType: 'SIGNIN'
+		ModalComponent: Component
 	})
 }
 
-export let hideSigninModal = () => dispatch => {
+export let hideModal = () => dispatch => {
 	dispatch({
 		type: types.signinModal.HIDE
 	})

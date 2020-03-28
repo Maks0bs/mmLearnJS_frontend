@@ -1,14 +1,14 @@
 import actionTypes from './actionTypes'
 
 const initialState = {
-     modalType: null
+     ModalComponent: null
 }
 
 export default (state = initialState, action) => {
   	switch (action.type) {
     	case actionTypes.signinModal.SHOW:
       		return {
-                modalType: action.modalType
+                ModalComponent: action.ModalComponent
             }
     	case actionTypes.signinModal.HIDE:
       		return initialState
