@@ -9,6 +9,7 @@ export const fetchNews = (newItem) => (dispatch) => {
 	console.log(`${REACT_APP_API_URL}/news`);
 	fetch(`${REACT_APP_API_URL}/news`, {
 		method: "GET",
+		mode: "cors"
 	})
 	.then(res => res.json())
 	.then(news => dispatch({
