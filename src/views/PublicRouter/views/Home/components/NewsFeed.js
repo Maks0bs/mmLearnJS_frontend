@@ -43,7 +43,7 @@ class NewsFeed extends Component {
 }
 
 let mapStateToProps = (state) => {
-	let { newsEntries } = state.viewsReducer.public.homeReducer
+	let { newsEntries } = state.views.public.home
 	return {
 		newsEntries
 	}
@@ -54,7 +54,5 @@ let mapStateToProps = (state) => {
 
 export default connect(
 	mapStateToProps,
-	{
-		fetchNews
-	}
+	{ fetchNews }
 )(NewsFeed)

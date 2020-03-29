@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 // make controlled components
 
-class SigninModal extends Component {
+class Signin extends Component {
     constructor(props){
         super(props);
 
@@ -109,4 +109,4 @@ class SigninModal extends Component {
 export default connect(
     null,
     { hideModal }
-)(SigninModal);
+)(Signin);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { signup } from './services/actions'
+import { signup, clearMessages } from './services/actions'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -8,18 +8,15 @@ class Signup extends Component {
 		super(props);
 
 		this.state = {
-			name: "",
-			email: "",
-			password: "",
-			error: "",
-			message: ''
+			name: '',
+			email: '',
+			password: ''
 		}
 	}
 
 	handleChange = (name) => (event) => {
+		this.props.clearMessages();
 		this.setState({
-			error: "",
-
 			[name]: event.target.value
 		})
 	}
@@ -34,26 +31,16 @@ class Signup extends Component {
 			password: password
 		}
 
-		
 		this.props.signup(user)
-		.then((data) => {
-			if (data.error){
-				this.setState({
-					error: data.error
-				})
-			}
-			else{
-
-				console.log('data', data);
-				this.setState({
-					name: "",
-					email: "",
-					password: "",
-					error: "",
-					message: this.props.message
-				})
-			}
-		})
+			.then((data) => {
+				if (!this.props.error){
+					this.setState({
+						name: '',
+						email: '',
+						password: ''
+					})
+				}
+			})
 		
 		
 	}
@@ -100,8 +87,8 @@ class Signup extends Component {
 	}
 
 	render(){
-		console.log(this.state);
-		let {name, email, password, error, message} = this.state;
+		let {name, email, password} = this.state;
+		let { error, message } = this.props;
 		return (
 			<div className="container">
 				<h2 className="mt-5 mb-5">Signup</h2>
@@ -128,13 +115,14 @@ class Signup extends Component {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		signup: (user) => dispatch(signup(user))
+		signup: (user) => dispatch(signup(user)),
+		clearMessages: () => dispatch(clearMessages())
 	}
 }
 
 let mapStateToProps = (state) => {
 	return {
-		message: state.viewsReducer.public.signupReducer.message
+		...state.views.public.signup
 	}
 }
 
