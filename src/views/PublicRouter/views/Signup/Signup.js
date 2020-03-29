@@ -22,8 +22,8 @@ class Signup extends Component {
 	}
 
 
-	clickSubmit = (event) => {
-		event.preventDefault();
+	onSubmit = (event) => {
+		event.preventDefault()
 		let {name, email, password} = this.state;
 		let user ={
 			name: name,
@@ -47,7 +47,7 @@ class Signup extends Component {
 
 	renderSignupForm(name, email, password){
 		return (
-			<form>
+			<form onSubmit={this.onSubmit}>
 				<div className="form-group">
 					<label className="text-muted">Name</label>
 					<input 
@@ -77,8 +77,8 @@ class Signup extends Component {
 				</div>
 
 				<button 
-					className="btn btn-raised btn-primary"
-					onClick={this.clickSubmit}
+					className="btn btn-raised btn-outline"
+					type="submit"
 				>
 					Submit
 				</button>
@@ -87,7 +87,7 @@ class Signup extends Component {
 	}
 
 	render(){
-		let {name, email, password} = this.state;
+		let { name, email, password } = this.state;
 		let { error, message } = this.props;
 		return (
 			<div className="container">

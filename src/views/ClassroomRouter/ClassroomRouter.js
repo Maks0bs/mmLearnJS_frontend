@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import ClassroomMenu from './components/ClassroomMenu'
+import Main from './views/Main'
 
 class ClassroomRouter extends Component {
 	render() {
@@ -9,6 +10,10 @@ class ClassroomRouter extends Component {
 			<div>
 				<ClassroomMenu />
 				<Switch>
+					<Route
+						exact path={`${path}`}
+						component={Main}
+					/>
 				</Switch>
 			</div>
 		);
