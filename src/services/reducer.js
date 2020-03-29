@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import viewsReducer from '../../views/services/reducers'
+import viewsReducer from '../views/services/reducer'
 
 export default combineReducers({
 	viewsReducer

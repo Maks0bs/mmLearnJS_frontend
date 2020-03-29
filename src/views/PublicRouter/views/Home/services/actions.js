@@ -15,4 +15,5 @@ export const fetchNews = (newItem) => (dispatch) => {
 		type: API_FETCH_NEWS,
 		payload: news
 	}))
+	.catch(err => console.log(err))
 }

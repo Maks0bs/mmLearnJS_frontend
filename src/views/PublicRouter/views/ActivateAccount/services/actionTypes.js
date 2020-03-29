@@ -1,0 +1,3 @@
+export default {
+	API_ACTIVATE_ACCOUNT: 'API_ACTIVATE_ACCOUNT'
+}
