@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import ClassroomMenu from './components/ClassroomMenu'
 import Main from './views/Main'
-import { extendSession } from '../../services/actions'
+import { getAuthenticatedUser } from '../../services/actions'
 import { connect } from 'react-redux'
 
 class ClassroomRouter extends Component {
 	render() {
-		//this.props.extendSession();//might have to make synchronous
 		let { path } = this.props.match;
 		return (
 			<div>
@@ -32,5 +31,5 @@ let mapStateToProps = (state) => {
 
 export default connect(
 	mapStateToProps,
-	{ extendSession }
+	{ getAuthenticatedUser }
 )(ClassroomRouter);

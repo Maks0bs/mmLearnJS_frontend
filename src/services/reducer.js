@@ -1,18 +1,22 @@
 import { combineReducers } from 'redux'
 import viewsReducer from '../views/services/reducer'
 import types from './actionTypes'
-let { EXTEND_SESSION } = types;
+let { API_AUTHENTICATED_USER, API_LOGOUT } = types;
 
 let initialState = {
-	user: null
+	authenticatedUser: null
 }
 
 let servicesReducer = function(state = initialState, action) {
 	switch(action.type){
-		case EXTEND_SESSION:
+		case API_AUTHENTICATED_USER:
 			return {
 				...state,
-				user: action.payload
+				authenticatedUser: action.payload
+			}
+		case API_LOGOUT:
+			return {
+				initialState
 			}
 		default:
 			return state;

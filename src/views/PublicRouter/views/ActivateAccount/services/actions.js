@@ -13,6 +13,7 @@ export let activateAccount = (token) => (dispatch) => {
 			Accept: "application/json",
 			"Content-Type": "application/json"
 		},
+		credentials: 'include',
 		body: JSON.stringify({token})
 	})
 	.then(res => res.json())

@@ -8,7 +8,8 @@ let { API_FETCH_NEWS } = types;
 export const fetchNews = (newItem) => (dispatch) => {
 	console.log(`${REACT_APP_API_URL}/news`);
 	fetch(`${REACT_APP_API_URL}/news`, {
-		method: "GET"
+		method: "GET",
+		credentials: 'include'
 	})
 	.then(res => res.json())
 	.then(news => dispatch({

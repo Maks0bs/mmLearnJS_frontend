@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Cookies from 'js-cookie'
 import { REACT_APP_API_URL } from '../../../constants'
 
 class Main extends Component {
@@ -30,7 +29,6 @@ class Main extends Component {
 	}
 
 	render() {
-		console.log('cookies', Cookies.get())
 		return (
 			<div>
 				{this.state.text}
