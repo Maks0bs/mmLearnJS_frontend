@@ -51,7 +51,7 @@ class Signin extends Component {
 
     renderSigninForm = (email, password) => {
         return (
-            <form onSubmit={this.onSubmit}>
+            <form>
                 <div className="form-group">
                     <label className="text-muted">Email</label>
                     <input
@@ -74,7 +74,7 @@ class Signin extends Component {
 
                 <button 
                     className="btn btn-outline btn-raised"
-                    type="submit"
+                    onClick={this.onSubmit}
                 >
                     Sign in
                 </button>
