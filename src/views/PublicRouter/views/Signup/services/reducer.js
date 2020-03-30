@@ -15,9 +15,7 @@ export default function(state = initialState, action) {
 				error: action.payload.error && action.payload.error.message
 			}
 		case CLEAR_MESSAGES:
-			return {
-				initialState
-			}
+			return initialState
 		default:
 			return state;
 	}

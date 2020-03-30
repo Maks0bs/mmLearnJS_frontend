@@ -4,10 +4,20 @@ import PublicMenu from './components/PublicMenu'
 import Home from './views/Home'
 import Signup from './views/Signup'
 import ActivateAccount from './views/ActivateAccount'
+import Signin from './views/Signin'
+import { extendSession } from '../../services/actions'
+import { connect } from 'react-redux'
 
 
 class PublicRouter extends Component {
+
+	static getDerivedStateFromProps(nextProps, prevState){
+		console.log('nextprops', nextProps);
+		console.log('prevstate', prevState)
+	}
+
 	render() {
+		//this.props.extendSession();//might have to make synchronous
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page
@@ -15,6 +25,7 @@ class PublicRouter extends Component {
 			// for menu and switch (the following div)
 			<div>
 				<PublicMenu />
+				{/*JSON.stringify(this.props.user)*/}
 				<Switch>
 					<Route
 						exact path={`${path}`}
@@ -28,10 +39,23 @@ class PublicRouter extends Component {
 						exact path={`/activate-account/:activationToken`}
 						component={ActivateAccount}
 					/>
+					<Route
+						exact path={`/signin`}
+						component={Signin}
+					/>
 				</Switch>
 			</div>
 		);
 	}
 }
 
-export default PublicRouter;
+let mapStateToProps = (state) => {
+	return {
+		...state.services
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	{ extendSession }
+)(PublicRouter);

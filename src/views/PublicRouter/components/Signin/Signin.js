@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom'
-import { signin } from './services/actions'
-import { hideModal } from '../../../components/services/actions';//maybe pass hidemodal from upper class, not with redux
+import { signin, clearMessages } from './services/actions'
 import { connect } from 'react-redux'
 
 
@@ -18,13 +17,19 @@ class Signin extends Component {
             redirectToClassroom: false
         }
 
-        //this.renderSigninForm = this.renderSigninForm.bind(this);
     }
 
     handleChange = (name) => (event) => {
         this.setState({
             [name]: event.target.value
         })
+
+        this.props.clearMessages();
+    }
+
+    handleLeave = () => {
+        this.props.clearMessages();
+        this.props.onClose && this.props.onClose();
     }
 
     onSubmit = (event) => {
@@ -46,6 +51,10 @@ class Signin extends Component {
                     })
                 }
             })
+    }
+
+    componentWillUnmount(){
+        this.handleLeave();
     }
 
 
@@ -86,19 +95,14 @@ class Signin extends Component {
         let {email, password, loading, redirectToClassroom} = this.state;
         let { error, message } = this.props;
         if (redirectToClassroom){
-            this.props.hideModal();
+            this.handleLeave()
             return <Redirect to="/classroom" />
         }
         return (
             //TODO: add social login
             <div>
                 <div className="p-4 text-center">
-                    <button 
-                        onClick={() => this.props.hideModal()}
-                        className="float-right close"
-                    > 
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    
                     <h1>Sign in</h1>
                     <div 
                         className="alert alert-danger"
@@ -120,7 +124,7 @@ class Signin extends Component {
                         <Link 
                             to="/forgot-password" 
                             className="text-danger"
-                            onClick={(e) => this.props.hideModal()}
+                            onClick={(e) => this.handleLeave()}
                         >
                             Forgot Password
                         </Link>
@@ -130,7 +134,7 @@ class Signin extends Component {
                         <Link 
                             to="/signup" 
                             className="text-info"
-                            onClick={(e) => this.props.hideModal()}
+                            onClick={(e) => this.handleLeave()}
                         >
                             Signup
                         </Link>
@@ -143,7 +147,7 @@ class Signin extends Component {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        hideModal: () => dispatch(hideModal()),
+        clearMessages: () => dispatch(clearMessages()),
         signin: (user) => dispatch(signin(user)) 
     }
 }

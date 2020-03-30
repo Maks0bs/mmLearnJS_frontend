@@ -14,7 +14,7 @@ class Main extends Component {
 
 
 	componentDidMount(){
-		fetch(`${REACT_APP_API_URL}/auth/test`, {
+		fetch(`${REACT_APP_API_URL}/auth/extend-session`, {
 			method: "GET",
 			headers: {
 				Accept: "application/json",

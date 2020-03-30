@@ -1,0 +1,3 @@
+export default {
+	EXTEND_SESSION: 'API_EXTEND_SESSION'
+}

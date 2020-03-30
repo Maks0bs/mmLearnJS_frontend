@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../components/services/actions';
-import Signin from './Signin'
+import SigninModal from './SigninModal'
 
 let NavItem = props => {
 	if (props.brand){
@@ -72,7 +72,7 @@ class PublicMenu extends Component {
 		        <ul className="navbar-nav">
 		        	<button 
 		        		className="btn btn-outline my-sm-0"
-		        		onClick={(e) => this.props.showModal(Signin)}
+		        		onClick={(e) => this.props.showModal(SigninModal)}
 		        	>
 		        		Sign in
 		        	</button>
