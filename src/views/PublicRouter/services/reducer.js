@@ -5,7 +5,7 @@ import activateAccountReducer from '../views/ActivateAccount/services/reducer'
 
 // here we collect ALL reducers from views directory
 export default combineReducers({
-	homeReducer,
-	signupReducer,
-	activateAccountReducer
+	home: homeReducer,
+	signup: signupReducer,
+	activateAccount: activateAccountReducer
 })

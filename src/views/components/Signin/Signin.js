@@ -1,30 +1,60 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-import { hideModal } from '../../components/services/actions';
+import { Link, Redirect } from 'react-router-dom'
+import { signin, clearMessages } from './services/actions'
 import { connect } from 'react-redux'
 
 
 // make controlled components
 
-class SigninModal extends Component {
+class Signin extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            email: "",
-            password: "",
-            error: "",
-            loading: false
+            email: '',
+            password: '',
+            loading: false,
+            redirectToClassroom: false
         }
 
-        //this.renderSigninForm = this.renderSigninForm.bind(this);
     }
 
     handleChange = (name) => (event) => {
         this.setState({
-            error: "",
             [name]: event.target.value
         })
+
+        this.props.clearMessages();
+    }
+
+    handleLeave = () => {
+        this.props.clearMessages();
+        this.props.onClose && this.props.onClose();
+    }
+
+    onSubmit = (event) => {
+        event.preventDefault();
+
+        let {email, password} = this.state;
+        let user ={
+            email: email,
+            password: password
+        }
+
+        this.props.signin(user)
+            .then((data) => {
+                if (!this.props.error){
+                    this.setState({
+                        email: '',
+                        password: '',
+                        redirectToClassroom: true
+                    })
+                }
+            })
+    }
+
+    componentWillUnmount(){
+        this.handleLeave();
     }
 
 
@@ -52,7 +82,8 @@ class SigninModal extends Component {
                 </div>
 
                 <button 
-                    className="btn btn-raised btn-primary"
+                    className="btn btn-outline btn-raised"
+                    onClick={this.onSubmit}
                 >
                     Sign in
                 </button>
@@ -60,23 +91,32 @@ class SigninModal extends Component {
         );
     }
 
-    componentWillUnmount(){
-        console.log('will unmount');
-    }
-
     render() {
-        let {email, password, error, loading} = this.state;
+        let {email, password, loading, redirectToClassroom} = this.state;
+        let { error, message } = this.props;
+        if (redirectToClassroom){
+            this.handleLeave()
+            return <Redirect to="/classroom/dashboard" />
+        }
         return (
             //TODO: add social login
             <div>
                 <div className="p-4 text-center">
-                    <button 
-                        onClick={() => this.props.hideModal()}
-                        className="float-right close"
-                    > 
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    
                     <h1>Sign in</h1>
+                    <div 
+                        className="alert alert-danger"
+                        style={{display: error ? "" : "none"}}
+                    >
+                        {error}
+                    </div>
+
+                    <div 
+                        className="alert alert-info"
+                        style={{display: message ? "" : "none"}}
+                    >
+                        {message}
+                    </div>
                     {this.renderSigninForm(email, password)}
                 </div>
                 <div className="p-3">
@@ -84,7 +124,7 @@ class SigninModal extends Component {
                         <Link 
                             to="/forgot-password" 
                             className="text-danger"
-                            onClick={(e) => this.props.hideModal()}
+                            onClick={(e) => this.handleLeave()}
                         >
                             Forgot Password
                         </Link>
@@ -94,7 +134,7 @@ class SigninModal extends Component {
                         <Link 
                             to="/signup" 
                             className="text-info"
-                            onClick={(e) => this.props.hideModal()}
+                            onClick={(e) => this.handleLeave()}
                         >
                             Signup
                         </Link>
@@ -105,8 +145,21 @@ class SigninModal extends Component {
     }
 }
 
+let mapDispatchToProps = (dispatch) => {
+    return {
+        clearMessages: () => dispatch(clearMessages()),
+        signin: (user) => dispatch(signin(user)) 
+    }
+}
+
+let mapStateToProps = (state) => {
+    return {
+        ...state.views.components.signin
+    }
+}
+
 
 export default connect(
-    null,
-    { hideModal }
-)(SigninModal);
+    mapStateToProps,
+    mapDispatchToProps
+)(Signin);

@@ -4,10 +4,15 @@ import PublicMenu from './components/PublicMenu'
 import Home from './views/Home'
 import Signup from './views/Signup'
 import ActivateAccount from './views/ActivateAccount'
+import Signin from './views/Signin'
+import { connect } from 'react-redux'
+
 
 
 class PublicRouter extends Component {
+
 	render() {
+		console.log('render');
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page
@@ -15,6 +20,7 @@ class PublicRouter extends Component {
 			// for menu and switch (the following div)
 			<div>
 				<PublicMenu />
+				{JSON.stringify(this.props.authenticatedUser)}
 				<Switch>
 					<Route
 						exact path={`${path}`}
@@ -28,10 +34,16 @@ class PublicRouter extends Component {
 						exact path={`/activate-account/:activationToken`}
 						component={ActivateAccount}
 					/>
+					<Route
+						exact path={`/signin`}
+						component={Signin}
+					/>
 				</Switch>
 			</div>
 		);
 	}
 }
 
-export default PublicRouter;
+export default connect(
+	null,
+)(PublicRouter);

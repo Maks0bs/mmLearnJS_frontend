@@ -6,17 +6,22 @@ import { hideModal } from './services/actions'
 Modal.setAppElement(document.getElementById('root'));
 
 class ModalRoot extends Component {
-	constructor(){
-		super();
-	}
-
-	componentWillMount() {
+	
+	componentDidMount() {
         console.log('mount');
-        document.addEventListener('mousedown', this.handleClick, false);
+        document.addEventListener('mouseup', this.handleClick, false);
+        document.addEventListener('keydown', this.handleKey, false);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClick, false);
+        document.removeEventListener('mouseup', this.handleClick, false);
+        document.removeEventListener('keydown', this.handleKey, false);
+    }
+
+    handleKey = (e) => {
+    	if (this.contentRef && e.key === 'Escape'){
+    		this.props.hideModal()
+    	}
     }
 
     handleClick = (e) => {
@@ -58,7 +63,7 @@ class ModalRoot extends Component {
 }
 
 let mapStateToProps = (state) => {
-	let { ModalComponent } = state.viewsReducer.components;
+	let { ModalComponent } = state.views.components.modalRoot;
 	return {
 		ModalComponent
 	}

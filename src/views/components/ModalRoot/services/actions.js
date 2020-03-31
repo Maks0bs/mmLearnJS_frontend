@@ -12,4 +12,3 @@ export let hideModal = () => dispatch => {
 		type: types.signinModal.HIDE
 	})
 }
-

@@ -1,5 +1,5 @@
 import types from './actionTypes'
-let { API_SIGNUP, CLEAR_MESSAGES } = types;
+let { API_SIGNIN, CLEAR_MESSAGES } = types;
 
 let initialState = {
 	message: '',
@@ -8,7 +8,7 @@ let initialState = {
 
 export default function(state = initialState, action) {
 	switch(action.type){
-		case API_SIGNUP:
+		case API_SIGNIN:
 			return {
 				...state,
 				message: action.payload.message,

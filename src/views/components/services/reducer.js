@@ -1,18 +1,8 @@
-import actionTypes from './actionTypes'
+import signinReducer from '../Signin/services/reducer'
+import modalRootReducer from '../ModalRoot/services/reducer'
+import { combineReducers } from 'redux'
 
-const initialState = {
-     ModalComponent: null
-}
-
-export default (state = initialState, action) => {
-  	switch (action.type) {
-    	case actionTypes.signinModal.SHOW:
-      		return {
-                ModalComponent: action.ModalComponent
-            }
-    	case actionTypes.signinModal.HIDE:
-      		return initialState
-    	default:
-      		return state
-  	}
-}
+export default combineReducers({
+    modalRoot: modalRootReducer,
+    signin: signinReducer
+})

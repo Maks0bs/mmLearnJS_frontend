@@ -2,7 +2,8 @@ import types from './actionTypes'
 let { API_ACTIVATE_ACCOUNT } = types;
 
 let initialState = {
-	message: ''
+	message: '',
+	error: ''
 }
 
 export default function(state = initialState, action) {
@@ -10,7 +11,8 @@ export default function(state = initialState, action) {
 		case API_ACTIVATE_ACCOUNT:
 			return {
 				...state,
-				message: action.payload.message
+				message: action.payload.message,
+				error: action.payload.error && action.payload.error.message
 			}
 		default:
 			return state;

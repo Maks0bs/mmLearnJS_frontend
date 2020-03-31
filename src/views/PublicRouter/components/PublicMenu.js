@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { hideModal, showModal } from '../../components/services/actions';
-import SigninModal from './SigninModal'
+import { hideModal, showModal } from '../../components/ModalRoot/services/actions';
+import SigninModal from '../../components/SigninModal'
+import _ from 'lodash'
+import { getAuthenticatedUser, logout } from '../../../services/actions'
 
 let NavItem = props => {
 	if (props.brand){
@@ -39,17 +41,23 @@ class NavDropdown extends React.Component {
 		}));
 	}
 	render() {
-		const classDropdownMenu = 'dropdown-menu' + (this.state.isToggleOn ? 'show' : '')
+		const classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
 		return (
 			<li className="nav-item dropdown">
-			    <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown"
-			        aria-haspopup="true" aria-expanded="false"
-			        onClick={(e) => {this.showDropdown(e)}}>
-			    {this.props.name}
+			    <a 
+			    	className="nav-link dropdown-toggle" 
+			    	data-toggle="dropdown"
+			        onClick={(e) => {this.showDropdown(e)}}
+			        style={{
+			        	cursor: 'pointer',
+			        	textTransform: 'none'
+			        }}
+			    >
+			    	{this.props.name}
 			    </a>
-			    <div className={classDropdownMenu} aria-labelledby="navbarDropdown">
+			    <ul className={`${classDropdownMenu} dropdown-menu-right`}>
 			        {this.props.children}
-			    </div>
+			    </ul>
 			</li>
 
 		)
@@ -57,10 +65,36 @@ class NavDropdown extends React.Component {
 }
 
 class PublicMenu extends Component {
+	constructor(){
+		super();
+		this.state = {
+			redirectToHome: false
+		}
+	}
+
+	shouldComponentUpdate(nextProps){
+		
+		if (_.isEqual(this.props.authenticatedUser, nextProps.authenticatedUser)){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+
+	handleLogout = () => {
+		console.log('handleLogout');
+		this.setState({
+			redirectToHome: true
+		})
+		this.props.logout();
+	}
 			
 	render() {
-		console.log(this.props);
+		this.props.getAuthenticatedUser()
+		console.log('props', this.props);
 		let { pathname } = this.props.location;
+		let { authenticatedUser: curUser } = this.props
 		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
 		return (
 			<nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -69,16 +103,38 @@ class PublicMenu extends Component {
 		            <NavItem pageURI={pathname} path="/page2" name="Page2" />
 		            <NavItem pageURI={pathname} path="/page3" name="Disabled" disabled="true" />
 		        </ul>
-		        <ul className="navbar-nav">
-		        	<button 
-		        		className="btn btn-outline my-sm-0"
-		        		onClick={(e) => this.props.showModal(SigninModal)}
-		        	>
-		        		Sign in
-		        	</button>
-		        </ul>
-		    	{/* might need to move modalroot to some other component*/}
-		        
+		        {(curUser && curUser._id) ? (
+		        	<ul className="navbar-nav">
+				    <NavDropdown name={curUser.name}>
+				    	<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
+				    		Profile
+				    	</Link>
+				    	<Link className="dropdown-item" to="/classroom/dashboard">
+				    		Classroom
+				    	</Link>
+				    	<span 
+				    		className="dropdown-item" 
+				    		onClick={(e) => this.handleLogout()}
+				    		style={{
+				    			cursor: 'pointer'
+				    		}}
+				    	>
+				    		Log out
+				    	</span>
+				    </NavDropdown>
+				</ul>
+		        ) : (
+			        <ul className="navbar-nav">
+			        	<button 
+			        		className="btn btn-outline my-sm-0"
+			        		onClick={(e) => this.props.showModal(SigninModal)}
+			        	>
+			        		Sign in
+			        	</button>
+			        </ul>
+			    )}
+			    
+			    {this.state.redirectToHome && (<Redirect to="/" />)}
 			</nav>
 		);
 	}
@@ -87,11 +143,18 @@ class PublicMenu extends Component {
 let mapDispatchToProps = dispatch => {
 	return {
 		showModal: (Component) => dispatch(showModal(Component)),
-		hideModal: () => dispatch(hideModal)
+		getAuthenticatedUser: () => dispatch(getAuthenticatedUser()),
+		logout: () => dispatch(logout())
+	}
+}
+
+let mapStateToProps = (state) => {
+	return {
+		...state.services
 	}
 }
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(withRouter(PublicMenu))

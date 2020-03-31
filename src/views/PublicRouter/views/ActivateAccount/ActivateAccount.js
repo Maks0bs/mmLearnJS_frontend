@@ -5,24 +5,28 @@ import { connect } from 'react-redux'
 
 class Signup extends Component {
 
-	sendActivation = (token) => {
-		this.props.activateAccount(token)
-		.then((data) => {
-			if (data.error){
-				console.log(data.error);
-			}
-		})
-	}
-
 	componentDidMount(){
 		let token = this.props.match.params.activationToken;
-		this.sendActivation(token)
+		this.props.activateAccount(token)
 	}
 	
 	render(){
+		let { error, message } = this.props;
 		return (
-			<div className="container">
-				{this.props.message}
+			<div className="m-2">
+				<div 
+					className="alert alert-danger"
+					style={{display: error ? "" : "none"}}
+				>
+					<h1>{error}</h1>
+				</div>
+
+				<div 
+					className="alert alert-success"
+					style={{display: message ? "" : "none"}}
+				>
+					<h1>{message}</h1>
+				</div>
 			</div>
 		);
 	}
@@ -36,7 +40,7 @@ let mapDispatchToProps = (dispatch) => {
 
 let mapStateToProps = (state) => {
 	return {
-		message: state.viewsReducer.public.activateAccountReducer.message
+		...state.views.public.activateAccount
 	}
 }
 
