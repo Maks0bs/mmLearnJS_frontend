@@ -96,7 +96,7 @@ class Signin extends Component {
         let { error, message } = this.props;
         if (redirectToClassroom){
             this.handleLeave()
-            return <Redirect to="/classroom" />
+            return <Redirect to="/classroom/dashboard" />
         }
         return (
             //TODO: add social login
@@ -154,7 +154,7 @@ let mapDispatchToProps = (dispatch) => {
 
 let mapStateToProps = (state) => {
     return {
-        ...state.views.public.components.signin
+        ...state.views.components.signin
     }
 }
 

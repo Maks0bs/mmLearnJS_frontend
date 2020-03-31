@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom'
-import { hideModal } from '../../components/services/actions';//maybe pass hidemodal from upper class, not with redux
+import { hideModal } from './ModalRoot/services/actions';//maybe pass hidemodal from upper class, not with redux
 import { connect } from 'react-redux'
 import Signin from './Signin'
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SigninComponent from '../components/Signin'
+import SigninComponent from '../../components/Signin'
 
 class Signin extends Component {
 	render() {

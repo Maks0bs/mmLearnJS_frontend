@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { hideModal, showModal } from '../../components/services/actions';
-import SigninModal from './SigninModal'
+import { hideModal, showModal } from '../../components/ModalRoot/services/actions';
+import SigninModal from '../../components/SigninModal'
 import _ from 'lodash'
 import { getAuthenticatedUser, logout } from '../../../services/actions'
 
@@ -41,17 +41,23 @@ class NavDropdown extends React.Component {
 		}));
 	}
 	render() {
-		const classDropdownMenu = 'dropdown-menu' + (this.state.isToggleOn ? 'show' : '')
+		const classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
 		return (
 			<li className="nav-item dropdown">
-			    <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown"
-			        aria-haspopup="true" aria-expanded="false"
-			        onClick={(e) => {this.showDropdown(e)}}>
-			    {this.props.name}
+			    <a 
+			    	className="nav-link dropdown-toggle" 
+			    	data-toggle="dropdown"
+			        onClick={(e) => {this.showDropdown(e)}}
+			        style={{
+			        	cursor: 'pointer',
+			        	textTransform: 'none'
+			        }}
+			    >
+			    	{this.props.name}
 			    </a>
-			    <div className={classDropdownMenu} aria-labelledby="navbarDropdown">
+			    <ul className={`${classDropdownMenu} dropdown-menu-right`}>
 			        {this.props.children}
-			    </div>
+			    </ul>
 			</li>
 
 		)
@@ -99,14 +105,24 @@ class PublicMenu extends Component {
 		        </ul>
 		        {(curUser && curUser._id) ? (
 		        	<ul className="navbar-nav">
-		        		<p>{curUser.email}</p>
-		        		<button 
-			        		className="btn btn-outline my-sm-0"
-			        		onClick={(e) => this.handleLogout()}
-			        	>
-			        		Logout
-			        	</button>
-		        	</ul>
+				    <NavDropdown name={curUser.name}>
+				    	<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
+				    		Profile
+				    	</Link>
+				    	<Link className="dropdown-item" to="/classroom/dashboard">
+				    		Classroom
+				    	</Link>
+				    	<span 
+				    		className="dropdown-item" 
+				    		onClick={(e) => this.handleLogout()}
+				    		style={{
+				    			cursor: 'pointer'
+				    		}}
+				    	>
+				    		Log out
+				    	</span>
+				    </NavDropdown>
+				</ul>
 		        ) : (
 			        <ul className="navbar-nav">
 			        	<button 
@@ -117,6 +133,7 @@ class PublicMenu extends Component {
 			        	</button>
 			        </ul>
 			    )}
+			    
 			    {this.state.redirectToHome && (<Redirect to="/" />)}
 			</nav>
 		);
