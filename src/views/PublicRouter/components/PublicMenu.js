@@ -83,7 +83,6 @@ class PublicMenu extends Component {
 	}
 
 	handleLogout = () => {
-		console.log('handleLogout');
 		this.setState({
 			redirectToHome: true
 		})
@@ -92,12 +91,16 @@ class PublicMenu extends Component {
 			
 	render() {
 		this.props.getAuthenticatedUser()
-		console.log('props', this.props);
 		let { pathname } = this.props.location;
 		let { authenticatedUser: curUser } = this.props
 		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
 		return (
-			<nav className="navbar navbar-expand-lg navbar-light bg-light">
+			<nav 
+				className="navbar navbar-expand-lg navbar-light"
+				style={{
+					backgroundColor: '#8C9EFF'
+				}}
+			>
 				<NavItem pageURI={pathname} path="/" name="mmLearnJS" brand="true"/>
 		        <ul className="navbar-nav mr-auto">
 		            <NavItem pageURI={pathname} path="/page2" name="Page2" />

@@ -6,6 +6,8 @@ import SigninModal from '../../components/SigninModal'
 import _ from 'lodash'
 import { getAuthenticatedUser, logout } from '../../../services/actions'
 
+// !!!! maybe put all these small secondary components in another file
+
 let NavItem = props => {
 	if (props.brand){
 		return (
@@ -64,7 +66,7 @@ class NavDropdown extends React.Component {
 	}
 }
 
-class PublicMenu extends Component {
+class ClassroomMenu extends Component {
 	constructor(){
 		super();
 		this.state = {
@@ -83,7 +85,6 @@ class PublicMenu extends Component {
 	}
 
 	handleLogout = () => {
-		console.log('handleLogout');
 		this.setState({
 			redirectToHome: true
 		})
@@ -91,17 +92,16 @@ class PublicMenu extends Component {
 	}
 			
 	render() {
-		this.props.getAuthenticatedUser()
-		console.log('props', this.props);
 		let { pathname } = this.props.location;
 		let { authenticatedUser: curUser } = this.props
 		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
 		return (
 			<nav className="navbar navbar-expand-lg navbar-light bg-light">
-				<NavItem pageURI={pathname} path="/" name="mmLearnJS" brand="true"/>
+				<NavItem pageURI={pathname} path="/classroom" name="Classroom" brand="true"/>
 		        <ul className="navbar-nav mr-auto">
-		            <NavItem pageURI={pathname} path="/page2" name="Page2" />
-		            <NavItem pageURI={pathname} path="/page3" name="Disabled" disabled="true" />
+		            <NavItem pageURI={pathname} path="/" name="public page" />
+		            <NavItem pageURI={pathname} path="/classroom/page2" name="test2" />
+		            <NavItem pageURI={pathname} path="/classroom/page3" name="test3" />
 		        </ul>
 		        {(curUser && curUser._id) ? (
 		        	<ul className="navbar-nav">
@@ -157,4 +157,4 @@ let mapStateToProps = (state) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(withRouter(PublicMenu))
+)(withRouter(ClassroomMenu))

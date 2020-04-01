@@ -8,7 +8,6 @@ Modal.setAppElement(document.getElementById('root'));
 class ModalRoot extends Component {
 	
 	componentDidMount() {
-        console.log('mount');
         document.addEventListener('mouseup', this.handleClick, false);
         document.addEventListener('keydown', this.handleKey, false);
     }

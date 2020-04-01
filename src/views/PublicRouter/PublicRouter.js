@@ -12,7 +12,6 @@ import { connect } from 'react-redux'
 class PublicRouter extends Component {
 
 	render() {
-		console.log('render');
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page
