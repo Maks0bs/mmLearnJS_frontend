@@ -8,8 +8,27 @@ import Signin from './Signin'
 // make controlled components
 
 class SigninModal extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            shouldRender: true
+        }
+
+    }
+
+    handleClose = () => {
+        this.setState({
+            shouldRender: false
+        })
+
+    }
 
     render() {
+        if (!this.state.shouldRender) {
+            this.props.hideModal();
+            return null;
+        }
         return (
             <div>
                 <button 
@@ -18,7 +37,7 @@ class SigninModal extends Component {
                 > 
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <Signin onClose={this.props.hideModal}/>
+                <Signin onClose={this.handleClose}/>
             </div>
         )
     }

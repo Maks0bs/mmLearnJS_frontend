@@ -10,25 +10,37 @@ class Signup extends Component {
 		this.state = {
 			name: '',
 			email: '',
-			password: ''
+			password: '',
+			teacherChecked: false,
+			teacherPassword: ''
 		}
 	}
 
 	handleChange = (name) => (event) => {
+		console.log(event);
 		this.props.clearMessages();
 		this.setState({
 			[name]: event.target.value
 		})
 	}
 
+	handleTeacherCheck = () => {
+
+		this.setState({
+			teacherChecked: !this.state.teacherChecked,
+			teacherPassword: ''
+		})
+	}
+
 
 	onSubmit = (event) => {
 		event.preventDefault()
-		let {name, email, password} = this.state;
+		let {name, email, password, teacherPassword} = this.state;
 		let user ={
 			name: name,
 			email: email,
-			password: password
+			password: password,
+			teacherPassword: teacherPassword
 		}
 
 		this.props.signup(user)
@@ -37,7 +49,8 @@ class Signup extends Component {
 					this.setState({
 						name: '',
 						email: '',
-						password: ''
+						password: '',
+						teacherPassword: ''
 					})
 				}
 			})
@@ -45,7 +58,7 @@ class Signup extends Component {
 		
 	}
 
-	renderSignupForm(name, email, password){
+	renderSignupForm(name, email, password, teacherChecked, teacherPassword){
 		return (
 			<form onSubmit={this.onSubmit}>
 				<div className="form-group">
@@ -75,6 +88,29 @@ class Signup extends Component {
 						value={password}
 					/>
 				</div>
+				<div className="form-group">
+					<label className="text-muted">Sign up as a teacher?</label>
+					<input
+						type="checkbox"
+						onClick={this.handleTeacherCheck}
+						className="ml-3"
+						checked={teacherChecked}
+					/>
+				</div>
+
+				<div 
+					className="form-group" 
+					style={{display: teacherChecked ? "" : "none"}}
+				>
+					<label className="text-muted">Teacher password</label>
+					<input
+						onChange={this.handleChange("teacherPassword")}
+						type="text"
+						className="form-control"
+						value={teacherPassword}
+					/>
+				</div>
+				
 
 				<button 
 					className="btn btn-raised btn-outline"
@@ -87,7 +123,7 @@ class Signup extends Component {
 	}
 
 	render(){
-		let { name, email, password } = this.state;
+		let { name, email, password, teacherChecked, teacherPassword } = this.state;
 		let { error, message } = this.props;
 		return (
 			<div className="container">
@@ -107,7 +143,7 @@ class Signup extends Component {
 					{message}
 				</div>
 
-				{this.renderSignupForm(name, email, password)}
+				{this.renderSignupForm(name, email, password, teacherChecked, teacherPassword)}
 			</div>
 		);
 	}

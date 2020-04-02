@@ -4,14 +4,17 @@ import ClassroomMenu from './components/ClassroomMenu'
 import Main from './views/Main'
 import { getAuthenticatedUser } from '../../services/actions'
 import { connect } from 'react-redux'
+import ActivationMessage from '../components/ActivationMessage'
 
 class ClassroomRouter extends Component {
 	render() {
+		this.props.getAuthenticatedUser()
 		let { path } = this.props.match;
 		return (
 			<div>
+
+				<ActivationMessage />
 				<ClassroomMenu />
-				{JSON.stringify(this.props.user)}
 				<Switch>
 					<Route
 						exact path={`${path}`}
@@ -23,13 +26,7 @@ class ClassroomRouter extends Component {
 	}
 }
 
-let mapStateToProps = (state) => {
-	return {
-		...state.services
-	}
-}
-
 export default connect(
-	mapStateToProps,
+	null,
 	{ getAuthenticatedUser }
 )(ClassroomRouter);

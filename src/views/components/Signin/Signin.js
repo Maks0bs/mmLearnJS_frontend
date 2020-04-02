@@ -45,8 +45,6 @@ class Signin extends Component {
             .then((data) => {
                 if (!this.props.error){
                     this.setState({
-                        email: '',
-                        password: '',
                         redirectToClassroom: true
                     })
                 }

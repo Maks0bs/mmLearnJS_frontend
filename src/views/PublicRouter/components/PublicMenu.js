@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../components/ModalRoot/services/actions';
 import SigninModal from '../../components/SigninModal'
 import _ from 'lodash'
-import { getAuthenticatedUser, logout } from '../../../services/actions'
+import { logout } from '../../../services/actions'
 
 let NavItem = props => {
 	if (props.brand){
@@ -90,15 +90,14 @@ class PublicMenu extends Component {
 	}
 			
 	render() {
-		this.props.getAuthenticatedUser()
 		let { pathname } = this.props.location;
 		let { authenticatedUser: curUser } = this.props
 		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
 		return (
 			<nav 
-				className="navbar navbar-expand-lg navbar-light"
+				className="navbar navbar-expand-lg navbar-light sticky-top"
 				style={{
-					backgroundColor: '#8C9EFF'
+					backgroundColor: '#64B5F6'
 				}}
 			>
 				<NavItem pageURI={pathname} path="/" name="mmLearnJS" brand="true"/>
@@ -130,6 +129,9 @@ class PublicMenu extends Component {
 			        <ul className="navbar-nav">
 			        	<button 
 			        		className="btn btn-outline my-sm-0"
+			        		style={{
+			        			backgroundColor: '#B3E5FC'
+			        		}}
 			        		onClick={(e) => this.props.showModal(SigninModal)}
 			        	>
 			        		Sign in
@@ -146,7 +148,6 @@ class PublicMenu extends Component {
 let mapDispatchToProps = dispatch => {
 	return {
 		showModal: (Component) => dispatch(showModal(Component)),
-		getAuthenticatedUser: () => dispatch(getAuthenticatedUser()),
 		logout: () => dispatch(logout())
 	}
 }

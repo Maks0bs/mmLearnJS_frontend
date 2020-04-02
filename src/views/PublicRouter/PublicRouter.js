@@ -6,20 +6,23 @@ import Signup from './views/Signup'
 import ActivateAccount from './views/ActivateAccount'
 import Signin from './views/Signin'
 import { connect } from 'react-redux'
+import { getAuthenticatedUser } from '../../services/actions'
+import ActivationMessage from '../components/ActivationMessage'
 
 
 
 class PublicRouter extends Component {
 
 	render() {
+		this.props.getAuthenticatedUser();
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page
 			// this is most likely the problem with the main container
 			// for menu and switch (the following div)
 			<div>
-				<PublicMenu />
-				{JSON.stringify(this.props.authenticatedUser)}
+				<ActivationMessage />
+				<PublicMenu/>
 				<Switch>
 					<Route
 						exact path={`${path}`}
@@ -43,6 +46,13 @@ class PublicRouter extends Component {
 	}
 }
 
+let mapDispatchToProps = dispatch => {
+	return {
+		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+	}
+}
+
 export default connect(
 	null,
+	mapDispatchToProps
 )(PublicRouter);

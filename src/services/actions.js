@@ -16,6 +16,7 @@ export let getAuthenticatedUser = () => (dispatch) => {
 		credentials: 'include'
 	})
 	.then(res => res.json())
+	.then(res => {console.log(res); return res})
 	.then(data => dispatch({
 		type: API_AUTHENTICATED_USER,
 		payload: data
