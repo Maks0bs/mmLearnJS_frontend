@@ -6,6 +6,9 @@ import { getAuthenticatedUser } from '../../services/actions'
 import { connect } from 'react-redux'
 import ActivationMessage from '../components/ActivationMessage'
 import User from './views/User'
+import Dashboard from './views/Dashboard'
+import CreateCourse from './views/CreateCourse'
+import Course from './views/Course'
 
 class ClassroomRouter extends Component {
 	render() {
@@ -25,6 +28,18 @@ class ClassroomRouter extends Component {
 					<Route
 						exact path={`${path}/user/:userId`}
 						component={User}
+					/>
+					<Route
+						exact path={`${path}/dashboard`}
+						component={Dashboard}
+					/>
+					<Route
+						exact path={`${path}/create-course`}
+						component={CreateCourse}
+					/>
+					<Route
+						exact path={`${path}/course/:courseId`}
+						component={Course}
 					/>
 				</Switch>
 			</div>

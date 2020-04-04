@@ -25,7 +25,6 @@ export let getAuthenticatedUser = () => (dispatch) => {
 }
 
 export let logout = () => (dispatch) => {
-	console.log('logout');
 	return fetch(`${REACT_APP_API_URL}/auth/logout`, {
 		method: "GET",
 		headers: {
@@ -36,5 +35,22 @@ export let logout = () => (dispatch) => {
 	})
 	.then(data => dispatch({
 		type: API_LOGOUT
+	}))
+}
+
+export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/courses/filter`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json"
+		},
+		credentials: 'include',
+		body: JSON.stringify(filter)
+	})
+	.then(res => res.json())
+	.then(data => dispatch({
+		type: returnDispatchType,
+		payload: data
 	}))
 }
