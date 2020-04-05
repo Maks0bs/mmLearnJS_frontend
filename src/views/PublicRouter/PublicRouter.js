@@ -12,9 +12,25 @@ import ActivationMessage from '../components/ActivationMessage'
 
 
 class PublicRouter extends Component {
+	constructor(){
+		super()
+
+		this.state = {
+			updated: false
+		}
+	}
 
 	render() {
-		this.props.getAuthenticatedUser();
+		if (!this.state.updated) {
+			this.props.getAuthenticatedUser()
+			.then(() => {
+				this.setState({
+					updated: true
+				})
+			})
+
+			return null;
+		}
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page

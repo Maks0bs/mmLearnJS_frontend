@@ -34,12 +34,13 @@ class CreateCourse extends Component {
 
 	onSubmit = (event) => {
 		event.preventDefault()
-		let {name, about, type, password} = this.state;
+		let {name, about, type, password, hasPassword} = this.state;
 		let data ={
 			name,
 			about,
 			type,
-			password
+			password,
+			hasPassword
 		}
 
 		this.props.createCourse(data)

@@ -9,11 +9,29 @@ import User from './views/User'
 import Dashboard from './views/Dashboard'
 import CreateCourse from './views/CreateCourse'
 import Course from './views/Course'
+import _ from 'lodash'
 
 class ClassroomRouter extends Component {
+	constructor(){
+		super()
+
+		this.state = {
+			updated: false
+		}
+	}
+
 	render() {
-		//maybe move getting auth user in shouldCOmponentUpdate
-		this.props.getAuthenticatedUser()
+		if (!this.state.updated) {
+			this.props.getAuthenticatedUser()
+			.then(() => {
+				this.setState({
+					updated: true
+				})
+			})
+
+			return null;
+		}
+		
 		let { path } = this.props.match;
 		return (
 			<div>
