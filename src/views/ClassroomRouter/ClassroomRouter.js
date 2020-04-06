@@ -12,25 +12,23 @@ import Course from './views/Course'
 import _ from 'lodash'
 
 class ClassroomRouter extends Component {
-	constructor(){
-		super()
+	constructor() {
+		super();
 
 		this.state = {
-			updated: false
+			loaded: false
 		}
 	}
 
-	render() {
-		if (!this.state.updated) {
-			this.props.getAuthenticatedUser()
-			.then(() => {
-				this.setState({
-					updated: true
-				})
-			})
+	shouldComponentUpdate(nextProps) {
+		console.log('this props', this.props, 'next props', nextProps)
+		return !_.isEqual(nextProps, this.props);
+	}
 
-			return null;
-		}
+
+	render() {
+		console.log('classroom router', this.props);
+		this.props.getAuthenticatedUser()
 		
 		let { path } = this.props.match;
 		return (
@@ -62,6 +60,12 @@ class ClassroomRouter extends Component {
 				</Switch>
 			</div>
 		);
+	}
+}
+
+let mapStateToProps = (state) => {
+	return {
+		...state.services
 	}
 }
 

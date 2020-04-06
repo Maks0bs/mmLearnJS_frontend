@@ -55,6 +55,12 @@ class ModalRoot extends Component {
 					}
 				}}
 			>
+				<button 
+                    onClick={() => this.props.hideModal()}
+                    className="float-right close m-2"
+                > 
+                    <span aria-hidden="true">&times;</span>
+                </button>
 				<ModalComponent />
 			</Modal>
 		)

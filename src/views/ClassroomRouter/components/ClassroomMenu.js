@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../components/ModalRoot/services/actions';
 import SigninModal from '../../components/SigninModal'
 import _ from 'lodash'
-import { getAuthenticatedUser, logout } from '../../../services/actions'
+import { logout } from '../../../services/actions'
 
 // !!!! maybe put all these small secondary components in another file
 
@@ -74,21 +74,14 @@ class ClassroomMenu extends Component {
 		}
 	}
 
-	shouldComponentUpdate(nextProps){
-		
-		if (_.isEqual(this.props.authenticatedUser, nextProps.authenticatedUser)){
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
-
 	handleLogout = () => {
-		this.setState({
-			redirectToHome: true
+
+		this.props.logout()
+		.then(() => {
+			this.setState({
+				redirectToHome: true
+			})
 		})
-		this.props.logout();
 	}
 			
 	render() {
@@ -143,7 +136,6 @@ class ClassroomMenu extends Component {
 let mapDispatchToProps = dispatch => {
 	return {
 		showModal: (Component) => dispatch(showModal(Component)),
-		getAuthenticatedUser: () => dispatch(getAuthenticatedUser()),
 		logout: () => dispatch(logout())
 	}
 }

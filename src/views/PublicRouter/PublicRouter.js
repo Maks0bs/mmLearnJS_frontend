@@ -8,29 +8,22 @@ import Signin from './views/Signin'
 import { connect } from 'react-redux'
 import { getAuthenticatedUser } from '../../services/actions'
 import ActivationMessage from '../components/ActivationMessage'
+import _ from 'lodash'
 
 
 
 class PublicRouter extends Component {
 	constructor(){
 		super()
+	}
 
-		this.state = {
-			updated: false
-		}
+	shouldComponentUpdate(nextProps) {
+		return !_.isEqual(nextProps, this.props);
 	}
 
 	render() {
-		if (!this.state.updated) {
-			this.props.getAuthenticatedUser()
-			.then(() => {
-				this.setState({
-					updated: true
-				})
-			})
-
-			return null;
-		}
+		console.log('render');
+		this.props.getAuthenticatedUser();
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page
@@ -68,7 +61,13 @@ let mapDispatchToProps = dispatch => {
 	}
 }
 
+let mapStateToProps = (state) => {
+	return {
+		...state.services
+	}
+}
+
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(PublicRouter);

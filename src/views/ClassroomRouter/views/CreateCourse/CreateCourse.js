@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createCourse, clearMessages } from './services/actions'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 class CreateCourse extends Component {
@@ -12,8 +12,13 @@ class CreateCourse extends Component {
 			about: '',
 			type: '',
 			hasPassword: false,
-			password: ''
+			password: '',
+			redirectToCourse: false
 		}
+	}
+
+	componentWillUnmount() {
+		this.props.clearMessages();
 	}
 
 	handleHasPassword = () => {
@@ -51,7 +56,8 @@ class CreateCourse extends Component {
 						about: '',
 						type: '',
 						password: '',
-						hasPassword: false
+						hasPassword: false,
+						redirectToCourse: true
 					})
 				}
 			})
@@ -126,8 +132,11 @@ class CreateCourse extends Component {
 	}
 
 	render(){
-		let { name, about, type, hasPassword, password } = this.state;
-		let { error, message } = this.props;
+		let { name, about, type, hasPassword, password, redirectToCourse } = this.state;
+		let { error, message, newCourseId } = this.props;
+		if (redirectToCourse && newCourseId) {
+			return <Redirect to={`/classroom/course/${newCourseId}`} />
+		}
 		return (
 			<div className="container">
 				<h2 className="mt-5 mb-5">Create a new course</h2>

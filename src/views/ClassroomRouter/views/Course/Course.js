@@ -1,49 +1,89 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getCourseById, getEnrollmentStatus } from './services/actions'
+import { getCourseById } from './services/actions'
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
+import TeacherActions from './components/TeacherActions'
+import CourseData from './components/CourseData'
 import { getAuthenticatedUser } from '../../../../services/actions'
 
 class Course extends Component {
 
 	componentDidMount(){
-		let courseId = this.props.match.params.courseId;	
+		console.log('mounted courses');
+		let courseId = this.props.match.params.courseId;
 		this.props.getCourseById(courseId)
-		this.props.getEnrollmentStatus(courseId, this.props.authenticatedUser);
+	}
+
+	getEnrollmentStatus(user, courseId) {
+		let result = 'not enrolled';//change to normal constants
+		if (!user || !user._id){
+			return 'not logged in'
+		}
+
+
+		let courses = user.enrolledCourses;
+		let teacherCourses = user.teacherCourses;
+
+		for (let i of teacherCourses) {
+			if (i === courseId){
+				return 'teacher'
+			}
+		}
+
+		for (let i of courses) {
+			if (i === courseId){
+				return 'enrolled'
+			}
+		}
+
+		return 'not enrolled'
 	}
 
 	render() {
-		let { enrollmentStatus: status} = this.props;
-		let courseStatusAlert;
+		let courseId = this.props.match.params.courseId;
+		let user = this.props.authenticatedUser;
+		let status = this.getEnrollmentStatus(user, courseId);
+		let course;
 		if (status === 'not logged in'){
-			courseStatusAlert = (
-				<div className="alert alert-info">
-					Please log in to access this course
+			course = (
+				<div>
+					<OpenCourseInfo />
+					<div className="alert alert-info">
+						Please log in to access this course
+					</div>
 				</div>
 				// add login button for convenience
 			)
 		}
 		else if (status === 'enrolled'){
-			courseStatusAlert = (
-				<div className="alert alert-success">
-					You are enrolled in the course
+			course = (
+				<div>
+					<CourseData />
+					<div className="alert alert-success">
+						You are enrolled in the course
+					</div>
+				</div>
+			)
+		}
+		else if (status === 'teacher') {
+			course =(
+				<div>
+					<CourseData />
+					<TeacherActions />
 				</div>
 			)
 		}
 		else if (status === 'not enrolled') {
-			courseStatusAlert = (
-				<CourseEnrollForm />
+			course = (
+				<div>
+					<OpenCourseInfo />
+					<CourseEnrollForm />
+				</div>
 			)
 		}
-		return (
-			//add password form
-			<div className={this.props.className}>
-				<OpenCourseInfo />
-				{courseStatusAlert}
-			</div>
-		);
+		return course;
 	}
 }
 
@@ -57,7 +97,6 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
 	return {
 		getCourseById: (courseId) => dispatch(getCourseById(courseId)),
-		getEnrollmentStatus: (courseId, user) => dispatch(getEnrollmentStatus(courseId, user)),
 		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
 	}
 }

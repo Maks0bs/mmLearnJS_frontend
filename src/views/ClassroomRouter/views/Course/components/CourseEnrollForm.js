@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { enrollInCourse, clearMessages } from '../services/actions'
 
@@ -10,6 +10,10 @@ class CourseEnrollForm extends Component {
 			password: '',
 			reload: false
 		}
+	}
+
+	componentWillUnmount() {
+		this.props.clearMessages();
 	}
 
 	handleChange = (name) => (event) => {
@@ -45,8 +49,13 @@ class CourseEnrollForm extends Component {
 		console.log(this.props);
 		let { password, reload } = this.state;
 		if (reload){
-			window.location.reload();
+			this.props.history.push(this.props.location.pathname);
+			this.setState({
+				reload: false
+			})
+			return null;
 		}
+		
 		let { enrollmentMessage: message, enrollmentError: error, courseData } = this.props
 		return (
 			<div>
@@ -106,4 +115,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CourseEnrollForm);
+)(withRouter(CourseEnrollForm));

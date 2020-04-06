@@ -37,9 +37,8 @@ class TeacherDashboard extends Component {
 		let coursesList = [];
 		for (let i = 0;  i < courses.length; i++){
 			coursesList.push(
-				<div>
+				<div key={i}>
 					<Link 
-						key={i}
 						to={`/classroom/course/${courses[i]._id}`}
 					>
 						{courses[i].name}

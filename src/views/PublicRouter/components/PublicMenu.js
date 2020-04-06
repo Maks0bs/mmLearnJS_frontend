@@ -72,21 +72,15 @@ class PublicMenu extends Component {
 		}
 	}
 
-	shouldComponentUpdate(nextProps){
-		
-		if (_.isEqual(this.props.authenticatedUser, nextProps.authenticatedUser)){
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
 
 	handleLogout = () => {
-		this.setState({
-			redirectToHome: true
+		
+		this.props.logout()
+		.then(() => {
+			this.setState({
+				redirectToHome: true
+			})
 		})
-		this.props.logout();
 	}
 			
 	render() {
