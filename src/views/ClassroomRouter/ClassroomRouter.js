@@ -8,6 +8,7 @@ import ActivationMessage from '../components/ActivationMessage'
 import User from './views/User'
 import Dashboard from './views/Dashboard'
 import CreateCourse from './views/CreateCourse'
+import EditCourse from './views/Course/views/EditCourse'
 import Course from './views/Course'
 import _ from 'lodash'
 
@@ -56,6 +57,10 @@ class ClassroomRouter extends Component {
 					<Route
 						exact path={`${path}/course/:courseId`}
 						component={Course}
+					/>
+					<Route
+						exact path={`${path}/course/edit/:courseId`}
+						component={EditCourse}
 					/>
 				</Switch>
 			</div>
