@@ -8,7 +8,6 @@ Modal.setAppElement(document.getElementById('root'));
 class ModalRoot extends Component {
 	
 	componentDidMount() {
-        console.log('mount');
         document.addEventListener('mouseup', this.handleClick, false);
         document.addEventListener('keydown', this.handleKey, false);
     }
@@ -56,6 +55,12 @@ class ModalRoot extends Component {
 					}
 				}}
 			>
+				<button 
+                    onClick={() => this.props.hideModal()}
+                    className="float-right close m-2"
+                > 
+                    <span aria-hidden="true">&times;</span>
+                </button>
 				<ModalComponent />
 			</Modal>
 		)

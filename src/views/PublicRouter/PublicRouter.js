@@ -6,21 +6,32 @@ import Signup from './views/Signup'
 import ActivateAccount from './views/ActivateAccount'
 import Signin from './views/Signin'
 import { connect } from 'react-redux'
+import { getAuthenticatedUser } from '../../services/actions'
+import ActivationMessage from '../components/ActivationMessage'
+import _ from 'lodash'
 
 
 
 class PublicRouter extends Component {
+	constructor(){
+		super()
+	}
+
+	shouldComponentUpdate(nextProps) {
+		return !_.isEqual(nextProps, this.props);
+	}
 
 	render() {
 		console.log('render');
+		this.props.getAuthenticatedUser();
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page
 			// this is most likely the problem with the main container
 			// for menu and switch (the following div)
 			<div>
-				<PublicMenu />
-				{JSON.stringify(this.props.authenticatedUser)}
+				<ActivationMessage />
+				<PublicMenu/>
 				<Switch>
 					<Route
 						exact path={`${path}`}
@@ -44,6 +55,19 @@ class PublicRouter extends Component {
 	}
 }
 
+let mapDispatchToProps = dispatch => {
+	return {
+		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+	}
+}
+
+let mapStateToProps = (state) => {
+	return {
+		...state.services
+	}
+}
+
 export default connect(
-	null,
+	mapStateToProps,
+	mapDispatchToProps
 )(PublicRouter);

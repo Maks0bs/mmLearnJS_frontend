@@ -10,6 +10,7 @@ let initialState = {
 let servicesReducer = function(state = initialState, action) {
 	switch(action.type){
 		case API_AUTHENTICATED_USER:
+			console.log(action);
 			return {
 				...state,
 				authenticatedUser: action.payload

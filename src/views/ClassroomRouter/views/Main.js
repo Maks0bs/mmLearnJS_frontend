@@ -11,23 +11,6 @@ class Main extends Component {
 		text: ''
 	}
 
-
-	componentDidMount(){
-		fetch(`${REACT_APP_API_URL}/auth/extend-session`, {
-			method: "GET",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			},
-			credentials: 'include'
-		})
-		.then(res => res.json())
-		.then(data => this.setState({
-			text: JSON.stringify(data)
-		}))
-		.catch(err => console.log(err))
-	}
-
 	render() {
 		return (
 			<div>

@@ -8,16 +8,9 @@ import Signin from './Signin'
 // make controlled components
 
 class SigninModal extends Component {
-
     render() {
         return (
             <div>
-                <button 
-                    onClick={() => this.props.hideModal()}
-                    className="float-right close m-2"
-                > 
-                    <span aria-hidden="true">&times;</span>
-                </button>
                 <Signin onClose={this.props.hideModal}/>
             </div>
         )

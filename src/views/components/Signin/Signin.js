@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, withRouter } from 'react-router-dom'
 import { signin, clearMessages } from './services/actions'
 import { connect } from 'react-redux'
 
@@ -14,7 +14,7 @@ class Signin extends Component {
             email: '',
             password: '',
             loading: false,
-            redirectToClassroom: false
+            reload: false
         }
 
     }
@@ -45,9 +45,7 @@ class Signin extends Component {
             .then((data) => {
                 if (!this.props.error){
                     this.setState({
-                        email: '',
-                        password: '',
-                        redirectToClassroom: true
+                        reload: true
                     })
                 }
             })
@@ -92,11 +90,12 @@ class Signin extends Component {
     }
 
     render() {
-        let {email, password, loading, redirectToClassroom} = this.state;
+        let {email, password, loading, reload} = this.state;
         let { error, message } = this.props;
-        if (redirectToClassroom){
-            this.handleLeave()
-            return <Redirect to="/classroom/dashboard" />
+        if (reload){
+            this.handleLeave();
+            window.location.reload()//very very bad solution!!!
+            return null;
         }
         return (
             //TODO: add social login
@@ -140,6 +139,7 @@ class Signin extends Component {
                         </Link>
                     </p>
                 </div>
+                {/*this.state.reload && (<Redirect to={this.props.location.pathname} />)*/}
             </div>
         )
     }
@@ -162,4 +162,4 @@ let mapStateToProps = (state) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Signin);
+)(withRouter(Signin));

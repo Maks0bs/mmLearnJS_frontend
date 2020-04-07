@@ -6,7 +6,6 @@ let { API_FETCH_NEWS } = types;
 // all nested components should only use these actions for backend requests
 
 export const fetchNews = (newItem) => (dispatch) => {
-	console.log(`${REACT_APP_API_URL}/news`);
 	fetch(`${REACT_APP_API_URL}/news`, {
 		method: "GET",
 		credentials: 'include'
