@@ -68,7 +68,7 @@ class ModalRoot extends Component {
 }
 
 let mapStateToProps = (state) => {
-	let { ModalComponent } = state.views.components.modalRoot;
+	let { ModalComponent } = state.components.modalRoot;
 	return {
 		ModalComponent
 	}

@@ -1,6 +1,6 @@
 import types from './actionTypes'
-import { getCoursesFiltered } from '../../../../../services/actions'
-import { REACT_APP_API_URL } from '../../../../../constants'
+import { getCoursesFiltered } from '../../../../../../../services/actions'
+import { REACT_APP_API_URL } from '../../../../../../../constants'
 let { API_GET_COURSE_BY_ID, API_ENROLL_IN_COURSE, CLEAR_MESSAGES } = types;
 
 // all api requests related to Home view will be placed here

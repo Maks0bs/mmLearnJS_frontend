@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import viewsReducer from '../views/services/reducer'
+import componentsReducer from '../components/services/reducer'
 import types from './actionTypes'
 let { API_AUTHENTICATED_USER, API_LOGOUT } = types;
 
@@ -27,5 +28,6 @@ let servicesReducer = function(state = initialState, action) {
 
 export default combineReducers({
 	views: viewsReducer,
-	services: servicesReducer
+	services: servicesReducer,
+	components: componentsReducer
 })

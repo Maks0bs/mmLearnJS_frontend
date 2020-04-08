@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { hideModal, showModal } from '../../components/ModalRoot/services/actions';
+import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
 import SigninModal from '../../components/SigninModal'
 import _ from 'lodash'
 import { logout } from '../../../services/actions'

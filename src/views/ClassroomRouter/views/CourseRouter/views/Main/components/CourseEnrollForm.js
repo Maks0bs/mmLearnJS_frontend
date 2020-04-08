@@ -101,7 +101,7 @@ class CourseEnrollForm extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course
+		...state.views.classroom.course.main
 	}
 }
 

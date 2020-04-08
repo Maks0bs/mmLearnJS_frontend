@@ -7,9 +7,7 @@ import { connect } from 'react-redux'
 import ActivationMessage from '../components/ActivationMessage'
 import User from './views/User'
 import Dashboard from './views/Dashboard'
-import CreateCourse from './views/CreateCourse'
-import EditCourse from './views/Course/views/EditCourse'
-import Course from './views/Course'
+import CourseRouter from './views/CourseRouter'
 import _ from 'lodash'
 
 class ClassroomRouter extends Component {
@@ -51,16 +49,8 @@ class ClassroomRouter extends Component {
 						component={Dashboard}
 					/>
 					<Route
-						exact path={`${path}/create-course`}
-						component={CreateCourse}
-					/>
-					<Route
-						exact path={`${path}/course/:courseId`}
-						component={Course}
-					/>
-					<Route
-						exact path={`${path}/course/edit/:courseId`}
-						component={EditCourse}
+						path={`${path}/course`}
+						component={CourseRouter}
 					/>
 				</Switch>
 			</div>

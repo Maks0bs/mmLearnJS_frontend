@@ -26,7 +26,7 @@ class TeacherDashboard extends Component {
 		let { redirectToCreateCourse } = this.state;
 		if (redirectToCreateCourse){
 			return (
-				<Redirect to="/classroom/create-course" />
+				<Redirect to="/classroom/course/create" />
 			)
 		}
 

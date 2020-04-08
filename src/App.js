@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import ClassroomRouter from './views/ClassroomRouter'
 import PublicRouter from './views/PublicRouter'
-import ModalRoot from './views/components/ModalRoot'
+import ModalRoot from './components/ModalRoot'
 
 class App extends Component {
 

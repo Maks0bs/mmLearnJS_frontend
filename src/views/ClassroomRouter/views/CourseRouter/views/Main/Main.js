@@ -7,12 +7,10 @@ import CourseEnrollForm from './components/CourseEnrollForm'
 import TeacherActions from './components/TeacherActions'
 import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
-import { getAuthenticatedUser } from '../../../../services/actions'
 
 class Course extends Component {
 
 	componentDidMount(){
-		console.log('mounted courses');
 		let courseId = this.props.match.params.courseId;
 		this.props.getCourseById(courseId)
 	}
@@ -108,15 +106,14 @@ class Course extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course,
+		...state.views.classroom.course.main,
 		authenticatedUser: state.services.authenticatedUser
 	}
 }
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		getCourseById: (courseId) => dispatch(getCourseById(courseId)),
-		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+		getCourseById: (courseId) => dispatch(getCourseById(courseId))
 	}
 }
 

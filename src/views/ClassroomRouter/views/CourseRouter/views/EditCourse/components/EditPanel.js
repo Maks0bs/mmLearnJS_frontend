@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getCourseById, getEnrollmentStatus } from '../services/actions'
 import { v1 as uuidv1 } from 'uuid'
+import { editCourse } from '../services/actions'
 
-class CourseData extends Component {
+class EditPanel extends Component {
 
 	renderEntry = ({ type, name, content, description }, key) => {
 
@@ -41,7 +41,7 @@ class CourseData extends Component {
 	}
 
 	render() {
-		let course = this.props.courseData;
+		/*let course = this.props.courseData;
 		let { name, teachers } = course;
 		let sectionsList = []
 		for (let i of course.sections) {
@@ -63,16 +63,29 @@ class CourseData extends Component {
 					</div>
 				</div>
 			</div>
-		);
+		);*/
+		return (
+			<div>
+				
+				{JSON.stringify(this.props.oldCourseData)}
+			</div>
+		)
 	}
 }
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course
+		...state.views.classroom.course.edit
+	}
+}
+
+let mapDispatchToProps = (dispatch) => {
+	return {
+		editCourse: () => dispatch(editCourse())
 	}
 }
 
 export default connect(
-	mapStateToProps
-)(CourseData);
+	mapStateToProps,
+	mapDispatchToProps
+)(EditPanel);
