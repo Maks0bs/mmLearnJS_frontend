@@ -5,6 +5,7 @@ import { getCourseById } from './services/actions'
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
 import TeacherActions from './components/TeacherActions'
+import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
 import { getAuthenticatedUser } from '../../../../services/actions'
 
@@ -16,7 +17,10 @@ class Course extends Component {
 		this.props.getCourseById(courseId)
 	}
 
-	getEnrollmentStatus(user, courseId) {
+	getEnrollmentStatus() {
+		let course = this.props.courseData;
+		let courseId = course._id;
+		let user = this.props.authenticatedUser;
 		let result = 'not enrolled';//change to normal constants
 		if (!user || !user._id){
 			return 'not logged in'
@@ -25,6 +29,10 @@ class Course extends Component {
 
 		let courses = user.enrolledCourses;
 		let teacherCourses = user.teacherCourses;
+
+		if (user._id === course.creator){
+			return 'creator'
+		}
 
 		for (let i of teacherCourses) {
 			if (i === courseId){
@@ -42,46 +50,57 @@ class Course extends Component {
 	}
 
 	render() {
-		let courseId = this.props.match.params.courseId;
-		let user = this.props.authenticatedUser;
-		let status = this.getEnrollmentStatus(user, courseId);
+		let status = this.getEnrollmentStatus();
 		let course;
-		if (status === 'not logged in'){
-			course = (
-				<div>
-					<OpenCourseInfo />
-					<div className="alert alert-info">
-						Please log in to access this course
+		switch (status){
+			case 'not logged in':
+				course = (
+					<div>
+						<OpenCourseInfo />
+						<div className="alert alert-info">
+							Please log in to access this course
+						</div>
 					</div>
-				</div>
-				// add login button for convenience
-			)
-		}
-		else if (status === 'enrolled'){
-			course = (
-				<div>
-					<CourseData />
-					<div className="alert alert-success">
-						You are enrolled in the course
+					// add login button for convenience
+				)
+				break;
+			case 'enrolled':
+				course = (
+					<div>
+						<CourseData />
+						<div className="alert alert-success">
+							You are enrolled in the course
+						</div>
 					</div>
-				</div>
-			)
-		}
-		else if (status === 'teacher') {
-			course =(
-				<div>
-					<CourseData />
-					<TeacherActions />
-				</div>
-			)
-		}
-		else if (status === 'not enrolled') {
-			course = (
-				<div>
-					<OpenCourseInfo />
-					<CourseEnrollForm />
-				</div>
-			)
+				)
+				break;
+			case 'teacher':
+				course =(
+					<div>
+						<CourseData />
+						<TeacherActions />
+					</div>
+				)
+			case 'creator':
+				course = (
+					<div>
+						<CourseData />
+						<TeacherActions />
+						<CreatorActions />
+					</div>
+				)
+				break;
+			case 'not enrolled':
+				course = (
+					<div>
+						<OpenCourseInfo />
+						<CourseEnrollForm />
+					</div>
+				)
+				break;
+			default:
+				course = null;
+				break;
 		}
 		return course;
 	}

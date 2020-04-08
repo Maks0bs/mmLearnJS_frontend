@@ -5,10 +5,18 @@ import { getCourseById, getEnrollmentStatus } from '../services/actions'
 
 class OpenCourseInfo extends Component {
 	render() {
+		let { about, name, teachers } = this.props.courseData;
 		return (
 			<div>
-				<h1>Open course info</h1>
-				{JSON.stringify(this.props.courseData)}
+				<h1>{name}</h1>
+				<div className="ml-4">
+					<h2 className="ml-4">Teachers:</h2>
+					<p className="ml-5">{JSON.stringify(teachers)}</p>
+				</div>
+				<div className="ml-4">
+					<h2 className="ml-4">About the course:</h2>
+					<p className="ml-5">{about}</p>
+				</div>
 			</div>
 		);
 	}

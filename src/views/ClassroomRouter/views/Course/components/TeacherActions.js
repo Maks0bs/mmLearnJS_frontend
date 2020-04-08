@@ -6,17 +6,23 @@ class TeacherActions extends Component {
 			<div>
 				<h1>Teacher actions:</h1>
 				<button 
-					className="btn btn-raised btn-outline btn-warning ml-3"
+					className="btn btn-raised btn-outline btn-info ml-3"
+					style={{
+						background: ''
+					}}
 					type="submit"
 				>
-					Edit course
+					Edit course info
 				</button>
 
 				<button 
-					className="btn btn-raised btn-outline btn-danger ml-3"
+					className="btn btn-raised btn-outline btn-info ml-3"
+					style={{
+						background: ''
+					}}
 					type="submit"
 				>
-					Delete course
+					Edit course content
 				</button>
 			</div>
 		);

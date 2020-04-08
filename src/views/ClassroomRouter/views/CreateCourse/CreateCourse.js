@@ -90,7 +90,7 @@ class CreateCourse extends Component {
 					<label className="text-muted">Add a password to the course?</label>
 					<input
 						type="checkbox"
-						onClick={this.handleHasPassword}
+						onChange={this.handleHasPassword}
 						className="ml-3"
 						checked={hasPassword}
 					/>
