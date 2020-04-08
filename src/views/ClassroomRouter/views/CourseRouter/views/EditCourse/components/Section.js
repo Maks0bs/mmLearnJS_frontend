@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import { Droppable, Draggable } from "react-beautiful-dnd";
-import { getItemStyle, getAnswerListStyle } from "./utils";
+import React, { Component } from 'react';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import Entry from './Entry'
 
 class Section extends Component {
@@ -8,9 +7,10 @@ class Section extends Component {
         let { name, description, entries, sectionId } = this.props;
         return (
             <Droppable
-                droppableId={`section-${sectionId}`}
-                type={`section-${sectionId}`}
+                droppableId={`section${sectionId}`}
+                type={`section${sectionId}`}
             >
+                
                 {(provided, snapshot) => (
                     <div
                         ref={provided.innerRef}
@@ -20,28 +20,36 @@ class Section extends Component {
                                 'lightblue' : 'lightgrey'
                         }}
                     >
+                        <h3>{name}</h3>
                         {entries.map((entry, index) => {
                             return (
                                 <Draggable
-                                    key={`${questionNum}${index}`}
-                                    draggableId={`${questionNum}${index}`}
+                                    key={`section${sectionId}entry${index}`}
+                                    draggableId={`section${sectionId}entry${index}`}
                                     index={index}
                                 >
                                     {(provided, snapshot) => (
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
-                                            style={getItemStyle(
-                                                snapshot.isDragging,
-                                                provided.draggableProps.style
-                                            )}
+                                            style={{
+                                                userSelect: 'none',
+                                                padding: '4px',
+                                                textAlign: 'right',
+                                                background: snapshot.isDragging ?
+                                                    'lightgreen' : 'grey',
+                                                ...provided.draggableProps.style
+                                            }}
                                         >
                                             <span {...provided.dragHandleProps}>
                                                 <div style={{float: 'left'}} >
                                                     grip
                                                 </div>
                                             </span>
-                                            {answer}
+                                            <Entry 
+                                                name={entry.name}
+                                                type={entry.type}
+                                            />
                                         </div>
                                     )}
                                 </Draggable>

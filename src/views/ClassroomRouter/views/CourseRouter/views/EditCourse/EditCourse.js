@@ -4,10 +4,22 @@ import { getCourseById } from './services/actions'
 import EditPanel from './components/EditPanel'
 
 class EditCourse extends Component {
+	constructor() {
+		super();
+
+		this.state = {
+			showEditPanel: false
+		}
+	}
 
 	componentDidMount(){
 		let courseId = this.props.match.params.courseId;
 		this.props.getCourseById(courseId)
+			.then(() => {
+				this.setState({
+					showEditPanel: true
+				})
+			})
 	}
 
 	render() {
@@ -19,9 +31,14 @@ class EditCourse extends Component {
 				</div>
 			)
 		}
-		return (
-			<EditPanel />
-		);
+		if (this.state.showEditPanel){
+			return (
+				<EditPanel />
+			);
+		}
+		else{
+			return null;
+		}
 	}
 }
 
