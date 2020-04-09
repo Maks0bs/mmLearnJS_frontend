@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getCourseById } from './services/actions'
 import EditPanel from './components/EditPanel'
+import EditActions from './components/EditActions'
 
 class EditCourse extends Component {
 	constructor() {
@@ -33,7 +34,10 @@ class EditCourse extends Component {
 		}
 		if (this.state.showEditPanel){
 			return (
-				<EditPanel />
+				<div>
+					<EditPanel />
+					<EditActions />
+				</div>
 			);
 		}
 		else{

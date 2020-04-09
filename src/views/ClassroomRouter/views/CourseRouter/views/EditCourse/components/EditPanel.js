@@ -2,82 +2,137 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { v1 as uuidv1 } from 'uuid'
-import { editCourse } from '../services/actions'
+import { updateSections } from '../services/actions'
 import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
 import Section from './Section'
+import _ from 'lodash'
+import { reorder, dndTypes, regExpressions } from '../services/helpers'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+import { faAlignJustify } from '@fortawesome/free-solid-svg-icons'
+let { SECTIONS, ENTRIES } = dndTypes;
 
 class EditPanel extends Component {
-	constructor(){
-		super()
 
-		this.state = {
-			course: {}
+	onDragEnd = (result) => {
+		console.log(result);
+		if (!result.destination) {//may need to be changed
+			return;
 		}
-	}
 
-	componentDidMount() {
-		this.setState({
-			course: this.props.oldCourseData
-		})
+		if (result.type === SECTIONS) {
+            let sections = reorder(
+                this.props.courseData.sections,
+                result.source.index,
+                result.destination.index
+            );
+
+            this.props.updateSections(sections);
+        } else {
+        	if (result.source.droppableId === result.destination.droppableId){
+	        	let re = regExpressions.sectionDroppableId;
+	        	let id = parseInt(re.exec(result.source.droppableId)[1], 10);
+
+	            let entries = reorder(
+	                this.props.courseData.sections[id].entries,
+	                result.source.index,
+	                result.destination.index
+	            );
+
+	            let sections = _.cloneDeep(this.props.courseData.sections);
+	            sections[id].entries = entries;
+
+	            this.props.updateSections(sections);
+	        }
+	        else{
+	        	let re = regExpressions.sectionDroppableId;
+	        	let indexSource = result.source.index;
+	        	let indexDest = result.destination.index;
+	        	let idSource = parseInt(re.exec(result.source.droppableId)[1], 10);
+	        	let idDest = parseInt(re.exec(result.destination.droppableId)[1], 10);
+	        	let sections = _.cloneDeep(this.props.courseData.sections);
+	        	let entriesSource = _.cloneDeep(sections[idSource].entries);
+	        	let entriesDest = _.cloneDeep(sections[idDest].entries);
+	        	let element = _.cloneDeep(sections[idSource].entries[indexSource]);
+				entriesSource.splice(indexSource, 1);
+				entriesDest.splice(indexDest, 0, element);
+				console.log('source', entriesSource);
+				console.log('dest', entriesDest);
+				console.log('sections', sections)
+				sections[idSource].entries = entriesSource;
+				sections[idDest].entries = entriesDest;
+
+				this.props.updateSections(sections);
+	        }
+        }
 	}
 
 	render() {
-		let { course } = this.state;
-		let { sections } = course;
+		let { courseData } = this.props;
+		let { sections } = courseData;
 		if (!sections){
 			return null;
 		}
+
+		console.log('render', this.props.courseData.sections);
 		
 		return (
 			<DragDropContext
-				onDragEnd={(e) => console.log(e)}
+				onDragEnd={this.onDragEnd}
 			>
-				<Droppable droppableId="droppableRoot" type="sections">
+				<Droppable droppableId="droppableRoot" type={SECTIONS}>
 					{(provided, snapshot) => (
 						<div
 							ref={provided.innerRef}
 							style={{
-                                background: snapshot.isDraggingOver ? "lightblue" : "lightgrey",
-                                padding: 8,
+                                background: snapshot.isDraggingOver ? "lightblue" : "",
+                                padding: '10px 0px 10px 10px',
+                                display: 'inline-block'
 							}}
 						>
-							{sections.map((section, i) => (
-								<Draggable
-									key={`section${i}`}
-									draggableId={`section${i}`}
-									index={i}
-								>
-									{(provided, snapshot) => (
-										<div
-											ref={provided.innerRef}
-											{...provided.draggableProps}
-											style={{
-												padding: '8px',
-												userSelect: 'none',
-												textAlign: 'right',
-												background: snapshot.isDragging ? 
-													'lightgreen' : 'grey',
-												...provided.draggableProps.style
-											}}
-										>
-											<span {...provided.dragHandleProps} >
-												<div style={{float: 'left'}} >
-                                                    grip
-                                                </div>
-											</span>
-											<Section
-												key={`section${i}`}
-												name={section.name}
-												entries={section.entries}
-												sectionId={i}
-											/>
+							<div className="column" > 
+								{sections.map((section, i) => (
+									<Draggable
+										key={`section${i}`}
+										draggableId={`section${i}`}
+										index={i}
+									>
+										{(provided, snapshot) => (
+											<div
+												ref={provided.innerRef}
+												{...provided.draggableProps}
+												style={{
+													padding: '8px',
+													userSelect: 'none',
+													margin: '4px',
+													background: snapshot.isDragging ? 
+														'grey' : 'lightgrey',
+													...provided.draggableProps.style
+												}}
+											>
+												<span {...provided.dragHandleProps} >
+													<div className="float-left">
+														<Icon icon={faAlignJustify} />
+														
+													</div>
+													
+												</span>
+												<div className="pl-4">
+													
+													<Section
+														key={`section${i}`}
+														name={section.name}
+														entries={section.entries}
+														sectionId={i}
+													/>
+												</div>
 
-										</div>
-									)}
-								</Draggable>
+											</div>
+										)}
+									</Draggable>
 
-							))}
-							{provided.placeholder}
+								))}
+								{provided.placeholder}
+							</div>
 							
 						</div>
 					)}
@@ -97,7 +152,7 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		editCourse: () => dispatch(editCourse())
+		updateSections: (sections) => dispatch(updateSections(sections))
 	}
 }
 
