@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
-import SigninModal from '../../components/SigninModal'
+import Signin from '../../components/Signin'
 import _ from 'lodash'
 import { logout } from '../../../services/actions'
 
@@ -83,6 +83,12 @@ class ClassroomMenu extends Component {
 			})
 		})
 	}
+
+	showSigninModal = () => {
+		this.props.showModal(
+			<Signin onClose={this.props.hideModal} />
+		)
+	}
 			
 	render() {
 		let { pathname } = this.props.location;
@@ -120,7 +126,7 @@ class ClassroomMenu extends Component {
 			        <ul className="navbar-nav">
 			        	<button 
 			        		className="btn btn-outline my-sm-0"
-			        		onClick={(e) => this.props.showModal(SigninModal)}
+			        		onClick={(e) => this.showSigninModal()}
 			        	>
 			        		Sign in
 			        	</button>
@@ -136,6 +142,7 @@ class ClassroomMenu extends Component {
 let mapDispatchToProps = dispatch => {
 	return {
 		showModal: (Component) => dispatch(showModal(Component)),
+		hideModal: () => dispatch(hideModal()),
 		logout: () => dispatch(logout())
 	}
 }

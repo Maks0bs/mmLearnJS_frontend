@@ -61,7 +61,7 @@ class ModalRoot extends Component {
                 > 
                     <span aria-hidden="true">&times;</span>
                 </button>
-				<ModalComponent />
+				{ModalComponent}
 			</Modal>
 		)
 	}

@@ -4,14 +4,22 @@ import { connect } from 'react-redux'
 import { v1 as uuidv1 } from 'uuid'
 import { updateSections } from '../services/actions'
 import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
+import { hideModal, showModal } from '../../../../../../../components/ModalRoot/services/actions';
 import Section from './Section'
+import AddSection from './AddSection'
 import _ from 'lodash'
 import { reorder, dndTypes, regExpressions } from '../services/helpers'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faAlignJustify } from '@fortawesome/free-solid-svg-icons'
+import { faAlignJustify, faPlus } from '@fortawesome/free-solid-svg-icons'
 let { SECTIONS, ENTRIES } = dndTypes;
 
 class EditPanel extends Component {
+
+	showAddSectionModal = () => {
+		this.props.showModal(
+			<AddSection onClose={this.props.hideModal} />
+		)
+	}
 
 	onDragEnd = (result) => {
 		console.log(result);
@@ -121,6 +129,7 @@ class EditPanel extends Component {
 													<Section
 														key={`section${i}`}
 														name={section.name}
+														description={section.description}
 														entries={section.entries}
 														sectionId={i}
 													/>
@@ -133,10 +142,22 @@ class EditPanel extends Component {
 								))}
 								{provided.placeholder}
 							</div>
-							
+							<div 
+								onClick={this.showAddSectionModal}
+								style={{
+									cursor: 'pointer',
+								}}
+							>
+								<Icon 
+									icon={faPlus} 
+									className="pr-1"
+								/>
+								<a>Add section</a>
+							</div>
 						</div>
 					)}
 				</Droppable>
+
 				<hr />
 				{JSON.stringify(this.props.oldCourseData)}
 			</DragDropContext>
@@ -152,7 +173,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		updateSections: (sections) => dispatch(updateSections(sections))
+		updateSections: (sections) => dispatch(updateSections(sections)),
+		hideModal: () => dispatch(hideModal()),
+		showModal: (component) => dispatch(showModal(component))
 	}
 }
 
