@@ -1,6 +1,6 @@
 import types from './actionTypes'
 import { REACT_APP_API_URL } from '../../../../../../../constants'
-import { getCoursesFiltered } from '../../../../../../../services/actions'
+import { getCoursesFiltered, uploadFiles } from '../../../../../../../services/actions'
 let { 
 	API_EDIT_COURSE, 
 	CLEAR_MESSAGES, 
@@ -84,20 +84,52 @@ export let editSection = (section, sectionNum) => dispatch => {
 	})
 }
 
-export let saveChanges = (courseData) => (dispatch) => { 
-	console.log(courseData);
-	return fetch(`${REACT_APP_API_URL}/courses/update`, {
-		method: "PUT",
+export let saveChanges = (courseData) => (dispatch) => {
+	let fileData = new FormData();
+	let filePositions = [];
+	let { sections } = courseData;
+	for (let i = 0; i < sections.length; i++){
+		for (let j = 0; j < sections[i].entries.length; j++){
+			let entry = sections[i].entries[j];
+			if (entry.type === 'file' && !entry.content.id){
+				fileData.append('files', entry.content);
+				filePositions.push({ section: i, entry: j})
+			}
+		}
+	}
+
+	return fetch(`${REACT_APP_API_URL}/files/upload`, {
+		method: "POST",
 		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json"
+			Accept: "application/json"
 		},
 		credentials: 'include',
-		body: JSON.stringify(courseData)
+		body: fileData
 	})
 	.then(res => res.json())
 	.then(data => {
-		console.log(data);
+		console.log('data received ldfldflsd;', data);
+		for (let i = 0; i < filePositions.length; i++){
+			let pos = filePositions[i];
+			courseData.sections[pos.section].entries[pos.entry].content = data.files[i];
+		}
+		console.log('data to send', courseData)
+		return data
+	})
+	.then(data => {
+		return fetch(`${REACT_APP_API_URL}/courses/update`, {
+			method: "PUT",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json"
+			},
+			credentials: 'include',
+			body: JSON.stringify(courseData)
+		})
+	})
+	.then(res => res.json())
+	.then(data => {
+		console.log('received data', data);
 		dispatch({
 		type: API_EDIT_COURSE,
 		payload: data

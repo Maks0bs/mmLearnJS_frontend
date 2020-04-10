@@ -12,7 +12,8 @@ class AddEntry extends Component {
 
         this.state = {
             name: '',
-            type: ''
+            type: '',
+            content: null
         }
 
     }
@@ -29,11 +30,12 @@ class AddEntry extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        let { name, type } = this.state;
+        let { name, type, content } = this.state;
         this.props.addEntry(
             {
             	name, 
-            	type
+            	type,
+                content
             },
             this.props.sectionNum
         )
@@ -44,9 +46,15 @@ class AddEntry extends Component {
         this.handleLeave();
     }
 
+    handleFileChange = (e) => {
+        this.setState({
+            content: e.target.files[0]
+        })
+    }
+
 
     render() {
-        let { name, type } = this.state;
+        let { name, type, content } = this.state;
         return (
         	<div className="p-4">
 	            <form onSubmit={this.onSubmit}>
@@ -72,6 +80,32 @@ class AddEntry extends Component {
                             <option value="text">Text</option>
                         </select>
                     </div>
+
+                    {(() => {
+                        switch(type) {
+                            case 'text':
+                                return(
+                                    <div className="form-group">
+                                        <label className="text-muted">Content</label>
+                                        <input
+                                            onChange={this.handleChange("content")}
+                                            type="text"
+                                            className="form-control"
+                                            value={content || ''}
+                                        />
+                                    </div>
+                                )
+                            case 'file':
+                                return (
+                                    <div className="custom-file mb-3">
+                                        <input 
+                                            type="file"
+                                            onChange={this.handleFileChange}
+                                        />
+                                    </div>
+                                )
+                        }
+                    })()}
 	  
 
 	                <button 

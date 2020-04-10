@@ -17,7 +17,6 @@ class CourseEnrollForm extends Component {
 	}
 
 	handleChange = (name) => (event) => {
-		console.log(event);
 		this.props.clearMessages();
 		this.setState({
 			[name]: event.target.value
@@ -46,7 +45,6 @@ class CourseEnrollForm extends Component {
 	}
 
 	render() {
-		console.log(this.props);
 		let { password, reload } = this.state;
 		if (reload){
 			this.props.history.push(this.props.location.pathname);

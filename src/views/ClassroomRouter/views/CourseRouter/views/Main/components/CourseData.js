@@ -40,6 +40,7 @@ class CourseData extends Component {
 	}
 
 	render() {
+		console.log('course data course data lol', this.props.courseData);
 		let course = this.props.courseData;
 		let { name, teachers } = course;
 		let sectionsList = []

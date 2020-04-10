@@ -17,7 +17,8 @@ let initialState = {
 	message: '',
 	error: '',
 	oldCourseData: {},
-	courseData: {}
+	courseData: {},
+	
 }
 
 export default function(state = initialState, action) {
@@ -31,7 +32,6 @@ export default function(state = initialState, action) {
 				}
 			}
 		case API_GET_COURSE_BY_ID: {
-			console.log('get course by id');
 			return {
 				...state,
 				oldCourseData: action.payload[0],

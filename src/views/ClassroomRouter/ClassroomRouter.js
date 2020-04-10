@@ -20,13 +20,11 @@ class ClassroomRouter extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		console.log('this props', this.props, 'next props', nextProps)
 		return !_.isEqual(nextProps, this.props);
 	}
 
 
 	render() {
-		console.log('classroom router', this.props);
 		this.props.getAuthenticatedUser()
 		
 		let { path } = this.props.match;

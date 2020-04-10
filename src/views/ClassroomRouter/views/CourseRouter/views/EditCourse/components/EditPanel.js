@@ -22,7 +22,6 @@ class EditPanel extends Component {
 	}
 
 	onDragEnd = (result) => {
-		console.log(result);
 		if (!result.destination) {//may need to be changed
 			return;
 		}
@@ -63,9 +62,6 @@ class EditPanel extends Component {
 	        	let element = _.cloneDeep(sections[idSource].entries[indexSource]);
 				entriesSource.splice(indexSource, 1);
 				entriesDest.splice(indexDest, 0, element);
-				console.log('source', entriesSource);
-				console.log('dest', entriesDest);
-				console.log('sections', sections)
 				sections[idSource].entries = entriesSource;
 				sections[idDest].entries = entriesDest;
 
@@ -81,7 +77,6 @@ class EditPanel extends Component {
 			return null;
 		}
 
-		console.log('render', this.props.courseData.sections);
 		
 		return (
 			<DragDropContext

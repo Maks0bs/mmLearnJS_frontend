@@ -18,8 +18,9 @@ class Entry extends Component {
     }
 
 	render() {
-		let { name, type } = this.props;
+		let { name, type, content } = this.props;
 		//switch type
+		console.log('entry props', this.props);	
 		return (
 			<div>
 				<Icon 
@@ -31,8 +32,36 @@ class Entry extends Component {
 					}}
 				/>
 				<h4>{name}</h4>
-				<p>{type}</p>
-
+				<p>Type: {type}</p>
+				{(() => {
+                    switch(type) {
+                        case 'text':
+                            return(
+                                <div>
+                                    {content}
+                                </div>
+                            )
+                        case 'file':
+                        	if (!content.id){
+                        		return(
+	                        		<a
+										href={URL.createObjectURL(content)}
+										download={content.name}
+									>
+										{content.name}
+									</a>
+	                        	)
+                        	}
+                        	else{
+                        		return (
+                        			<div>
+                        				{content.id}
+                        			</div>
+                        		)
+                        	}
+                        	
+                    }
+                })()}
 			</div>
 		);
 	}

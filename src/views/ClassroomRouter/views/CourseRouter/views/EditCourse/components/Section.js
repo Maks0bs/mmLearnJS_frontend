@@ -89,6 +89,7 @@ class Section extends Component {
                                                         <Entry 
                                                             name={entry.name}
                                                             type={entry.type}
+                                                            content={entry.content}
                                                             sectionId={sectionId}
                                                             entryId={index}
                                                         />

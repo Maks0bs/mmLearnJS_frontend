@@ -37,6 +37,23 @@ export let logout = () => (dispatch) => {
 	}))
 }
 
+export let uploadFiles = (filesForm, returnDispatchType) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/files/upload`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json"
+		},
+		credentials: 'include',
+		body: filesForm
+	})
+	.then(res => res.json())
+	.then(data => dispatch({
+		type: returnDispatchType,
+		payload: data
+	}))
+	.catch(err => console.log(err))
+}
+
 export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/courses/filter`, {
 		method: "POST",
@@ -52,4 +69,5 @@ export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
 		type: returnDispatchType,
 		payload: data
 	}))
+	.catch(err => console.log(err))
 }
