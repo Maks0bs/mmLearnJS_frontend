@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { v1 as uuidv1 } from 'uuid'
+import Section from './Section'
 
 class CourseData extends Component {
 
@@ -40,15 +41,8 @@ class CourseData extends Component {
 	}
 
 	render() {
-		console.log('course data course data lol', this.props.courseData);
 		let course = this.props.courseData;
-		let { name, teachers } = course;
-		let sectionsList = []
-		for (let i of course.sections) {
-			sectionsList.push(
-				this.renderSection(i, uuidv1())
-			)
-		}
+		let { name, teachers, sections } = course;
 		return (
 			<div>
 				<h1>{name}</h1>
@@ -58,9 +52,17 @@ class CourseData extends Component {
 				</div>
 				<div className="ml-4">
 					<h2>Sections:</h2>
-					<div className="ml-3">
-						{sectionsList}
-					</div>
+					<div className="ml-4">
+		                {sections.map((section, i) => (
+		                	<div key={i}>
+		                        <Section 
+		                            name={section.name}
+		                            entries={section.entries}
+		                            description={section.description}
+		                        />
+		                    </div>
+		                ))}
+		            </div>
 				</div>
 			</div>
 		);

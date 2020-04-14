@@ -1,6 +1,6 @@
 import types from './actionTypes'
 import { REACT_APP_API_URL } from '../../../../../../../constants'
-import { getCoursesFiltered, uploadFiles } from '../../../../../../../services/actions'
+import { getCoursesFiltered, uploadFiles, streamFileById } from '../../../../../../../services/actions'
 let { 
 	API_EDIT_COURSE, 
 	CLEAR_MESSAGES, 
@@ -11,7 +11,9 @@ let {
 	EDIT_ENTRY,
 	DELETE_ENTRY,
 	DELETE_SECTION,
-	EDIT_SECTION
+	EDIT_SECTION,
+	API_GET_FILE_BY_ID,
+	STAGE_DELETED_FILE
 } = types;
 
 // all api requests related to Home view will be placed here
@@ -45,7 +47,14 @@ export let editEntry = (entry, sectionNum, entryNum) => dispatch => {
 	})
 }
 
-export let deleteEntry = (sectionNum, entryNum) => dispatch => {
+export let deleteEntry = (sectionNum, entryNum, type, content) => dispatch => {
+	console.log('delete entry data', sectionNum, entryNum, type, content);
+	if (type === 'file' && content.id){
+		dispatch({
+			type: STAGE_DELETED_FILE,
+			payload: content.id
+		})
+	}
 	dispatch({
 		type: DELETE_ENTRY,
 		payload: {
@@ -84,7 +93,7 @@ export let editSection = (section, sectionNum) => dispatch => {
 	})
 }
 
-export let saveChanges = (courseData) => (dispatch) => {
+export let saveChanges = (courseData) => (dispatch, getState) => {	
 	let fileData = new FormData();
 	let filePositions = [];
 	let { sections } = courseData;
@@ -97,6 +106,20 @@ export let saveChanges = (courseData) => (dispatch) => {
 			}
 		}
 	}
+
+	let { filesToDelete } = getState().views.classroom.course.edit;
+	console.log('files to delete', filesToDelete);
+
+	for (let i of filesToDelete){
+		fetch(`${REACT_APP_API_URL}/files/${i}`, {
+			method: 'DELETE',
+			headers: {
+				Accept: 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
 
 	return fetch(`${REACT_APP_API_URL}/files/upload`, {
 		method: "POST",
@@ -143,6 +166,16 @@ export let getCourseById = (courseId) => (dispatch) => {
 			courseId: courseId
 		},
 		API_GET_COURSE_BY_ID
+	))
+}
+
+export let getFileById = (fileId, name) => (dispatch) => {
+	return dispatch(streamFileById(
+		fileId,
+		API_GET_FILE_BY_ID,
+		{
+			name
+		}
 	))
 }
 

@@ -54,7 +54,9 @@ class EditEntry extends Component {
         event.preventDefault();
         this.props.deleteEntry(
             this.props.sectionNum,
-            this.props.entryNum
+            this.props.entryNum,
+            this.props.type,
+            this.props.content
         )
         this.handleLeave();
     }
@@ -122,7 +124,7 @@ class EditEntry extends Component {
 let mapDispatchToProps = (dispatch) => {
     return {
         editEntry: (entry, sectionNum, entryNum) => dispatch(editEntry(entry, sectionNum, entryNum)),
-        deleteEntry: (sectionNum, entryNum) => dispatch(deleteEntry(sectionNum, entryNum))
+        deleteEntry: (sectionNum, entryNum, type, content) => dispatch(deleteEntry(sectionNum, entryNum, type, content))
     }
 }
 

@@ -4,6 +4,8 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { hideModal, showModal } from '../../../../../../../components/ModalRoot/services/actions';
 import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import EditEntry from './EditEntry'
+import { getFileById } from '../services/actions'
+import { getDownloadLink } from '../services/helpers'
 
 class Entry extends Component {
 
@@ -13,7 +15,24 @@ class Entry extends Component {
                 onClose={this.props.hideModal} 
                 sectionNum={this.props.sectionId}
                 entryNum={this.props.entryId}
+                type={this.props.type}
+                content={this.props.content}
             />
+        )
+    }
+
+    getDownloadElement = (id, name) => {
+        let link = getDownloadLink(id, name);
+        return (
+            <a
+                href={link}
+                download={name}
+                style={{
+                    color: '#AFB42B'
+                }}
+            >
+                {name}
+            </a>
         )
     }
 
@@ -53,11 +72,7 @@ class Entry extends Component {
 	                        	)
                         	}
                         	else{
-                        		return (
-                        			<div>
-                        				{content.id}
-                        			</div>
-                        		)
+                        		return this.getDownloadElement(content.id, content.originalname);
                         	}
                         	
                     }
@@ -70,7 +85,8 @@ class Entry extends Component {
 let mapDispatchToProps = (dispatch) => {
     return {
         hideModal: () => dispatch(hideModal()),
-        showModal: (component) => dispatch(showModal(component))
+        showModal: (component) => dispatch(showModal(component)),
+        getFileById: (fileId, ref) => dispatch(getFileById(fileId, ref))
     }
 }
 

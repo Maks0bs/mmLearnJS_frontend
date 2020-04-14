@@ -71,3 +71,48 @@ export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
 	}))
 	.catch(err => console.log(err))
 }
+
+export let getFilesFiltered = (filter, returnDispatchType, ref) => (dispatch) => {
+	console.log('ref get files filtered', ref);
+	return fetch(`${REACT_APP_API_URL}/files/filter`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		credentials: 'include',
+		body: JSON.stringify(filter)
+	})
+	.then(res => res.json())
+	.then(data => {
+		if (ref){
+			if (ref.byId === true){
+				ref.data = data[0];
+			}
+		}
+		dispatch({
+			type: returnDispatchType,
+			payload: data
+		})
+	})
+	.catch(err => console.log(err))
+}
+
+export let streamFileById = (fileId, returnDispatchType, options) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/files/stream/${fileId}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		credentials: 'include'
+	})
+	//.then(res => res.json())
+	.then(res => {
+		console.log('response', res);
+		return dispatch({
+			type: returnDispatchType,
+			payload: res.body,
+			options: options
+		})
+	})
+	.catch(err => console.log(err))
+}

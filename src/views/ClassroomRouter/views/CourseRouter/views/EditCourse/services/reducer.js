@@ -1,5 +1,6 @@
 import types from './actionTypes'
 import _ from 'lodash'
+import FileSaver from 'file-saver'
 let { 
 	API_EDIT_COURSE, 
 	CLEAR_MESSAGES, 
@@ -10,7 +11,9 @@ let {
 	EDIT_ENTRY,
 	DELETE_ENTRY,
 	EDIT_SECTION,
-	DELETE_SECTION
+	DELETE_SECTION,
+	API_GET_FILE_BY_ID,
+	STAGE_DELETED_FILE
 } = types;
 
 let initialState = {
@@ -18,11 +21,17 @@ let initialState = {
 	error: '',
 	oldCourseData: {},
 	courseData: {},
-	
+	filesToDelete: []
 }
 
 export default function(state = initialState, action) {
 	switch(action.type){
+		case STAGE_DELETED_FILE: {
+			return {
+				...state,
+				filesToDelete: [...state.filesToDelete, action.payload]
+			}
+		}
 		case UPDATE_SECTIONS:
 			return {
 				...state,
@@ -38,10 +47,6 @@ export default function(state = initialState, action) {
 				courseData: action.payload[0]
 			}
 		}
-		case API_EDIT_COURSE:
-			return {
-				...state
-			}
 		case ADD_SECTION:
 			return {
 				...state,
@@ -107,8 +112,8 @@ export default function(state = initialState, action) {
 				}
 			}
 		}
-		case CLEAR_MESSAGES:
-			return initialState
+		/*case CLEAR_MESSAGES:
+			return initialState*/
 		default:
 			return state;
 	}

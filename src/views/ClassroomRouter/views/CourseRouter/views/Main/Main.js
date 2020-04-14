@@ -48,6 +48,9 @@ class Course extends Component {
 	}
 
 	render() {
+		if (!this.props.courseData){
+			return null;
+		}
 		let status = this.getEnrollmentStatus();
 		let course;
 		switch (status){
