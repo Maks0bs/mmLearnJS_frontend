@@ -24,7 +24,7 @@ export let getCourseById = (courseId) => (dispatch) => {
 
 
 export let enrollInCourse = (data) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/enroll`, {
+	return fetch(`${REACT_APP_API_URL}/courses/enroll/${data._id}`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",

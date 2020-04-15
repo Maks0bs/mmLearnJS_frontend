@@ -12,8 +12,7 @@ let {
 	DELETE_ENTRY,
 	EDIT_SECTION,
 	DELETE_SECTION,
-	API_GET_FILE_BY_ID,
-	STAGE_DELETED_FILE
+	API_GET_FILE_BY_ID
 } = types;
 
 let initialState = {
@@ -26,12 +25,6 @@ let initialState = {
 
 export default function(state = initialState, action) {
 	switch(action.type){
-		case STAGE_DELETED_FILE: {
-			return {
-				...state,
-				filesToDelete: [...state.filesToDelete, action.payload]
-			}
-		}
 		case UPDATE_SECTIONS:
 			return {
 				...state,

@@ -12,8 +12,7 @@ let {
 	DELETE_ENTRY,
 	DELETE_SECTION,
 	EDIT_SECTION,
-	API_GET_FILE_BY_ID,
-	STAGE_DELETED_FILE
+	API_GET_FILE_BY_ID
 } = types;
 
 // all api requests related to Home view will be placed here
@@ -49,12 +48,6 @@ export let editEntry = (entry, sectionNum, entryNum) => dispatch => {
 
 export let deleteEntry = (sectionNum, entryNum, type, content) => dispatch => {
 	console.log('delete entry data', sectionNum, entryNum, type, content);
-	if (type === 'file' && content.id){
-		dispatch({
-			type: STAGE_DELETED_FILE,
-			payload: content.id
-		})
-	}
 	dispatch({
 		type: DELETE_ENTRY,
 		payload: {
@@ -93,7 +86,7 @@ export let editSection = (section, sectionNum) => dispatch => {
 	})
 }
 
-export let saveChanges = (courseData) => (dispatch, getState) => {	
+export let saveChanges = (courseData) => (dispatch) => {	
 	let fileData = new FormData();
 	let filePositions = [];
 	let { sections } = courseData;
@@ -105,19 +98,6 @@ export let saveChanges = (courseData) => (dispatch, getState) => {
 				filePositions.push({ section: i, entry: j})
 			}
 		}
-	}
-
-	let { filesToDelete } = getState().views.classroom.course.edit;
-	console.log('files to delete', filesToDelete);
-
-	for (let i of filesToDelete){
-		fetch(`${REACT_APP_API_URL}/files/${i}`, {
-			method: 'DELETE',
-			headers: {
-				Accept: 'application/json'
-			},
-			credentials: 'include'
-		})
 	}
 
 
@@ -140,7 +120,7 @@ export let saveChanges = (courseData) => (dispatch, getState) => {
 		return data
 	})
 	.then(data => {
-		return fetch(`${REACT_APP_API_URL}/courses/update`, {
+		return fetch(`${REACT_APP_API_URL}/courses/update/${courseData._id}`, {
 			method: "PUT",
 			headers: {
 				Accept: "application/json",
