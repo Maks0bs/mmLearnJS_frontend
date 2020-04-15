@@ -8,7 +8,7 @@ import TeacherActions from './components/TeacherActions'
 import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
 
-class Course extends Component {
+class Main extends Component {
 
 	componentDidMount(){
 		let courseId = this.props.match.params.courseId;
@@ -123,4 +123,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Course);
+)(Main);

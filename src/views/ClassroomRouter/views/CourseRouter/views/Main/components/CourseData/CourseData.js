@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { v1 as uuidv1 } from 'uuid'
-import Section from './Section'
+import Section from './components/Section'
 
 class CourseData extends Component {
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getStreamLink } from '../services/helpers'
+import { getStreamLink } from '../../../services/helpers'
 
 class Entry extends Component {
 
