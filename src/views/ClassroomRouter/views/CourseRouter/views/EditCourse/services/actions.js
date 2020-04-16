@@ -87,48 +87,29 @@ export let editSection = (section, sectionNum) => dispatch => {
 }
 
 export let saveChanges = (courseData) => (dispatch) => {	
-	let fileData = new FormData();
+	let form = new FormData();
 	let filePositions = [];
 	let { sections } = courseData;
 	for (let i = 0; i < sections.length; i++){
 		for (let j = 0; j < sections[i].entries.length; j++){
 			let entry = sections[i].entries[j];
 			if (entry.type === 'file' && !entry.content.id){
-				fileData.append('files', entry.content);
+				form.append('files', entry.content);
 				filePositions.push({ section: i, entry: j})
 			}
 		}
 	}
 
+	form.set('newCourseData', JSON.stringify(courseData));
+	form.set('filesPositions', JSON.stringify(filePositions));
 
-	return fetch(`${REACT_APP_API_URL}/files/upload`, {
-		method: "POST",
+
+	return fetch(`${REACT_APP_API_URL}/courses/update/${courseData._id}`, {
+		method: "PUT",
 		headers: {
-			Accept: "application/json"
 		},
 		credentials: 'include',
-		body: fileData
-	})
-	.then(res => res.json())
-	.then(data => {
-		console.log('data received ldfldflsd;', data);
-		for (let i = 0; i < filePositions.length; i++){
-			let pos = filePositions[i];
-			courseData.sections[pos.section].entries[pos.entry].content = data.files[i];
-		}
-		console.log('data to send', courseData)
-		return data
-	})
-	.then(data => {
-		return fetch(`${REACT_APP_API_URL}/courses/update/${courseData._id}`, {
-			method: "PUT",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			},
-			credentials: 'include',
-			body: JSON.stringify(courseData)
-		})
+		body: form
 	})
 	.then(res => res.json())
 	.then(data => {
