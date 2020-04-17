@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import Entry from './Entry'
+import Entry from './components/Entry'
 import { connect } from 'react-redux'
-import { reorder, dndTypes } from '../services/helpers'
+import { reorder, dndTypes } from '../../../../services/helpers'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { hideModal, showModal } from '../../../../../../../components/ModalRoot/services/actions';
+import { hideModal, showModal } from '../../../../../../../../../../components/ModalRoot/services/actions';
 import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
-import AddEntry from './AddEntry'
-import EditSection from './EditSection'
+import AddEntry from './components/AddEntry'
+import EditSection from './components/EditSection'
 let { SECTIONS, ENTRIES } = dndTypes;
 
 class Section extends Component {

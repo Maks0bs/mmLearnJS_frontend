@@ -116,3 +116,25 @@ export let streamFileById = (fileId, returnDispatchType, options) => (dispatch) 
 	})
 	.catch(err => console.log(err))
 }
+
+export let getUsersFiltered = (filter, returnDispatchType) => (dispatch) => {
+
+}
+
+export let getUserById = (userId, returnDispatchType) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/users/${userId}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		credentials: 'include'
+	})
+	.then(res => res.json())
+	.then(data => {
+		return dispatch({
+			type: returnDispatchType,
+			payload: data
+		})
+	})
+	.catch(err => console.log(err))
+}

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { hideModal, showModal } from '../../../../../../../components/ModalRoot/services/actions';
+import { hideModal, showModal } from '../../../../../../../../../../../../components/ModalRoot/services/actions';
 import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
-import EditEntry from './EditEntry'
-import { getFileById } from '../services/actions'
-import { getDownloadLink } from '../services/helpers'
+import EditEntry from './components/EditEntry'
+import { getFileById } from '../../../../../../services/actions'
+import { getDownloadLink } from '../../../../../../services/helpers'
 
 class Entry extends Component {
 

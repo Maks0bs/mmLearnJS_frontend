@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { v1 as uuidv1 } from 'uuid'
-import { updateSections } from '../services/actions'
+import { updateSections } from '../../services/actions'
 import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
-import { hideModal, showModal } from '../../../../../../../components/ModalRoot/services/actions';
-import Section from './Section'
-import AddSection from './AddSection'
+import { hideModal, showModal } from '../../../../../../../../components/ModalRoot/services/actions';
+import Section from './components/Section'
+import AddSection from './components/AddSection'
 import _ from 'lodash'
-import { reorder, dndTypes, regExpressions } from '../services/helpers'
+import { reorder, dndTypes, regExpressions } from '../../services/helpers'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faAlignJustify, faPlus } from '@fortawesome/free-solid-svg-icons'
 let { SECTIONS, ENTRIES } = dndTypes;

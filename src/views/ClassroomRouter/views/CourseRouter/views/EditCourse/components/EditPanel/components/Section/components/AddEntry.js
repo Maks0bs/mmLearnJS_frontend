@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
-import { addEntry } from '../services/actions'
+import { addEntry } from '../../../../../services/actions'
 import { connect } from 'react-redux'
 
 
