@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
-import { editEntry, deleteEntry } from '../../../../../../../services/actions'
+import { editSection, deleteSection } from '../../../../../services/actions'
 import { connect } from 'react-redux'
 
 
 // make controlled components
 
-class EditEntry extends Component {
+class EditSection extends Component {
     constructor(props){
         super(props);
 
         this.state = {
             name: '',
-            type: ''
+            description: ''
         }
 
     }
 
     componentDidMount() {
-        let { sectionNum, entryNum } = this.props;
-        let entry = this.props.courseData.sections[sectionNum].entries[entryNum];
+        let { sectionNum } = this.props;
+        let section = this.props.courseData.sections[sectionNum];
         this.setState({
-            name: entry.name,
-            type: entry.type
+            name: section.name,
+            description: section.description
         })
     }
 
@@ -38,25 +38,21 @@ class EditEntry extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        let { name, type } = this.state;
-        this.props.editEntry(
+        let { name, description } = this.state;
+        this.props.editSection(
             {
             	name, 
-            	type
+            	description
             },
-            this.props.sectionNum,
-            this.props.entryNum
+            this.props.sectionNum
         )
         this.handleLeave();
     }
 
     onDelete = (event) => {
         event.preventDefault();
-        this.props.deleteEntry(
-            this.props.sectionNum,
-            this.props.entryNum,
-            this.props.type,
-            this.props.content
+        this.props.deleteSection(
+            this.props.sectionNum
         )
         this.handleLeave();
     }
@@ -67,7 +63,7 @@ class EditEntry extends Component {
 
 
     render() {
-        let { name, type } = this.state;
+        let { name, description } = this.state;
         return (
         	<div className="container">
 	            <form  onSubmit={this.onSubmit}>
@@ -82,16 +78,13 @@ class EditEntry extends Component {
 	                </div>
 
 	                <div className="form-group">
-                        <select 
-                            name="type"
-                            value={type}
-                            onChange={this.handleChange("type")}
-                        >
-                            <option value="">Choose entry type</option>
-                            <option value="file">File</option>
-                            <option value="forum">Forum</option>
-                            <option value="text">Text</option>
-                        </select>
+                        <label className="text-muted">Description</label>
+                        <input
+                            onChange={this.handleChange("description")}
+                            type="text"
+                            className="form-control"
+                            value={description}
+                        />
                     </div>
 	  
 
@@ -123,14 +116,14 @@ class EditEntry extends Component {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        editEntry: (entry, sectionNum, entryNum) => dispatch(editEntry(entry, sectionNum, entryNum)),
-        deleteEntry: (sectionNum, entryNum, type, content) => dispatch(deleteEntry(sectionNum, entryNum, type, content))
+        editSection: (section, sectionNum) => dispatch(editSection(section, sectionNum)),
+        deleteSection: (sectionNum) => dispatch(deleteSection(sectionNum))
     }
 }
 
 let mapStateToProps = (state) => {
     return {
-        ...state.views.classroom.course.edit
+        ...state.views.classroom.course.editContent
     }
 }
 
@@ -138,4 +131,4 @@ let mapStateToProps = (state) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(EditEntry));
+)(withRouter(EditSection));

@@ -4,7 +4,7 @@ import { getCourseById } from './services/actions'
 import EditPanel from './components/EditPanel'
 import EditActions from './components/EditActions'
 
-class EditCourse extends Component {
+class EditContent extends Component {
 	constructor() {
 		super();
 
@@ -24,6 +24,7 @@ class EditCourse extends Component {
 	}
 
 	render() {
+		console.log('propssss', this.props);
 		let { authenticatedUser: user } = this.props;
 		if (!(user && user._id && user.role === 'teacher')){
 			return (
@@ -48,7 +49,7 @@ class EditCourse extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.edit,
+		...state.views.classroom.course.editContent,
 		authenticatedUser: state.services.authenticatedUser
 	}
 }
@@ -62,4 +63,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(EditCourse);
+)(EditContent);

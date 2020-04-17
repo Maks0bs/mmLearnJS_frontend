@@ -135,7 +135,7 @@ let mapDispatchToProps = (dispatch) => {
 
 let mapStateToProps = (state) => {
     return {
-        ...state.views.classroom.course.edit
+        ...state.views.classroom.course.editContent
     }
 }
 

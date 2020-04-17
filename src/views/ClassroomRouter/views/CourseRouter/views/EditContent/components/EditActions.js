@@ -51,7 +51,7 @@ class EditActions extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.edit
+		...state.views.classroom.course.editContent
 	}
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { getCourseById } from './services/actions'
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
@@ -48,6 +49,11 @@ class Main extends Component {
 	}
 
 	render() {
+		if (this.props.redirectToDashboard){
+			return (
+				<Redirect to="/classroom/dashboard" />
+			)
+		}
 		if (!this.props.courseData){
 			return null;
 		}

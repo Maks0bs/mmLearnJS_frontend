@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import Main from './views/Main'
-import EditCourse from './views/EditCourse'
+import EditContent from './views/EditContent'
 import CreateCourse from './views/CreateCourse'
 
 
@@ -19,7 +19,7 @@ class CourseRouter extends Component {
 					
 					<Route
 						exact path={`${path}/edit/:courseId`}
-						component={EditCourse}
+						component={EditContent}
 					/>
 
 					<Route

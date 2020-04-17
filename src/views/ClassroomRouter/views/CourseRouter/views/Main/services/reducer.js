@@ -1,11 +1,17 @@
 import { combineReducers } from 'redux'
 import types from './actionTypes'
-let { API_GET_COURSE_BY_ID, API_ENROLL_IN_COURSE, CLEAR_MESSAGES } = types;
+let { 
+	API_GET_COURSE_BY_ID, 
+	API_ENROLL_IN_COURSE, 
+	CLEAR_MESSAGES, 
+	API_DELETE_COURSE 
+} = types;
 
 let initialState = {
 	courseData: {},
 	enrollmentMessage: '',
-	enrollmentError: ''
+	enrollmentError: '',
+	redirectToDashboard: false
 }
 
 export default  function(state = initialState, action) {
@@ -21,6 +27,13 @@ export default  function(state = initialState, action) {
 				enrollmentMessage: action.payload.message,
 				enrollmentError: action.payload.error && action.payload.error.message
 			}
+		case API_DELETE_COURSE: {
+			return {
+				...state,
+				//courseData: {},
+				redirectToDashboard: true
+			}
+		}
 		case CLEAR_MESSAGES:
 			return {
 				...state,
