@@ -1,5 +1,6 @@
 import types from './actionTypes'
 import { REACT_APP_API_URL } from '../../../../../../../constants'
+import { updateCourse } from '../../../services/actions'
 import { getCoursesFiltered, uploadFiles, streamFileById } from '../../../../../../../services/actions'
 let { 
 	API_EDIT_COURSE, 

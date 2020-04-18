@@ -7,16 +7,22 @@ class TeacherActions extends Component {
 		super()
 
 		this.state = {
-			redirectToEdit: false
+			redirectToEdit: false,
+			redirectToEditInfo: false
 		}
 	}
 
 	render() {
-		let { redirectToEdit } = this.state;
+		let { redirectToEdit, redirectToEditInfo } = this.state;
 		let { courseData } = this.props;
 		if (redirectToEdit){
 			return (
 				<Redirect to={`/classroom/course/edit/${courseData._id}`} />
+			)
+		}
+		if (redirectToEditInfo) {
+			return (
+				<Redirect to={`/classroom/course/edit-info/${courseData._id}`} />
 			)
 		}
 		return (
@@ -26,6 +32,11 @@ class TeacherActions extends Component {
 					className="btn btn-raised btn-outline btn-info ml-3"
 					style={{
 						background: ''
+					}}
+					onClick={(e) => {
+						this.setState({
+							redirectToEditInfo: true
+						})
 					}}
 				>
 					Edit course info
