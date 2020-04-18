@@ -14,10 +14,10 @@ export let getCourseById = (courseId) => (dispatch) => {
 }
 
 export let editCourse = (courseData, id) => (dispatch) => {
-	let data = {};
-	data.newCourseData = courseData
+	let form = new FormData();
+	form.set('newCourseData', JSON.stringify(courseData));
 	return dispatch(updateCourse(
-		data,
+		form,
 		id,
 		API_UPDATE_COURSE_INFO
 	))

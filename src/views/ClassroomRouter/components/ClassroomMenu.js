@@ -5,6 +5,9 @@ import { hideModal, showModal } from '../../../components/ModalRoot/services/act
 import Signin from '../../components/Signin'
 import _ from 'lodash'
 import { logout } from '../../../services/actions'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+import { faBell as faBellSolid } from '@fortawesome/free-solid-svg-icons'
+import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
 
 // !!!! maybe put all these small secondary components in another file
 
@@ -104,6 +107,7 @@ class ClassroomMenu extends Component {
 		        </ul>
 		        {(curUser && curUser._id) ? (
 		        	<ul className="navbar-nav">
+		        	<Icon icon={faBellHollow} size="2x"/>
 				    <NavDropdown name={curUser.name}>
 				    	<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
 				    		Profile

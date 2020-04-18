@@ -1,6 +1,6 @@
 import types from './actionTypes'
-import { REACT_APP_API_URL } from '../../../../../../../constants'
 import { updateCourse } from '../../../services/actions'
+import { REACT_APP_API_URL } from '../../../../../../../constants'
 import { getCoursesFiltered, uploadFiles, streamFileById } from '../../../../../../../services/actions'
 let { 
 	API_EDIT_COURSE, 
@@ -105,21 +105,11 @@ export let saveChanges = (courseData) => (dispatch) => {
 	form.set('filesPositions', JSON.stringify(filePositions));
 
 
-	return fetch(`${REACT_APP_API_URL}/courses/update/${courseData._id}`, {
-		method: "PUT",
-		headers: {
-		},
-		credentials: 'include',
-		body: form
-	})
-	.then(res => res.json())
-	.then(data => {
-		console.log('received data', data);
-		dispatch({
-		type: API_EDIT_COURSE,
-		payload: data
-	})})
-	.catch(err => console.log(err))
+	return dispatch(updateCourse(
+		form,
+		courseData._id,
+		API_EDIT_COURSE
+	))
 }
 
 export let getCourseById = (courseId) => (dispatch) => {
