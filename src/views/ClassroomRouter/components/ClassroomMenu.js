@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { hideModal, showModal } from '../../components/ModalRoot/services/actions';
-import SigninModal from '../../components/SigninModal'
+import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
+import Signin from '../../components/Signin'
 import _ from 'lodash'
 import { logout } from '../../../services/actions'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+import { faBell as faBellSolid } from '@fortawesome/free-solid-svg-icons'
+import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
 
 // !!!! maybe put all these small secondary components in another file
 
@@ -56,6 +59,7 @@ class NavDropdown extends React.Component {
 			        }}
 			    >
 			    	{this.props.name}
+			    	{this.props.displayComponent}
 			    </a>
 			    <ul className={`${classDropdownMenu} dropdown-menu-right`}>
 			        {this.props.children}
@@ -83,6 +87,12 @@ class ClassroomMenu extends Component {
 			})
 		})
 	}
+
+	showSigninModal = () => {
+		this.props.showModal(
+			<Signin onClose={this.props.hideModal} />
+		)
+	}
 			
 	render() {
 		let { pathname } = this.props.location;
@@ -98,6 +108,27 @@ class ClassroomMenu extends Component {
 		        </ul>
 		        {(curUser && curUser._id) ? (
 		        	<ul className="navbar-nav">
+		        	<NavDropdown 
+		        		name={ curUser.notifications.length > 0 ?
+		        			curUser.notifications.length :
+		        			''
+		        		}
+		        		displayComponent={
+			        			
+		        			<Icon 
+		        				icon={curUser.notifications.length > 0 ?
+		        					faBellSolid :
+		        					faBellHollow
+		        				} 
+		        				size="2x"
+		        			/>
+		        		}
+		        	>
+		        		<div className="dropdown-item">
+		        			{JSON.stringify(curUser.notifications)}
+		        		</div>
+		        	</NavDropdown>
+		        	
 				    <NavDropdown name={curUser.name}>
 				    	<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
 				    		Profile
@@ -120,7 +151,7 @@ class ClassroomMenu extends Component {
 			        <ul className="navbar-nav">
 			        	<button 
 			        		className="btn btn-outline my-sm-0"
-			        		onClick={(e) => this.props.showModal(SigninModal)}
+			        		onClick={(e) => this.showSigninModal()}
 			        	>
 			        		Sign in
 			        	</button>
@@ -136,6 +167,7 @@ class ClassroomMenu extends Component {
 let mapDispatchToProps = dispatch => {
 	return {
 		showModal: (Component) => dispatch(showModal(Component)),
+		hideModal: () => dispatch(hideModal()),
 		logout: () => dispatch(logout())
 	}
 }

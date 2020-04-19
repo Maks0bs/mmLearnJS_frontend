@@ -35,12 +35,13 @@ class Signup extends Component {
 
 	onSubmit = (event) => {
 		event.preventDefault()
-		let {name, email, password, teacherPassword} = this.state;
+		let {name, email, password, teacherPassword, teacherChecked} = this.state;
 		let user ={
 			name: name,
 			email: email,
 			password: password,
-			teacherPassword: teacherPassword
+			teacherPassword: teacherPassword,
+			teacher: teacherChecked
 		}
 
 		this.props.signup(user)
@@ -50,7 +51,8 @@ class Signup extends Component {
 						name: '',
 						email: '',
 						password: '',
-						teacherPassword: ''
+						teacherPassword: '',
+						teacherChecked: false
 					})
 				}
 			})
