@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { hideModal, showModal } from '../../../../../../../../components/ModalRoot/services/actions'
 import { connect } from 'react-redux'
 import DeleteCourse from './components/DeleteCourse'
+import AddTeachers from './components/AddTeachers'
 
 class CreatorActions extends Component {
 
@@ -16,13 +17,23 @@ class CreatorActions extends Component {
 		)
 	}
 
+	showAddTeachersModal = (e) => {
+		e.preventDefault();
+		this.props.showModal(
+			<AddTeachers
+                onClose={this.props.hideModal} 
+			/>
+		)
+	}
+
 	render() {
 		return (
 			<div>
 				<h1>Creator actions:</h1>
 				<button 
-					className="btn btn-raised btn-outline btn-warning ml-3"
+					className="btn btn-raised btn-outline btn-info ml-3"
 					type="button"
+					onClick={this.showAddTeachersModal}
 				>
 					Add teachers
 				</button>

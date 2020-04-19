@@ -59,6 +59,7 @@ class NavDropdown extends React.Component {
 			        }}
 			    >
 			    	{this.props.name}
+			    	{this.props.displayComponent}
 			    </a>
 			    <ul className={`${classDropdownMenu} dropdown-menu-right`}>
 			        {this.props.children}
@@ -107,7 +108,27 @@ class ClassroomMenu extends Component {
 		        </ul>
 		        {(curUser && curUser._id) ? (
 		        	<ul className="navbar-nav">
-		        	<Icon icon={faBellHollow} size="2x"/>
+		        	<NavDropdown 
+		        		name={ curUser.notifications.length > 0 ?
+		        			curUser.notifications.length :
+		        			''
+		        		}
+		        		displayComponent={
+			        			
+		        			<Icon 
+		        				icon={curUser.notifications.length > 0 ?
+		        					faBellSolid :
+		        					faBellHollow
+		        				} 
+		        				size="2x"
+		        			/>
+		        		}
+		        	>
+		        		<div className="dropdown-item">
+		        			{JSON.stringify(curUser.notifications)}
+		        		</div>
+		        	</NavDropdown>
+		        	
 				    <NavDropdown name={curUser.name}>
 				    	<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
 				    		Profile

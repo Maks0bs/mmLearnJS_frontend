@@ -4,14 +4,18 @@ let {
 	API_GET_COURSE_BY_ID, 
 	API_ENROLL_IN_COURSE, 
 	CLEAR_MESSAGES, 
-	API_DELETE_COURSE 
+	API_DELETE_COURSE,
+	API_ACCEPT_INVITE,
+	API_SEND_TEACHER_INVITE
 } = types;
 
 let initialState = {
 	courseData: {},
 	enrollmentMessage: '',
 	enrollmentError: '',
-	redirectToDashboard: false
+	redirectToDashboard: false,
+	error: '',
+	upd: 0
 }
 
 export default  function(state = initialState, action) {
@@ -34,6 +38,17 @@ export default  function(state = initialState, action) {
 				redirectToDashboard: true
 			}
 		}
+		case API_ACCEPT_INVITE:
+			return {
+				...state,
+				error: action.payload.error && action.payload.error.message,
+				upd: state.upd + 1
+			}
+		case API_SEND_TEACHER_INVITE:
+			return {
+				...state,
+				error: action.payload.error && action.payload.error.message
+			}
 		case CLEAR_MESSAGES:
 			return {
 				...state,

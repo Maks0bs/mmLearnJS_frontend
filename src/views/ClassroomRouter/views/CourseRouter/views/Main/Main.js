@@ -8,6 +8,8 @@ import CourseEnrollForm from './components/CourseEnrollForm'
 import TeacherActions from './components/TeacherActions'
 import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
+import InvitedTeacherInfo from './components/InvitedTeacherInfo'
+import { notifications } from '../../../../../../constants'
 
 class Main extends Component {
 
@@ -25,9 +27,18 @@ class Main extends Component {
 			return 'not logged in'
 		}
 
-
 		let courses = user.enrolledCourses;
 		let teacherCourses = user.teacherCourses;
+
+		for (let i of courses) {
+			if (i === courseId){
+				return 'enrolled'
+			}
+		}
+
+		if (this.props.courseData.invitedTeachers){
+			return 'invited teacher'
+		}
 
 		if (user._id === course.creator){
 			return 'creator'
@@ -36,12 +47,6 @@ class Main extends Component {
 		for (let i of teacherCourses) {
 			if (i === courseId){
 				return 'teacher'
-			}
-		}
-
-		for (let i of courses) {
-			if (i === courseId){
-				return 'enrolled'
 			}
 		}
 
@@ -58,6 +63,7 @@ class Main extends Component {
 			return null;
 		}
 		let status = this.getEnrollmentStatus();
+		console.log('enr status' , status);
 		let course;
 		switch (status){
 			case 'not logged in':
@@ -88,6 +94,16 @@ class Main extends Component {
 						<TeacherActions />
 					</div>
 				)
+				break;
+			case 'invited teacher':
+				course = (
+					<div>
+						<InvitedTeacherInfo />
+						<OpenCourseInfo />
+						<CourseEnrollForm />
+					</div>
+				)
+				break;
 			case 'creator':
 				course = (
 					<div>
