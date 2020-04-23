@@ -8,6 +8,7 @@ import Signin from './views/Signin'
 import { connect } from 'react-redux'
 import { getAuthenticatedUser } from '../../services/actions'
 import ActivationMessage from '../components/ActivationMessage'
+import InviteSignup from './views/InviteSignup'
 import _ from 'lodash'
 
 
@@ -48,6 +49,10 @@ class PublicRouter extends Component {
 					<Route
 						exact path={`/signin`}
 						component={Signin}
+					/>
+					<Route 
+						exact path={`/invite-signup/:token`}
+						component={InviteSignup}
 					/>
 				</Switch>
 			</div>
