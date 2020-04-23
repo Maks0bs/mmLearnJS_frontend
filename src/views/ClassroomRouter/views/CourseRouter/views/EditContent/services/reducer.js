@@ -83,8 +83,9 @@ export default function(state = initialState, action) {
 		}
 		case EDIT_ENTRY: {
 			let { entry, sectionNum, entryNum } = action.payload;
+			console.log(action);
 			let newSections = _.cloneDeep(state.courseData.sections);
-			newSections[sectionNum].entries[entryNum] = entry;
+			newSections[sectionNum].entries[entryNum] = _.extend(newSections[sectionNum].entries[entryNum], entry);
 			return {
 				...state,
 				courseData: {

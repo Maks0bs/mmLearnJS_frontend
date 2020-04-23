@@ -5,7 +5,7 @@ import { hideModal, showModal } from '../../../../../../../../../../../../compon
 import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import EditEntry from './components/EditEntry'
 import { getFileById } from '../../../../../../services/actions'
-import { getDownloadLink } from '../../../../../../services/helpers'
+import DownloadElement from '../../../../../DownloadElement'
 
 class Entry extends Component {
 
@@ -18,21 +18,6 @@ class Entry extends Component {
                 type={this.props.type}
                 content={this.props.content}
             />
-        )
-    }
-
-    getDownloadElement = (id, name) => {
-        let link = getDownloadLink(id, name);
-        return (
-            <a
-                href={link}
-                download={name}
-                style={{
-                    color: '#AFB42B'
-                }}
-            >
-                {name}
-            </a>
         )
     }
 
@@ -66,13 +51,21 @@ class Entry extends Component {
 	                        		<a
 										href={URL.createObjectURL(content)}
 										download={content.name}
+                                        style={{
+                                            color: 'lightblue'
+                                        }}
 									>
 										{content.name}
 									</a>
 	                        	)
                         	}
                         	else{
-                        		return this.getDownloadElement(content.id, content.originalname);
+                        		return (
+                                    <DownloadElement
+                                        id={content.id}
+                                        name={content.originalname}
+                                    />
+                                )
                         	}
                         	
                     }

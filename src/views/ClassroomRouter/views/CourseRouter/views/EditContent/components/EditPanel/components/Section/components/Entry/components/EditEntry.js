@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { editEntry, deleteEntry } from '../../../../../../../services/actions'
 import { connect } from 'react-redux'
+import DownloadElement from '../../../../../../DownloadElement'
 
 
 // make controlled components
@@ -12,7 +13,7 @@ class EditEntry extends Component {
 
         this.state = {
             name: '',
-            type: ''
+            content: null
         }
 
     }
@@ -22,7 +23,7 @@ class EditEntry extends Component {
         let entry = this.props.courseData.sections[sectionNum].entries[entryNum];
         this.setState({
             name: entry.name,
-            type: entry.type
+            content: entry.content
         })
     }
 
@@ -38,11 +39,11 @@ class EditEntry extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        let { name, type } = this.state;
+        let { name, content } = this.state;
         this.props.editEntry(
             {
             	name, 
-            	type
+            	content
             },
             this.props.sectionNum,
             this.props.entryNum
@@ -61,13 +62,25 @@ class EditEntry extends Component {
         this.handleLeave();
     }
 
+    handleFileChange = (e) => {
+        this.setState({
+            content: e.target.files[0]
+        })
+    }
+
     componentWillUnmount(){
         this.handleLeave();
     }
 
 
     render() {
-        let { name, type } = this.state;
+        console.log('edit entry props', this.props);
+        let { name, content } = this.state;
+        if (!name){
+            return null;
+        }
+        let { sectionNum, entryNum } = this.props;
+        let { type, content: oldContent } = this.props.courseData.sections[sectionNum].entries[entryNum];
         return (
         	<div className="container">
 	            <form  onSubmit={this.onSubmit}>
@@ -81,18 +94,52 @@ class EditEntry extends Component {
 	                    />
 	                </div>
 
-	                <div className="form-group">
-                        <select 
-                            name="type"
-                            value={type}
-                            onChange={this.handleChange("type")}
-                        >
-                            <option value="">Choose entry type</option>
-                            <option value="file">File</option>
-                            <option value="forum">Forum</option>
-                            <option value="text">Text</option>
-                        </select>
-                    </div>
+	                {(() => {
+                        switch(type) {
+                            case 'text':
+                                return(
+                                    <div className="form-group">
+                                        <label className="text-muted">Text</label>
+                                        <input
+                                            onChange={this.handleChange("content")}
+                                            type="text"
+                                            className="form-control"
+                                            value={content}
+                                        />
+                                    </div>
+                                )
+                            case 'file':
+                                return (
+                                    <div>
+                                        {!oldContent.id ? (
+                                            <a
+                                                href={URL.createObjectURL(oldContent)}
+                                                download={oldContent.name}
+
+                                            >
+                                                {oldContent.name}
+                                            </a>
+                                        ) : (
+                                            <div>
+                                                <label className="text-muted mr-1">Old file:</label>
+                                                <DownloadElement
+                                                    id={oldContent.id}
+                                                    name={oldContent.originalname}
+                                                />
+                                            </div>
+                                        )}
+                                        <div className="custom-file mb-2 mt-2">
+                                            <label className="text-muted mr-1">Change file:</label>
+    
+                                            <input 
+                                                type="file"
+                                                onChange={this.handleFileChange}
+                                            />
+                                        </div>
+                                    </div>
+                                )
+                        }
+                    })()}
 	  
 
 	                <button 

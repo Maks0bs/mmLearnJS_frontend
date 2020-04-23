@@ -19,6 +19,11 @@ class AddEntry extends Component {
     }
 
     handleChange = (name) => (event) => {
+        if (name === 'type'){
+            this.setState({
+                content: null
+            })
+        }
         this.setState({
             [name]: event.target.value
         })

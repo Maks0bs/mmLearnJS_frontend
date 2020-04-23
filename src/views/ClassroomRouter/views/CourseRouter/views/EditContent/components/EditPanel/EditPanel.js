@@ -154,7 +154,6 @@ class EditPanel extends Component {
 				</Droppable>
 
 				<hr />
-				{JSON.stringify(this.props.oldCourseData)}
 			</DragDropContext>
 		)
 	}
