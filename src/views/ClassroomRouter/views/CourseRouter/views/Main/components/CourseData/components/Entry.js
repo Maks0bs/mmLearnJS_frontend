@@ -28,7 +28,7 @@ class Entry extends Component {
                     switch(type) {
                         case 'text':
                             return(
-                                <p>{content}</p>
+                                <p>{content.text}</p>
                             )
                         case 'file':
                         	return this.getDownloadElement(content.id, content.originalname);

@@ -21,9 +21,13 @@ class EditEntry extends Component {
     componentDidMount() {
         let { sectionNum, entryNum } = this.props;
         let entry = this.props.courseData.sections[sectionNum].entries[entryNum];
+        let entryContent = entry.content;
+        if (entry.type === 'text'){
+            entryContent = entryContent.text;
+        }
         this.setState({
             name: entry.name,
-            content: entry.content
+            content: entryContent
         })
     }
 
@@ -39,7 +43,14 @@ class EditEntry extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
+        let { sectionNum, entryNum } = this.props;
+        let { type } = this.props.courseData.sections[sectionNum].entries[entryNum];
         let { name, content } = this.state;
+        if (type === 'text'){
+            content = {
+                text: content
+            }
+        }
         this.props.editEntry(
             {
             	name, 

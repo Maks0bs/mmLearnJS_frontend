@@ -24,6 +24,7 @@ class AddEntry extends Component {
                 content: null
             })
         }
+
         this.setState({
             [name]: event.target.value
         })
@@ -36,6 +37,11 @@ class AddEntry extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         let { name, type, content } = this.state;
+        if (type === 'text'){
+            content = {
+                text: content
+            }
+        }
         this.props.addEntry(
             {
             	name, 

@@ -42,7 +42,7 @@ class Entry extends Component {
                         case 'text':
                             return(
                                 <div>
-                                    {content}
+                                    {content.text}
                                 </div>
                             )
                         case 'file':

@@ -88,6 +88,7 @@ export let editSection = (section, sectionNum) => dispatch => {
 }
 
 export let saveChanges = (courseData) => (dispatch) => {	
+	console.log(courseData);
 	let form = new FormData();
 	let filePositions = [];
 	let { sections } = courseData;
@@ -98,6 +99,8 @@ export let saveChanges = (courseData) => (dispatch) => {
 				form.append('files', entry.content);
 				filePositions.push({ section: i, entry: j})
 			}
+
+
 		}
 	}
 
