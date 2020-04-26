@@ -1,8 +1,7 @@
 import types from './actionTypes'
-import { getCoursesFiltered } from '../../../../../../../services/actions'
-import { REACT_APP_API_URL } from '../../../../../../../constants'
-let { 
-	API_GET_COURSE_BY_ID, 
+import { REACT_APP_API_URL } from '../../../../../../../../../constants'
+
+let {
 	API_ENROLL_IN_COURSE, 
 	CLEAR_MESSAGES,
 	API_DELETE_COURSE,
@@ -20,15 +19,6 @@ export let clearMessages = () => (dispatch) => {
 }
 
 // not used atm
-export let getCourseById = (courseId) => (dispatch) => {
-	return dispatch(getCoursesFiltered(
-		{
-			courseId: courseId
-		},
-		API_GET_COURSE_BY_ID
-	))
-}
-
 
 export let enrollInCourse = (data) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/courses/enroll/${data._id}`, {

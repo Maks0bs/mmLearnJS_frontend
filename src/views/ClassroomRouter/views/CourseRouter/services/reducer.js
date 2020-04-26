@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import mainReducer from '../views/Main/services/reducer'
+import mainReducer from '../views/MainRouter/services/reducer'
 import createCourseReducer from '../views/CreateCourse/services/reducer'
 import editContentReducer from '../views/EditContent/services/reducer'
 import editInfoReducer from '../views/EditInfo/services/reducer'

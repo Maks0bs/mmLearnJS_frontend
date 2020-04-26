@@ -13,15 +13,23 @@ class AddEntry extends Component {
         this.state = {
             name: '',
             type: '',
-            content: null
+            content: null,
+            teachersOnly: false
         }
 
+    }
+
+    handleTeachersOnly = () => {
+        this.setState({
+            teachersOnly: !this.state.teachersOnly
+        })
     }
 
     handleChange = (name) => (event) => {
         if (name === 'type'){
             this.setState({
-                content: null
+                content: null,
+                teachersOnly: false
             })
         }
 
@@ -40,6 +48,12 @@ class AddEntry extends Component {
         if (type === 'text'){
             content = {
                 text: content
+            }
+        }
+        if (type === 'forum'){
+            content = {
+                description: content,
+                teachersOnly: this.state.teachersOnly
             }
         }
         this.props.addEntry(
@@ -65,7 +79,7 @@ class AddEntry extends Component {
 
 
     render() {
-        let { name, type, content } = this.state;
+        let { name, type, content, teachersOnly } = this.state;
         return (
         	<div className="p-4">
 	            <form onSubmit={this.onSubmit}>
@@ -115,6 +129,30 @@ class AddEntry extends Component {
                                         />
                                     </div>
                                 )
+                            case 'forum': {
+                                return (
+                                    <div>
+                                        <div className="form-group">
+                                            <label className="text-muted">Description</label>
+                                            <input
+                                                onChange={this.handleChange("content")}
+                                                type="text"
+                                                className="form-control"
+                                                value={content || ''}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="text-muted">Only for teachers</label>
+                                            <input
+                                                type="checkbox"
+                                                onClick={this.handleTeachersOnly}
+                                                className="ml-3"
+                                                checked={teachersOnly}
+                                            />
+                                        </div>
+                                    </div>
+                                )
+                            }
                         }
                     })()}
 	  

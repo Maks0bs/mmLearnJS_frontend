@@ -62,7 +62,7 @@ class TeacherActions extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.main
+		...state.views.classroom.course.main.services
 	}
 }
 

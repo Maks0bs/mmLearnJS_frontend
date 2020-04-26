@@ -27,6 +27,7 @@ export let updateSections = (sections) => (dispatch) => {
 }
 
 export let addEntry = (entry, sectionNum) => dispatch => {
+	console.log('entry', entry);
 	dispatch({
 		type: ADD_ENTRY,
 		payload: {

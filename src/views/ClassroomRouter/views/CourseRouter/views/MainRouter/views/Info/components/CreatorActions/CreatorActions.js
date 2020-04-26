@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hideModal, showModal } from '../../../../../../../../components/ModalRoot/services/actions'
+import { hideModal, showModal } from '../../../../../../../../../../components/ModalRoot/services/actions'
 import { connect } from 'react-redux'
 import DeleteCourse from './components/DeleteCourse'
 import AddTeachers from './components/AddTeachers'

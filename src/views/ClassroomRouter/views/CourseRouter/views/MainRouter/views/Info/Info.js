@@ -9,14 +9,9 @@ import TeacherActions from './components/TeacherActions'
 import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
 import InvitedTeacherInfo from './components/InvitedTeacherInfo'
-import { notifications } from '../../../../../../constants'
+import { notifications } from '../../../../../../../../constants'
 
-class Main extends Component {
-
-	componentDidMount(){
-		let courseId = this.props.match.params.courseId;
-		this.props.getCourseById(courseId)
-	}
+class Info extends Component {
 
 	getEnrollmentStatus() {
 		let course = this.props.courseData;
@@ -54,6 +49,7 @@ class Main extends Component {
 	}
 
 	render() {
+		console.log('render info');
 		if (this.props.redirectToDashboard){
 			return (
 				<Redirect to="/classroom/dashboard" />
@@ -131,18 +127,13 @@ class Main extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.main,
+		...state.views.classroom.course.main.info,
+		...state.views.classroom.course.main.services,
 		authenticatedUser: state.services.authenticatedUser
-	}
-}
-
-let mapDispatchToProps = (dispatch) => {
-	return {
-		getCourseById: (courseId) => dispatch(getCourseById(courseId))
 	}
 }
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps
-)(Main);
+	null
+)(Info);

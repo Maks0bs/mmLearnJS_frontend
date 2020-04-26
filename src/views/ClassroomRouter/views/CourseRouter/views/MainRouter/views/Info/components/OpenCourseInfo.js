@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getCourseById, getEnrollmentStatus } from '../services/actions'
+import { getEnrollmentStatus } from '../services/actions'
 
 class OpenCourseInfo extends Component {
 	render() {
@@ -24,7 +24,7 @@ class OpenCourseInfo extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.main
+		...state.views.classroom.course.main.services
 	}
 }
 

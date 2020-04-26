@@ -6,6 +6,7 @@ import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg
 import EditEntry from './components/EditEntry'
 import { getFileById } from '../../../../../../services/actions'
 import DownloadElement from '../../../../../DownloadElement'
+import { Link } from 'react-router-dom'
 
 class Entry extends Component {
 
@@ -22,7 +23,7 @@ class Entry extends Component {
     }
 
 	render() {
-		let { name, type, content } = this.props;
+		let { name, type, content, courseData } = this.props;
 		//switch type
 		console.log('entry props', this.props);	
 		return (
@@ -67,12 +68,34 @@ class Entry extends Component {
                                     />
                                 )
                         	}
-                        	
+                        case 'forum': 
+                            if (content._id){
+                                return (
+                                    <Link
+                                        to={`/classroom/course/${courseData._id}/forum/${content._id}`}
+                                >
+                                    {JSON.stringify(content)}
+                                </Link>
+                                )
+                            }
+                            else{
+                                return (
+                                    <div>
+                                        {'new forum: ' + JSON.stringify(content)}
+                                    </div>
+                                )
+                            }
                     }
                 })()}
 			</div>
 		);
 	}
+}
+
+let mapStateToProps = (state) => {
+    return {
+        ...state.views.classroom.course.editContent
+    }
 }
 
 let mapDispatchToProps = (dispatch) => {
@@ -84,6 +107,6 @@ let mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Entry);
