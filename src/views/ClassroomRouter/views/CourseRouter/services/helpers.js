@@ -1,4 +1,4 @@
-exports.getEnrollmentStatus = (course, user) => {
+export let getEnrollmentStatus = (course, user) => {
 	let courseId = course._id;
 	let result = 'not enrolled';//change to normal constants
 	if (!user || !user._id){
