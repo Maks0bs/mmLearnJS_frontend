@@ -4,14 +4,24 @@ import Info from './views/Info'
 import Forum from './views/Forum'
 import { connect } from 'react-redux'
 import { getCourseById } from './services/actions'
+import _ from 'lodash'
 
 
 class MainRouter extends Component {
 
+	state = {
+		upd: false
+	}
+
+	shouldComponentUpdate(nextProps) {
+		return !_.isEqual(nextProps, this.props);
+	}
+
+
 	render() {
-		this.props.getCourseById(this.props.match.params.courseId);
+		this.props.getCourseById(this.props.match.params.courseId)
 		let { path } = this.props.match;
-		console.log('mainr', path);
+		console.log('mainr props', this.props);
 		return (
 			<div>
 				<Switch>
@@ -33,7 +43,7 @@ class MainRouter extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.services
+		...state.views.classroom.course.main.services
 	}
 }
 

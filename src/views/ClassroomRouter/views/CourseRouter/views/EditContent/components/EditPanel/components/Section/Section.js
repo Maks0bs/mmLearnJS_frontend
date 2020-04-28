@@ -92,6 +92,7 @@ class Section extends Component {
                                                             content={entry.content}
                                                             sectionId={sectionId}
                                                             entryId={index}
+                                                            id={entry._id || null}
                                                         />
                                                     </div>
                                                 </div>

@@ -100,7 +100,7 @@ class ClassroomMenu extends Component {
 		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
 		return (
 			<nav className="navbar navbar-expand-lg navbar-light bg-light">
-				<NavItem pageURI={pathname} path="/classroom" name="Classroom" brand="true"/>
+				<NavItem pageURI={pathname} path="/classroom/dashboard" name="Classroom" brand="true"/>
 		        <ul className="navbar-nav mr-auto">
 		            <NavItem pageURI={pathname} path="/" name="public page" />
 		            <NavItem pageURI={pathname} path="/classroom/page2" name="test2" />

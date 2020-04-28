@@ -16,7 +16,7 @@ class Entry extends Component {
                     color: 'blue'
                 }}
             >
-                {name}
+                File: {name}
             </a>
         )
 	}
@@ -24,7 +24,7 @@ class Entry extends Component {
 
 
 	render() {
-		let { type, name, content, description, courseData } = this.props;
+		let { type, name, content, description, courseData, id } = this.props;
 		return (
 			<div>
 				<h4>{name}</h4>
@@ -39,9 +39,12 @@ class Entry extends Component {
                         case 'forum':
                             return (
                                 <Link
-                                    to={`/classroom/course/${courseData._id}/forum/${content._id}`}
+                                    to={`/classroom/course/${courseData._id}/forum/${id}`}
+                                    style={{
+                                        color: 'blue'
+                                    }}
                                 >
-                                    {JSON.stringify(content)}
+                                    Forum: {name}
                                 </Link>
 
                             )

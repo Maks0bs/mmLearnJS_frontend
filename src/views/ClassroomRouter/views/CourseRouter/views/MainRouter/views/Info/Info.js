@@ -10,43 +10,11 @@ import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
 import InvitedTeacherInfo from './components/InvitedTeacherInfo'
 import { notifications } from '../../../../../../../../constants'
+import { getEnrollmentStatus } from '../../../../services/helpers'
 
 class Info extends Component {
 
-	getEnrollmentStatus() {
-		let course = this.props.courseData;
-		let courseId = course._id;
-		let user = this.props.authenticatedUser;
-		let result = 'not enrolled';//change to normal constants
-		if (!user || !user._id){
-			return 'not logged in'
-		}
 
-		let courses = user.enrolledCourses;
-		let teacherCourses = user.teacherCourses;
-
-		for (let i of courses) {
-			if (i === courseId){
-				return 'enrolled'
-			}
-		}
-
-		if (this.props.courseData.invitedTeachers){
-			return 'invited teacher'
-		}
-
-		if (user._id === course.creator){
-			return 'creator'
-		}
-
-		for (let i of teacherCourses) {
-			if (i === courseId){
-				return 'teacher'
-			}
-		}
-
-		return 'not enrolled'
-	}
 
 	render() {
 		console.log('render info');
@@ -58,7 +26,7 @@ class Info extends Component {
 		if (!this.props.courseData){
 			return null;
 		}
-		let status = this.getEnrollmentStatus();
+		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
 		console.log('enr status' , status);
 		let course;
 		switch (status){

@@ -3,7 +3,7 @@ let { API_CREATE_TOPIC, GET_FORUM_FROM_COURSE } = types;
 
 let initialState = {
 	unread: [],
-	forumDat: {}
+	forumData: {}
 }
 
 export default function(state = initialState, action) {
@@ -16,7 +16,8 @@ export default function(state = initialState, action) {
 		}
 		case GET_FORUM_FROM_COURSE: {
 			return {
-				...state
+				...state,
+				forumData: action.payload
 			}
 		}
 		default:

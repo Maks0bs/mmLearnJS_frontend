@@ -23,7 +23,7 @@ class Entry extends Component {
     }
 
 	render() {
-		let { name, type, content, courseData } = this.props;
+		let { name, type, content, courseData, id } = this.props;
 		//switch type
 		console.log('entry props', this.props);	
 		return (
@@ -56,7 +56,7 @@ class Entry extends Component {
                                             color: 'lightblue'
                                         }}
 									>
-										{content.name}
+										File: {content.name}
 									</a>
 	                        	)
                         	}
@@ -72,16 +72,19 @@ class Entry extends Component {
                             if (content._id){
                                 return (
                                     <Link
-                                        to={`/classroom/course/${courseData._id}/forum/${content._id}`}
+                                        style={{
+                                            color: 'lightblue'
+                                        }}
+                                        to={`/classroom/course/${courseData._id}/forum/${id}`}
                                 >
-                                    {JSON.stringify(content)}
+                                    Forum: {name}
                                 </Link>
                                 )
                             }
                             else{
                                 return (
                                     <div>
-                                        {'new forum: ' + JSON.stringify(content)}
+                                        New forum (will be added){name}
                                     </div>
                                 )
                             }

@@ -15,6 +15,7 @@ class Section extends Component {
 	                            name={entry.name}
 	                            type={entry.type}
 	                            content={entry.content}
+	                            id={entry._id}
 	                        />
 	                    </div>
 	                ))}

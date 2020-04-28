@@ -13,7 +13,7 @@ class DownloadElement extends Component {
                     color: 'lightblue'
                 }}
             >
-                {name}
+                File: {name}
             </a>
         )
     }
