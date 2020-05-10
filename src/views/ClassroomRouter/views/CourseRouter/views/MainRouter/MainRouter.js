@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import Info from './views/Info'
-import Forum from './views/Forum'
+import ForumRouter from './views/ForumRouter'
 import { connect } from 'react-redux'
 import { getCourseById } from './services/actions'
 import _ from 'lodash'
@@ -19,9 +19,13 @@ class MainRouter extends Component {
 
 
 	render() {
-		this.props.getCourseById(this.props.match.params.courseId)
-		let { path } = this.props.match;
+
 		console.log('mainr props', this.props);
+		this.props.getCourseById(this.props.match.params.courseId)
+		if (!this.props.courseData._id){
+			return null;
+		}
+		let { path } = this.props.match;
 		return (
 			<div>
 				<Switch>
@@ -31,8 +35,8 @@ class MainRouter extends Component {
 					/>
 					
 					<Route
-						exact path={`${path}/forum/:forumId`}
-						component={Forum}
+						path={`${path}/forum/:forumId`}
+						component={ForumRouter}
 					/>
 					
 				</Switch>

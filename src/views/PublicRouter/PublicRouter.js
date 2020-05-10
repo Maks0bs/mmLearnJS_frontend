@@ -23,8 +23,10 @@ class PublicRouter extends Component {
 	}
 
 	render() {
-		console.log('render');
-		this.props.getAuthenticatedUser();
+		this.props.getAuthenticatedUser()
+		if (this.props.authenticatedUser === false){
+			return null;
+		}
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page

@@ -25,7 +25,11 @@ class ClassroomRouter extends Component {
 
 
 	render() {
+		console.log(this.props);
 		this.props.getAuthenticatedUser()
+		if (this.props.authenticatedUser === false){
+			return null;
+		}
 		
 		let { path } = this.props.match;
 		return (
@@ -62,7 +66,13 @@ let mapStateToProps = (state) => {
 	}
 }
 
+let mapDispatchToProps = (dispatch) => {
+	return {
+		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+	}
+}
+
 export default connect(
-	null,
-	{ getAuthenticatedUser }
+	mapStateToProps,
+	mapDispatchToProps
 )(ClassroomRouter);
