@@ -10,7 +10,7 @@ import _ from 'lodash'
 class MainRouter extends Component {
 
 	state = {
-		upd: false
+		upd: 0
 	}
 
 	shouldComponentUpdate(nextProps) {
@@ -21,10 +21,13 @@ class MainRouter extends Component {
 	render() {
 
 		console.log('mainr props', this.props);
+		if (!this.props.match.p)
 		this.props.getCourseById(this.props.match.params.courseId)
-		if (!this.props.courseData._id){
-			return null;
-		}
+		.then(() => {
+			this.setState({
+				upd: this.state.upd + 1
+			})
+		})
 		let { path } = this.props.match;
 		return (
 			<div>
@@ -47,7 +50,6 @@ class MainRouter extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.main.services
 	}
 }
 
