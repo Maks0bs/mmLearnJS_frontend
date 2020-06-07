@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { getStreamLink, getForumLink } from '../../../services/helpers'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 
 class Entry extends Component {
 
@@ -24,7 +23,7 @@ class Entry extends Component {
 
 
 	render() {
-		let { type, name, content, description, courseData, id } = this.props;
+		let { type, name, content, description, courseData, id, courseId } = this.props;
 		return (
 			<div>
 				<h4>{name}</h4>
@@ -39,7 +38,7 @@ class Entry extends Component {
                         case 'forum':
                             return (
                                 <Link
-                                    to={`/classroom/course/${courseData._id}/forum/${id}`}
+                                    to={`/classroom/course/${courseId}/forum/${id}`}
                                     style={{
                                         color: 'blue'
                                     }}
@@ -55,12 +54,5 @@ class Entry extends Component {
 	}
 }
 
-let mapStateToProps = (state) => {
-    return {
-        courseData: state.views.classroom.course.main.services.courseData
-    }
-}
 
-export default connect(
-    mapStateToProps
-)(Entry);
+export default Entry;

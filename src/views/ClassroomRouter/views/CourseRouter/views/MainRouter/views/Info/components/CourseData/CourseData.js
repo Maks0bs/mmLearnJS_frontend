@@ -63,6 +63,7 @@ class CourseData extends Component {
 		                            name={section.name}
 		                            entries={section.entries}
 		                            description={section.description}
+		                            courseId={course._id}
 		                        />
 		                    </div>
 		                ))}

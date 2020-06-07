@@ -4,7 +4,6 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { hideModal, showModal } from '../../../../../../../../../../../../components/ModalRoot/services/actions';
 import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import EditEntry from './components/EditEntry'
-import { getFileById } from '../../../../../../services/actions'
 import DownloadElement from '../../../../../DownloadElement'
 import { Link } from 'react-router-dom'
 
@@ -23,7 +22,7 @@ class Entry extends Component {
     }
 
 	render() {
-		let { name, type, content, courseData, id } = this.props;
+		let { name, type, content, id, courseId } = this.props;
 		//switch type
 		console.log('entry props', this.props);	
 		return (
@@ -75,7 +74,7 @@ class Entry extends Component {
                                         style={{
                                             color: 'lightblue'
                                         }}
-                                        to={`/classroom/course/${courseData._id}/forum/${id}`}
+                                        to={`/classroom/course/${courseId}/forum/${id}`}
                                 >
                                     Forum: {name}
                                 </Link>
@@ -95,21 +94,14 @@ class Entry extends Component {
 	}
 }
 
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.editContent
-    }
-}
-
 let mapDispatchToProps = (dispatch) => {
     return {
         hideModal: () => dispatch(hideModal()),
-        showModal: (component) => dispatch(showModal(component)),
-        getFileById: (fileId, ref) => dispatch(getFileById(fileId, ref))
+        showModal: (component) => dispatch(showModal(component))
     }
 }
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(Entry);

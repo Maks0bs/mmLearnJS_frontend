@@ -3,7 +3,7 @@ import Entry from './Entry'
 
 class Section extends Component {
 	render() {
-        let { name, description, entries } = this.props;
+        let { name, description, entries, courseId } = this.props;
 		return (
 			<div>
 				<h3>{name}</h3>
@@ -16,6 +16,7 @@ class Section extends Component {
 	                            type={entry.type}
 	                            content={entry.content}
 	                            id={entry._id}
+	                            courseId={courseId}
 	                        />
 	                    </div>
 	                ))}

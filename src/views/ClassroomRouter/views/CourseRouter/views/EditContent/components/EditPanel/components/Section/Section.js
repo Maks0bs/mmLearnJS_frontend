@@ -31,7 +31,7 @@ class Section extends Component {
     }
 
     render(){
-        let { name, description, entries, sectionId } = this.props;
+        let { name, description, entries, sectionId, courseId } = this.props;
         return (
             <div>
                 <Icon 
@@ -93,6 +93,7 @@ class Section extends Component {
                                                             sectionId={sectionId}
                                                             entryId={index}
                                                             id={entry._id || null}
+                                                            courseId={courseId}
                                                         />
                                                     </div>
                                                 </div>

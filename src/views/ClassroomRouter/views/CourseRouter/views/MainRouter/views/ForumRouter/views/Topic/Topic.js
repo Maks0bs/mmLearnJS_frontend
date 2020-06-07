@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getTopicFromForum, formatTopicPosts } from '../../services/helpers'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect, withRouter } from 'react-router-dom'
 import { answerTopicPost } from '../../services/actions'
 
 class Topic extends Component {
@@ -10,7 +10,8 @@ class Topic extends Component {
 
 		this.state = {
 			replyTo: null,
-			replyText: ''
+			replyText: '',
+			reload: false
 		}
 	}
 
@@ -43,9 +44,26 @@ class Topic extends Component {
 			postId,
 			replyText
 		)
+		.then(() => {
+			this.setState({
+				reload: true
+			})
+		})
 	}
 
 	render() {
+		if (this.state.reload){
+			return (
+				<Redirect
+					to={{
+						pathname: '/reload',
+						state: {
+							page: this.props.location.pathname
+						}
+					}}
+				/>
+			)
+		}
 		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
 
 		let posts = formatTopicPosts(topic.posts);
@@ -69,8 +87,8 @@ class Topic extends Component {
 							>
 								<h5>
 									By { }
-									<Link to={`/classroom/user/${post.data.creator}`}>
-										{post.data.creator}
+									<Link to={`/classroom/user/${post.data.creator._id}`}>
+										{post.data.creator.name}
 									</Link>
 								</h5>
 								<p>{post.data.content}</p>
@@ -151,4 +169,4 @@ export default connect(
 	mapStateToProps,
 	mapDispatchToProps
 )
-(Topic);
+(withRouter(Topic));

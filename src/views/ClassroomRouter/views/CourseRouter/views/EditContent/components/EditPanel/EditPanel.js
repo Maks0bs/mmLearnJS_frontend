@@ -127,6 +127,7 @@ class EditPanel extends Component {
 														description={section.description}
 														entries={section.entries}
 														sectionId={i}
+														courseId={courseData._id}
 													/>
 												</div>
 

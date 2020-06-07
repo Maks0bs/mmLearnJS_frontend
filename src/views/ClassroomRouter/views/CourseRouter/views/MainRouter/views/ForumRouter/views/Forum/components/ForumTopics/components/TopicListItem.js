@@ -16,9 +16,9 @@ class TopicListItem extends Component {
 		    	</td>
 		    	<td>
 		      		<Link
-		      			to={`/classroom/user/${creator}`}
+		      			to={`/classroom/user/${creator._id}`}
 		      		>
-		      			{creator}
+		      			{creator.name}
 		      		</Link>
 		    	</td>
 		    	<td>
