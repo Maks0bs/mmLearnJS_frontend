@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import { getCourseById } from './services/actions'
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
@@ -17,7 +17,6 @@ class Info extends Component {
 
 
 	render() {
-		console.log('render info');
 		if (this.props.redirectToDashboard){
 			return (
 				<Redirect to="/classroom/dashboard" />
@@ -27,7 +26,6 @@ class Info extends Component {
 			return null;
 		}
 		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
-		console.log('enr status' , status);
 		let course;
 		switch (status){
 			case 'not logged in':
@@ -104,4 +102,4 @@ let mapStateToProps = (state) => {
 export default connect(
 	mapStateToProps,
 	null
-)(Info);
+)(withRouter(Info));

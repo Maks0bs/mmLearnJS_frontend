@@ -11,9 +11,7 @@ let {
 // all nested components should only use these actions for backend requests
 
 export let getForumFromCourse = (courseData, forumId) => (dispatch, getState) => {
-	console.log('course', courseData, 'forumid', forumId);
 	if (!courseData.sections){
-		console.log('not accessible!!!!!!!!!!')
 		return dispatch({
 			type: GET_FORUM_FROM_COURSE,
 			payload: 'not accessible'

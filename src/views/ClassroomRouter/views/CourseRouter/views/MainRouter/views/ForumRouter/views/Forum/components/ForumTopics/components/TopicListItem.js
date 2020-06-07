@@ -3,7 +3,6 @@ import { withRouter, Link } from 'react-router-dom'
 
 class TopicListItem extends Component {
 	render() {
-		console.log('topic list item', this.props);
 		let { name, creator, _id } = this.props.topic;
 		let { pathname: path } = this.props.location;
 		return (

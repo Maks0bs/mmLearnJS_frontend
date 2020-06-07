@@ -8,26 +8,45 @@ import _ from 'lodash'
 
 
 class MainRouter extends Component {
+	constructor(){
+		super();
 
-	state = {
-		upd: 0
+		this.upd = 0;
+		this.state = {
+			mounted: false
+		}
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return !_.isEqual(nextProps, this.props);
+	shouldComponentUpdate(nextProps, nextState) {
+		if (!_.isEqual(nextProps, this.props)){
+			this.upd++;
+			return true;
+		}
+		return (!_.isEqual(nextState, this.state) || !_.isEqual(nextProps, this.props)) 
+	}
+
+	componentDidMount() {
+		this.setState({
+			mounted: true
+		})
 	}
 
 
 	render() {
 
-		console.log('mainr props', this.props);
-		if (!this.props.match.p)
-		this.props.getCourseById(this.props.match.params.courseId)
-		.then(() => {
-			this.setState({
-				upd: this.state.upd + 1
-			})
-		})
+		if (!this.state.mounted){
+			return null;
+		}
+
+
+		this.upd++;
+		console.log('!!!render', this.upd, this.props, this.state);
+		if (this.upd % 2 == 1){
+			this.props.getCourseById(this.props.match.params.courseId)
+		}
+		if (!this.props.courseData._id){
+			return null;
+		}
 		let { path } = this.props.match;
 		return (
 			<div>
@@ -50,6 +69,7 @@ class MainRouter extends Component {
 
 let mapStateToProps = (state) => {
 	return {
+		...state.views.classroom.course.main.services
 	}
 }
 

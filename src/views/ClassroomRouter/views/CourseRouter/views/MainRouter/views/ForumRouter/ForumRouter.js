@@ -8,21 +8,42 @@ import _ from 'lodash'
 
 
 class ForumRouter extends Component {
+	constructor() {
+		super();
 
-	state = {
-		upd: false
+		this.upd = 0;
+		this.state = {
+			mounted: false
+		}
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return !_.isEqual(nextProps, this.props);
+	shouldComponentUpdate(nextProps, nextState) {
+		if (!_.isEqual(nextProps, this.props)){
+			this.upd++;
+			return true;
+		}
+		return (!_.isEqual(nextState, this.state) || !_.isEqual(nextProps, this.props))
 	}
+
+	componentDidMount() {
+		this.setState({
+			mounted: true
+		})
+	}
+
 
 
 	render() {
+		if (!this.state.mounted){
+			return null;
+		}
 
-		console.log('render props forum routes', this.props);
-		this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
-		if (!this.props.forumData || !this.props.forumData){
+		this.upd++;
+
+		if (this.upd % 2 == 1){
+			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
+		}
+		if (!this.props.forumData){
 			return null;
 		}
 		if (this.props.forumData === 'not accessible'){
@@ -37,12 +58,12 @@ class ForumRouter extends Component {
 			<div>
 				<Switch>
 					<Route
-						exact path={`${path}/`}
+						exact path={`${path}`}
 						component={Forum}
 					/>
 					
 					<Route
-						path={`${path}/topic/:topicId`}
+						exact path={`${path}/topic/:topicId`}
 						component={Topic}
 					/>
 					

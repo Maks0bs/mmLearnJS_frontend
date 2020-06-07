@@ -10,7 +10,6 @@ class Forum extends Component {
 
 	render(){
 		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
-		console.log('status', status, 'props', this.props);
 		
 		let forumName = this.props.forumData.name;
 		let forumContent = this.props.forumData.content;

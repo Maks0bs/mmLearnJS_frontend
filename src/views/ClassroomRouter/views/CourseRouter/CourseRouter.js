@@ -10,7 +10,6 @@ class CourseRouter extends Component {
 
 	render() {
 		let { path } = this.props.match;
-		console.log('course router', this.props);
 		return (
 			<div>
 				<Switch>

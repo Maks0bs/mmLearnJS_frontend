@@ -29,6 +29,5 @@ export let formatTopicPosts = (posts) => {
 		postsOrdered[i._id] = i;
 	}
 	dfs(posts[0], postsOrdered, result, 0);
-	console.log(result);
 	return result;
 }

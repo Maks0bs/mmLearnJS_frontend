@@ -14,19 +14,36 @@ class ClassroomRouter extends Component {
 	constructor() {
 		super();
 
+		this.upd = 0;
 		this.state = {
-			loaded: false
+			mounted: false
 		}
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return !_.isEqual(nextProps, this.props);
+	shouldComponentUpdate(nextProps, nextState) {
+		if (!_.isEqual(nextProps, this.props)){
+			this.upd++;
+			return true;
+		}
+		return (!_.isEqual(nextState, this.state) || !_.isEqual(nextProps, this.props))
+	}
+
+	componentDidMount() {
+		this.setState({
+			mounted: true
+		})
 	}
 
 
 	render() {
-		console.log(this.props);
-		this.props.getAuthenticatedUser()
+		if (!this.state.mounted){
+			return null;
+		}
+
+		this.upd++;
+		if (this.upd % 2 == 1){
+			this.props.getAuthenticatedUser()
+		}
 		if (this.props.authenticatedUser === false){
 			return null;
 		}

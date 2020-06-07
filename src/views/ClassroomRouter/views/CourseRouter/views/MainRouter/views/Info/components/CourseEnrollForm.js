@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { enrollInCourse, clearMessages } from '../services/actions'
 
@@ -14,6 +14,7 @@ class CourseEnrollForm extends Component {
 
 	componentWillUnmount() {
 		this.props.clearMessages();
+		console.log('cwunmount');
 	}
 
 	handleChange = (name) => (event) => {
@@ -32,7 +33,7 @@ class CourseEnrollForm extends Component {
 		}
 
 		this.props.enrollInCourse(data)
-			.then((data) => {
+			.then(() => {
 				if (!this.props.error){
 					this.setState({
 						password: '',
@@ -45,13 +46,19 @@ class CourseEnrollForm extends Component {
 	}
 
 	render() {
+		console.log('course enroll form', this.props);
 		let { password, reload } = this.state;
 		if (reload){
-			this.props.history.push(this.props.location.pathname);
-			this.setState({
-				reload: false
-			})
-			return null;
+			return (
+				<Redirect 
+					to={{
+						pathname: '/reload',
+						state: {
+							page: this.props.location.pathname
+						}
+					}}
+				/>
+			)
 		}
 		
 		let { enrollmentMessage: message, enrollmentError: error, courseData } = this.props

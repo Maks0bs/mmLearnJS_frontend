@@ -12,7 +12,8 @@ class NewTopic extends Component {
 
         this.state = {
             name: '',
-            content: ''
+            content: '',
+            reload: false
         }
 
     }
@@ -39,7 +40,10 @@ class NewTopic extends Component {
             }
         )
         .then(() => {
-            this.handleLeave();
+            this.setState({
+                reload: true
+            })
+            //this.handleLeave();
         })
     }
 
@@ -49,8 +53,22 @@ class NewTopic extends Component {
 
 
     render() {
-        console.log('new topic props', this.props)
-        let { name, content } = this.state;
+        let { name, content, reload } = this.state;
+
+        if (reload){
+            this.handleLeave();
+            return (
+                <Redirect 
+                    to={{
+                        pathname: '/reload',
+                        state: {
+                            page: this.props.location.pathname
+                        }
+                    }}
+                />
+            );
+        }
+
         return (
         	<div className="container">
 	            <form>

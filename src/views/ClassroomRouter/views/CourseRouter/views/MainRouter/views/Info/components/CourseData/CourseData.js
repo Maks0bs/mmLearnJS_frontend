@@ -43,6 +43,10 @@ class CourseData extends Component {
 	render() {
 		let course = this.props.courseData;
 		let { name, teachers, sections } = course;
+		if (!sections){
+			//Update page if no sections 
+			sections = [];
+		}
 		return (
 			<div>
 				<h1>{name}</h1>

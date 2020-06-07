@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { signin, clearMessages } from './services/actions'
 import { connect } from 'react-redux'
@@ -28,7 +28,9 @@ class Signin extends Component {
     }
 
     handleLeave = () => {
-        this.props.clearMessages();
+
+        console.log('handleLeave', this.props);
+        //this.props.clearMessages();
         this.props.onClose && this.props.onClose();
     }
 
@@ -90,12 +92,22 @@ class Signin extends Component {
     }
 
     render() {
+        console.log('render again')
         let {email, password, loading, reload} = this.state;
         let { error, message } = this.props;
         if (reload){
+            console.log('reload');
             this.handleLeave();
-            window.location.reload()//very very bad solution!!!
-            return null;
+            return (
+                <Redirect 
+                    to={{
+                        pathname: '/reload',
+                        state: {
+                            page: this.props.location.pathname
+                        }
+                    }}
+                />
+            )
         }
         return (
             //TODO: add social login

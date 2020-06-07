@@ -14,19 +14,41 @@ import _ from 'lodash'
 
 
 class PublicRouter extends Component {
-	constructor(){
-		super()
+	constructor() {
+		super();
+
+		this.upd = 0;
+		this.state = {
+			mounted: false
+		}
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return !_.isEqual(nextProps, this.props);
+	shouldComponentUpdate(nextProps, nextState) {
+		if (!_.isEqual(nextProps, this.props)){
+			this.upd++;
+			return true;
+		}
+		return (!_.isEqual(nextState, this.state) || !_.isEqual(nextProps, this.props))
+	}
+
+	componentDidMount() {
+		this.setState({
+			mounted: true
+		})
 	}
 
 	render() {
-		this.props.getAuthenticatedUser()
+		if (!this.state.mounted){
+			return null;
+		}
+		this.upd++;
+		if (this.upd % 2 == 1){
+			this.props.getAuthenticatedUser()
+		}
 		if (this.props.authenticatedUser === false){
 			return null;
 		}
+
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page

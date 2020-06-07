@@ -15,14 +15,12 @@ class Topic extends Component {
 	}
 
 	handleChange = (name) => (event) => {
-		console.log(event);
 		this.setState({
 			[name]: event.target.value
 		})
 	}
 
 	handleReplyClick = (index) => {
-		console.log(index, this.state.replyTo);
 		if (index === this.state.replyTo){
 			this.setState({
 				replyTo: null,
@@ -50,7 +48,6 @@ class Topic extends Component {
 	render() {
 		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
 
-		console.log('topic kfldkfld', topic, 'my props', this.props);
 		let posts = formatTopicPosts(topic.posts);
 		return (
 			<div className="m-3">

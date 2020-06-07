@@ -4,7 +4,6 @@ import TopicListItem from './components/TopicListItem'
 
 class ForumTopics extends Component {
 	render() {
-		console.log('topics', this.props);
 		let { content } = this.props.forumData;
 		let { topics } = content;
 		return (
