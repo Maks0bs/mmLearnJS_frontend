@@ -19,7 +19,10 @@ class Reload extends Component {
 				<Redirect to={this.props.location.state.page} />
 			)
 		} else {
-			return null;
+			//return null;
+			return (
+				<Redirect to={this.props.location.state.page} />
+			)
 		}
 	}
 }

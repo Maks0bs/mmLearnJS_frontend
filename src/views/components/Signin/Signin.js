@@ -30,7 +30,7 @@ class Signin extends Component {
     handleLeave = () => {
 
         console.log('handleLeave', this.props);
-        //this.props.clearMessages();
+        this.props.clearMessages();
         this.props.onClose && this.props.onClose();
     }
 
@@ -96,7 +96,6 @@ class Signin extends Component {
         let {email, password, loading, reload} = this.state;
         let { error, message } = this.props;
         if (reload){
-            console.log('reload');
             this.handleLeave();
             return (
                 <Redirect 

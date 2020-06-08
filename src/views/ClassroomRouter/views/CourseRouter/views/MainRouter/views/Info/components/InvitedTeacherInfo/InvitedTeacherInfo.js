@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { acceptTeacherInvite } from '../../services/actions'
 
 class InvitedTeacherInfo extends Component {
@@ -24,6 +25,20 @@ class InvitedTeacherInfo extends Component {
 	}
 
 	render() {
+
+		if (this.state.redirectToCourse){
+			return (
+                <Redirect 
+                    to={{
+                        pathname: '/reload',
+                        state: {
+                            page: this.props.location.pathname
+                        }
+                    }}
+                />
+            )
+		}
+
 		return (
 			<div>
 				<h5>You are invited to be a teacher</h5>
