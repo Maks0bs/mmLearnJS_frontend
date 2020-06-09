@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { getTopicFromForum, formatTopicPosts } from '../../services/helpers'
+import { getEnrollmentStatus } from '../../../../../../services/helpers'
 import { connect } from 'react-redux'
 import { Link, Redirect, withRouter } from 'react-router-dom'
-import { answerTopicPost } from '../../services/actions'
+import { answerTopicPost, deleteTopicPost } from '../../services/actions'
 
 class Topic extends Component {
 	constructor(){
@@ -51,6 +52,21 @@ class Topic extends Component {
 		})
 	}
 
+	onDeletePost = (e, postId) => {
+		e.preventDefault();
+		this.props.deleteTopicPost(
+			this.props.courseData._id,
+			this.props.forumData._id,
+			this.props.match.params.topicId,
+			postId
+		)
+		.then(() => {
+			this.setState({
+				reload: true
+			})
+		})
+	}
+
 	render() {
 		if (this.state.reload){
 			return (
@@ -64,9 +80,11 @@ class Topic extends Component {
 				/>
 			)
 		}
-		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
 
+		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
+		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
 		let posts = formatTopicPosts(topic.posts);
+
 		return (
 			<div className="m-3">
 				{posts.map((post, i) => (
@@ -95,8 +113,10 @@ class Topic extends Component {
 								
 								
 							</div>
+
 							
-							<a
+
+							<div
 								style={{
 									position: 'absolute',
 									bottom: 0,
@@ -109,10 +129,59 @@ class Topic extends Component {
 										color: 'red'
 									}
 								}}
-								onClick={(e) => this.handleReplyClick(i)}
 							>
-								Answer
-							</a>
+
+								{(() => {
+									if (
+										status === 'enrolled' &&
+										this.props.authenticatedUser._id === post.data.creator._id &&
+										(!post.data.answers || post.data.answers.length === 0)
+									){
+										return (
+											<a
+												style={{
+													color: 'red'
+												}}
+												onClick={(e) => this.onDeletePost(e, post.data._id)}
+											>
+												Delete post
+											</a>
+										)
+									} else if (status === 'teacher' || status === 'creator'){
+										if (!post.data.answers || post.data.answers.length === 0){
+											return (
+												<a
+													style={{
+														color: 'red'
+													}}
+													onClick={(e) => this.onDeletePost(e, post.data._id)}
+												>
+													Delete post
+												</a>
+											)
+										} else if (post.data.answers.length > 0){
+											return (
+												<a
+													style={{
+														color: 'red'
+													}}
+													onClick={(e) => this.onDeletePost(e, post.data._id)}
+												>
+													Delete post tree
+												</a>
+											);
+										}
+									}
+								})()}
+
+								<a
+									className="ml-3"
+									onClick={(e) => this.handleReplyClick(i)}
+								>
+									Answer
+								</a>
+							</div>
+							
 							
 						</div>
 						{this.state.replyTo === i && (
@@ -153,6 +222,7 @@ class Topic extends Component {
 
 let mapStateToProps = (state) => {
 	return {
+		authenticatedUser: state.services.authenticatedUser,
 		...state.views.classroom.course.main.forum,
 		...state.views.classroom.course.main.services
 	}
@@ -161,7 +231,9 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
 	return {
 		answerTopicPost: (courseId, forumId, topicId, postId, post) => 
-			dispatch(answerTopicPost(courseId, forumId, topicId, postId, post))
+			dispatch(answerTopicPost(courseId, forumId, topicId, postId, post)),
+		deleteTopicPost: (courseId, forumId, topicId, postId) => 
+			dispatch(deleteTopicPost(courseId, forumId, topicId, postId))
 	}
 }
 

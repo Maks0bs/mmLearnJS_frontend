@@ -90,6 +90,7 @@ class EditEntry extends Component {
         if (!name){
             return null;
         }
+        console.log('edit entry props', this.props);
         let { sectionNum, entryNum } = this.props;
         let { type, content: oldContent } = this.props.courseData.sections[sectionNum].entries[entryNum];
         return (
@@ -147,6 +148,23 @@ class EditEntry extends Component {
                                                 onChange={this.handleFileChange}
                                             />
                                         </div>
+                                    </div>
+                                )
+                            case 'forum':
+                                return (
+                                    <div>
+                                        <p>
+                                            Please go to the { }
+                                            <Link
+                                                to={`/classroom/course/${this.props.courseData._id}/forum/` + 
+                                                    `${this.props.courseData.sections[sectionNum].entries[entryNum]._id}
+                                                `}
+                                                target="_blank"
+                                            >
+                                               forum page 
+                                            </Link>
+                                            { } to edit forum content as a teacher there
+                                        </p>
                                     </div>
                                 )
                         }

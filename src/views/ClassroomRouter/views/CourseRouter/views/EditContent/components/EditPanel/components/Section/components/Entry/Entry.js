@@ -75,6 +75,7 @@ class Entry extends Component {
                                             color: 'lightblue'
                                         }}
                                         to={`/classroom/course/${courseId}/forum/${id}`}
+                                        target="_blank"
                                 >
                                     Forum: {name}
                                 </Link>

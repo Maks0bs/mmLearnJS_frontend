@@ -3,7 +3,8 @@ let {
 	API_CREATE_TOPIC, 
 	GET_FORUM_FROM_COURSE, 
 	CLEAR_FORUM_DATA,
-	API_ANSWER_TOPIC_POST
+	API_ANSWER_TOPIC_POST,
+	API_DELETE_TOPIC_POST
 } = types;
 
 let initialState = {
@@ -15,6 +16,7 @@ let initialState = {
 export default function(state = initialState, action) {
 	switch(action.type){
 		case API_ANSWER_TOPIC_POST:
+		case API_DELETE_TOPIC_POST:
 		case API_CREATE_TOPIC: {
 			return {
 				...state,
