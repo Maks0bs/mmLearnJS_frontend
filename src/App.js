@@ -4,14 +4,15 @@ import ClassroomRouter from './views/ClassroomRouter'
 import PublicRouter from './views/PublicRouter'
 import ModalRoot from './components/ModalRoot'
 import Reload from './components/Reload'
+import ToastRoot from './components/ToastRoot'
 
 class App extends Component {
-
     render() {
         return (
             <div>
                 <Router>
                     <ModalRoot />
+                    <ToastRoot />
 
                     <Switch>
                         <Route 

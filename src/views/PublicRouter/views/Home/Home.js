@@ -44,16 +44,6 @@ class Home extends Component {
 	            		</Link>
 		            </div>
 	            </div>
-	            
-	            <hr />
-
-	            <button
-	            	onClick={(e) => this.setState({
-	            		reload: true
-	            	})}
-	            >
-	            	Click me
-	            </button>
 
 	        </div>
         );
