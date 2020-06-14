@@ -83,6 +83,13 @@ class Topic extends Component {
 
 		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
 		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
+
+		if (!topic){
+			return (
+				<Redirect to={`/classroom/course/${this.props.courseData._id}/forum/${this.props.forumData._id}`} />
+			)
+		}
+
 		let posts = formatTopicPosts(topic.posts);
 
 		return (
@@ -174,12 +181,20 @@ class Topic extends Component {
 									}
 								})()}
 
-								<a
-									className="ml-3"
-									onClick={(e) => this.handleReplyClick(i)}
-								>
-									Answer
-								</a>
+								{(() => {
+									if (!(status === 'teacher' && status === 'creator') && 
+										this.props.forumData.content.teachersOnly === true
+									){
+										return null;
+									} else return (
+										<a
+											className="ml-3"
+											onClick={(e) => this.handleReplyClick(i)}
+										>
+											Answer
+										</a>
+									)
+								})()}
 							</div>
 							
 							

@@ -13,7 +13,8 @@ class EditEntry extends Component {
 
         this.state = {
             name: '',
-            content: null
+            content: null,
+            access: ''
         }
 
     }
@@ -27,7 +28,8 @@ class EditEntry extends Component {
         }
         this.setState({
             name: entry.name,
-            content: entryContent
+            content: entryContent,
+            access: entry.access
         })
     }
 
@@ -45,7 +47,7 @@ class EditEntry extends Component {
         event.preventDefault();
         let { sectionNum, entryNum } = this.props;
         let { type } = this.props.courseData.sections[sectionNum].entries[entryNum];
-        let { name, content } = this.state;
+        let { name, content, access } = this.state;
         if (type === 'text'){
             content = {
                 text: content
@@ -54,7 +56,8 @@ class EditEntry extends Component {
         this.props.editEntry(
             {
             	name, 
-            	content
+            	content,
+                access
             },
             this.props.sectionNum,
             this.props.entryNum
@@ -85,12 +88,10 @@ class EditEntry extends Component {
 
 
     render() {
-        console.log('edit entry props', this.props);
-        let { name, content } = this.state;
-        if (!name){
+        let { name, content, access } = this.state;
+        /*if (!name){
             return null;
-        }
-        console.log('edit entry props', this.props);
+        }*/
         let { sectionNum, entryNum } = this.props;
         let { type, content: oldContent } = this.props.courseData.sections[sectionNum].entries[entryNum];
         return (
@@ -169,6 +170,19 @@ class EditEntry extends Component {
                                 )
                         }
                     })()}
+
+                    <div className="form-group">
+                        <select 
+                            name="type"
+                            value={access}
+                            onChange={this.handleChange("access")}
+                        >
+                            <option value="">Choose who has access</option>
+                            <option value="teachers">Teachers</option>
+                            <option value="students">Students and teachers</option>
+                            <option value="me">Only me [not finished yet]</option>
+                        </select>
+                    </div>
 	  
 
 	                <button 
@@ -185,12 +199,20 @@ class EditEntry extends Component {
                     >
                         Delete
                     </button>
-	                <button 
-	                    className="btn btn-outline btn-raised btn-success ml-3"
-                        type="submit"
-	                >
-	                    Save
-	                </button>
+
+                    {(() => {
+                        if (type && name){
+                            return (
+                                <button 
+                                    className="btn btn-outline btn-raised btn-success ml-3"
+                                    type="submit"
+                                >
+                                    Save
+                                </button>
+                            )
+                        }
+                    })()}
+
 	            </form>
 	        </div>
         );

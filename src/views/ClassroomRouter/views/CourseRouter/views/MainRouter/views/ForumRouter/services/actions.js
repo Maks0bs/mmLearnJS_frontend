@@ -20,7 +20,7 @@ export let getForumFromCourse = (courseData, forumId) => (dispatch, getState) =>
 	}
 	for (let section of courseData.sections){
 		for (let entry of section.entries){
-			if (entry._id === forumId){
+			if (entry && entry._id === forumId){
 				return dispatch({
 					type: GET_FORUM_FROM_COURSE,
 					payload: entry

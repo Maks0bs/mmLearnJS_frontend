@@ -14,14 +14,15 @@ class AddEntry extends Component {
             name: '',
             type: '',
             content: null,
-            teachersOnly: false
+            teachersOnlyForum: false,
+            access: ''
         }
 
     }
 
-    handleTeachersOnly = () => {
+    handleTeachersOnlyForum = () => {
         this.setState({
-            teachersOnly: !this.state.teachersOnly
+            teachersOnlyForum: !this.state.teachersOnlyForum
         })
     }
 
@@ -29,7 +30,7 @@ class AddEntry extends Component {
         if (name === 'type'){
             this.setState({
                 content: null,
-                teachersOnly: false
+                teachersOnlyForum: false
             })
         }
 
@@ -44,7 +45,7 @@ class AddEntry extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        let { name, type, content } = this.state;
+        let { name, type, content, access } = this.state;
         if (type === 'text'){
             content = {
                 text: content
@@ -53,14 +54,15 @@ class AddEntry extends Component {
         if (type === 'forum'){
             content = {
                 description: content,
-                teachersOnly: this.state.teachersOnly
+                teachersOnly: this.state.teachersOnlyForum
             }
         }
         this.props.addEntry(
             {
             	name, 
             	type,
-                content
+                content,
+                access
             },
             this.props.sectionNum
         )
@@ -79,7 +81,8 @@ class AddEntry extends Component {
 
 
     render() {
-        let { name, type, content, teachersOnly } = this.state;
+        let { name, type, content, teachersOnlyForum, access } = this.state;
+        console.log(access);
         return (
         	<div className="p-4">
 	            <form onSubmit={this.onSubmit}>
@@ -145,9 +148,9 @@ class AddEntry extends Component {
                                             <label className="text-muted">Only for teachers</label>
                                             <input
                                                 type="checkbox"
-                                                onClick={this.handleTeachersOnly}
+                                                onClick={this.handleTeachersOnlyForum}
                                                 className="ml-3"
-                                                checked={teachersOnly}
+                                                checked={teachersOnlyForum}
                                             />
                                         </div>
                                     </div>
@@ -155,6 +158,19 @@ class AddEntry extends Component {
                             }
                         }
                     })()}
+
+                    <div className="form-group">
+                        <select 
+                            name="type"
+                            value={access}
+                            onChange={this.handleChange("access")}
+                        >
+                            <option value="">Choose who has access</option>
+                            <option value="teachers">Teachers</option>
+                            <option value="students">Students and teachers</option>
+                            <option value="me">Only me [not finished yet]</option>
+                        </select>
+                    </div>
 	  
 
 	                <button 
@@ -164,12 +180,19 @@ class AddEntry extends Component {
 	                >
 	                    Cancel
 	                </button>
-	                <button 
-	                    className="btn btn-outline btn-raised btn-success ml-3"
-	                    type="submit"
-	                >
-	                    Add
-	                </button>
+                    {(() => {
+                        if (type && name && access){
+                            return (
+                                <button 
+                                    className="btn btn-outline btn-raised btn-success ml-3"
+                                    type="submit"
+                                >
+                                    Add
+                                </button>
+                            )
+                        }
+                    })()}
+
 	            </form>
 	        </div>
         );
