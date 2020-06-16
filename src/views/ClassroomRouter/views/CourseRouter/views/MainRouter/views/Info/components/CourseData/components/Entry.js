@@ -25,43 +25,45 @@ class Entry extends Component {
 	render() {
 		let { type, name, content, description, access, courseData, id, courseId } = this.props;
 		return (
-			<div>
-				<h4>{name}</h4>
-                {(() => {
-                    if (access !== 'students'){
-                        return (
-                            <p 
-                                style={{
-                                    color: 'red'
-                                }}
-                            >
-                                Not visible to students
-                            </p>
-                        )
-                    } else return null;
-                })()}
-				{(() => {
-                    switch(type) {
-                        case 'text':
-                            return(
-                                <p>{content.text}</p>
-                            )
-                        case 'file':
-                        	return this.getDownloadElement(content.id, content.originalname);
-                        case 'forum':
+			<div className="mt-3">
+				<h4> <strong> {name} </strong> </h4>
+                <div className="ml-3">
+                    {(() => {
+                        if (access !== 'students'){
                             return (
-                                <Link
-                                    to={`/classroom/course/${courseId}/forum/${id}`}
+                                <p 
                                     style={{
-                                        color: 'blue'
+                                        color: 'red'
                                     }}
                                 >
-                                    Forum: {name}
-                                </Link>
-
+                                    Not visible to students
+                                </p>
                             )
-                    }
-                })()}
+                        } else return null;
+                    })()}
+    				{(() => {
+                        switch(type) {
+                            case 'text':
+                                return(
+                                    <p>{content.text}</p>
+                                )
+                            case 'file':
+                            	return this.getDownloadElement(content.id, content.originalname);
+                            case 'forum':
+                                return (
+                                    <Link
+                                        to={`/classroom/course/${courseId}/forum/${id}`}
+                                        style={{
+                                            color: 'blue'
+                                        }}
+                                    >
+                                        Forum: {name}
+                                    </Link>
+
+                                )
+                        }
+                    })()}
+                </div>
 			</div>
 		);
 	}

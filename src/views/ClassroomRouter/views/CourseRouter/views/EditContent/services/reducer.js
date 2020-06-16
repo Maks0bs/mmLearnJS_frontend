@@ -1,6 +1,6 @@
 import types from './actionTypes'
-import _ from 'lodash'
-import FileSaver from 'file-saver'
+import { cloneDeep, assign, extend } from 'lodash'
+import { v1 as uuidv1 } from 'uuid';
 let { 
 	API_EDIT_COURSE, 
 	CLEAR_MESSAGES, 
@@ -12,7 +12,11 @@ let {
 	DELETE_ENTRY,
 	EDIT_SECTION,
 	DELETE_SECTION,
-	API_GET_FILE_BY_ID
+	API_GET_FILE_BY_ID,
+	PRE_DELETE_ENTRY,
+	PRE_DELETE_SECTION,
+	RESTORE_DELETED_ENTRY,
+	RESTORE_DELETED_SECTION
 } = types;
 
 let initialState = {
@@ -20,7 +24,9 @@ let initialState = {
 	error: '',
 	oldCourseData: {},
 	courseData: {},
-	filesToDelete: []
+	filesToDelete: [],
+	deletedSections: {},
+	deletedEntries: {}
 }
 
 export default function(state = initialState, action) {
@@ -49,8 +55,8 @@ export default function(state = initialState, action) {
 				}
 			}
 		case EDIT_SECTION: {
-			let newSections = _.cloneDeep(state.courseData.sections);
-			_.assign(newSections[action.payload.sectionNum], action.payload.section);
+			let newSections = cloneDeep(state.courseData.sections);
+			assign(newSections[action.payload.sectionNum], action.payload.section);
 			return {
 				...state,
 				courseData: {
@@ -59,8 +65,52 @@ export default function(state = initialState, action) {
 				}
 			}
 		}
+		case PRE_DELETE_SECTION: {
+			let { sectionNum } = action.payload;
+			// Deep cloning is not necessary here, but using it now
+			// TODO get rid of deep cloning
+			let newSections = cloneDeep(state.courseData.sections);
+			// Using uuid here, because newly created entries don't have id,
+			// because they weren't pushed to mongo 
+			let curId = uuidv1();
+			let deletedSection = cloneDeep(newSections[sectionNum]);
+			let deletedName = newSections[sectionNum].name;
+			newSections[sectionNum] = {
+				deletedId: curId,
+				deleted: true,
+				name: deletedName
+			}
+			return {
+				...state,
+				courseData: {
+					...state.courseData,
+					sections: newSections
+				},
+				deletedSections: {
+					...state.deletedSections,
+					[curId]: deletedSection
+				}
+			}
+		}
+		case RESTORE_DELETED_SECTION: {
+			let { sectionNum } = action.payload;
+			let curId = state.courseData.sections[sectionNum].deletedId;
+			let newSections = cloneDeep(state.courseData.sections);
+			newSections[sectionNum] = cloneDeep(state.deletedSections[curId]);
+			return {
+				...state,
+				courseData: {
+					...state.courseData,
+					sections: newSections
+				},
+				deletedSections: {
+					...state.deletedSections,
+					[curId]: undefined
+				}
+			}
+		}
 		case DELETE_SECTION: {
-			let newSections = _.cloneDeep(state.courseData.sections);
+			let newSections = cloneDeep(state.courseData.sections);
 			newSections.splice(action.payload.sectionNum, 1);
 			return {
 				...state,
@@ -71,7 +121,7 @@ export default function(state = initialState, action) {
 			}
 		}
 		case ADD_ENTRY: {
-			let newSections = _.cloneDeep(state.courseData.sections);
+			let newSections = cloneDeep(state.courseData.sections);
 			newSections[action.payload.sectionNum].entries.push(action.payload.entry);
 			return {
 				...state,
@@ -83,9 +133,8 @@ export default function(state = initialState, action) {
 		}
 		case EDIT_ENTRY: {
 			let { entry, sectionNum, entryNum } = action.payload;
-			console.log(action);
-			let newSections = _.cloneDeep(state.courseData.sections);
-			newSections[sectionNum].entries[entryNum] = _.extend(newSections[sectionNum].entries[entryNum], entry);
+			let newSections = cloneDeep(state.courseData.sections);
+			newSections[sectionNum].entries[entryNum] = extend(newSections[sectionNum].entries[entryNum], entry);
 			return {
 				...state,
 				courseData: {
@@ -94,9 +143,54 @@ export default function(state = initialState, action) {
 				}
 			}
 		}
+		case PRE_DELETE_ENTRY: {
+			let { sectionNum, entryNum } = action.payload;
+			// Deep cloning is not necessary here, but using it now
+			// TODO get rid of deep cloning
+			let newSections = cloneDeep(state.courseData.sections);
+			// Using uuid here, because newly created entries don't have id,
+			// because they weren't pushed to mongo 
+			let curId = uuidv1();
+			let deletedEntry = cloneDeep(newSections[sectionNum].entries[entryNum]);
+			let deletedName = newSections[sectionNum].entries[entryNum].name;
+			newSections[sectionNum].entries[entryNum] = {
+				deletedId: curId,
+				type: 'deleted',
+				name: deletedName
+			}
+			return {
+				...state,
+				courseData: {
+					...state.courseData,
+					sections: newSections
+				},
+				deletedEntries: {
+					...state.deletedEntries,
+					[curId]: deletedEntry
+				}
+			}
+		}
+		case RESTORE_DELETED_ENTRY: {
+			let { sectionNum, entryNum } = action.payload;
+			let curId = state.courseData.sections[sectionNum].entries[entryNum].deletedId;
+			let newSections = cloneDeep(state.courseData.sections);
+			newSections[sectionNum].entries[entryNum] = cloneDeep(state.deletedEntries[curId]);
+			console.log('new data', newSections[sectionNum].entries[entryNum]);
+			return {
+				...state,
+				courseData: {
+					...state.courseData,
+					sections: newSections
+				},
+				deletedEntries: {
+					...state.deletedEntries,
+					[curId]: undefined
+				}
+			}
+		}
 		case DELETE_ENTRY: {
 			let { sectionNum, entryNum } = action.payload;
-			let newSections = _.cloneDeep(state.courseData.sections);
+			let newSections = cloneDeep(state.courseData.sections);
 			newSections[sectionNum].entries.splice(entryNum, 1);
 			return {
 				...state,
@@ -108,6 +202,14 @@ export default function(state = initialState, action) {
 		}
 		/*case CLEAR_MESSAGES:
 			return initialState*/
+		case API_EDIT_COURSE: {
+			//TODO remove unused refs
+			return {
+				...initialState,
+				oldCourseData: state.oldCourseData,
+				courseData: state.courseData
+			}
+		}
 		default:
 			return state;
 	}

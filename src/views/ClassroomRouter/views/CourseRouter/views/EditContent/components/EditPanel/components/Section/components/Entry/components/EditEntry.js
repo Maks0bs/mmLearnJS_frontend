@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
-import { editEntry, deleteEntry } from '../../../../../../../services/actions'
+import { editEntry, preDeleteEntry } from '../../../../../../../services/actions'
 import { connect } from 'react-redux'
 import DownloadElement from '../../../../../../DownloadElement'
 
@@ -13,7 +13,7 @@ class EditEntry extends Component {
 
         this.state = {
             name: '',
-            content: null,
+            content: '',
             access: ''
         }
 
@@ -65,13 +65,11 @@ class EditEntry extends Component {
         this.handleLeave();
     }
 
-    onDelete = (event) => {
+    onPreDelete = (event) => {
         event.preventDefault();
-        this.props.deleteEntry(
+        this.props.preDeleteEntry(
             this.props.sectionNum,
-            this.props.entryNum,
-            this.props.type,
-            this.props.content
+            this.props.entryNum
         )
         this.handleLeave();
     }
@@ -194,7 +192,7 @@ class EditEntry extends Component {
 	                </button>
                     <button 
                         className="btn btn-outline btn-raised btn-danger ml-3"
-                        onClick={this.onDelete}
+                        onClick={this.onPreDelete}
                         type="button"
                     >
                         Delete
@@ -222,7 +220,7 @@ class EditEntry extends Component {
 let mapDispatchToProps = (dispatch) => {
     return {
         editEntry: (entry, sectionNum, entryNum) => dispatch(editEntry(entry, sectionNum, entryNum)),
-        deleteEntry: (sectionNum, entryNum, type, content) => dispatch(deleteEntry(sectionNum, entryNum, type, content))
+        preDeleteEntry: (sectionNum, entryNum, type, content) => dispatch(preDeleteEntry(sectionNum, entryNum, type, content))
     }
 }
 

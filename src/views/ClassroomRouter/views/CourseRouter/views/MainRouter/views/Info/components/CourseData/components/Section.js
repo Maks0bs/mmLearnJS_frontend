@@ -6,7 +6,7 @@ class Section extends Component {
         let { name, description, entries, courseId } = this.props;
 		return (
 			<div>
-				<h3>{name}</h3>
+				<h3> <strong> {name} </strong> </h3>
                 <p>{description}</p>
                 <div className="ml-4">
 	                {entries.map((entry, i) => {

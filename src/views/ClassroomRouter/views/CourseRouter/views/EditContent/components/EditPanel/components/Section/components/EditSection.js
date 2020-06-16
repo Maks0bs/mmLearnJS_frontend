@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
-import { editSection, deleteSection } from '../../../../../services/actions'
+import { editSection, preDeleteSection } from '../../../../../services/actions'
 import { connect } from 'react-redux'
 
 
@@ -49,9 +49,9 @@ class EditSection extends Component {
         this.handleLeave();
     }
 
-    onDelete = (event) => {
+    onPreDelete = (event) => {
         event.preventDefault();
-        this.props.deleteSection(
+        this.props.preDeleteSection(
             this.props.sectionNum
         )
         this.handleLeave();
@@ -97,7 +97,7 @@ class EditSection extends Component {
 	                </button>
                     <button 
                         className="btn btn-outline btn-raised btn-danger ml-3"
-                        onClick={this.onDelete}
+                        onClick={this.onPreDelete}
                         type="button"
                     >
                         Delete
@@ -117,7 +117,7 @@ class EditSection extends Component {
 let mapDispatchToProps = (dispatch) => {
     return {
         editSection: (section, sectionNum) => dispatch(editSection(section, sectionNum)),
-        deleteSection: (sectionNum) => dispatch(deleteSection(sectionNum))
+        preDeleteSection: (sectionNum) => dispatch(preDeleteSection(sectionNum))
     }
 }
 

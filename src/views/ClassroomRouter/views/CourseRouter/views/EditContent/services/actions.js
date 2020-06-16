@@ -2,6 +2,7 @@ import types from './actionTypes'
 import { updateCourse } from '../../../services/actions'
 import { REACT_APP_API_URL } from '../../../../../../../constants'
 import { getCoursesFiltered, uploadFiles, streamFileById } from '../../../../../../../services/actions'
+import { cloneDeep } from 'lodash'
 let { 
 	API_EDIT_COURSE, 
 	CLEAR_MESSAGES, 
@@ -13,7 +14,11 @@ let {
 	DELETE_ENTRY,
 	DELETE_SECTION,
 	EDIT_SECTION,
-	API_GET_FILE_BY_ID
+	API_GET_FILE_BY_ID,
+	PRE_DELETE_ENTRY,
+	PRE_DELETE_SECTION,
+	RESTORE_DELETED_ENTRY,
+	RESTORE_DELETED_SECTION
 } = types;
 
 // all api requests related to Home view will be placed here
@@ -27,7 +32,6 @@ export let updateSections = (sections) => (dispatch) => {
 }
 
 export let addEntry = (entry, sectionNum) => dispatch => {
-	console.log('entry', entry);
 	dispatch({
 		type: ADD_ENTRY,
 		payload: {
@@ -48,8 +52,27 @@ export let editEntry = (entry, sectionNum, entryNum) => dispatch => {
 	})
 }
 
-export let deleteEntry = (sectionNum, entryNum, type, content) => dispatch => {
-	console.log('delete entry data', sectionNum, entryNum, type, content);
+export let preDeleteEntry = (sectionNum, entryNum) => dispatch => {
+	dispatch({
+		type: PRE_DELETE_ENTRY,
+		payload: {
+			sectionNum,
+			entryNum
+		}
+	})
+}
+
+export let restoreDeletedEntry = (sectionNum, entryNum) => dispatch => {
+	dispatch({
+		type: RESTORE_DELETED_ENTRY,
+		payload: {
+			sectionNum,
+			entryNum
+		}
+	})
+}
+
+export let deleteEntry = (sectionNum, entryNum) => dispatch => {
 	dispatch({
 		type: DELETE_ENTRY,
 		payload: {
@@ -65,6 +88,24 @@ export let addSection = (section) => (dispatch) => {
 		payload: {
 			...section,
 			entries: []
+		}
+	})
+}
+
+export let preDeleteSection = (sectionNum) => dispatch => {
+	dispatch({
+		type: PRE_DELETE_SECTION,
+		payload: {
+			sectionNum
+		}
+	})
+}
+
+export let restoreDeletedSection = (sectionNum) => dispatch => {
+	dispatch({
+		type: RESTORE_DELETED_SECTION,
+		payload: {
+			sectionNum
 		}
 	})
 }
@@ -88,22 +129,32 @@ export let editSection = (section, sectionNum) => dispatch => {
 	})
 }
 
-export let saveChanges = (courseData) => (dispatch) => {	
-	console.log(courseData);
+export let saveChanges = (courseData) => (dispatch) => {
 	let form = new FormData();
 	let filePositions = [];
 	let { sections } = courseData;
+	let newSections = [];
 	for (let i = 0; i < sections.length; i++){
+		// TODO check if section is deleted!!!!
+		if (sections[i].deleted){
+			continue;
+		}
+		newSections.push(cloneDeep(sections[i]));
+		newSections[newSections.length - 1].entries = [];
 		for (let j = 0; j < sections[i].entries.length; j++){
 			let entry = sections[i].entries[j];
+			if (entry.type === 'deleted'){
+				continue;
+			}
 			if (entry.type === 'file' && !entry.content.id){
 				form.append('files', entry.content);
 				filePositions.push({ section: i, entry: j})
 			}
-
-
+			newSections[newSections.length - 1].entries.push(entry);
 		}
 	}
+
+	courseData.sections = newSections;
 
 	form.set('newCourseData', JSON.stringify(courseData));
 	form.set('filesPositions', JSON.stringify(filePositions));

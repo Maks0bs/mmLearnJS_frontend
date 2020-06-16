@@ -6,40 +6,6 @@ import Section from './components/Section'
 
 class CourseData extends Component {
 
-	renderEntry = ({ type, name, content, description }, key) => {
-
-		//switch( type ){}
-
-		return (
-			<div key={key}>
-				<h4>{name}</h4>
-				<p className="ml-4">{JSON.stringify(content)}</p>
-			</div>
-		)
-	}
-
-	renderSection = ({ name, description, entries }, key) => {
-		let entriesList = []
-		for (let i of entries) {
-			entriesList.push(
-				this.renderEntry(i, uuidv1())
-			)
-		}
-		return (
-			<div key={key}>
-				<div className="ml-4">
-					<h3>{name}</h3>
-					<p className="ml-5">{description}</p>
-				</div>
-				
-				<div className="ml-5">
-					{entriesList}
-				</div>
-
-			</div>
-		)
-	}
-
 	render() {
 		let course = this.props.courseData;
 		let { name, teachers, sections } = course;

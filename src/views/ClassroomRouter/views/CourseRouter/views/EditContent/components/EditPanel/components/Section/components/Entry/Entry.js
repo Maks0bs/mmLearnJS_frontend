@@ -6,10 +6,12 @@ import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg
 import EditEntry from './components/EditEntry'
 import DownloadElement from '../../../../../DownloadElement'
 import { Link } from 'react-router-dom'
+import { deleteEntry, restoreDeletedEntry } from '../../../../../../services/actions'
 
 class Entry extends Component {
 
-	showEditEntryModal = () => {
+	showEditEntryModal = (e) => {
+        e.preventDefault();
         this.props.showModal(
             <EditEntry 
                 onClose={this.props.hideModal} 
@@ -21,10 +23,47 @@ class Entry extends Component {
         )
     }
 
+    onDelete = (e) => {
+        e.preventDefault();
+        this.props.deleteEntry(
+            this.props.sectionId,
+            this.props.entryId
+        )
+    }
+
+    onRestore = (e) => {
+        e.preventDefault();
+        this.props.restoreDeletedEntry(
+            this.props.sectionId,
+            this.props.entryId
+        )
+    }
+
 	render() {
 		let { name, type, content, id, courseId } = this.props;
 		//switch type
-		console.log('entry props', this.props);	
+		if (type === 'deleted'){
+            return (
+                <div>
+                    <p> Deleted entry <strong> {name} </strong> </p>
+                    <a
+                        href="#void"
+                        style={{color: 'lightblue'}}
+                        onClick={this.onRestore}
+                    > 
+                        Restore 
+                    </a>
+                    <a 
+                        href="#void"
+                        className="ml-2"
+                        style={{color: 'brown'}}
+                        onClick={this.onDelete}
+                    > 
+                        Do not show anymore
+                    </a>
+                </div>
+            )
+        }
 		return (
 			<div>
 				<Icon 
@@ -36,6 +75,11 @@ class Entry extends Component {
 					}}
 				/>
 				<h4>{name}</h4>
+                {(() => {
+                    if (!id){
+                        return <p style={{color: 'green'}}> new </p>
+                    } else return null
+                })()}
 				<p>Type: {type}</p>
 				{(() => {
                     switch(type) {
@@ -98,7 +142,11 @@ class Entry extends Component {
 let mapDispatchToProps = (dispatch) => {
     return {
         hideModal: () => dispatch(hideModal()),
-        showModal: (component) => dispatch(showModal(component))
+        showModal: (component) => dispatch(showModal(component)),
+        deleteEntry: (sectionNum, entryNum) => 
+            dispatch(deleteEntry(sectionNum, entryNum)),
+        restoreDeletedEntry: (sectionNum, entryNum) => 
+            dispatch(restoreDeletedEntry(sectionNum, entryNum))
     }
 }
 

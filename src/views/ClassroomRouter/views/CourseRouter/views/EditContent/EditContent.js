@@ -24,7 +24,6 @@ class EditContent extends Component {
 	}
 
 	render() {
-		console.log('propssss', this.props);
 		let { authenticatedUser: user } = this.props;
 		if (!(user && user._id && user.role === 'teacher')){
 			return (

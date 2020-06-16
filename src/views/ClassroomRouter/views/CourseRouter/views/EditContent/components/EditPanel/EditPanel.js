@@ -82,6 +82,7 @@ class EditPanel extends Component {
 			<DragDropContext
 				onDragEnd={this.onDragEnd}
 			>
+				<p className="ml-3 mt-2"> <Icon icon={faAlignJustify} /> = Move around sections and entries </p>
 				<Droppable droppableId="droppableRoot" type={SECTIONS}>
 					{(provided, snapshot) => (
 						<div
@@ -128,6 +129,7 @@ class EditPanel extends Component {
 														entries={section.entries}
 														sectionId={i}
 														courseId={courseData._id}
+														deleted={section.deleted}
 													/>
 												</div>
 
