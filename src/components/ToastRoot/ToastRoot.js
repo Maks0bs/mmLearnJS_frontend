@@ -8,7 +8,7 @@ class ToastRoot extends Component {
         return (
             <div>
                 <ToastContainer
-                    autoClose={7000}
+                    autoClose={4000}
                     position="bottom-left"
                 />
             </div>

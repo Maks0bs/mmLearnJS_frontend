@@ -5,7 +5,7 @@ import Main from './views/Main'
 import { getAuthenticatedUser } from '../../services/actions'
 import { connect } from 'react-redux'
 import ActivationMessage from '../components/ActivationMessage'
-import User from './views/User'
+import UserRouter from './views/UserRouter'
 import Dashboard from './views/Dashboard'
 import CourseRouter from './views/CourseRouter'
 import _ from 'lodash'
@@ -41,7 +41,7 @@ class ClassroomRouter extends Component {
 		}
 
 		this.upd++;
-		if (this.upd % 2 == 1){
+		if (this.upd % 2 === 1){
 			this.props.getAuthenticatedUser()
 		}
 		if (this.props.authenticatedUser === false){
@@ -60,16 +60,16 @@ class ClassroomRouter extends Component {
 						component={Main}
 					/>
 					<Route
-						exact path={`${path}/user/:userId`}
-						component={User}
-					/>
-					<Route
 						exact path={`${path}/dashboard`}
 						component={Dashboard}
 					/>
 					<Route
 						path={`${path}/course`}
 						component={CourseRouter}
+					/>
+					<Route
+						path={`${path}/user/:userId`}
+						component={UserRouter}
 					/>
 				</Switch>
 			</div>

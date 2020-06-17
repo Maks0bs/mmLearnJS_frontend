@@ -15,7 +15,7 @@ class AddEntry extends Component {
             type: '',
             content: null,
             teachersOnlyForum: false,
-            access: ''
+            access: 'students'
         }
 
     }
@@ -145,10 +145,10 @@ class AddEntry extends Component {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label className="text-muted">Only for teachers</label>
+                                            <label className="text-muted">Only teachers can post</label>
                                             <input
                                                 type="checkbox"
-                                                onClick={this.handleTeachersOnlyForum}
+                                                onChange={this.handleTeachersOnlyForum}
                                                 className="ml-3"
                                                 checked={teachersOnlyForum}
                                             />
@@ -160,15 +160,14 @@ class AddEntry extends Component {
                     })()}
 
                     <div className="form-group">
+                        <label className="text-muted mr-2">Choose who has access:</label>
                         <select 
-                            name="type"
+                            name="access"
                             value={access}
                             onChange={this.handleChange("access")}
                         >
-                            <option value="">Choose who has access</option>
-                            <option value="teachers">Teachers</option>
                             <option value="students">Students and teachers</option>
-                            <option value="me">Only me [not finished yet]</option>
+                            <option value="teachers">Teachers</option>
                         </select>
                     </div>
 	  

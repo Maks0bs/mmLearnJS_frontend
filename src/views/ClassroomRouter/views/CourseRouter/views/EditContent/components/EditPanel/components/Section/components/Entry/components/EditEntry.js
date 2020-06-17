@@ -3,6 +3,7 @@ import { Link, Redirect, withRouter } from 'react-router-dom'
 import { editEntry, preDeleteEntry } from '../../../../../../../services/actions'
 import { connect } from 'react-redux'
 import DownloadElement from '../../../../../../DownloadElement'
+import { extend } from 'lodash'
 
 
 // make controlled components
@@ -14,17 +15,46 @@ class EditEntry extends Component {
         this.state = {
             name: '',
             content: '',
-            access: ''
+            access: '',
+            teachersOnlyForum: false
         }
 
     }
 
     componentDidMount() {
+        /* 
+            Here entries are handled differently depending on their type:
+            Forum:
+                state.content = content.description
+                seperate variable for teachersOnly
+            Text:
+                state.content = content.text
+            File:
+                the file itself can only be reuploaded, that's why
+                state.content = new file (if any)
+
+            Only one state varialbe for different types of content is used to keep
+            code more flexible (but, unfortunately it makes it less understandable)
+        */
         let { sectionNum, entryNum } = this.props;
         let entry = this.props.courseData.sections[sectionNum].entries[entryNum];
         let entryContent = entry.content;
-        if (entry.type === 'text'){
-            entryContent = entryContent.text;
+        console.log(entryContent);
+        switch (entry.type){
+            case 'text': {
+                entryContent = entryContent.text;
+                break;
+            }
+            case 'forum': {
+                entryContent = entryContent.description
+                this.setState({
+                    teachersOnlyForum: entry.content.teachersOnly
+                })
+                break;
+            }
+            default: 
+                entryContent = entry.content;
+                break;
         }
         this.setState({
             name: entry.name,
@@ -39,6 +69,12 @@ class EditEntry extends Component {
         })
     }
 
+    handleTeachersOnlyForum = () => {
+        this.setState({
+            teachersOnlyForum: !this.state.teachersOnlyForum
+        })
+    }
+
     handleLeave = () => {
         this.props.onClose && this.props.onClose();
     }
@@ -46,8 +82,25 @@ class EditEntry extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         let { sectionNum, entryNum } = this.props;
-        let { type } = this.props.courseData.sections[sectionNum].entries[entryNum];
-        let { name, content, access } = this.state;
+        let oldEntry = this.props.courseData.sections[sectionNum].entries[entryNum];
+        let { type } = oldEntry;
+        let { name, content, access, teachersOnlyForum } = this.state;
+        switch (type){
+            case 'text': {
+                content = {
+                    text: content
+                }
+                break;
+            }
+            case 'forum': {
+                content = extend(oldEntry.content, {
+                    teachersOnly: teachersOnlyForum,
+                    description: content
+                });
+            }
+            default:
+                break;
+        }
         if (type === 'text'){
             content = {
                 text: content
@@ -86,7 +139,7 @@ class EditEntry extends Component {
 
 
     render() {
-        let { name, content, access } = this.state;
+        let { name, content, access, teachersOnlyForum } = this.state;
         /*if (!name){
             return null;
         }*/
@@ -152,6 +205,24 @@ class EditEntry extends Component {
                             case 'forum':
                                 return (
                                     <div>
+                                        <div className="form-group">
+                                            <label className="text-muted">Description</label>
+                                            <input
+                                                onChange={this.handleChange("content")}
+                                                type="text"
+                                                className="form-control"
+                                                value={content || ''}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="text-muted">Only teachers can post</label>
+                                            <input
+                                                type="checkbox"
+                                                onChange={this.handleTeachersOnlyForum}
+                                                className="ml-3"
+                                                checked={teachersOnlyForum}
+                                            />
+                                        </div>
                                         <p>
                                             Please go to the { }
                                             <Link
@@ -170,15 +241,14 @@ class EditEntry extends Component {
                     })()}
 
                     <div className="form-group">
+                        <label className="text-muted mr-2">Choose who has access:</label>
                         <select 
-                            name="type"
+                            name="access"
                             value={access}
                             onChange={this.handleChange("access")}
                         >
-                            <option value="">Choose who has access</option>
-                            <option value="teachers">Teachers</option>
                             <option value="students">Students and teachers</option>
-                            <option value="me">Only me [not finished yet]</option>
+                            <option value="teachers">Teachers</option>
                         </select>
                     </div>
 	  

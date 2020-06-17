@@ -18,7 +18,7 @@ export let getEnrollmentStatus = (course, user) => {
 		return 'invited teacher'
 	}
 
-	if (user._id === course.creator){
+	if (user._id === course.creator._id){
 		return 'creator'
 	}
 

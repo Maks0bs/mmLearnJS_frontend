@@ -41,7 +41,7 @@ class MainRouter extends Component {
 
 		this.upd++;
 		console.log('!!!render', this.upd, this.props, this.state);
-		if (this.upd % 2 == 1){
+		if (this.upd % 2 === 1){
 			this.props.getCourseById(this.props.match.params.courseId)
 		}
 		if (!this.props.courseData._id){

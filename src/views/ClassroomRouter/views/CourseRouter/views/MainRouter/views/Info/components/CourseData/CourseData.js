@@ -18,7 +18,18 @@ class CourseData extends Component {
 				<h1>{name}</h1>
 				<div className="ml-4">
 					<h2>Teachers:</h2>
-					<p className="ml-3">{JSON.stringify(teachers)}</p>
+					<div className="ml-4">
+						{teachers.map((teacher, i) => (
+							<div key={i}>
+								<Link
+									to={`/classroom/user/${teacher._id}`}
+									target="_blank"
+								>
+									{teacher.name}
+								</Link>
+							</div>
+						))}
+					</div>
 				</div>
 				<div className="ml-4">
 					<h2>Sections:</h2>

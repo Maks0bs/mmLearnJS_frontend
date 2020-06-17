@@ -182,7 +182,7 @@ class Topic extends Component {
 								})()}
 
 								{(() => {
-									if (!(status === 'teacher' && status === 'creator') && 
+									if (!(status === 'teacher' || status === 'creator') && 
 										this.props.forumData.content.teachersOnly === true
 									){
 										return null;
