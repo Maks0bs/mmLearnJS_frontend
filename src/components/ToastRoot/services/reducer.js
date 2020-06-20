@@ -22,6 +22,9 @@ export default (state = initialState, action) => {
                     case 'success':
                         t = toast.success(action.component);
                         break;
+                    case 'error':
+                        t = toast.error(action.component);
+                        break;
                     default:
                         t = toast(action.component)
                 }

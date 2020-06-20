@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import DefaultUserAvatar from '../../../../../../res/images/DefaultUserAvatar.png'
+import { REACT_APP_API_URL } from "../../../../../../constants";
 
 class User extends Component {
 
@@ -10,22 +12,22 @@ class User extends Component {
 			<div className="container">
 				<h2 className="mt-5 mb-5">Profile</h2>
 				<div className="row">
-					{/*<div className="col-md-4">
+					<div className="col-md-4">
 
 						<img
-							src={photoUrl}
+							src={`${REACT_APP_API_URL}/files/download/${user.photo}`}
 							alt={user.name}
 							className="card-img-top"
 							style={{
 								width: 'auto',
 								height: '200px'
 							}}
-							onError={i => (i.target.src = `${DefaultProfile}`)}
+							onError={e => (e.target.src = `${DefaultUserAvatar}`)}
 						/>
 
 
 
-					</div>*/}
+					</div>
 
 					<div className="col-md-8">
 						<div className="lead mt-2">
@@ -56,6 +58,7 @@ class User extends Component {
 				<div className="row">
 					<div className="col-md-12 mt-5 mb-5">
 						<hr/>
+						<h4>About</h4>
 						<p className="lead">{user.about}</p>
 						<hr/>
 
