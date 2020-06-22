@@ -1,12 +1,19 @@
 import types from './actionTypes'
+import React from "react";
 import { getUserById } from '../../../../../services/actions'
 import {REACT_APP_API_URL} from "../../../../../constants";
+import toastTypes from "../../../../../components/ToastRoot/services/actionTypes";
+
+let {
+    ADD_TOAST
+} = toastTypes
 let {
     API_GET_USER_BY_ID,
     API_UPDATE_USER,
+    SET_HIDDEN_FIELDS,
     FILE_ERROR,
-    CLEAR_MESSAGES,
-    REDIRECT_TO_PROFILE
+    CLEAR_ERROR,
+    API_SEND_ACTIVATION
 } = types;
 
 export let getUser = (userId) => (dispatch) => {
@@ -17,8 +24,12 @@ export let updateUser = (data, id) => (dispatch) => {
     let form = new FormData();
 
     if (data.fileSize > 10000000){
-        return dispatch({
+        dispatch({
             type: FILE_ERROR
+        });
+
+        return new Promise((resolve, reject) => {
+            resolve(true);
         })
     }
 
@@ -49,8 +60,32 @@ export let updateUser = (data, id) => (dispatch) => {
         .catch(err => console.log(err))
 }
 
-export let clearMessages = () => (dispatch) => {
+export let setHiddenFields = (newFields) => (dispatch) => {
     return dispatch({
-        type: CLEAR_MESSAGES
+        type: SET_HIDDEN_FIELDS,
+        payload: newFields
     })
+}
+
+export let clearError = () => (dispatch) => {
+    return dispatch({
+        type: CLEAR_ERROR
+    })
+}
+
+export let sendActivation = () => (dispatch) => {
+    return fetch(`${REACT_APP_API_URL}/auth/send-activation`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        credentials: 'include'
+    })
+        .then(res => res.json())
+        .then(data => dispatch({
+            type: API_SEND_ACTIVATION,
+            payload: data
+        }))
+        .catch(err => console.log(err))
 }

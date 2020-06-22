@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import { acceptTeacherInvite } from '../../services/actions'
+import { addToast } from "../../../../../../../../../../components/ToastRoot/services/actions";
 
 class InvitedTeacherInfo extends Component {
 	constructor() {
@@ -17,9 +18,30 @@ class InvitedTeacherInfo extends Component {
 		this.props.acceptTeacherInvite(this.props.courseData._id)
 		.then(() => {
 			if (!this.props.error){
+				this.props.addToast(
+					(
+						<div>
+							You are a teacher in the course
+						</div>
+					),
+					{
+						type: 'success'
+					}
+				)
 				this.setState({
 					redirectToCourse: true
 				})
+			} else {
+				this.props.addToast(
+					(
+						<div>
+							{this.props.error}
+						</div>
+					),
+					{
+						type: 'error'
+					}
+				)
 			}
 		})
 	}
@@ -62,7 +84,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		acceptTeacherInvite: (courseId) => dispatch(acceptTeacherInvite(courseId))
+		acceptTeacherInvite: (courseId) => dispatch(acceptTeacherInvite(courseId)),
+		addToast: (component, options) => dispatch(addToast(component, options))
 	}
 }
 
@@ -70,4 +93,4 @@ export default connect(
 	mapStateToProps,
 	mapDispatchToProps
 )
-(InvitedTeacherInfo);
+(withRouter(InvitedTeacherInfo));

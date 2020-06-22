@@ -10,6 +10,8 @@ import { getAuthenticatedUser } from '../../services/actions'
 import ActivationMessage from '../components/ActivationMessage'
 import InviteSignup from './views/InviteSignup'
 import _ from 'lodash'
+import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
+import ResetPassword from "./views/ResetPassword/ResetPassword";
 
 
 
@@ -77,6 +79,14 @@ class PublicRouter extends Component {
 					<Route 
 						exact path={`/invite-signup/:token`}
 						component={InviteSignup}
+					/>
+					<Route
+						exact path={`/forgot-password`}
+						component={ForgotPassword}
+					/>
+					<Route
+						exact path={`/reset-password/:token`}
+						component={ResetPassword}
 					/>
 				</Switch>
 			</div>

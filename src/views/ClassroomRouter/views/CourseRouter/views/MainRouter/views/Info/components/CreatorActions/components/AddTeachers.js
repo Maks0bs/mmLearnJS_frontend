@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { sendTeacherInvite } from '../../../services/actions'
+import { addToast } from "../../../../../../../../../../../components/ToastRoot/services/actions";
 
 class AddTeachers extends Component {
 	constructor(){
@@ -25,9 +26,29 @@ class AddTeachers extends Component {
 		this.props.sendTeacherInvite(email, this.props.courseData._id)
 			.then(() => {
 				if (!this.props.error){
+					this.props.addToast(
+						(
+							<div>
+								Teacher invitation has been sent
+							</div>
+						),
+						{
+							type: 'success'
+						}
+					)
 					this.props.onClose();
 				}
 				else{
+					this.props.addToast(
+						(
+							<div>
+								{this.props.error}
+							</div>
+						),
+						{
+							type: 'error'
+						}
+					)
 					console.log(this.props.error);
 				}
 			})
@@ -80,7 +101,8 @@ let mapDispatchToProps = (dispatch) => {
 	return {
 		sendTeacherInvite: (email, courseId) => dispatch(
 			sendTeacherInvite(email, courseId)
-		)
+		),
+		addToast: (component, options) => dispatch(addToast(component, options))
 	}
 }
 

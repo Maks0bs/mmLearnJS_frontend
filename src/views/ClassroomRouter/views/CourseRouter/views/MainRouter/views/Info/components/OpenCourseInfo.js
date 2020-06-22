@@ -10,8 +10,19 @@ class OpenCourseInfo extends Component {
 			<div>
 				<h1>{name}</h1>
 				<div className="ml-4">
-					<h2 className="ml-4">Teachers:</h2>
-					<p className="ml-5">{JSON.stringify(teachers)}</p>
+					<h2>Teachers:</h2>
+					<div className="ml-4">
+						{teachers.map((teacher, i) => (
+							<div key={i}>
+								<Link
+									to={`/classroom/user/${teacher._id}`}
+									target="_blank"
+								>
+									{teacher.name}
+								</Link>
+							</div>
+						))}
+					</div>
 				</div>
 				<div className="ml-4">
 					<h2 className="ml-4">About the course:</h2>

@@ -17,6 +17,7 @@ class UserRouter extends Component {
         }
     }
 
+
     shouldComponentUpdate(nextProps, nextState) {
         if (!_.isEqual(nextProps, this.props)){
             this.upd++;
@@ -33,7 +34,6 @@ class UserRouter extends Component {
 
 
     render() {
-
         if (!this.state.mounted){
             return null;
         }
@@ -70,7 +70,7 @@ class UserRouter extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        ...state.views.classroom.user
+        user: state.views.classroom.user.user
     }
 }
 
