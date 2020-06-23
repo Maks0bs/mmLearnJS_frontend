@@ -53,6 +53,8 @@ class User extends Component {
 
 	render() {
 		let { user, authenticatedUser } = this.props;
+		console.log(user);
+
 
 		if (this.state.reload){
 			return (
@@ -66,21 +68,31 @@ class User extends Component {
 				/>
 			)
 		}
+
+		let isAuthenticated = (authenticatedUser && (authenticatedUser._id === user._id) );
+
 		return (
 			<div className="container">
 				<h2 className="mt-5 mb-5">Profile</h2>
 				{(() => {
-					if ((!authenticatedUser || authenticatedUser._id !== user._id) && !user.activated) {
+					if (!user.activated) {
 						return (
 							<h1 className="alert alert-info">
-								This user's account is not yet activated.
+								User is not yet activated.
 							</h1>
 						)
 					}
 				})()}
 
 				<div className="row">
-					<div className="col-md-4">
+					<div
+						className="col-md-4"
+						style={{
+							display: (!isAuthenticated &&
+								(!user.photo || user.hiddenFields.includes("photo") ) ) ?
+								'none' : ''
+						}}
+					>
 
 						<img
 							src={`${REACT_APP_API_URL}/files/download/${user.photo}`}
@@ -97,11 +109,35 @@ class User extends Component {
 
 					</div>
 
-					<div className="col-md-8">
+					<div
+						className="col-md-8"
+					>
 						<div className="lead mt-2">
-							<p>{user.name}</p>
-							<p>Email: {user.email}</p>
-							<p>{`Joined ${new Date(user.created).toDateString()}`}</p>
+							<p
+								style={{
+									display: (!isAuthenticated &&
+										(!user.name || user.hiddenFields.includes("name") ) ) ?
+										'none' : ''
+								}}
+							>
+								{user.name}
+							</p>
+							<p style={{
+								display: (!isAuthenticated &&
+									(!user.email || user.hiddenFields.includes("email") ) ) ?
+									'none' : ''
+								}}
+							>
+								Email: {user.email}
+							</p>
+							<p style={{
+									display: (!isAuthenticated &&
+										(!user.created || user.hiddenFields.includes("created") ) ) ?
+										'none' : ''
+								}}
+							>
+								{`Joined ${new Date(user.created).toDateString()}`}
+							</p>
 						</div>
 
 						{(authenticatedUser && authenticatedUser._id === user._id) ?
@@ -132,13 +168,59 @@ class User extends Component {
 				</div>
 				<div className="row">
 					<div className="col-md-12 mt-5 mb-5">
-						<hr/>
-						<h4>About</h4>
-						<p className="lead">{user.about}</p>
-						<hr/>
 
-						<div>
-							Courses: ...
+						<hr/>
+						<div
+							style={{
+								display: (!isAuthenticated &&
+									(!user.about || user.hiddenFields.includes("about") ) ) ?
+									'none' : ''
+							}}
+						>
+							<h4>About</h4>
+							<p className="lead">
+								{user.about}
+							</p>
+							<hr/>
+						</div>
+
+
+						<div className="row">
+							<div
+								className="col-md-6"
+								style={{
+									display: (!isAuthenticated &&
+										(!user.enrolledCourses || user.hiddenFields.includes("enrolledCourses") ) ) ?
+										'none' : ''
+								}}
+							>
+								<h5>Enrolled courses</h5>
+								{user.enrolledCourses.map((course, i) => (
+									<div>
+										<Link to={`/classroom/course/${course._id}`}>
+											{course.name}
+										</Link>
+									</div>
+								))}
+							</div>
+							<div
+								className="col-md-6"
+								style={{
+									display: (!isAuthenticated &&
+										(!user.teacherCourses || user.hiddenFields.includes("teacherCourses") ) ) ?
+										'none' : ''
+								}}
+							>
+								<h5>Teacher courses</h5>
+								{user.teacherCourses && user.teacherCourses.map((course, i) => (
+									<div>
+
+										<Link to={`/classroom/course/${course._id}`}>
+											{course.name}
+										</Link>
+									</div>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>

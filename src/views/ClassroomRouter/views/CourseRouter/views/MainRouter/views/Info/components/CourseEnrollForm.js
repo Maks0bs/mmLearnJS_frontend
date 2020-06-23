@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { enrollInCourse, clearMessages } from '../services/actions'
+import { addToast } from "../../../../../../../../../components/ToastRoot/services/actions";
 
 class CourseEnrollForm extends Component {
 	constructor(){
@@ -14,7 +15,6 @@ class CourseEnrollForm extends Component {
 
 	componentWillUnmount() {
 		this.props.clearMessages();
-		console.log('cwunmount');
 	}
 
 	handleChange = (name) => (event) => {
@@ -35,10 +35,34 @@ class CourseEnrollForm extends Component {
 		this.props.enrollInCourse(data)
 			.then(() => {
 				if (!this.props.error){
-					this.setState({
-						password: '',
+					this.props.addToast(
+						(
+							<div>
+								{this.props.message ?
+									this.props.message :
+									'Enrollment successful'
+								}
+							</div>
+						),
+						{
+							type: 'success'
+						}
+					)
+					return this.setState({
 						reload: true
 					})
+				}
+				else{
+					return this.props.addToast(
+						(
+							<div>
+								{this.props.error}
+							</div>
+						),
+						{
+							type: 'error'
+						}
+					)
 				}
 			})
 		
@@ -106,14 +130,16 @@ class CourseEnrollForm extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.main.services
+		...state.views.classroom.course.main.services,
+		...state.views.classroom.course.main.info
 	}
 }
 
 let mapDispatchToProps = (dispatch) => {
 	return {
 		enrollInCourse: (data) => dispatch(enrollInCourse(data)),
-		clearMessages: () => dispatch(clearMessages())
+		clearMessages: () => dispatch(clearMessages()),
+		addToast: (component, options) => dispatch(addToast(component, options))
 	}
 }
 

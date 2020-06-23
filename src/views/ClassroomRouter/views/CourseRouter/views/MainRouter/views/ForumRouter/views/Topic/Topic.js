@@ -4,6 +4,7 @@ import { getEnrollmentStatus } from '../../../../../../services/helpers'
 import { connect } from 'react-redux'
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { answerTopicPost, deleteTopicPost } from '../../services/actions'
+import UserPreview from "../../../../../../../../../../components/UserPreview";
 
 class Topic extends Component {
 	constructor(){
@@ -100,7 +101,6 @@ class Topic extends Component {
 							style={{
 								marginTop: '10px',
 								marginLeft: `${30 * post.depth}px`,
-								display: 'flex',
 								position: 'relative',
 								borderStyle: 'solid',
 							}}
@@ -111,10 +111,7 @@ class Topic extends Component {
 								}}
 							>
 								<h5>
-									By { }
-									<Link to={`/classroom/user/${post.data.creator._id}`}>
-										{post.data.creator.name}
-									</Link>
+									<UserPreview user={post.data.creator}/>
 								</h5>
 								<p>{post.data.content}</p>
 								

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom'
+import User from "../../../../../../../../../../UserRouter/views/User/User";
+import UserPreview from "../../../../../../../../../../../../../components/UserPreview";
 
 class TopicListItem extends Component {
 	render() {
@@ -15,14 +17,10 @@ class TopicListItem extends Component {
 		      		</Link>
 		    	</td>
 		    	<td>
-		      		<Link
-		      			to={`/classroom/user/${creator._id}`}
-		      		>
-		      			{creator.name}
-		      		</Link>
+		      		<UserPreview user={creator}/>
 		    	</td>
 		    	<td>
-		      		Some actions to do
+		      		Description...
 		    	</td>
 		  	</tr>
 		);

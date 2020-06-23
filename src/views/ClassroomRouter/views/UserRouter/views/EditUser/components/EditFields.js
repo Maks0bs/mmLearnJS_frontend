@@ -110,6 +110,25 @@ class EditFields extends Component {
                             <h4 className="m-2"> Fields to display to other users: </h4>
                             <div className="column" >
                                 {availableFields.map((field, i) => {
+                                    let fieldName;
+                                    switch(field){
+                                        case "enrolledCourses": {
+                                            fieldName = "enrolled courses"
+                                            break;
+                                        }
+                                        case "teacherCourses": {
+                                            fieldName = "courses as a teacher"
+                                            break;
+                                        }
+                                        case "created" : {
+                                            fieldName = "date when joined";
+                                            break;
+                                        }
+                                        default: {
+                                            fieldName = field;
+                                            break;
+                                        }
+                                    }
                                     return (
                                         <Draggable
                                             key={`fieldAvailable${i}`}
@@ -138,7 +157,7 @@ class EditFields extends Component {
                                                     >
                                                         <Icon icon={faAlignJustify}/>
                                                     </div>
-                                                    {field}
+                                                    {fieldName}
                                                 </div>
                                             )}
                                         </Draggable>
@@ -162,36 +181,57 @@ class EditFields extends Component {
                         >
                             <h4 className="m-2"> Fields to hide: </h4>
                             <div className="column" >
-                                {hiddenFields.map((field, i) => (
-                                    <Draggable
-                                        key={`fieldHidden${i}`}
-                                        draggableId={`fieldHidden${i}`}
-                                        index={i}
-                                    >
-                                        {(provided, snapshot) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                                style={{
-                                                    padding: '4px',
-                                                    userSelect: 'none',
-                                                    background: snapshot.isDragging ?
-                                                        'grey' : 'lightgrey',
-                                                    ...provided.draggableProps.style,
+                                {hiddenFields.map((field, i) => {
+                                    let fieldName;
+                                    switch(field){
+                                        case "enrolledCourses": {
+                                            fieldName = "enrolled courses"
+                                            break;
+                                        }
+                                        case "teacherCourses": {
+                                            fieldName = "courses as a teacher"
+                                            break;
+                                        }
+                                        case "created" : {
+                                            fieldName = "date when joined";
+                                            break;
+                                        }
+                                        default: {
+                                            fieldName = field;
+                                            break;
+                                        }
+                                    }
+                                    return (
+                                        <Draggable
+                                            key={`fieldHidden${i}`}
+                                            draggableId={`fieldHidden${i}`}
+                                            index={i}
+                                        >
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    style={{
+                                                        padding: '4px',
+                                                        userSelect: 'none',
+                                                        background: snapshot.isDragging ?
+                                                            'grey' : 'lightgrey',
+                                                        ...provided.draggableProps.style,
 
-                                                }}
-                                            >
-                                                <div className="float-left mx-2">
-                                                    <Icon icon={faAlignJustify}/>
+                                                    }}
+                                                >
+                                                    <div className="float-left mx-2">
+                                                        <Icon icon={faAlignJustify}/>
+                                                    </div>
+                                                    {fieldName}
                                                 </div>
-                                                {field}
-                                            </div>
-                                        )}
-                                    </Draggable>
+                                            )}
+                                        </Draggable>
+                                    )
 
 
-                                ))}
+                                })}
                                 {provided.placeholder}
                             </div>
 

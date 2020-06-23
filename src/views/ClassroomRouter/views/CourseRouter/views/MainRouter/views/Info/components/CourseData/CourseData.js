@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { v1 as uuidv1 } from 'uuid'
 import Section from './components/Section'
+import UserPreview from "../../../../../../../../../../components/UserPreview";
 
 class CourseData extends Component {
 
@@ -16,17 +17,12 @@ class CourseData extends Component {
 		return (
 			<div>
 				<h1>{name}</h1>
-				<div className="ml-4">
+				<div className="ml-4" >
 					<h2>Teachers:</h2>
-					<div className="ml-4">
+					<div className="ml-4" >
 						{teachers.map((teacher, i) => (
 							<div key={i}>
-								<Link
-									to={`/classroom/user/${teacher._id}`}
-									target="_blank"
-								>
-									{teacher.name}
-								</Link>
+								<UserPreview user={teacher}/>
 							</div>
 						))}
 					</div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getEnrollmentStatus } from '../services/actions'
+import UserPreview from "../../../../../../../../../components/UserPreview";
 
 class OpenCourseInfo extends Component {
 	render() {
@@ -14,12 +15,7 @@ class OpenCourseInfo extends Component {
 					<div className="ml-4">
 						{teachers.map((teacher, i) => (
 							<div key={i}>
-								<Link
-									to={`/classroom/user/${teacher._id}`}
-									target="_blank"
-								>
-									{teacher.name}
-								</Link>
+								<UserPreview user={teacher} />
 							</div>
 						))}
 					</div>

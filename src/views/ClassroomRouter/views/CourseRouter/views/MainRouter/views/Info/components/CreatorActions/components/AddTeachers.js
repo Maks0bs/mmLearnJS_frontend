@@ -29,7 +29,10 @@ class AddTeachers extends Component {
 					this.props.addToast(
 						(
 							<div>
-								Teacher invitation has been sent
+								{this.props.message ?
+									this.props.message :
+									'Teacher invitation has been sent'
+								}
 							</div>
 						),
 						{
@@ -93,7 +96,8 @@ class AddTeachers extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.main.services
+		...state.views.classroom.course.main.services,
+		...state.views.classroom.course.main.info
 	}
 }
 

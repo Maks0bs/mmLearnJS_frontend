@@ -12,8 +12,8 @@ let initialState = {
 	enrollmentMessage: '',
 	enrollmentError: '',
 	redirectToDashboard: false,
-	error: '',
-	upd: 0
+	message: '',
+	error: ''
 }
 
 export default function(state = initialState, action) {
@@ -21,32 +21,31 @@ export default function(state = initialState, action) {
 		case API_ENROLL_IN_COURSE:
 			return {
 				...state,
-				enrollmentMessage: action.payload.message,
-				enrollmentError: action.payload.error && action.payload.error.message
+				message: action.payload.message ? action.payload.message : '',
+				error: action.payload.error ? action.payload.error.message: ''
 			}
 		case API_DELETE_COURSE: {
 			return {
 				...state,
-				//courseData: {},
 				redirectToDashboard: true
 			}
 		}
 		case API_ACCEPT_INVITE:
 			return {
 				...state,
-				error: action.payload.error && action.payload.error.message,
-				upd: state.upd + 1
+				error: action.payload.error ? action.payload.error.message : ''
 			}
 		case API_SEND_TEACHER_INVITE:
 			return {
 				...state,
-				error: action.payload.error && action.payload.error.message
+				message: action.message ? action.message : '',
+				error: action.payload.error ? action.payload.error.message : ''
 			}
 		case CLEAR_MESSAGES:
 			return {
 				...state,
-				enrollmentMessage: '',
-				enrollmentError: ''
+				error: '',
+				message: ''
 			}
 		default: 
 			return state;
