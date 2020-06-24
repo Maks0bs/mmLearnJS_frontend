@@ -9,7 +9,6 @@ import TeacherActions from './components/TeacherActions'
 import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
 import InvitedTeacherInfo from './components/InvitedTeacherInfo'
-import { notifications } from '../../../../../../../../constants'
 import { getEnrollmentStatus } from '../../../../services/helpers'
 
 class Info extends Component {
@@ -30,7 +29,7 @@ class Info extends Component {
 		switch (status){
 			case 'not logged in':
 				course = (
-					<div>
+					<div className="container">
 						<OpenCourseInfo />
 						<div className="alert alert-info">
 							Please log in to access this course
@@ -41,17 +40,14 @@ class Info extends Component {
 				break;
 			case 'enrolled':
 				course = (
-					<div>
+					<div className="container">
 						<CourseData />
-						<div className="alert alert-success">
-							You are enrolled in the course
-						</div>
 					</div>
 				)
 				break;
 			case 'teacher':
 				course =(
-					<div>
+					<div className="container">
 						<CourseData />
 						<TeacherActions />
 					</div>
@@ -59,16 +55,24 @@ class Info extends Component {
 				break;
 			case 'invited teacher':
 				course = (
-					<div>
+					<div className="container">
 						<InvitedTeacherInfo />
 						<OpenCourseInfo />
 						<CourseEnrollForm />
 					</div>
 				)
 				break;
+			case 'invited teacher enrolled':
+				course = (
+					<div className="container">
+						<InvitedTeacherInfo />
+						<CourseData />
+					</div>
+				)
+				break;
 			case 'creator':
 				course = (
-					<div>
+					<div className="container">
 						<CourseData />
 						<TeacherActions />
 						<CreatorActions />
@@ -77,7 +81,7 @@ class Info extends Component {
 				break;
 			case 'not enrolled':
 				course = (
-					<div>
+					<div className="container">
 						<OpenCourseInfo />
 						<CourseEnrollForm />
 					</div>

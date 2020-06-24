@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { v1 as uuidv1 } from 'uuid'
 import Section from './components/Section'
 import UserPreview from "../../../../../../../../../../components/UserPreview";
+import SubscriptionActions from "./components/SubscriptionActions";
 
 class CourseData extends Component {
 
@@ -17,6 +18,8 @@ class CourseData extends Component {
 		return (
 			<div>
 				<h1>{name}</h1>
+
+				<SubscriptionActions />
 				<div className="ml-4" >
 					<h2>Teachers:</h2>
 					<div className="ml-4" >
@@ -42,6 +45,7 @@ class CourseData extends Component {
 		                ))}
 		            </div>
 				</div>
+				{JSON.stringify(course.updates)}
 			</div>
 		);
 	}

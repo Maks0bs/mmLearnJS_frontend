@@ -70,7 +70,6 @@ class CourseEnrollForm extends Component {
 	}
 
 	render() {
-		console.log('course enroll form', this.props);
 		let { password, reload } = this.state;
 		if (reload){
 			return (

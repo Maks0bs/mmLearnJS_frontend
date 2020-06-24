@@ -41,7 +41,7 @@ class UserRouter extends Component {
 
 
         this.upd++;
-        if (this.upd % 2 === 1){
+        if (this.upd === 1){
             this.props.getUser(this.props.match.params.userId)
         }
         if (!this.props.user || !this.props.user._id){

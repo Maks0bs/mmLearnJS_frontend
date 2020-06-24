@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import Info from './views/Info'
 import ForumRouter from './views/ForumRouter'
 import { connect } from 'react-redux'
-import { getCourseById } from './services/actions'
+import {getCourseById, viewCourse} from './services/actions'
 import _ from 'lodash'
 
 
@@ -41,8 +41,11 @@ class MainRouter extends Component {
 
 		this.upd++;
 		console.log('!!!render', this.upd, this.props, this.state);
-		if (this.upd % 2 === 1){
+		if (this.upd === 1){
 			this.props.getCourseById(this.props.match.params.courseId)
+			if (this.props.authenticatedUser) {
+				this.props.viewCourse(this.props.match.params.courseId);
+			}
 		}
 		if (!this.props.courseData._id){
 			return null;
@@ -69,13 +72,15 @@ class MainRouter extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.main.services
+		...state.views.classroom.course.main.services,
+		...state.services
 	}
 }
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		getCourseById: (courseId) => dispatch(getCourseById(courseId))
+		getCourseById: (courseId) => dispatch(getCourseById(courseId)),
+		viewCourse: (courseId) => dispatch(viewCourse(courseId))
 	}
 }
 

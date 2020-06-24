@@ -5,25 +5,20 @@ let {
 	CLEAR_MESSAGES, 
 	API_DELETE_COURSE,
 	API_ACCEPT_INVITE,
-	API_SEND_TEACHER_INVITE
+	API_SEND_TEACHER_INVITE,
+	API_SUBSCRIBE,
+	API_UNSUBSCRIBE
 } = types;
 
 let initialState = {
-	enrollmentMessage: '',
-	enrollmentError: '',
 	redirectToDashboard: false,
 	message: '',
 	error: ''
 }
 
+
 export default function(state = initialState, action) {
 	switch(action.type){
-		case API_ENROLL_IN_COURSE:
-			return {
-				...state,
-				message: action.payload.message ? action.payload.message : '',
-				error: action.payload.error ? action.payload.error.message: ''
-			}
 		case API_DELETE_COURSE: {
 			return {
 				...state,
@@ -31,14 +26,13 @@ export default function(state = initialState, action) {
 			}
 		}
 		case API_ACCEPT_INVITE:
-			return {
-				...state,
-				error: action.payload.error ? action.payload.error.message : ''
-			}
+		case API_SUBSCRIBE:
+		case API_UNSUBSCRIBE:
+		case API_ENROLL_IN_COURSE:
 		case API_SEND_TEACHER_INVITE:
 			return {
 				...state,
-				message: action.message ? action.message : '',
+				message: action.payload.message ? action.payload.message : '',
 				error: action.payload.error ? action.payload.error.message : ''
 			}
 		case CLEAR_MESSAGES:

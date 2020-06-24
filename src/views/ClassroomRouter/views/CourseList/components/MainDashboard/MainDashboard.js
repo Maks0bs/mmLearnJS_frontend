@@ -10,26 +10,21 @@ class MainDashboard extends Component {
 	}
 
 	render() {
-		let { openCourses: courses } = this.props;
-		if (!courses){
-			courses = [];
-		}
-		let coursesList = [];
-		for (let i = 0;  i < courses.length; i++){
-			coursesList.push(
-				<div key={i}>
-					<Link
-						to={`/classroom/course/${courses[i]._id}`}
-					>
-						{courses[i].name}
-					</Link>
-				</div>
-			)
+		if (!this.props.openCourses){
+			return null;
 		}
 		return (
 			<div className={this.props.className}>
 				<h1>Open courses:</h1>
-				{coursesList}
+				{this.props.openCourses.map((course, i) => (
+					<div key={i}>
+						<Link
+							to={`/classroom/course/${course._id}`}
+						>
+							{course.name}
+						</Link>
+					</div>
+				))}
 			</div>
 		);
 	}

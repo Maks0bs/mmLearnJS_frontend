@@ -8,23 +8,32 @@ export let getEnrollmentStatus = (course, user) => {
 	let courses = user.enrolledCourses;
 	let teacherCourses = user.teacherCourses;
 
-	for (let i of courses) {
-		if (i === courseId){
-			return 'enrolled'
-		}
+	if (course.creator && user._id === course.creator._id){
+		return 'creator'
 	}
 
 	if (course.invitedTeachers){
-		return 'invited teacher'
-	}
-
-	if (course.creator && user._id === course.creator._id){
-		return 'creator'
+		for (let i of course.invitedTeachers){
+			if (i === user._id || i._id.equals(user._id)){
+				for (let j of courses) {
+					if (j === courseId){
+						return 'invited teacher enrolled'
+					}
+				}
+				return 'invited teacher'
+			}
+		}
 	}
 
 	for (let i of teacherCourses) {
 		if (i === courseId){
 			return 'teacher'
+		}
+	}
+
+	for (let i of courses) {
+		if (i === courseId){
+			return 'enrolled'
 		}
 	}
 

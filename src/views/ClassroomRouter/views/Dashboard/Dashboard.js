@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import MainDashboard from './components/MainDashboard'
-import StudentDashboard from './components/StudentDashboard'
-import TeacherDashboard from './components/TeacherDashboard'
 
 
 class Dashboard extends Component {
 	render() {
-		//show students dash only to logged in users
-		let { authenticatedUser: user } = this.props;
 		return (
-			<div>
-				<MainDashboard />
-				{user && user._id && (
-					<StudentDashboard className="mt-5"/>
-				)}
-				{user && user._id && user.role === 'teacher' && (
-					<TeacherDashboard />
-				)}
-			</div>
-		);
+			<form>
+				<input
+					className="form-control"
+					type="date"
+
+					onChange={(e) => {console.log(e.target.value)}}
+					min={"2000-01-01"}
+					max={"2100-01-01"}
+				/>
+			</form>
+		)
 	}
 }
 

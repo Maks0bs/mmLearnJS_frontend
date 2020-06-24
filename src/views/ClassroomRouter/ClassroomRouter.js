@@ -6,7 +6,8 @@ import { getAuthenticatedUser } from '../../services/actions'
 import { connect } from 'react-redux'
 import ActivationMessage from '../components/ActivationMessage'
 import UserRouter from './views/UserRouter'
-import Dashboard from './views/Dashboard'
+import CourseList from './views/CourseList'
+import Dashboard from "./views/Dashboard";
 import CourseRouter from './views/CourseRouter'
 import _ from 'lodash'
 
@@ -41,7 +42,7 @@ class ClassroomRouter extends Component {
 		}
 
 		this.upd++;
-		if (this.upd % 2 === 1){
+		if (this.upd === 1){
 			this.props.getAuthenticatedUser()
 		}
 		if (this.props.authenticatedUser === false){
@@ -58,6 +59,10 @@ class ClassroomRouter extends Component {
 					<Route
 						exact path={`${path}`}
 						component={Main}
+					/>
+					<Route
+						exact path={`${path}/courses`}
+						component={CourseList}
 					/>
 					<Route
 						exact path={`${path}/dashboard`}

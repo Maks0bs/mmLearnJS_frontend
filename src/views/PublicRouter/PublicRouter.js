@@ -44,7 +44,7 @@ class PublicRouter extends Component {
 			return null;
 		}
 		this.upd++;
-		if (this.upd % 2 === 1){
+		if (this.upd === 1){
 			this.props.getAuthenticatedUser()
 		}
 		if (this.props.authenticatedUser === false){

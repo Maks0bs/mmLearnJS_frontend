@@ -112,8 +112,11 @@ class PublicMenu extends Component {
 				    		Profile
 				    	</Link>
 				    	<Link className="dropdown-item" to="/classroom/dashboard">
-				    		Classroom
+				    		Dashboard
 				    	</Link>
+						<Link className="dropdown-item" to="/classroom/courses">
+							Courses
+						</Link>
 				    	<span 
 				    		className="dropdown-item" 
 				    		onClick={(e) => this.handleLogout()}

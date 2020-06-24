@@ -3,7 +3,8 @@ import infoReducer from '../views/Info/services/reducer'
 import forumReducer from '../views/ForumRouter/services/reducer'
 import types from './actionTypes'
 let {
-	API_GET_COURSE_BY_ID
+	API_GET_COURSE_BY_ID,
+	API_VIEW_COURSE
 } = types;
 
 let initialState = {

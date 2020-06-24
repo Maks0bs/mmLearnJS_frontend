@@ -10,27 +10,21 @@ class StudentDashboard extends Component {
 	}
 
 	render() {
-		let { enrolledCourses: courses } = this.props;
-		if (!courses){
-			courses = [];
-		}
-		let coursesList = [];
-		for (let i = 0;  i < courses.length; i++){
-			coursesList.push(
-				<div>
-					<Link 
-						key={i}
-						to={`/classroom/course/${courses[i]._id}`}
-					>
-						{courses[i].name}
-					</Link>
-				</div>
-			)
+		if (!this.props.enrolledCourses){
+			return null;
 		}
 		return (
 			<div className={this.props.className}>
-				<h1>Enrolled courses: </h1>
-				{coursesList}
+				<h1>Enrolled courses:</h1>
+				{this.props.enrolledCourses.map((course, i) => (
+					<div key={i}>
+						<Link
+							to={`/classroom/course/${course._id}`}
+						>
+							{course.name}
+						</Link>
+					</div>
+				))}
 			</div>
 		);
 	}

@@ -40,7 +40,7 @@ class ForumRouter extends Component {
 
 		this.upd++;
 
-		if (this.upd % 2 === 1){
+		if (this.upd === 1){
 			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
 		}
 		if (!this.props.forumData){

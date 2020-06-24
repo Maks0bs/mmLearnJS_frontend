@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import dashboardReducer from '../views/Dashboard/services/reducer'
+import dashboardReducer from '../views/CourseList/services/reducer'
 import courseReducer from '../views/CourseRouter/services/reducer'
 import userReducer from '../views/UserRouter/services/reducer'
 

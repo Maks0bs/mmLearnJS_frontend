@@ -6,7 +6,9 @@ let {
 	CLEAR_MESSAGES,
 	API_DELETE_COURSE,
 	API_ACCEPT_INVITE,
-	API_SEND_TEACHER_INVITE
+	API_SEND_TEACHER_INVITE,
+	API_UNSUBSCRIBE,
+	API_SUBSCRIBE
 } = types;
 
 // all api requests related to Home view will be placed here
@@ -71,7 +73,6 @@ export let acceptTeacherInvite = (courseId) => (dispatch) => {
 }
 
 export let sendTeacherInvite = (email, courseId) => (dispatch) => {
-	console.log('email', email, 'course id', courseId);
 	return fetch(`${REACT_APP_API_URL}/courses/send-teacher-invite/${courseId}`, {
 		method: "POST",
 		headers: {
@@ -89,4 +90,38 @@ export let sendTeacherInvite = (email, courseId) => (dispatch) => {
 		payload: data
 	}))
 	.catch(err => console.log(err))
+}
+
+export let subscribe = (courseId) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/courses/subscribe/${courseId}`, {
+		method: "POST",
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include'
+	})
+		.then(res => res.json())
+		.then(data => dispatch({
+			type: API_SUBSCRIBE,
+			payload: data
+		}))
+		.catch(err => console.log(err))
+}
+
+export let unsubscribe = (courseId) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/courses/unsubscribe/${courseId}`, {
+		method: "POST",
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include'
+	})
+		.then(res => res.json())
+		.then(data => dispatch({
+			type: API_UNSUBSCRIBE,
+			payload: data
+		}))
+		.catch(err => console.log(err))
 }
