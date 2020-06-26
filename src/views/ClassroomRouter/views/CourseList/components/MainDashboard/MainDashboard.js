@@ -32,7 +32,7 @@ class MainDashboard extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.dashboard
+		...state.views.classroom.courseList
 	}
 }
 

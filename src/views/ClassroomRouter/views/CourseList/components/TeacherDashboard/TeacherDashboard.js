@@ -64,7 +64,7 @@ class TeacherDashboard extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.dashboard,
+		...state.views.classroom.courseList,
 		authenticatedUser: state.services.authenticatedUser
 	}
 }

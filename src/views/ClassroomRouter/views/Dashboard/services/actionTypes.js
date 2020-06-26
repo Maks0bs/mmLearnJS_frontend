@@ -1,2 +1,3 @@
 export default {
+    API_GET_UPDATES_BY_DATE: 'API_GET_UPDATES_BY_DATE_DASHBOARD'
 }
