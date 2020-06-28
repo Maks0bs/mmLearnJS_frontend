@@ -4,7 +4,7 @@ let {
     API_GET_UPDATES_BY_DATE
 } = types;
 
-export let getUpdatesByDate = (dateFrom, dateTo) => (dispatch) => {
+export let getUpdatesByDate = (dateFrom, dateTo, courses, starting, cnt) => (dispatch) => {
     return fetch(`${REACT_APP_API_URL}/users/updates-by-date`, {
         method: "POST",
         headers: {
@@ -14,7 +14,10 @@ export let getUpdatesByDate = (dateFrom, dateTo) => (dispatch) => {
         credentials: 'include',
         body: JSON.stringify({
             dateFrom,
-            dateTo
+            dateTo,
+            courses,
+            starting,
+            cnt
         })
     })
         .then(res => res.json())
@@ -23,7 +26,9 @@ export let getUpdatesByDate = (dateFrom, dateTo) => (dispatch) => {
             payload: {
                 data: data,
                 dateFrom: dateFrom,
-                dateTo: dateTo
+                dateTo: dateTo,
+                cnt: cnt,
+                starting: starting
             }
         }))
         .catch(err => console.log(err))

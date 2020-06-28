@@ -97,14 +97,10 @@ class EditEntry extends Component {
                     teachersOnly: teachersOnlyForum,
                     description: content
                 });
+                break;
             }
             default:
                 break;
-        }
-        if (type === 'text'){
-            content = {
-                text: content
-            }
         }
         this.props.editEntry(
             {

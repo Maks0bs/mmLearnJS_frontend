@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getUpdatesByDate } from "./services/actions";
 import {Link} from "react-router-dom";
+import { addToast } from "../../../../components/ToastRoot/services/actions";
+import { showModal, hideModal} from "../../../../components/ModalRoot/services/actions";
+import ChooseCourses from "./components/ChooseCourses";
 
 
 class Dashboard extends Component {
@@ -11,8 +14,29 @@ class Dashboard extends Component {
 		this.state = {
 			dateFrom: '',
 			dateTo: '',
-			starting: 0
+			starting: 0,
+			chosenCourses: [],
+			showCoursesDropdown: false,
+			coursesFilter: 'all'
 		}
+	}
+
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.authenticatedUser && !this.props.authenticatedUser){
+			let chosenCourses = [];
+
+			if (nextProps.authenticatedUser){
+				for (let c of nextProps.authenticatedUser.subscribedCourses){
+					chosenCourses.push(c.course);
+				}
+			}
+
+			this.setState({
+				chosenCourses
+			})
+		}
+
+		return true;
 	}
 
 	handleChange = (name) => (event) => {
@@ -47,24 +71,71 @@ class Dashboard extends Component {
 
 		let dateTo = [year, month, day].join('-');
 
+		let chosenCourses = [];
+
+		if (this.props.authenticatedUser){
+			for (let c of this.props.authenticatedUser.subscribedCourses){
+				chosenCourses.push(c.course);
+			}
+		}
+
 		this.setState({
 			dateFrom,
-			dateTo
+			dateTo,
+			chosenCourses
 		})
 
-		this.props.getUpdates(dateFrom, dateTo, 0, 10)
+		this.props.getUpdates(dateFrom, dateTo, this.getCoursesFilter(), 0, 5)
 			.then(() => {
 				if (this.props.error){
+					this.props.addToast(
+						(
+							<div>
+								{`Problem with loading feed`}
+							</div>
+						),
+						{
+							type: 'error'
+						}
+					)
+				} else {
+					this.updateStarting();
 				}
 			})
 
 
 	}
 
+	updateStarting = () => {
+		this.setState({
+			starting: this.props.updatesData.length
+		})
+	}
+
+	getCoursesFilter = () => {
+		let courses = [];
+
+		if (!this.props.authenticatedUser){
+			return [];
+		}
+
+		if (this.state.coursesFilter === 'all'){
+			for (let c of this.props.authenticatedUser.subscribedCourses){
+				courses.push(c.course._id);
+			}
+		} else {
+			for (let c of this.state.chosenCourses){
+				courses.push(c._id);
+			}
+		}
+
+		return courses;
+	}
+
 	onSubmit = (e) => {
 		e.preventDefault();
 
-		this.props.getUpdates(this.state.dateFrom, this.state.dateTo, 0, 10)
+		this.props.getUpdates(this.state.dateFrom, this.state.dateTo, this.getCoursesFilter(), 0, 5)
 			.then(() => {
 				if (this.props.error){
 
@@ -78,6 +149,8 @@ class Dashboard extends Component {
 							type: 'error'
 						}
 					)
+				} else {
+					this.updateStarting();
 				}
 			})
 	}
@@ -85,8 +158,7 @@ class Dashboard extends Component {
 	onLoadMore = (e) => {
 		e.preventDefault();
 
-		//TODO change getUpdates to appendUpdates
-		this.props.getUpdates(this.state.dateFrom, this.state.dateTo, this.state.starting, 10)
+		this.props.getUpdates(this.state.dateFrom, this.state.dateTo, this.getCoursesFilter(), this.state.starting, 5)
 			.then(() => {
 				if (this.props.error){
 
@@ -100,13 +172,35 @@ class Dashboard extends Component {
 							type: 'error'
 						}
 					)
+				} else {
+					this.updateStarting();
 				}
 			})
 	}
 
+	onShowChooseCourses = (e) => {
+		e.preventDefault();
+		if (!this.props.authenticatedUser){
+			return;
+		}
+		this.props.showModal(
+			<ChooseCourses
+				courses={this.state.chosenCourses}
+				allCourses={this.props.authenticatedUser.subscribedCourses}
+				onSave={(courses) => {
+					this.setState({
+						chosenCourses: courses
+					})
+					return this.props.hideModal();
+				}}
+				onClose={this.props.hideModal}
+			/>
+		)
+	}
+
 
 	render() {
-		let { dateFrom, dateTo } = this.state;
+		let { dateFrom, dateTo, coursesFilter } = this.state;
 		let lastDateFrom = '', lastDateTo = '', updatesData = [];
 		if (this.props.updatesData){
 			let year = this.props.lastDateFrom.substring(0, 4),
@@ -123,29 +217,22 @@ class Dashboard extends Component {
 			updatesData = this.props.updatesData;
 		}
 
-		console.log(updatesData);
+		console.log('st', this.state);
+		console.log('pr', this.props);
 
 
 
 		return (
-			<div className={"container"}>
+			<div className={"container mt-2 mb-5"}>
 				<h1>Feed</h1>
 				<form onSubmit={this.onSubmit}>
 					<div
-						className={"row"}
 						style={{
 							display: 'flex',
 							alignItems: 'center'
 						}}
 					>
-						<div
-							className={"mr-3"}
-							style={{
-
-							}}
-						>
-							<strong>Filter news by date:</strong>
-						</div>
+						<strong className="mr-3">Filter news by date:</strong>
 						<div
 							className={"mr-1"}
 							style={{
@@ -155,7 +242,6 @@ class Dashboard extends Component {
 							From
 						</div>
 						<div>
-
 							<input
 								className={"form-control"}
 								type="date"
@@ -192,27 +278,99 @@ class Dashboard extends Component {
 							update
 						</button>
 					</div>
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center'
+						}}
+					>
+						<strong className="mr-3">Display news from courses:</strong>
+						<select
+							name="coursesFilter"
+							value={coursesFilter}
+							onChange={this.handleChange("coursesFilter")}
+						>
+							<option value="all">all</option>
+							<option value="choose">choose</option>
+						</select>
+						{(coursesFilter === 'choose') && (
+							<a
+								className="ml-3"
+								href="#void"
+								onClick={this.onShowChooseCourses}
+							>
+								Choose courses
+							</a>
+						)}
+					</div>
 
 				</form>
-				<hr />
-				<h3>
-					Displaying news from {lastDateFrom} to {lastDateTo}
-				</h3>
+
 				<hr />
 				{updatesData.map((update, i) => {
+					let time = new Date(update.data.created);
+					let timeStr =
+						`on ${time.toLocaleDateString()} at ${time.toLocaleTimeString().substring(0, 5)}`;
 					switch(update.data.kind){
 						case 'UpdateNewInfo': {
 							return (
 								<div key={i}>
-									<h5>
-										Course "
+									<h4>
+										Course { }
+										<Link to={`/classroom/course/${update.course.id}`}>
+											{update.data.oldName}
+										</Link> { }
+										now has new main info:
+									</h4>
+									<p>New name: {update.data.newName}</p>
+									<p>New info about the course: {update.data.newAbout}</p>
+									<i>{timeStr}</i>
+									<hr />
+								</div>
+							)
+						}
+						case 'UpdateNewEntries': {
+							return (
+								<div key={i}>
+									<h4>
+										New entries have been added to course { }
+											<Link to={`/classroom/course/${update.course.id}`}>
+											{update.course.name}
+										</Link> { }
+									</h4>
+									<ul>
+										{update.data.newEntries.map((entry, j) => {
+											return (
+												<li key={j}>
+													<p>{`New ${entry.type} "${entry.name}"`}</p>
+												</li>
+											)
+										})}
+									</ul>
+									<i>{timeStr}</i>
+									<hr />
+								</div>
+							)
+						}
+						case 'UpdateDeletedEntries': {
+							return (
+								<div key={i}>
+									<h4>
+										Entries have been removed from course { }
 										<Link to={`/classroom/course/${update.course.id}`}>
 											{update.course.name}
-										</Link>"
-										has changed main info:
-									</h5>
-									<p>New name: update.newName</p>
-									<p>New info about the course: update.newAbout</p>
+										</Link> { }
+									</h4>
+									<ul>
+										{update.data.deletedEntries.map((entry, j) => {
+											return (
+												<li key={j}>
+													<p>{`Removed ${entry.type} "${entry.name}"`}</p>
+												</li>
+											)
+										})}
+									</ul>
+									<i>{timeStr}</i>
 									<hr />
 								</div>
 							)
@@ -227,6 +385,37 @@ class Dashboard extends Component {
 						}
 					}
 				})}
+				{(() => {
+					if (this.props.noMoreUpdates){
+						return (
+							<div
+								style={{
+									display: 'flex',
+									justifyContent: 'center'
+								}}
+							>
+								No more news
+							</div>
+						)
+					} else {
+						return (
+							<div
+								style={{
+									display: 'flex',
+									justifyContent: 'center'
+								}}
+							>
+								<button
+									className="btn btn-outline p-2"
+									type="button"
+									onClick={this.onLoadMore}
+								>
+									load more
+								</button>
+							</div>
+						)
+					}
+				})()}
 			</div>
 		)
 	}
@@ -241,7 +430,10 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		getUpdates: (from, to, starting, cnt) => dispatch(getUpdatesByDate(from, to, starting, cnt))
+		getUpdates: (from, to, courses, starting, cnt) => dispatch(getUpdatesByDate(from, to, courses, starting, cnt)),
+		addToast: (component, options) => dispatch(addToast(component, options)),
+		hideModal: () => dispatch(hideModal()),
+		showModal: (component) => dispatch(showModal(component))
 	}
 }
 

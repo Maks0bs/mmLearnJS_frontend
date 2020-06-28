@@ -49,9 +49,8 @@ class NavDropdown extends React.Component {
 		const classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
 		return (
 			<li className="nav-item dropdown">
-			    <a 
-			    	className="nav-link dropdown-toggle" 
-			    	data-toggle="dropdown"
+			    <a
+			    	className="nav-link dropdown-toggle"
 			        onClick={(e) => {this.showDropdown(e)}}
 			        style={{
 			        	cursor: 'pointer',

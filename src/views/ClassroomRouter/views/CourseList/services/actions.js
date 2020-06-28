@@ -1,6 +1,11 @@
 import types from './actionTypes'
 import { getCoursesFiltered } from '../../../../../services/actions'
-let { API_GET_OPEN_COURSES, API_GET_TEACHER_COURSES, API_GET_ENROLLED_COURSES } = types;
+let {
+	API_GET_OPEN_COURSES,
+	API_GET_TEACHER_COURSES,
+	API_GET_ENROLLED_COURSES ,
+	API_GET_NOT_VIEWED_NOTIFICATIONS
+} = types;
 
 // all api requests related to Home view will be placed here
 // all nested components should only use these actions for backend requests
@@ -33,4 +38,8 @@ export let getTeacherCourses = (userId) => (dispatch) => {
 		},
 		API_GET_TEACHER_COURSES
 	))
+}
+
+export let getNotViewedNotification = (courses) => (dispatch) => {
+	//TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }

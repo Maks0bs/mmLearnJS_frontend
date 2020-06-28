@@ -7,7 +7,8 @@ let initialState = {
 	lastDateFrom: '',
 	lastDateTo: '',
 	error: '',
-	updatesData: null
+	updatesData: null,
+	noMoreUpdates: false
 }
 
 export default function(state = initialState, action) {
@@ -19,12 +20,20 @@ export default function(state = initialState, action) {
 					error: action.payload.data.error.message
 				}
 			} else {
-				return {
+				let newState = {
 					...state,
 					lastDateFrom: action.payload.dateFrom,
 					lastDateTo: action.payload.dateTo,
-					updatesData: action.payload.data
+					error: ''
 				}
+				newState.noMoreUpdates = action.payload.data.length < action.payload.cnt;
+
+				if (action.payload.starting === 0){
+					newState.updatesData = action.payload.data;
+				} else {
+					newState.updatesData = [...state.updatesData].concat(action.payload.data);
+				}
+				return newState;
 			}
 		}
 		default:

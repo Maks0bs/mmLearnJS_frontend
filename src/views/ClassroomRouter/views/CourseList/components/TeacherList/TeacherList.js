@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getTeacherCourses } from '../../services/actions'
+import { getTeacherCourses, getNotViewedNotification } from '../../services/actions'
+import CourseListItem from "../CourseListItem";
 
-class TeacherDashboard extends Component {
+class TeacherList extends Component {
 	constructor(props){
 		super(props);
 
@@ -34,29 +35,24 @@ class TeacherDashboard extends Component {
 		if (!courses){
 			courses = [];
 		}
-		let coursesList = [];
-		for (let i = 0;  i < courses.length; i++){
-			coursesList.push(
-				<div key={i}>
-					<Link 
-						to={`/classroom/course/${courses[i]._id}`}
-					>
-						{courses[i].name}
-					</Link>
-				</div>
-			)
-		}
 		
 		return (
 			<div className={this.props.className}>
-				<h1>Teacher courses: </h1>
-				{coursesList}
 				<button
-					className="btn btn-outline my-sm-0"
+					className="btn btn-outline m-4"
 					onClick={this.handleCreateCourse}
 				>
 					Create new course
 				</button>
+				<h1>Teacher courses: </h1>
+				{courses.map((course, i) => (
+					<div key={i}>
+						<CourseListItem
+							course={course}
+						/>
+					</div>
+				))}
+
 			</div>
 		);
 	}
@@ -78,4 +74,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(TeacherDashboard);
+)(TeacherList);

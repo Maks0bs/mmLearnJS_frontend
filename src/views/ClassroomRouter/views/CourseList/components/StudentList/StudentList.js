@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getEnrolledCourses } from '../../services/actions'
+import { getEnrolledCourses, getNotViewedNotification } from '../../services/actions'
+import CourseListItem from "../CourseListItem";
 
-class StudentDashboard extends Component {
+class StudentList extends Component {
 
 	componentDidMount(){
 		this.props.getEnrolledCourses(this.props.authenticatedUser._id);
@@ -18,11 +19,9 @@ class StudentDashboard extends Component {
 				<h1>Enrolled courses:</h1>
 				{this.props.enrolledCourses.map((course, i) => (
 					<div key={i}>
-						<Link
-							to={`/classroom/course/${course._id}`}
-						>
-							{course.name}
-						</Link>
+						<CourseListItem
+							course={course}
+						/>
 					</div>
 				))}
 			</div>
@@ -46,4 +45,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(StudentDashboard);
+)(StudentList);
