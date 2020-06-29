@@ -5,7 +5,7 @@ import types from './actionTypes'
 let { API_AUTHENTICATED_USER, API_LOGOUT } = types;
 
 let initialState = {
-	authenticatedUser: null
+	authenticatedUser: false
 }
 
 let servicesReducer = function(state = initialState, action) {

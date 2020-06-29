@@ -1,36 +1,35 @@
 import types from './actionTypes'
-import { getCoursesFiltered } from '../../../../../services/actions'
-let { API_GET_OPEN_COURSES, API_GET_TEACHER_COURSES, API_GET_ENROLLED_COURSES } = types;
+import {REACT_APP_API_URL} from "../../../../../constants";
+let {
+    API_GET_UPDATES_BY_DATE
+} = types;
 
-// all api requests related to Home view will be placed here
-// all nested components should only use these actions for backend requests
-
-export let getOpenCourses = () => (dispatch) => {
-	return dispatch(getCoursesFiltered(
-		{
-			type: 'open'
-		},
-		API_GET_OPEN_COURSES
-	))
-}
-
-
-// not used atm
-export let getEnrolledCourses = (userId) => (dispatch) => {
-	return dispatch(getCoursesFiltered(
-		{
-			enrolled: userId
-		},
-		API_GET_ENROLLED_COURSES
-	))
-}
-
-// not used atm
-export let getTeacherCourses = (userId) => (dispatch) => {
-	return dispatch(getCoursesFiltered(
-		{
-			teacher: userId
-		},
-		API_GET_TEACHER_COURSES
-	))
+export let getUpdatesByDate = (dateFrom, dateTo, courses, starting, cnt) => (dispatch) => {
+    return fetch(`${REACT_APP_API_URL}/users/updates-by-date`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            dateFrom,
+            dateTo,
+            courses,
+            starting,
+            cnt
+        })
+    })
+        .then(res => res.json())
+        .then(data => dispatch({
+            type: API_GET_UPDATES_BY_DATE,
+            payload: {
+                data: data,
+                dateFrom: dateFrom,
+                dateTo: dateTo,
+                cnt: cnt,
+                starting: starting
+            }
+        }))
+        .catch(err => console.log(err))
 }

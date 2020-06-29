@@ -1,0 +1,3 @@
+export default {
+	API_RESET_PASSWORD: 'API_RESET_PASSWORD'
+}

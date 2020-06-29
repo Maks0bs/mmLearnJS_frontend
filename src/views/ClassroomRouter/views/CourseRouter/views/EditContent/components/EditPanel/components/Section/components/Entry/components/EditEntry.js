@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
-import { editEntry, deleteEntry } from '../../../../../../../services/actions'
+import { editEntry, preDeleteEntry } from '../../../../../../../services/actions'
 import { connect } from 'react-redux'
+import DownloadElement from '../../../../../../DownloadElement'
+import { extend } from 'lodash'
 
 
 // make controlled components
@@ -12,17 +14,52 @@ class EditEntry extends Component {
 
         this.state = {
             name: '',
-            type: ''
+            content: '',
+            access: '',
+            teachersOnlyForum: false
         }
 
     }
 
     componentDidMount() {
+        /* 
+            Here entries are handled differently depending on their type:
+            Forum:
+                state.content = content.description
+                seperate variable for teachersOnly
+            Text:
+                state.content = content.text
+            File:
+                the file itself can only be reuploaded, that's why
+                state.content = new file (if any)
+
+            Only one state varialbe for different types of content is used to keep
+            code more flexible (but, unfortunately it makes it less understandable)
+        */
         let { sectionNum, entryNum } = this.props;
         let entry = this.props.courseData.sections[sectionNum].entries[entryNum];
+        let entryContent = entry.content;
+        console.log(entryContent);
+        switch (entry.type){
+            case 'text': {
+                entryContent = entryContent.text;
+                break;
+            }
+            case 'forum': {
+                entryContent = entryContent.description
+                this.setState({
+                    teachersOnlyForum: entry.content.teachersOnly
+                })
+                break;
+            }
+            default: 
+                entryContent = entry.content;
+                break;
+        }
         this.setState({
             name: entry.name,
-            type: entry.type
+            content: entryContent,
+            access: entry.access
         })
     }
 
@@ -32,17 +69,44 @@ class EditEntry extends Component {
         })
     }
 
+    handleTeachersOnlyForum = () => {
+        this.setState({
+            teachersOnlyForum: !this.state.teachersOnlyForum
+        })
+    }
+
     handleLeave = () => {
         this.props.onClose && this.props.onClose();
     }
 
     onSubmit = (event) => {
         event.preventDefault();
-        let { name, type } = this.state;
+        let { sectionNum, entryNum } = this.props;
+        let oldEntry = this.props.courseData.sections[sectionNum].entries[entryNum];
+        let { type } = oldEntry;
+        let { name, content, access, teachersOnlyForum } = this.state;
+        switch (type){
+            case 'text': {
+                content = {
+                    text: content
+                }
+                break;
+            }
+            case 'forum': {
+                content = extend(oldEntry.content, {
+                    teachersOnly: teachersOnlyForum,
+                    description: content
+                });
+                break;
+            }
+            default:
+                break;
+        }
         this.props.editEntry(
             {
             	name, 
-            	type
+            	content,
+                access
             },
             this.props.sectionNum,
             this.props.entryNum
@@ -50,15 +114,19 @@ class EditEntry extends Component {
         this.handleLeave();
     }
 
-    onDelete = (event) => {
+    onPreDelete = (event) => {
         event.preventDefault();
-        this.props.deleteEntry(
+        this.props.preDeleteEntry(
             this.props.sectionNum,
-            this.props.entryNum,
-            this.props.type,
-            this.props.content
+            this.props.entryNum
         )
         this.handleLeave();
+    }
+
+    handleFileChange = (e) => {
+        this.setState({
+            content: e.target.files[0]
+        })
     }
 
     componentWillUnmount(){
@@ -67,7 +135,12 @@ class EditEntry extends Component {
 
 
     render() {
-        let { name, type } = this.state;
+        let { name, content, access, teachersOnlyForum } = this.state;
+        /*if (!name){
+            return null;
+        }*/
+        let { sectionNum, entryNum } = this.props;
+        let { type, content: oldContent } = this.props.courseData.sections[sectionNum].entries[entryNum];
         return (
         	<div className="container">
 	            <form  onSubmit={this.onSubmit}>
@@ -81,16 +154,97 @@ class EditEntry extends Component {
 	                    />
 	                </div>
 
-	                <div className="form-group">
+	                {(() => {
+                        switch(type) {
+                            case 'text':
+                                return(
+                                    <div className="form-group">
+                                        <label className="text-muted">Text</label>
+                                        <input
+                                            onChange={this.handleChange("content")}
+                                            type="text"
+                                            className="form-control"
+                                            value={content}
+                                        />
+                                    </div>
+                                )
+                            case 'file':
+                                return (
+                                    <div>
+                                        {!oldContent.id ? (
+                                            <a
+                                                href={URL.createObjectURL(oldContent)}
+                                                download={oldContent.name}
+
+                                            >
+                                                {oldContent.name}
+                                            </a>
+                                        ) : (
+                                            <div>
+                                                <label className="text-muted mr-1">Old file:</label>
+                                                <DownloadElement
+                                                    id={oldContent.id}
+                                                    name={oldContent.originalname}
+                                                />
+                                            </div>
+                                        )}
+                                        <div className="custom-file mb-2 mt-2">
+                                            <label className="text-muted mr-1">Change file:</label>
+    
+                                            <input 
+                                                type="file"
+                                                onChange={this.handleFileChange}
+                                            />
+                                        </div>
+                                    </div>
+                                )
+                            case 'forum':
+                                return (
+                                    <div>
+                                        <div className="form-group">
+                                            <label className="text-muted">Description</label>
+                                            <input
+                                                onChange={this.handleChange("content")}
+                                                type="text"
+                                                className="form-control"
+                                                value={content || ''}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="text-muted">Only teachers can post</label>
+                                            <input
+                                                type="checkbox"
+                                                onChange={this.handleTeachersOnlyForum}
+                                                className="ml-3"
+                                                checked={teachersOnlyForum}
+                                            />
+                                        </div>
+                                        <p>
+                                            Please go to the { }
+                                            <Link
+                                                to={`/classroom/course/${this.props.courseData._id}/forum/` + 
+                                                    `${this.props.courseData.sections[sectionNum].entries[entryNum]._id}
+                                                `}
+                                                target="_blank"
+                                            >
+                                               forum page 
+                                            </Link>
+                                            { } to edit forum content as a teacher there
+                                        </p>
+                                    </div>
+                                )
+                        }
+                    })()}
+
+                    <div className="form-group">
+                        <label className="text-muted mr-2">Choose who has access:</label>
                         <select 
-                            name="type"
-                            value={type}
-                            onChange={this.handleChange("type")}
+                            name="access"
+                            value={access}
+                            onChange={this.handleChange("access")}
                         >
-                            <option value="">Choose entry type</option>
-                            <option value="file">File</option>
-                            <option value="forum">Forum</option>
-                            <option value="text">Text</option>
+                            <option value="students">Students and teachers</option>
+                            <option value="teachers">Teachers</option>
                         </select>
                     </div>
 	  
@@ -104,17 +258,25 @@ class EditEntry extends Component {
 	                </button>
                     <button 
                         className="btn btn-outline btn-raised btn-danger ml-3"
-                        onClick={this.onDelete}
+                        onClick={this.onPreDelete}
                         type="button"
                     >
                         Delete
                     </button>
-	                <button 
-	                    className="btn btn-outline btn-raised btn-success ml-3"
-                        type="submit"
-	                >
-	                    Save
-	                </button>
+
+                    {(() => {
+                        if (type && name){
+                            return (
+                                <button 
+                                    className="btn btn-outline btn-raised btn-success ml-3"
+                                    type="submit"
+                                >
+                                    Save
+                                </button>
+                            )
+                        }
+                    })()}
+
 	            </form>
 	        </div>
         );
@@ -124,7 +286,7 @@ class EditEntry extends Component {
 let mapDispatchToProps = (dispatch) => {
     return {
         editEntry: (entry, sectionNum, entryNum) => dispatch(editEntry(entry, sectionNum, entryNum)),
-        deleteEntry: (sectionNum, entryNum, type, content) => dispatch(deleteEntry(sectionNum, entryNum, type, content))
+        preDeleteEntry: (sectionNum, entryNum, type, content) => dispatch(preDeleteEntry(sectionNum, entryNum, type, content))
     }
 }
 

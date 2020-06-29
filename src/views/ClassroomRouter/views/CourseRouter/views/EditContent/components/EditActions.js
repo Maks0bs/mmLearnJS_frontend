@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { saveChanges } from '../services/actions'
+import { addToast } from '../../../../../../../components/ToastRoot/services/actions'
 
 class EditActions extends Component {
 	constructor(){
@@ -22,6 +23,17 @@ class EditActions extends Component {
 		this.props.saveChanges(this.props.courseData)
 			.then(() => {
 				this.handleLeave();
+
+	            this.props.addToast(
+                    (
+                        <div>
+                            Course data has been changed
+                        </div>
+                    ),
+                    {
+                        type: 'success'
+                    }
+                )
 			})
 	}
 
@@ -57,7 +69,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		saveChanges: (courseId) => dispatch(saveChanges(courseId))
+		saveChanges: (courseId) => dispatch(saveChanges(courseId)),
+		addToast: (component, options) => dispatch(addToast(component, options))
 	}
 }
 

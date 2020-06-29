@@ -17,7 +17,7 @@ class ActivationMessage extends Component {
 		return (user && user._id && !user.activated) ? (
 			<div className="alert alert-warning alert-dissmissible fade show mb-0 py-0 px-1 text-center">
 				Your account is not activated. 
-				Go to your <Link to={`/classroom/user/${user._id}`}>profile</Link>
+				Check your email or go to your <Link to={`/classroom/user/${user._id}`}>profile</Link>
 				{' '}to activate it.
 				<button 
 					type="button" 

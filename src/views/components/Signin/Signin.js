@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { signin, clearMessages } from './services/actions'
+import { addToast } from '../../../components/ToastRoot/services/actions'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 
 
 // make controlled components
 
-class Signin extends Component {
+class Signin extends PureComponent {
     constructor(props){
         super(props);
 
@@ -28,6 +30,11 @@ class Signin extends Component {
     }
 
     handleLeave = () => {
+
+        this.setState({
+            reload: false
+        })
+        console.log('handleLeave', this.props);
         this.props.clearMessages();
         this.props.onClose && this.props.onClose();
     }
@@ -47,6 +54,17 @@ class Signin extends Component {
                     this.setState({
                         reload: true
                     })
+
+                    this.props.addToast(
+                        (
+                            <div>
+                                You have signed in successfully
+                            </div>
+                        ),
+                        {
+                            type: 'success'
+                        }
+                    )
                 }
             })
     }
@@ -94,8 +112,17 @@ class Signin extends Component {
         let { error, message } = this.props;
         if (reload){
             this.handleLeave();
-            window.location.reload()//very very bad solution!!!
-            return null;
+            console.log('redirect');
+            return (
+                <Redirect 
+                    to={{
+                        pathname: '/reload',
+                        state: {
+                            page: this.props.location.pathname
+                        }
+                    }}
+                />
+            )
         }
         return (
             //TODO: add social login
@@ -148,7 +175,8 @@ class Signin extends Component {
 let mapDispatchToProps = (dispatch) => {
     return {
         clearMessages: () => dispatch(clearMessages()),
-        signin: (user) => dispatch(signin(user)) 
+        signin: (user) => dispatch(signin(user)),
+        addToast: (component, options) => dispatch(addToast(component, options))
     }
 }
 

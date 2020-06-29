@@ -5,27 +5,22 @@ import Main from './views/Main'
 import { getAuthenticatedUser } from '../../services/actions'
 import { connect } from 'react-redux'
 import ActivationMessage from '../components/ActivationMessage'
-import User from './views/User'
-import Dashboard from './views/Dashboard'
+import UserRouter from './views/UserRouter'
+import CourseList from './views/CourseList'
+import Dashboard from "./views/Dashboard";
 import CourseRouter from './views/CourseRouter'
-import _ from 'lodash'
+import OptimizedComponent from "../../components/OptimizedComponent";
 
-class ClassroomRouter extends Component {
-	constructor() {
-		super();
-
-		this.state = {
-			loaded: false
-		}
-	}
-
-	shouldComponentUpdate(nextProps) {
-		return !_.isEqual(nextProps, this.props);
-	}
-
+class ClassroomRouter extends OptimizedComponent {
 
 	render() {
-		this.props.getAuthenticatedUser()
+		super.render();
+		if (this.canCallOptimally()){
+			this.props.getAuthenticatedUser()
+		}
+		if (this.props.authenticatedUser === false){
+			return null;
+		}
 		
 		let { path } = this.props.match;
 		return (
@@ -39,8 +34,8 @@ class ClassroomRouter extends Component {
 						component={Main}
 					/>
 					<Route
-						exact path={`${path}/user/:userId`}
-						component={User}
+						exact path={`${path}/courses`}
+						component={CourseList}
 					/>
 					<Route
 						exact path={`${path}/dashboard`}
@@ -49,6 +44,10 @@ class ClassroomRouter extends Component {
 					<Route
 						path={`${path}/course`}
 						component={CourseRouter}
+					/>
+					<Route
+						path={`${path}/user/:userId`}
+						component={UserRouter}
 					/>
 				</Switch>
 			</div>
@@ -62,7 +61,13 @@ let mapStateToProps = (state) => {
 	}
 }
 
+let mapDispatchToProps = (dispatch) => {
+	return {
+		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+	}
+}
+
 export default connect(
-	null,
-	{ getAuthenticatedUser }
+	mapStateToProps,
+	mapDispatchToProps
 )(ClassroomRouter);

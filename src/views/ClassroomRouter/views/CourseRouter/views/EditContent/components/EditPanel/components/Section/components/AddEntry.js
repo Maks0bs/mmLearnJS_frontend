@@ -13,12 +13,27 @@ class AddEntry extends Component {
         this.state = {
             name: '',
             type: '',
-            content: null
+            content: null,
+            teachersOnlyForum: false,
+            access: 'students'
         }
 
     }
 
+    handleTeachersOnlyForum = () => {
+        this.setState({
+            teachersOnlyForum: !this.state.teachersOnlyForum
+        })
+    }
+
     handleChange = (name) => (event) => {
+        if (name === 'type'){
+            this.setState({
+                content: null,
+                teachersOnlyForum: false
+            })
+        }
+
         this.setState({
             [name]: event.target.value
         })
@@ -30,12 +45,24 @@ class AddEntry extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        let { name, type, content } = this.state;
+        let { name, type, content, access } = this.state;
+        if (type === 'text'){
+            content = {
+                text: content
+            }
+        }
+        if (type === 'forum'){
+            content = {
+                description: content,
+                teachersOnly: this.state.teachersOnlyForum
+            }
+        }
         this.props.addEntry(
             {
             	name, 
             	type,
-                content
+                content,
+                access
             },
             this.props.sectionNum
         )
@@ -54,7 +81,8 @@ class AddEntry extends Component {
 
 
     render() {
-        let { name, type, content } = this.state;
+        let { name, type, content, teachersOnlyForum, access } = this.state;
+        console.log(access);
         return (
         	<div className="p-4">
 	            <form onSubmit={this.onSubmit}>
@@ -104,8 +132,44 @@ class AddEntry extends Component {
                                         />
                                     </div>
                                 )
+                            case 'forum': {
+                                return (
+                                    <div>
+                                        <div className="form-group">
+                                            <label className="text-muted">Description</label>
+                                            <input
+                                                onChange={this.handleChange("content")}
+                                                type="text"
+                                                className="form-control"
+                                                value={content || ''}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="text-muted">Only teachers can post</label>
+                                            <input
+                                                type="checkbox"
+                                                onChange={this.handleTeachersOnlyForum}
+                                                className="ml-3"
+                                                checked={teachersOnlyForum}
+                                            />
+                                        </div>
+                                    </div>
+                                )
+                            }
                         }
                     })()}
+
+                    <div className="form-group">
+                        <label className="text-muted mr-2">Choose who has access:</label>
+                        <select 
+                            name="access"
+                            value={access}
+                            onChange={this.handleChange("access")}
+                        >
+                            <option value="students">Students and teachers</option>
+                            <option value="teachers">Teachers</option>
+                        </select>
+                    </div>
 	  
 
 	                <button 
@@ -115,12 +179,19 @@ class AddEntry extends Component {
 	                >
 	                    Cancel
 	                </button>
-	                <button 
-	                    className="btn btn-outline btn-raised btn-success ml-3"
-	                    type="submit"
-	                >
-	                    Add
-	                </button>
+                    {(() => {
+                        if (type && name && access){
+                            return (
+                                <button 
+                                    className="btn btn-outline btn-raised btn-success ml-3"
+                                    type="submit"
+                                >
+                                    Add
+                                </button>
+                            )
+                        }
+                    })()}
+
 	            </form>
 	        </div>
         );

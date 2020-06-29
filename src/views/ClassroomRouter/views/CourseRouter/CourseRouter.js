@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
-import Main from './views/Main'
+import MainRouter from './views/MainRouter'
 import EditContent from './views/EditContent'
 import CreateCourse from './views/CreateCourse'
 import EditInfo from './views/EditInfo'
@@ -10,7 +10,6 @@ class CourseRouter extends Component {
 
 	render() {
 		let { path } = this.props.match;
-		console.log('course router', this.props);
 		return (
 			<div>
 				<Switch>
@@ -25,13 +24,13 @@ class CourseRouter extends Component {
 					/>
 
 					<Route
-						exact path={`${path}/:courseId`}
-						component={Main}
+						exact path={`${path}/edit-info/:courseId`}
+						component={EditInfo}
 					/>
 
 					<Route
-						exact path={`${path}/edit-info/:courseId`}
-						component={EditInfo}
+						path={`${path}/:courseId`}
+						component={MainRouter}
 					/>
 					
 				</Switch>

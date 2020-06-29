@@ -49,9 +49,8 @@ class NavDropdown extends React.Component {
 		const classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
 		return (
 			<li className="nav-item dropdown">
-			    <a 
-			    	className="nav-link dropdown-toggle" 
-			    	data-toggle="dropdown"
+			    <a
+			    	className="nav-link dropdown-toggle"
 			        onClick={(e) => {this.showDropdown(e)}}
 			        style={{
 			        	cursor: 'pointer',
@@ -100,7 +99,7 @@ class ClassroomMenu extends Component {
 		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
 		return (
 			<nav className="navbar navbar-expand-lg navbar-light bg-light">
-				<NavItem pageURI={pathname} path="/classroom" name="Classroom" brand="true"/>
+				<NavItem pageURI={pathname} path="/classroom/dashboard" name="Classroom" brand="true"/>
 		        <ul className="navbar-nav mr-auto">
 		            <NavItem pageURI={pathname} path="/" name="public page" />
 		            <NavItem pageURI={pathname} path="/classroom/page2" name="test2" />
@@ -134,8 +133,11 @@ class ClassroomMenu extends Component {
 				    		Profile
 				    	</Link>
 				    	<Link className="dropdown-item" to="/classroom/dashboard">
-				    		Classroom
+				    		Dashboard
 				    	</Link>
+						<Link className="dropdown-item" to="/classroom/courses">
+							Courses
+						</Link>
 				    	<span 
 				    		className="dropdown-item" 
 				    		onClick={(e) => this.handleLogout()}

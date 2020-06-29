@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { reorder, dndTypes } from '../../../../services/helpers'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { hideModal, showModal } from '../../../../../../../../../../components/ModalRoot/services/actions';
+import { deleteSection, restoreDeletedSection } from '../../../../services/actions'
 import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import AddEntry from './components/AddEntry'
 import EditSection from './components/EditSection'
@@ -30,8 +31,44 @@ class Section extends Component {
         )
     }
 
+    onDelete = (e) => {
+        e.preventDefault();
+        this.props.deleteSection(
+            this.props.sectionId
+        )
+    }
+
+    onRestore = (e) => {
+        e.preventDefault();
+        this.props.restoreDeletedSection(
+            this.props.sectionId
+        )
+    }
+
     render(){
-        let { name, description, entries, sectionId } = this.props;
+        let { name, description, entries, sectionId, courseId, deleted } = this.props;
+        if (this.props.deleted){
+            return (
+                <div>
+                    <p> Deleted section <strong> {name} </strong> </p>
+                    <a
+                        href="#void"
+                        style={{color: 'blue'}}
+                        onClick={this.onRestore}
+                    > 
+                        Restore 
+                    </a>
+                    <a 
+                        href="#void"
+                        className="ml-2"
+                        style={{color: 'brown'}}
+                        onClick={this.onDelete}
+                    > 
+                        Do not show anymore
+                    </a>
+                </div>
+            )
+        }
         return (
             <div>
                 <Icon 
@@ -92,6 +129,8 @@ class Section extends Component {
                                                             content={entry.content}
                                                             sectionId={sectionId}
                                                             entryId={index}
+                                                            id={entry._id || null}
+                                                            courseId={courseId}
                                                         />
                                                     </div>
                                                 </div>
@@ -127,7 +166,9 @@ class Section extends Component {
 let mapDispatchToProps = (dispatch) => {
     return {
         hideModal: () => dispatch(hideModal()),
-        showModal: (component) => dispatch(showModal(component))
+        showModal: (component) => dispatch(showModal(component)),
+        deleteSection: (sectionNum) => dispatch(deleteSection(sectionNum)),
+        restoreDeletedSection: (sectionNum) => dispatch(restoreDeletedSection(sectionNum))
     }
 }
 

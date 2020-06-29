@@ -9,22 +9,23 @@ import { connect } from 'react-redux'
 import { getAuthenticatedUser } from '../../services/actions'
 import ActivationMessage from '../components/ActivationMessage'
 import InviteSignup from './views/InviteSignup'
-import _ from 'lodash'
+import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
+import ResetPassword from "./views/ResetPassword/ResetPassword";
+import OptimizedComponent from "../../components/OptimizedComponent";
 
 
 
-class PublicRouter extends Component {
-	constructor(){
-		super()
-	}
-
-	shouldComponentUpdate(nextProps) {
-		return !_.isEqual(nextProps, this.props);
-	}
+class PublicRouter extends OptimizedComponent {
 
 	render() {
-		console.log('render');
-		this.props.getAuthenticatedUser();
+		super.render();
+		if (this.canCallOptimally()){
+			this.props.getAuthenticatedUser()
+		}
+		if (this.props.authenticatedUser === false){
+			return null;
+		}
+
 		let { path } = this.props.match;
 		return (
 			// notice that you can horizontally scroll the page
@@ -53,6 +54,14 @@ class PublicRouter extends Component {
 					<Route 
 						exact path={`/invite-signup/:token`}
 						component={InviteSignup}
+					/>
+					<Route
+						exact path={`/forgot-password`}
+						component={ForgotPassword}
+					/>
+					<Route
+						exact path={`/reset-password/:token`}
+						component={ResetPassword}
 					/>
 				</Switch>
 			</div>

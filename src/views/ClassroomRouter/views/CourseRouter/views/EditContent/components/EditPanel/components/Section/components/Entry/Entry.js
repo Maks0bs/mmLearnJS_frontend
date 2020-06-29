@@ -4,12 +4,14 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { hideModal, showModal } from '../../../../../../../../../../../../components/ModalRoot/services/actions';
 import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import EditEntry from './components/EditEntry'
-import { getFileById } from '../../../../../../services/actions'
-import { getDownloadLink } from '../../../../../../services/helpers'
+import DownloadElement from '../../../../../DownloadElement'
+import { Link } from 'react-router-dom'
+import { deleteEntry, restoreDeletedEntry } from '../../../../../../services/actions'
 
 class Entry extends Component {
 
-	showEditEntryModal = () => {
+	showEditEntryModal = (e) => {
+        e.preventDefault();
         this.props.showModal(
             <EditEntry 
                 onClose={this.props.hideModal} 
@@ -21,25 +23,47 @@ class Entry extends Component {
         )
     }
 
-    getDownloadElement = (id, name) => {
-        let link = getDownloadLink(id, name);
-        return (
-            <a
-                href={link}
-                download={name}
-                style={{
-                    color: '#AFB42B'
-                }}
-            >
-                {name}
-            </a>
+    onDelete = (e) => {
+        e.preventDefault();
+        this.props.deleteEntry(
+            this.props.sectionId,
+            this.props.entryId
+        )
+    }
+
+    onRestore = (e) => {
+        e.preventDefault();
+        this.props.restoreDeletedEntry(
+            this.props.sectionId,
+            this.props.entryId
         )
     }
 
 	render() {
-		let { name, type, content } = this.props;
+		let { name, type, content, id, courseId } = this.props;
 		//switch type
-		console.log('entry props', this.props);	
+		if (type === 'deleted'){
+            return (
+                <div>
+                    <p> Deleted entry <strong> {name} </strong> </p>
+                    <a
+                        href="#void"
+                        style={{color: 'lightblue'}}
+                        onClick={this.onRestore}
+                    > 
+                        Restore 
+                    </a>
+                    <a 
+                        href="#void"
+                        className="ml-2"
+                        style={{color: 'brown'}}
+                        onClick={this.onDelete}
+                    > 
+                        Do not show anymore
+                    </a>
+                </div>
+            )
+        }
 		return (
 			<div>
 				<Icon 
@@ -51,13 +75,18 @@ class Entry extends Component {
 					}}
 				/>
 				<h4>{name}</h4>
+                {(() => {
+                    if (!id){
+                        return <p style={{color: 'green'}}> new </p>
+                    } else return null
+                })()}
 				<p>Type: {type}</p>
 				{(() => {
                     switch(type) {
                         case 'text':
                             return(
                                 <div>
-                                    {content}
+                                    {content.text}
                                 </div>
                             )
                         case 'file':
@@ -66,15 +95,43 @@ class Entry extends Component {
 	                        		<a
 										href={URL.createObjectURL(content)}
 										download={content.name}
+                                        style={{
+                                            color: 'lightblue'
+                                        }}
 									>
-										{content.name}
+										File: {content.name}
 									</a>
 	                        	)
                         	}
                         	else{
-                        		return this.getDownloadElement(content.id, content.originalname);
+                        		return (
+                                    <DownloadElement
+                                        id={content.id}
+                                        name={content.originalname}
+                                    />
+                                )
                         	}
-                        	
+                        case 'forum': 
+                            if (content._id){
+                                return (
+                                    <Link
+                                        style={{
+                                            color: 'lightblue'
+                                        }}
+                                        to={`/classroom/course/${courseId}/forum/${id}`}
+                                        target="_blank"
+                                >
+                                    Forum: {name}
+                                </Link>
+                                )
+                            }
+                            else{
+                                return (
+                                    <div>
+                                        New forum (will be added){name}
+                                    </div>
+                                )
+                            }
                     }
                 })()}
 			</div>
@@ -86,7 +143,10 @@ let mapDispatchToProps = (dispatch) => {
     return {
         hideModal: () => dispatch(hideModal()),
         showModal: (component) => dispatch(showModal(component)),
-        getFileById: (fileId, ref) => dispatch(getFileById(fileId, ref))
+        deleteEntry: (sectionNum, entryNum) => 
+            dispatch(deleteEntry(sectionNum, entryNum)),
+        restoreDeletedEntry: (sectionNum, entryNum) => 
+            dispatch(restoreDeletedEntry(sectionNum, entryNum))
     }
 }
 

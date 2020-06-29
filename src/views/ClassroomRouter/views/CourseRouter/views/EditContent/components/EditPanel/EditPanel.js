@@ -8,7 +8,8 @@ import { hideModal, showModal } from '../../../../../../../../components/ModalRo
 import Section from './components/Section'
 import AddSection from './components/AddSection'
 import _ from 'lodash'
-import { reorder, dndTypes, regExpressions } from '../../services/helpers'
+import { reorderArray } from "../../../../../../../../components/services/helpers";
+import { dndTypes, regExpressions } from '../../services/helpers'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faAlignJustify, faPlus } from '@fortawesome/free-solid-svg-icons'
 let { SECTIONS, ENTRIES } = dndTypes;
@@ -27,7 +28,7 @@ class EditPanel extends Component {
 		}
 
 		if (result.type === SECTIONS) {
-            let sections = reorder(
+            let sections = reorderArray(
                 this.props.courseData.sections,
                 result.source.index,
                 result.destination.index
@@ -39,7 +40,7 @@ class EditPanel extends Component {
 	        	let re = regExpressions.sectionDroppableId;
 	        	let id = parseInt(re.exec(result.source.droppableId)[1], 10);
 
-	            let entries = reorder(
+	            let entries = reorderArray(
 	                this.props.courseData.sections[id].entries,
 	                result.source.index,
 	                result.destination.index
@@ -82,6 +83,7 @@ class EditPanel extends Component {
 			<DragDropContext
 				onDragEnd={this.onDragEnd}
 			>
+				<p className="ml-3 mt-2"> <Icon icon={faAlignJustify} /> = Move around sections and entries </p>
 				<Droppable droppableId="droppableRoot" type={SECTIONS}>
 					{(provided, snapshot) => (
 						<div
@@ -127,6 +129,8 @@ class EditPanel extends Component {
 														description={section.description}
 														entries={section.entries}
 														sectionId={i}
+														courseId={courseData._id}
+														deleted={section.deleted}
 													/>
 												</div>
 
@@ -154,7 +158,6 @@ class EditPanel extends Component {
 				</Droppable>
 
 				<hr />
-				{JSON.stringify(this.props.oldCourseData)}
 			</DragDropContext>
 		)
 	}
