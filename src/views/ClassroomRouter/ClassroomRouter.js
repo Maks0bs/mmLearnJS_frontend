@@ -9,40 +9,13 @@ import UserRouter from './views/UserRouter'
 import CourseList from './views/CourseList'
 import Dashboard from "./views/Dashboard";
 import CourseRouter from './views/CourseRouter'
-import _ from 'lodash'
+import OptimizedComponent from "../../components/OptimizedComponent";
 
-class ClassroomRouter extends Component {
-	constructor() {
-		super();
-
-		this.upd = 0;
-		this.state = {
-			mounted: false
-		}
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		if (!_.isEqual(nextProps, this.props)){
-			this.upd++;
-			return true;
-		}
-		return (!_.isEqual(nextState, this.state) || !_.isEqual(nextProps, this.props))
-	}
-
-	componentDidMount() {
-		this.setState({
-			mounted: true
-		})
-	}
-
+class ClassroomRouter extends OptimizedComponent {
 
 	render() {
-		if (!this.state.mounted){
-			return null;
-		}
-
-		this.upd++;
-		if (this.upd === 1){
+		super.render();
+		if (this.canCallOptimally()){
 			this.props.getAuthenticatedUser()
 		}
 		if (this.props.authenticatedUser === false){

@@ -1,14 +1,13 @@
 import types from './actionTypes'
 import { getCoursesFiltered } from '../../../../../services/actions'
+import {REACT_APP_API_URL} from "../../../../../constants";
 let {
 	API_GET_OPEN_COURSES,
 	API_GET_TEACHER_COURSES,
 	API_GET_ENROLLED_COURSES ,
-	API_GET_NOT_VIEWED_NOTIFICATIONS
+	API_GET_NOT_VIEWED_NOTIFICATIONS,
+	CLEAR_NOTIFICATIONS
 } = types;
-
-// all api requests related to Home view will be placed here
-// all nested components should only use these actions for backend requests
 
 export let getOpenCourses = () => (dispatch) => {
 	return dispatch(getCoursesFiltered(
@@ -20,7 +19,6 @@ export let getOpenCourses = () => (dispatch) => {
 }
 
 
-// not used atm
 export let getEnrolledCourses = (userId) => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
@@ -30,7 +28,6 @@ export let getEnrolledCourses = (userId) => (dispatch) => {
 	))
 }
 
-// not used atm
 export let getTeacherCourses = (userId) => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
@@ -40,6 +37,31 @@ export let getTeacherCourses = (userId) => (dispatch) => {
 	))
 }
 
-export let getNotViewedNotification = (courses) => (dispatch) => {
-	//TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+export let clearNotifications = () => (dispatch) => {
+	return dispatch({
+		type: CLEAR_NOTIFICATIONS
+	})
+}
+
+export let addNotViewedNotifications = (courses) => (dispatch) => {
+	//console.log(courses);
+	return fetch(`${REACT_APP_API_URL}/courses/updates-notifications`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json"
+		},
+		credentials: 'include',
+		body: JSON.stringify({
+			courses
+		})
+	})
+		.then(res => res.json())
+		.then(data => {
+			dispatch({
+				type: API_GET_NOT_VIEWED_NOTIFICATIONS,
+				payload: data
+			})
+		})
+		.catch(err => console.log(err))
 }

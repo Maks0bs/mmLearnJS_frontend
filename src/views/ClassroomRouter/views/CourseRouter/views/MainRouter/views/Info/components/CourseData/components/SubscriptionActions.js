@@ -25,7 +25,7 @@ class SubscriptionActions extends Component {
                         }
                     </div>
                 ),
-                {type: 'success'}
+                {type: action === 'subscribe' ? 'success' : 'info'}
             )
             this.setState({
                 reload: true
@@ -77,7 +77,7 @@ class SubscriptionActions extends Component {
         }
         let subbed = false;
         for (let i of this.props.authenticatedUser.subscribedCourses){
-            if (i.course === this.props.courseData._id){
+            if (i.course._id === this.props.courseData._id){
                 subbed = true;
                 break;
             }

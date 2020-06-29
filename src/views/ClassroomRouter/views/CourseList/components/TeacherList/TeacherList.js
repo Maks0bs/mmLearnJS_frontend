@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getTeacherCourses, getNotViewedNotification } from '../../services/actions'
 import CourseListItem from "../CourseListItem";
+import {getUserSubscribedSet} from "../../services/helpers";
 
 class TeacherList extends Component {
 	constructor(props){
@@ -19,10 +19,6 @@ class TeacherList extends Component {
 		})
 	}
 
-	componentDidMount(){
-		this.props.getTeacherCourses(this.props.authenticatedUser._id);
-	}
-
 	render() {
 		let { redirectToCreateCourse } = this.state;
 		if (redirectToCreateCourse){
@@ -31,10 +27,7 @@ class TeacherList extends Component {
 			)
 		}
 
-		let { teacherCourses: courses} = this.props
-		if (!courses){
-			courses = [];
-		}
+		let subscribedSet = getUserSubscribedSet(this.props.authenticatedUser);
 		
 		return (
 			<div className={this.props.className}>
@@ -45,10 +38,12 @@ class TeacherList extends Component {
 					Create new course
 				</button>
 				<h1>Teacher courses: </h1>
-				{courses.map((course, i) => (
+				{this.props.teacherCourses.map((course, i) => (
 					<div key={i}>
 						<CourseListItem
 							course={course}
+							notifications={this.props.notViewedNotifications[course._id]}
+							subscribed={!!subscribedSet[course._id]}
 						/>
 					</div>
 				))}
@@ -65,13 +60,7 @@ let mapStateToProps = (state) => {
 	}
 }
 
-let mapDispatchToProps = (dispatch) => {
-	return {
-		getTeacherCourses: (userId) => dispatch(getTeacherCourses(userId))
-	}
-}
-
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps
+	null
 )(TeacherList);

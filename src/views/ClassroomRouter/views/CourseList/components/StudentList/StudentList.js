@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getEnrolledCourses, getNotViewedNotification } from '../../services/actions'
 import CourseListItem from "../CourseListItem";
+import {getUserSubscribedSet} from "../../services/helpers";
 
 class StudentList extends Component {
 
-	componentDidMount(){
-		this.props.getEnrolledCourses(this.props.authenticatedUser._id);
-	}
-
 	render() {
-		if (!this.props.enrolledCourses){
-			return null;
-		}
+		let subscribedSet = getUserSubscribedSet(this.props.authenticatedUser);
 		return (
 			<div className={this.props.className}>
 				<h1>Enrolled courses:</h1>
@@ -21,6 +14,8 @@ class StudentList extends Component {
 					<div key={i}>
 						<CourseListItem
 							course={course}
+							notifications={this.props.notViewedNotifications[course._id]}
+							subscribed={!!subscribedSet[course._id]}
 						/>
 					</div>
 				))}
@@ -36,13 +31,7 @@ let mapStateToProps = (state) => {
 	}
 }
 
-let mapDispatchToProps = (dispatch) => {
-	return {
-		getEnrolledCourses: (userId) => dispatch(getEnrolledCourses(userId))
-	}
-}
-
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps
+	null
 )(StudentList);

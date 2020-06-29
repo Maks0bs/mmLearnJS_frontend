@@ -4,44 +4,14 @@ import Info from './views/Info'
 import ForumRouter from './views/ForumRouter'
 import { connect } from 'react-redux'
 import {getCourseById, viewCourse} from './services/actions'
-import _ from 'lodash'
+import OptimizedComponent from "../../../../../../components/OptimizedComponent";
 
 
-class MainRouter extends Component {
-	constructor(){
-		super();
-
-		this.upd = 0;
-		this.state = {
-			mounted: false
-		}
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		if (!_.isEqual(nextProps, this.props)){
-			this.upd++;
-			return true;
-		}
-		return (!_.isEqual(nextState, this.state) || !_.isEqual(nextProps, this.props)) 
-	}
-
-	componentDidMount() {
-		this.setState({
-			mounted: true
-		})
-	}
-
+class MainRouter extends OptimizedComponent {
 
 	render() {
-
-		if (!this.state.mounted){
-			return null;
-		}
-
-
-		this.upd++;
-		console.log('!!!render', this.upd, this.props, this.state);
-		if (this.upd === 1){
+		super.render();
+		if (this.canCallOptimally()){
 			this.props.getCourseById(this.props.match.params.courseId)
 			if (this.props.authenticatedUser) {
 				this.props.viewCourse(this.props.match.params.courseId);

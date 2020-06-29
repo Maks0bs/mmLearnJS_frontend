@@ -4,43 +4,14 @@ import Topic from './views/Topic'
 import Forum from './views/Forum'
 import { connect } from 'react-redux'
 import { getForumFromCourse } from './services/actions'
-import _ from 'lodash'
+import OptimizedComponent from "../../../../../../../../components/OptimizedComponent";
 
 
-class ForumRouter extends Component {
-	constructor() {
-		super();
-
-		this.upd = 0;
-		this.state = {
-			mounted: false
-		}
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		if (!_.isEqual(nextProps, this.props)){
-			this.upd++;
-			return true;
-		}
-		return (!_.isEqual(nextState, this.state) || !_.isEqual(nextProps, this.props))
-	}
-
-	componentDidMount() {
-		this.setState({
-			mounted: true
-		})
-	}
-
-
-
+class ForumRouter extends OptimizedComponent {
 	render() {
-		if (!this.state.mounted){
-			return null;
-		}
-
-		this.upd++;
-
-		if (this.upd === 1){
+		super.render();
+		console.log(this.upd);
+		if (this.canCallOptimally()){
 			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
 		}
 		if (!this.props.forumData){

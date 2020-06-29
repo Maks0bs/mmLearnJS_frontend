@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 class CourseListItem extends Component {
     render() {
-        let { course, notifications } = this.props;
+        let { course, notifications, subscribed } = this.props;
         return (
             <div
                 style={{
@@ -19,14 +19,25 @@ class CourseListItem extends Component {
                     <Link
                         to={`/classroom/course/${course._id}`}
                     >
+                        {subscribed && (
+                            <mark
+                                style={{
+                                    background: 'green'
+                                }}
+                            >
+                                [subscribed]
+                            </mark>
+                        )}
                         {course.name}
-                        <mark
-                            style={{
-                                background: 'yellow'
-                            }}
-                        >
-                            1
-                        </mark>
+                        {notifications && (
+                            <mark
+                                style={{
+                                    background: 'yellow'
+                                }}
+                            >
+                                {notifications}
+                            </mark>
+                        )}
                     </Link>
                 </h5>
 
