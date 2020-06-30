@@ -2,14 +2,19 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CourseListItem from "../CourseListItem";
-import {getUserSubscribedSet} from "../../services/helpers";
+import { getUserSubscribedSet, transitionStyles} from "../../services/helpers";
+import { Transition } from 'react-transition-group'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import CollapsibleCourseList from "../CollapsibleCourseList";
 
 class TeacherList extends Component {
 	constructor(props){
 		super(props);
 
 		this.state = {
-			redirectToCreateCourse: false
+			redirectToCreateCourse: false,
+			showList: false
 		}
 	}
 
@@ -18,6 +23,8 @@ class TeacherList extends Component {
 			redirectToCreateCourse: true
 		})
 	}
+
+
 
 	render() {
 		let { redirectToCreateCourse } = this.state;
@@ -28,7 +35,62 @@ class TeacherList extends Component {
 		}
 
 		let subscribedSet = getUserSubscribedSet(this.props.authenticatedUser);
+
 		
+		/*return (
+
+			<div className={this.props.className}>
+				<button
+					className="btn btn-outline m-4"
+					onClick={this.handleCreateCourse}
+				>
+					Create new course
+				</button>
+				<a
+					onClick={this.handleListClick}
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						color: 'darkblue',
+						cursor: 'pointer'
+					}}
+				>
+						<Icon
+							className="fa-2x"
+							icon={this.state.showList ? faCaretDown : faCaretRight}
+							style={{
+								float: 'left'
+							}}
+						/>
+						<h1>Teacher courses: </h1>
+				</a>
+				<Transition
+					in={this.state.showList}
+					timeout={100}
+					unmountOnExit
+					appear
+				>
+					{state => (
+						<div
+							style={{
+								...transitionStyles[state]
+							}}
+						>
+							{this.props.teacherCourses.map((course, i) => (
+								<div key={i}>
+									<CourseListItem
+										course={course}
+										notifications={this.props.notViewedNotifications[course._id]}
+										subscribed={!!subscribedSet[course._id]}
+									/>
+								</div>
+							))}
+						</div>
+					)}
+				</Transition>
+
+			</div>
+		);*/
 		return (
 			<div className={this.props.className}>
 				<button
@@ -37,19 +99,21 @@ class TeacherList extends Component {
 				>
 					Create new course
 				</button>
-				<h1>Teacher courses: </h1>
-				{this.props.teacherCourses.map((course, i) => (
-					<div key={i}>
-						<CourseListItem
-							course={course}
-							notifications={this.props.notViewedNotifications[course._id]}
-							subscribed={!!subscribedSet[course._id]}
-						/>
-					</div>
-				))}
-
+				<CollapsibleCourseList
+					listName="Teacher courses"
+				>
+					{this.props.teacherCourses.map((course, i) => (
+						<div key={i}>
+							<CourseListItem
+								course={course}
+								notifications={this.props.notViewedNotifications[course._id]}
+								subscribed={!!subscribedSet[course._id]}
+							/>
+						</div>
+					))}
+				</CollapsibleCourseList>
 			</div>
-		);
+		)
 	}
 }
 

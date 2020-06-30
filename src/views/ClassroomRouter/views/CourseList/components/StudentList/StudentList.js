@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import CourseListItem from "../CourseListItem";
 import {getUserSubscribedSet} from "../../services/helpers";
+import CollapsibleCourseList from "../CollapsibleCourseList";
 
 class StudentList extends Component {
 
 	render() {
 		let subscribedSet = getUserSubscribedSet(this.props.authenticatedUser);
 		return (
-			<div className={this.props.className}>
-				<h1>Enrolled courses:</h1>
+			<CollapsibleCourseList
+				listName={"Enrolled courses"}
+			>
 				{this.props.enrolledCourses.map((course, i) => (
 					<div key={i}>
 						<CourseListItem
@@ -19,7 +21,7 @@ class StudentList extends Component {
 						/>
 					</div>
 				))}
-			</div>
+			</CollapsibleCourseList>
 		);
 	}
 }
