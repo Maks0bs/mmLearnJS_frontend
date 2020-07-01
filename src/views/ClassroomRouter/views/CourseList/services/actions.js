@@ -12,7 +12,8 @@ let {
 export let getOpenCourses = () => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
-			type: 'open'
+			type: 'open',
+			select: ['_id', 'name', 'about', 'type', 'updates']
 		},
 		API_GET_OPEN_COURSES
 	))
@@ -22,7 +23,8 @@ export let getOpenCourses = () => (dispatch) => {
 export let getEnrolledCourses = (userId) => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
-			enrolled: userId
+			enrolled: userId,
+			select: ['_id', 'name', 'about', 'type', 'updates']
 		},
 		API_GET_ENROLLED_COURSES
 	))
@@ -31,7 +33,8 @@ export let getEnrolledCourses = (userId) => (dispatch) => {
 export let getTeacherCourses = (userId) => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
-			teacher: userId
+			teacher: userId,
+			select: ['_id', 'name', 'about', 'type', 'updates']
 		},
 		API_GET_TEACHER_COURSES
 	))

@@ -10,6 +10,7 @@ import CourseList from './views/CourseList'
 import Dashboard from "./views/Dashboard";
 import CourseRouter from './views/CourseRouter'
 import OptimizedComponent from "../../components/OptimizedComponent";
+import SearchCourses from "./views/SearchCourses/SearchCourses";
 
 class ClassroomRouter extends OptimizedComponent {
 
@@ -40,6 +41,10 @@ class ClassroomRouter extends OptimizedComponent {
 					<Route
 						exact path={`${path}/dashboard`}
 						component={Dashboard}
+					/>
+					<Route
+						exact path={`${path}/search/:searchQuery`}
+						component={SearchCourses}
 					/>
 					<Route
 						path={`${path}/course`}

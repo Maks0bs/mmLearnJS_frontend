@@ -10,7 +10,7 @@ class CreateCourse extends Component {
 		this.state = {
 			name: '',
 			about: '',
-			type: '',
+			type: 'open',
 			hasPassword: false,
 			password: '',
 			redirectToCourse: false
@@ -114,10 +114,9 @@ class CreateCourse extends Component {
 						value={type}
 						onChange={this.handleChange("type")}
 					>
-						<option value="">Choose a course type</option>
 						<option value="open">Open</option>
-						<option value="public">Public</option>
-						<option value="hidden">Hidden</option>
+						<option value="public">Public [to be implemented[</option>
+						<option value="hidden">Hidden [to be implemented]</option>
 					</select>
 				</div>
 

@@ -28,6 +28,7 @@ class TeacherList extends Component {
 
 	render() {
 		let { redirectToCreateCourse } = this.state;
+		let { notViewedNotifications, teacherCourses } = this.props;
 		if (redirectToCreateCourse){
 			return (
 				<Redirect to="/classroom/course/create" />
@@ -36,61 +37,14 @@ class TeacherList extends Component {
 
 		let subscribedSet = getUserSubscribedSet(this.props.authenticatedUser);
 
-		
-		/*return (
+		let notificationsCount = 0;
+		for (let c of teacherCourses){
+			let curNotifications = notViewedNotifications[c._id];
+			notificationsCount += curNotifications ? curNotifications : 0;
+		}
 
-			<div className={this.props.className}>
-				<button
-					className="btn btn-outline m-4"
-					onClick={this.handleCreateCourse}
-				>
-					Create new course
-				</button>
-				<a
-					onClick={this.handleListClick}
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						color: 'darkblue',
-						cursor: 'pointer'
-					}}
-				>
-						<Icon
-							className="fa-2x"
-							icon={this.state.showList ? faCaretDown : faCaretRight}
-							style={{
-								float: 'left'
-							}}
-						/>
-						<h1>Teacher courses: </h1>
-				</a>
-				<Transition
-					in={this.state.showList}
-					timeout={100}
-					unmountOnExit
-					appear
-				>
-					{state => (
-						<div
-							style={{
-								...transitionStyles[state]
-							}}
-						>
-							{this.props.teacherCourses.map((course, i) => (
-								<div key={i}>
-									<CourseListItem
-										course={course}
-										notifications={this.props.notViewedNotifications[course._id]}
-										subscribed={!!subscribedSet[course._id]}
-									/>
-								</div>
-							))}
-						</div>
-					)}
-				</Transition>
 
-			</div>
-		);*/
+
 		return (
 			<div className={this.props.className}>
 				<button
@@ -100,13 +54,25 @@ class TeacherList extends Component {
 					Create new course
 				</button>
 				<CollapsibleCourseList
-					listName="Teacher courses"
+					listName={(
+						<div>
+							Teachers list
+							<mark
+								style={{
+									background: 'yellow',
+									display: (notificationsCount > 0) ? '' : 'none'
+								}}
+							>
+								{notificationsCount}
+							</mark>
+						</div>
+					)}
 				>
-					{this.props.teacherCourses.map((course, i) => (
+					{teacherCourses.map((course, i) => (
 						<div key={i}>
 							<CourseListItem
 								course={course}
-								notifications={this.props.notViewedNotifications[course._id]}
+								notifications={notViewedNotifications[course._id]}
 								subscribed={!!subscribedSet[course._id]}
 							/>
 						</div>

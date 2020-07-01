@@ -17,13 +17,14 @@ import {isEqual} from "lodash";
 
 class CourseList extends OptimizedComponent {
 
-	componentDidMount() {
+
+	componentWillUnmount() {
 		this.props.clearNotifications();
 	}
 
-
 	onLoad = () => {
 		let { authenticatedUser: user } = this.props;
+
 		this.props.getOpenCourses();
 		if (user && user._id && !(this.props.enrolledCourses.length > 0)) {
 			this.props.getEnrolledCourses(user._id)
@@ -36,6 +37,18 @@ class CourseList extends OptimizedComponent {
 						this.props.enrolledCourses.map(c => c._id)
 					);
 				})
+				.then(() => {
+					if (this.props.error) throw {
+						message: 'Problem with loading enrolled courses'
+					}
+				})
+				.catch(err => {
+					this.displayError(err.message);
+				})
+		} else if (user && user._id){
+			this.props.addNotViewedNotifications(
+				this.props.enrolledCourses.map(c => c._id)
+			)
 				.then(() => {
 					if (this.props.error) throw {
 						message: 'Problem with loading enrolled courses'
@@ -58,6 +71,18 @@ class CourseList extends OptimizedComponent {
 						this.props.teacherCourses.map(c => c._id)
 					);
 				})
+				.then(() => {
+					if (this.props.error) throw {
+						message: 'Problem with loading teacher courses'
+					}
+				})
+				.catch(err => {
+					this.displayError(err.message);
+				})
+		} else if (user && user._id && user.role === 'teacher'){
+			this.props.addNotViewedNotifications(
+				this.props.teacherCourses.map(c => c._id)
+			)
 				.then(() => {
 					if (this.props.error) throw {
 						message: 'Problem with loading teacher courses'

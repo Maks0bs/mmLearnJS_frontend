@@ -8,15 +8,37 @@ class StudentList extends Component {
 
 	render() {
 		let subscribedSet = getUserSubscribedSet(this.props.authenticatedUser);
+		let { notViewedNotifications, enrolledCourses } = this.props;
+		let notificationsCount = 0;
+		for (let c of enrolledCourses){
+			let curNotifications = notViewedNotifications[c._id];
+			notificationsCount += curNotifications ? curNotifications : 0
+		}
+
+		console.log(this.props);
+
+
 		return (
 			<CollapsibleCourseList
-				listName={"Enrolled courses"}
+				listName={(
+					<div>
+						Enrolled courses list
+						<mark
+							style={{
+								background: 'yellow',
+								display: (notificationsCount > 0) ? '' : 'none'
+							}}
+						>
+							{notificationsCount}
+						</mark>
+					</div>
+				)}
 			>
-				{this.props.enrolledCourses.map((course, i) => (
+				{enrolledCourses.map((course, i) => (
 					<div key={i}>
 						<CourseListItem
 							course={course}
-							notifications={this.props.notViewedNotifications[course._id]}
+							notifications={notViewedNotifications[course._id]}
 							subscribed={!!subscribedSet[course._id]}
 						/>
 					</div>

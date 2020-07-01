@@ -39,8 +39,8 @@ class CourseListItem extends Component {
 
 
     render() {
-        console.log(this.state);
         let { course, notifications, subscribed } = this.props;
+        let { displayAbout } = this.state;
         return (
             <div
                 style={{
@@ -79,12 +79,12 @@ class CourseListItem extends Component {
 
                     </Link>
 
-                    {this.state.displayAbout && (
+                    {displayAbout && (
                         <div
                             style={{
                                 position: 'absolute',
-                                left: this.state.displayAbout.layerX + 1,
-                                top: this.state.displayAbout.layerY + 1,
+                                left: displayAbout.layerX + 1,
+                                top: displayAbout.layerY + 1,
                                 MozUserSelect:'none',
                                 WebkitUserSelect:'none',
                                 msUserSelect: 'none',

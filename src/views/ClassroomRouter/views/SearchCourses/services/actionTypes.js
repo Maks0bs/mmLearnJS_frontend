@@ -1,0 +1,3 @@
+export default {
+	API_SEARCH_COURSES: 'API_SEARCH_COURSES_BY_WORD'
+}

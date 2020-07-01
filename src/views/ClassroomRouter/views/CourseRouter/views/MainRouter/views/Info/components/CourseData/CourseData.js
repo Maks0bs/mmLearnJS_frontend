@@ -45,7 +45,6 @@ class CourseData extends Component {
 		                ))}
 		            </div>
 				</div>
-				{JSON.stringify(course.updates)}
 			</div>
 		);
 	}

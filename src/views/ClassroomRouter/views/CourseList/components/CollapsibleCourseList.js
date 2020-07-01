@@ -23,24 +23,32 @@ class CollapsibleCourseList extends Component {
     render() {
         return (
             <div>
-                <a
-                    onClick={this.handleListClick}
+                <div
                     style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        color: 'darkblue',
-                        cursor: 'pointer'
+                        display: 'flex'
                     }}
                 >
-                    <Icon
-                        className="fa-2x"
-                        icon={this.state.showList ? faCaretDown : faCaretRight}
+                    <a
+                        onClick={this.handleListClick}
                         style={{
-                            float: 'left'
+                            display: 'flex',
+                            alignItems: 'center',
+                            color: 'darkblue',
+                            cursor: 'pointer'
                         }}
-                    />
-                    <h1>{this.props.listName}</h1>
-                </a>
+                    >
+                        <Icon
+                            className="fa-2x"
+                            icon={this.state.showList ? faCaretDown : faCaretRight}
+                            style={{
+                                float: 'left'
+                            }}
+                        />
+                        <h1>{this.props.listName}</h1>
+
+                    </a>
+                </div>
+
                 <Transition
                     in={this.state.showList}
                     timeout={100}
