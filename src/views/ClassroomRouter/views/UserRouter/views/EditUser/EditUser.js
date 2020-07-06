@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import { Link, Redirect } from "react-router-dom";
 import DefaultUserAvatar from '../../../../../../res/images/DefaultUserAvatar.png'
 import { REACT_APP_API_URL } from "../../../../../../constants"
-import { updateUser, clearError } from '../../services/actions'
+import { updateUser, clearError, getUser } from '../../services/actions'
 import { addToast } from '../../../../../../components/ToastRoot/services/actions'
 import { showModal, hideModal } from "../../../../../../components/ModalRoot/services/actions";
 import EditFields from "./components/EditFields"
+import DeleteUser from "./components/DeleteUser";
 
 class EditUser extends Component {
 
@@ -26,6 +27,9 @@ class EditUser extends Component {
 
 
     componentDidMount() {
+        if (!this.props.user){
+
+        }
         let { name, email, about, photo } = this.props.user;
         this.setState({
             name,
@@ -70,6 +74,16 @@ class EditUser extends Component {
         )
     }
 
+    onShowDeleteUser = (e) => {
+        e.preventDefault();
+        this.props.showModal(
+            <DeleteUser
+                onClose={this.props.hideModal}
+                userId={this.props.user._id}
+            />
+        )
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
         this.props.updateUser(
@@ -95,6 +109,7 @@ class EditUser extends Component {
                             type: 'success'
                         }
                     )
+                    this.props.getUser(this.props.user._id)
                 } else {
                     this.props.addToast(
                         (
@@ -201,7 +216,7 @@ class EditUser extends Component {
                     <button
                         className="btn btn-raised btn-danger mt-3"
                         type="button"
-                        onClick={this.onDeleteUser}
+                        onClick={this.onShowDeleteUser}
                     >
                         Delete User
                     </button>
@@ -256,6 +271,7 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
     return {
         updateUser: (data, id) => dispatch(updateUser(data, id)),
+        getUser: (id) => dispatch(getUser(id)),
         addToast: (component, options) => dispatch(addToast(component, options)),
         showModal: (component) => dispatch(showModal(component)),
         hideModal: () => dispatch(hideModal()),

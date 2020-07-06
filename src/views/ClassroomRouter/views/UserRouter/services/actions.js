@@ -13,7 +13,8 @@ let {
     SET_HIDDEN_FIELDS,
     FILE_ERROR,
     CLEAR_ERROR,
-    API_SEND_ACTIVATION
+    API_SEND_ACTIVATION,
+    API_DELETE_USER
 } = types;
 
 export let getUser = (userId) => (dispatch) => {
@@ -85,6 +86,23 @@ export let sendActivation = () => (dispatch) => {
         .then(res => res.json())
         .then(data => dispatch({
             type: API_SEND_ACTIVATION,
+            payload: data
+        }))
+        .catch(err => console.log(err))
+}
+
+export let deleteUser = (userId) => (dispatch) => {
+    return fetch(`${REACT_APP_API_URL}/users/${userId}`, {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        credentials: 'include'
+    })
+        .then(res => res.json())
+        .then(data => dispatch({
+            type: API_DELETE_USER,
             payload: data
         }))
         .catch(err => console.log(err))

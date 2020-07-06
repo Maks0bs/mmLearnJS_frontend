@@ -16,7 +16,7 @@ let {
 
 export let clearMessages = () => (dispatch) => {
 	return dispatch({
-		type: 'CLEAR_MESSAGES'
+		type: CLEAR_MESSAGES
 	})
 }
 

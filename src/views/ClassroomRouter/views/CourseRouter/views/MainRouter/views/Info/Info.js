@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
-import { getCourseById } from './services/actions'
+import {clearMessages, getCourseById} from './services/actions'
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
 import TeacherActions from './components/TeacherActions'
@@ -17,6 +17,7 @@ class Info extends Component {
 
 	render() {
 		if (this.props.redirectToDashboard){
+			this.props.clearMessages();
 			return (
 				<Redirect to="/classroom/dashboard" />
 			)
@@ -103,7 +104,13 @@ let mapStateToProps = (state) => {
 	}
 }
 
+let mapDispatchToProps = (dispatch) => {
+	return {
+		clearMessages: () => dispatch(clearMessages())
+	}
+}
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(withRouter(Info));

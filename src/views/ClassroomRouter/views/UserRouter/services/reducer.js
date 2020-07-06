@@ -5,7 +5,8 @@ let {
     SET_HIDDEN_FIELDS,
     FILE_ERROR,
     CLEAR_ERROR,
-    API_SEND_ACTIVATION
+    API_SEND_ACTIVATION,
+    API_DELETE_USER
 } = types;
 
 let initialState = {
@@ -28,6 +29,16 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 error: 'Photo file should not be more than 10Mb'
+            }
+        }
+        case API_DELETE_USER: {
+            if (action.payload.error) {
+                return {
+                    ...state,
+                    error: action.payload.error && action.payload.error.message,
+                }
+            } else {
+                return initialState;
             }
         }
         case API_SEND_ACTIVATION:

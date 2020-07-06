@@ -231,7 +231,7 @@ class User extends Component {
 
 let mapStateToProps = (state) => {
 	return {
-		user: state.views.classroom.user.user,
+		...state.views.classroom.user,
 		authenticatedUser: state.services.authenticatedUser
 	}
 }
