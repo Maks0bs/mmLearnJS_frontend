@@ -18,7 +18,7 @@ class ForumTopics extends Component {
 						<tr>
 							<th scope="col">Topic</th>
 							<th scope="col">Created by</th>
-							<th scope="col">Info</th>
+							<th scope="col">Created</th>
 						</tr>
 					</thead>
 					<tbody>

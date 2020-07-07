@@ -5,9 +5,10 @@ import ForumRouter from './views/ForumRouter'
 import { connect } from 'react-redux'
 import {getCourseById, viewCourse} from './services/actions'
 import OptimizedComponent from "../../../../../../components/OptimizedComponent";
+import OptimizedPureComponent from "../../../../../../components/OptimizedPureComponent";
 
 
-class MainRouter extends OptimizedComponent {
+class MainRouter extends OptimizedPureComponent {
 
 	render() {
 		super.render();

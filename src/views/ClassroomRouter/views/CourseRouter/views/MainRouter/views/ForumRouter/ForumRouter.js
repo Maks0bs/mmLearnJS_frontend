@@ -10,8 +10,8 @@ import OptimizedComponent from "../../../../../../../../components/OptimizedComp
 class ForumRouter extends OptimizedComponent {
 	render() {
 		super.render();
-		console.log(this.upd);
 		if (this.canCallOptimally()){
+			console.log('check this out', this.props.forumData);
 			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
 		}
 		if (!this.props.forumData){

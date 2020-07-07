@@ -15,11 +15,10 @@ class OptimizedComponent extends Component {
      * @returns {boolean} true if another render with new props / state should occur, false otherwise
      */
     shouldComponentUpdate(nextProps, nextState) {
-        // if (!isEqual(nextProps, this.props)){
-        //     return true;
-        // }
-        // return (!isEqual(nextState, this.state) || !isEqual(nextProps, this.props))
-        return true;
+        if (!isEqual(nextProps, this.props)){
+            return true;
+        }
+        return (!isEqual(nextState, this.state) || !isEqual(nextProps, this.props))
     }
 
     /**

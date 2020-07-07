@@ -11,11 +11,11 @@ import {
 	addNotViewedNotifications
 } from "./services/actions";
 import { addToast } from "../../../../components/ToastRoot/services/actions";
-import OptimizedComponent from "../../../../components/OptimizedComponent";
+import OptimizedPureComponent from '../../../../components/OptimizedPureComponent'
 import {isEqual} from "lodash";
 
 
-class CourseList extends OptimizedComponent {
+class CourseList extends OptimizedPureComponent {
 
 
 	componentWillUnmount() {

@@ -109,7 +109,6 @@ class EditUser extends Component {
                             type: 'success'
                         }
                     )
-                    this.props.getUser(this.props.user._id)
                 } else {
                     this.props.addToast(
                         (

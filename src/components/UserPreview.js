@@ -7,7 +7,6 @@ import DefaultUserAvatar from '../res/images/DefaultUserAvatar.png'
 class UserPreview extends Component {
     render() {
         let { user } = this.props;
-        console.log(user);
         return (
             <div
                 style={{
