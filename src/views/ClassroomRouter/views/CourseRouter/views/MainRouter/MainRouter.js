@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import {getCourseById, viewCourse} from './services/actions'
 import OptimizedComponent from "../../../../../../components/OptimizedComponent";
 import OptimizedPureComponent from "../../../../../../components/OptimizedPureComponent";
+import GradesRouter from "./views/GradesRouter/GradesRouter";
 
 
 class MainRouter extends OptimizedPureComponent {
@@ -33,6 +34,11 @@ class MainRouter extends OptimizedPureComponent {
 					<Route
 						path={`${path}/forum/:forumId`}
 						component={ForumRouter}
+					/>
+
+					<Route
+						path={`${path}/grades`}
+						component={GradesRouter}
 					/>
 					
 				</Switch>

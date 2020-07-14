@@ -8,12 +8,13 @@ class TeacherActions extends Component {
 
 		this.state = {
 			redirectToEdit: false,
-			redirectToEditInfo: false
+			redirectToEditInfo: false,
+			redirectToEditTests: false
 		}
 	}
 
 	render() {
-		let { redirectToEdit, redirectToEditInfo } = this.state;
+		let { redirectToEdit, redirectToEditInfo, redirectToEditTests } = this.state;
 		let { courseData } = this.props;
 		if (redirectToEdit){
 			return (
@@ -25,14 +26,16 @@ class TeacherActions extends Component {
 				<Redirect to={`/classroom/course/edit-info/${courseData._id}`} />
 			)
 		}
+		if (redirectToEditTests) {
+			return (
+				<Redirect to={`/classroom/course/edit-exercises/${courseData._id}`} />
+			)
+		}
 		return (
 			<div>
 				<h1>Teacher actions:</h1>
 				<button 
 					className="btn btn-raised btn-outline btn-info ml-3"
-					style={{
-						background: ''
-					}}
 					onClick={(e) => {
 						this.setState({
 							redirectToEditInfo: true
@@ -44,9 +47,6 @@ class TeacherActions extends Component {
 
 				<button 
 					className="btn btn-raised btn-outline btn-info ml-3"
-					style={{
-						background: ''
-					}}
 					onClick={(e) => {
 						this.setState({
 							redirectToEdit: true
@@ -54,6 +54,17 @@ class TeacherActions extends Component {
 					}}
 				>
 					Edit course content
+				</button>
+
+				<button
+					className="btn btn-raised btn-outline btn-info ml-3"
+					onClick={(e) => {
+						this.setState({
+							redirectToEditTests: true
+						})
+					}}
+				>
+					Edit exercises / tests
 				</button>
 			</div>
 		);

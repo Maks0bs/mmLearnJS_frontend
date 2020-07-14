@@ -4,6 +4,7 @@ import MainRouter from './views/MainRouter'
 import EditContent from './views/EditContent'
 import CreateCourse from './views/CreateCourse'
 import EditInfo from './views/EditInfo'
+import EditExercises from "./views/EditExercises";
 
 
 class CourseRouter extends Component {
@@ -26,6 +27,11 @@ class CourseRouter extends Component {
 					<Route
 						exact path={`${path}/edit-info/:courseId`}
 						component={EditInfo}
+					/>
+
+					<Route
+						exact path={`${path}/edit-exercises/:courseId`}
+						component={EditExercises}
 					/>
 
 					<Route

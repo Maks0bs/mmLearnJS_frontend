@@ -116,7 +116,7 @@ class ClassroomMenu extends Component {
 		let { redirectToHome, redirectToSearch, searchQuery } = this.state;
 		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
 		return (
-			<nav className="navbar navbar-expand-lg navbar-light bg-light">
+			<nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
 				{(() => {
 					if (redirectToSearch){
 						this.setState({
