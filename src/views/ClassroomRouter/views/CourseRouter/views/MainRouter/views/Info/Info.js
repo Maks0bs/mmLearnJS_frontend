@@ -10,7 +10,7 @@ import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
 import InvitedTeacherInfo from './components/InvitedTeacherInfo'
 import { getEnrollmentStatus } from '../../../../services/helpers'
-import CourseTabs from "./components/CourseTabs";
+import CourseTabs from "../../components/CourseTabs";
 
 class Info extends Component {
 

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
+import {getEnrollmentStatus} from "../../../services/helpers";
 
 class CourseTabs extends Component {
     constructor() {
@@ -37,12 +38,26 @@ class CourseTabs extends Component {
 
     render() {
 
+        console.log('my props', this.props);
         let { redirectToStudentsResults, redirectToGrades, redirectToCourse } = this.state;
+        let { status, location } = this.props;
+        let { pathname } = location;
+        if (!status){
+            status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
+        }
+
+        let courseLink = `/classroom/course/${this.props.courseData._id}`;
+        let gradesLink = `/classroom/course/${this.props.courseData._id}`;
+        if (status !== 'not enrolled'){
+            gradesLink += this.props.authenticatedUser._id;
+        }
+        let studentsResultsLink = `/classroom/course/${this.props.courseData._id}/grades/teacher`;
 
         return (
             <div>
                 {(() => {
-                    if (this.props.status === 'enrolled' || this.props.status === 'invited teacher enrolled'){
+
+                    if (status === 'enrolled' || status === 'invited teacher enrolled'){
                         return (
                             <div
                                 style={{
@@ -53,17 +68,21 @@ class CourseTabs extends Component {
                             >
                                 <nav>
                                     <div
-                                        className="nav nav-tabs"
+                                        className={"nav nav-tabs"}
                                     >
                                         <a
-                                            className="nav-item nav-link"
+                                            className={"nav-item nav-link" + (
+                                                pathname === courseLink ? ' active' : ''
+                                            ) }
                                             href="#void"
                                             onClick={this.onCourseClick}
                                         >
                                             Course
                                         </a>
                                         <a
-                                            className="nav-item nav-link"
+                                            className={"nav-item nav-link" + (
+                                                pathname === gradesLink ? ' active' : ''
+                                            )}
                                             href="#void"
                                             onClick={this.onGradesClick}
                                         >
@@ -74,7 +93,7 @@ class CourseTabs extends Component {
 
                             </div>
                         )
-                    } else if (this.props.status === 'creator' || this.props.status === 'teacher'){
+                    } else if (status === 'creator' || status === 'teacher'){
                         return (
                             <div
                                 style={{
@@ -88,14 +107,18 @@ class CourseTabs extends Component {
                                         className="nav nav-tabs"
                                     >
                                         <a
-                                            className="nav-item nav-link"
+                                            className={"nav-item nav-link" + (
+                                                pathname === courseLink ? ' active' : ''
+                                            )}
                                             href="#void"
                                             onClick={this.onCourseClick}
                                         >
                                             Course
                                         </a>
                                         <a
-                                            className="nav-item nav-link"
+                                            className={"nav-item nav-link" + (
+                                                pathname === studentsResultsLink  ? ' active' : ''
+                                            )}
                                             href="#void"
                                             onClick={this.onStudentsResultsClick}
                                         >
@@ -109,13 +132,13 @@ class CourseTabs extends Component {
                     }
                 })()}
                 {redirectToCourse && (
-                    <Redirect to={`/classroom/course/${this.props.courseData._id}`}/>
+                    <Redirect to={courseLink}/>
                 )}
                 {redirectToGrades && (
-                    <Redirect to={`/classroom/course/${this.props.courseData._id}/grades/${this.props.auth._id}`} />
+                    <Redirect to={gradesLink} />
                 )}
                 {redirectToStudentsResults && (
-                    <Redirect to={`/classroom/course/${this.props.courseData._id}/grades/teacher`} />
+                    <Redirect to={studentsResultsLink} />
                 )}
             </div>
         );
@@ -132,4 +155,4 @@ let mapStateToProps = (state) => {
 
 export default connect(
     mapStateToProps
-)(CourseTabs);
+)(withRouter(CourseTabs));

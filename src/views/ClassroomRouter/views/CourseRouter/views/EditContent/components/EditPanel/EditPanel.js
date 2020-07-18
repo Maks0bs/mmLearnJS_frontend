@@ -84,6 +84,7 @@ class EditPanel extends Component {
 				onDragEnd={this.onDragEnd}
 			>
 				<p className="ml-3 mt-2"> <Icon icon={faAlignJustify} /> = Move around sections and entries </p>
+				<hr />
 				<Droppable droppableId="droppableRoot" type={SECTIONS}>
 					{(provided, snapshot) => (
 						<div

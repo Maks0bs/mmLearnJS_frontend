@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getCourseById } from './services/actions'
 import EditPanel from './components/EditPanel'
+import EditActions from "./components/EditActions";
+import { addToast } from "../../../../../../components/ToastRoot/services/actions";
 
 class EditExercises extends Component {
     constructor() {
@@ -21,7 +23,16 @@ class EditExercises extends Component {
                         showEditPanel: true
                     })
                 } else {
-                    //TODO show toast and maybe reload page or do smth similar
+                    this.props.addToast(
+                        (
+                            <div>
+                                {`Problem with loading course exercises. Please reload page`}
+                            </div>
+                        ),
+                        {
+                            type: 'error'
+                        }
+                    )
                 }
 
             })
@@ -38,9 +49,11 @@ class EditExercises extends Component {
         }
         if (this.state.showEditPanel){
             return (
-                <div>
+                <div className="container">
                     <EditPanel />
-                    {/*<EditActions />*/}
+                    <div className="mt-2">
+                        <EditActions />
+                    </div>
                 </div>
             );
         }
@@ -59,7 +72,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        getCourseById: (courseId) => dispatch(getCourseById(courseId))
+        getCourseById: (courseId) => dispatch(getCourseById(courseId)),
+        addToast: (component, options) => dispatch(addToast(component, options))
     }
 }
 

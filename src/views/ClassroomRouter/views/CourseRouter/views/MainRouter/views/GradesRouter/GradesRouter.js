@@ -4,18 +4,21 @@ import { connect } from 'react-redux'
 import TeacherStats from "./TeacherStats";
 import StudentStats from "./StudentStats";
 import OptimizedPureComponent from "../../../../../../../../components/OptimizedPureComponent";
+import CourseTabs from "../../components/CourseTabs";
 
 
-class MainRouter extends OptimizedPureComponent {
+class GradesRouter extends OptimizedPureComponent {
 
     render() {
         super.render();
+        console.log('bruh');
         if (this.canCallOptimally()){
             //TODO
         }
         let { path } = this.props.match;
         return (
-            <div>
+            <div className="container mt-3">
+                <CourseTabs />
                 <Switch>
                     <Route
                         exact path={`${path}/teacher`}
@@ -48,4 +51,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(MainRouter)
+)(GradesRouter)

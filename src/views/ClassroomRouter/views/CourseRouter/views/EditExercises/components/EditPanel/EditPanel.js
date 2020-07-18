@@ -1,70 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
-import { hideModal, showModal } from '../../../../../../../../components/ModalRoot/services/actions';
 import { reorderArray } from "../../../../../../../../components/services/helpers";
 import { dndTypes, regExpressions } from '../../services/helpers'
+import { updateExercises, addExercise } from "../../services/actions";
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faAlignJustify, faList } from '@fortawesome/free-solid-svg-icons'
+import Exercise from "./components/Exercise";
 let { EXERCISES } = dndTypes;
 
 class EditPanel extends Component {
 
     onDragEnd = (result) => {
-        /*if (!result.destination) {//may need to be changed
+        if (!result.destination) {//may need to be changed
             return;
         }
 
-        if (result.type === SECTIONS) {
-            let sections = reorderArray(
-                this.props.courseData.sections,
+        if (result.type === EXERCISES) {
+            let exercises = reorderArray(
+                this.props.courseData.exercises,
                 result.source.index,
                 result.destination.index
             );
 
-            this.props.updateSections(sections);
-        } else {
-            if (result.source.droppableId === result.destination.droppableId){
-                let re = regExpressions.sectionDroppableId;
-                let id = parseInt(re.exec(result.source.droppableId)[1], 10);
-
-                let entries = reorderArray(
-                    this.props.courseData.sections[id].entries,
-                    result.source.index,
-                    result.destination.index
-                );
-
-                let sections = _.cloneDeep(this.props.courseData.sections);
-                sections[id].entries = entries;
-
-                this.props.updateSections(sections);
-            }
-            else{
-                let re = regExpressions.sectionDroppableId;
-                let indexSource = result.source.index;
-                let indexDest = result.destination.index;
-                let idSource = parseInt(re.exec(result.source.droppableId)[1], 10);
-                let idDest = parseInt(re.exec(result.destination.droppableId)[1], 10);
-                let sections = _.cloneDeep(this.props.courseData.sections);
-                let entriesSource = _.cloneDeep(sections[idSource].entries);
-                let entriesDest = _.cloneDeep(sections[idDest].entries);
-                let element = _.cloneDeep(sections[idSource].entries[indexSource]);
-                entriesSource.splice(indexSource, 1);
-                entriesDest.splice(indexDest, 0, element);
-                sections[idSource].entries = entriesSource;
-                sections[idDest].entries = entriesDest;
-
-                this.props.updateSections(sections);
-            }
-        }*/
+            this.props.updateExercises(exercises);
+        }
     }
+
 
     render() {
         let { courseData } = this.props;
-        let { sections } = courseData;
-        if (!sections){
-            return null;
-        }
+        let { exercises } = courseData;
 
 
         return (
@@ -72,6 +38,7 @@ class EditPanel extends Component {
                 onDragEnd={this.onDragEnd}
             >
                 <p className="ml-3 mt-2"> <Icon icon={faAlignJustify} /> = Move around sections and entries </p>
+                <hr />
                 <Droppable droppableId="droppableExercises" type={EXERCISES}>
                     {(provided, snapshot) => (
                         <div
@@ -83,7 +50,7 @@ class EditPanel extends Component {
                             }}
                         >
                             <div className="column" >
-                                {sections.map((section, i) => (
+                                {exercises.map((section, i) => (
                                     <Draggable
                                         key={`exercise${i}`}
                                         draggableId={`exercise${i}`}
@@ -110,8 +77,9 @@ class EditPanel extends Component {
 
 												</span>
                                                 <div className="pl-4">
-
-                                                    content
+                                                    <Exercise
+                                                        num={i}
+                                                    />
                                                 </div>
 
                                             </div>
@@ -122,7 +90,7 @@ class EditPanel extends Component {
                                 {provided.placeholder}
                             </div>
                             <div
-                                onClick={this.showAddSectionModal}
+                                onClick={(e) => this.props.addExercise()}
                                 style={{
                                     cursor: 'pointer',
                                 }}
@@ -154,8 +122,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        hideModal: () => dispatch(hideModal()),
-        showModal: (component) => dispatch(showModal(component))
+        updateExercises: (exercises) => dispatch(updateExercises(exercises)),
+        addExercise: () => dispatch(addExercise())
     }
 }
 
