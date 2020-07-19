@@ -89,25 +89,21 @@ class EditPanel extends Component {
                                 ))}
                                 {provided.placeholder}
                             </div>
-                            <div
-                                onClick={(e) => this.props.addExercise()}
-                                style={{
-                                    cursor: 'pointer',
-                                }}
-                            >
+                            <a href="#void" onClick={(e) => {
+                                e.preventDefault();
+                                this.props.addExercise()
+                            }}>
                                 <Icon
                                     icon={faList}
                                     className="pr-1"
                                 />
-                                <a>Add test / exercise</a>
-                            </div>
+                                Add test / exercise
+                            </a>
                         </div>
                     )}
                 </Droppable>
                 <hr />
-                <div>
-                    {JSON.stringify(courseData)}
-                </div>
+
 
             </DragDropContext>
         )
@@ -116,7 +112,7 @@ class EditPanel extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        ...state.views.classroom.course.editExercises
+        ...state.views.classroom.course.editExercises.services
     }
 }
 

@@ -81,8 +81,10 @@ export let clearMessages = () => dispatch => {
 
 export let saveChanges = (exercises) => (dispatch, getState) => {
     let form = new FormData();
-    let { courseData } = getState().views.classroom.course.editExercises
+    let { courseData } = getState().views.classroom.course.editExercises.services
     courseData.exercises = exercises;
+
+    console.log('testing')
 
     form.set('newCourseData', JSON.stringify(courseData));
     //form.set('filesPositions', JSON.stringify(filePositions));

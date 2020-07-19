@@ -1,6 +1,8 @@
 import types from './actionTypes'
 import { cloneDeep, assign } from 'lodash'
 import { v1 as uuidv1 } from 'uuid';
+import { combineReducers } from "redux";
+import editorReducer from '../components/EditPanel/components/EditExercise/services/reducer'
 let { 
 	API_GET_COURSE_BY_ID,
 	UPDATE_EXERCISES,
@@ -20,7 +22,7 @@ let initialState = {
 	error: ''
 }
 
-export default function(state = initialState, action) {
+let servicesReducer = function(state = initialState, action) {
 	switch(action.type){
 		case API_GET_COURSE_BY_ID: {
 			return {
@@ -43,7 +45,7 @@ export default function(state = initialState, action) {
 				participants: [],
 				tasks: [],
 				available: true,
-				weight: 1
+				weight: '1'
 			}
 			return {
 				...state,
@@ -55,7 +57,6 @@ export default function(state = initialState, action) {
 		}
 		case EDIT_EXERCISE: {
 			let newExercises = cloneDeep(state.courseData.exercises);
-			console.log('action payload', action.payload.exercise);
 			assign(newExercises[action.payload.num], action.payload.exercise);
 			return {
 				...state,
@@ -135,3 +136,8 @@ export default function(state = initialState, action) {
 			return state;
 	}
 }
+
+export default combineReducers({
+	services: servicesReducer,
+	editor: editorReducer
+})

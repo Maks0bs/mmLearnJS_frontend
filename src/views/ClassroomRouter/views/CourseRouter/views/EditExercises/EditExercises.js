@@ -65,7 +65,7 @@ class EditExercises extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        ...state.views.classroom.course.editExercises,
+        ...state.views.classroom.course.editExercises.services,
         authenticatedUser: state.services.authenticatedUser
     }
 }

@@ -21,21 +21,35 @@ class EditActions extends Component {
 
     handleSaveChanges = (e) => {
         e.preventDefault();
-        this.props.saveChanges({bruh: 'bruh'})
-            /*.then(() => {
-                this.handleLeave();
+        this.props.saveChanges(this.props.courseData.exercises)
+            .then(() => {
 
-                this.props.addToast(
-                    (
-                        <div>
-                            Course data has been changed
-                        </div>
-                    ),
-                    {
-                        type: 'success'
-                    }
-                )
-            })*/
+                if (!this.props.error) {
+                    this.handleLeave();
+
+                    this.props.addToast(
+                        (
+                            <div>
+                                Course data has been changed
+                            </div>
+                        ),
+                        {
+                            type: 'success'
+                        }
+                    )
+                } else {
+                    this.props.addToast(
+                        (
+                            <div>
+                                {this.props.error}
+                            </div>
+                        ),
+                        {
+                            type: 'error'
+                        }
+                    )
+                }
+            })
     }
 
     render() {
@@ -64,7 +78,7 @@ class EditActions extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        ...state.views.classroom.course.editExercises
+        ...state.views.classroom.course.editExercises.services
     }
 }
 
