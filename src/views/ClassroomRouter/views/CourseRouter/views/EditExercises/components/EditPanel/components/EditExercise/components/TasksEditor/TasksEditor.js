@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import { addOneChoiceTask } from "../../services/actions";
+import { addNewTask } from "../../services/actions";
 import { faDiceOne, faTasks, faFeather } from "@fortawesome/free-solid-svg-icons";
 import OneChoiceTask from "./components/OneChoiceTask";
 
@@ -9,7 +9,7 @@ class TasksEditor extends Component {
 
     onNewOneChoice = (e) => {
         e.preventDefault();
-        this.props.addOneChoiceTask();
+        this.props.addOneChoiceTask('OneChoice');
     }
     onNewMultipleChoice = (e) => {
         e.preventDefault();
@@ -27,7 +27,10 @@ class TasksEditor extends Component {
                         switch(task.kind){
                             case 'OneChoiceExercise': {
                                 return (
-                                    <OneChoiceTask num={i} key={i}/>
+                                    <OneChoiceTask
+                                        className="my-1"
+                                        num={i} key={i}
+                                    />
                                 )
                             }
                             default: {
@@ -81,7 +84,7 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        addOneChoiceTask: () => dispatch(addOneChoiceTask())
+        addOneChoiceTask: (type) => dispatch(addNewTask(type))
     }
 }
 

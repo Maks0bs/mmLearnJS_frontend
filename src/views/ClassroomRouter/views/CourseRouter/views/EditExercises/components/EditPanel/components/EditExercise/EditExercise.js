@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { preDeleteExercise, editExercise } from "../../../../services/actions";
-import { initTasksEditor } from "./services/actions";
+import { preDeleteExercise, editExercise  } from "../../../../services/actions";
+import { initTasksEditor, cleanup } from "./services/actions";
 import TasksEditor from "./components/TasksEditor/TasksEditor";
 
 class EditExercise extends Component {
@@ -47,6 +47,7 @@ class EditExercise extends Component {
     }
 
     handleLeave = () => {
+        this.props.cleanup();
         this.props.onClose && this.props.onClose();
     }
 
@@ -139,7 +140,8 @@ let mapDispatchToProps = (dispatch) => {
     return {
         preDeleteExercise: (num) => dispatch(preDeleteExercise(num)),
         editExercise: (exercise, num) => dispatch(editExercise(exercise, num)),
-        initTasksEditor: (tasks) => dispatch(initTasksEditor(tasks))
+        initTasksEditor: (tasks) => dispatch(initTasksEditor(tasks)),
+        cleanup: () => dispatch(cleanup())
     }
 }
 

@@ -1,16 +1,18 @@
 import types from './actionTypes'
 let { 
 	INIT_TASKS_EDITOR,
-	ADD_ONE_CHOICE_TASK,
-	ADD_MULTIPLE_CHOICE_TASK,
-	ADD_TEXT_TASK,
+	ADD_NEW_TASK,
 	EDIT_TASK,
-	UPDATE_TASKS
+	TOGGLE_TASK_EXPAND,
+	CLEANUP
 } = types;
 
-export let addOneChoiceTask = () => dispatch => {
+export let addNewTask = (type) => dispatch => {
 	return dispatch({
-		type: ADD_ONE_CHOICE_TASK
+		type: ADD_NEW_TASK,
+		payload: {
+			type
+		}
 	})
 }
 
@@ -24,16 +26,30 @@ export let editTask = (task, num) => dispatch => {
 	})
 }
 
-export let updateTasks = (tasks) => dispatch => {
-	return dispatch({
-		type: UPDATE_TASKS,
-		payload: tasks
-	})
-}
-
 export let initTasksEditor = (tasks) => (dispatch) => {
 	return dispatch({
 		type: INIT_TASKS_EDITOR,
 		payload: tasks
+	})
+}
+
+export let cleanup = () => (dispatch) => {
+	return dispatch({
+		type: CLEANUP
+	})
+}
+
+/**
+ * @param num the number of the task to expand / hide in the current tasks array
+ * @param expand true if task should be expanded, false to hide the task
+ * @returns {function(*): *}
+ */
+export let toggleTaskExpand = (num, expand) => (dispatch) => {
+	return dispatch({
+		type: TOGGLE_TASK_EXPAND,
+		payload: {
+			num,
+			expand
+		}
 	})
 }
