@@ -47,10 +47,10 @@ class CourseData extends Component {
 				</div>
 				<h2 className="mt-3">
 					<strong>Exercises / tests:</strong>
-					<p>
-						{JSON.stringify(course.tests)}
-					</p>
 				</h2>
+				<p>
+					{JSON.stringify(course.exercises)}
+				</p>
 			</div>
 		);
 	}

@@ -4,18 +4,14 @@ import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import { addNewTask } from "../../services/actions";
 import { faDiceOne, faTasks, faFeather } from "@fortawesome/free-solid-svg-icons";
 import OneChoiceTask from "./components/OneChoiceTask";
+import MultipleChoiceTask from "./components/MultipleChoiceTask/MultipleChoiceTask";
+import TextTask from "./components/TextTask/TextTask";
 
 class TasksEditor extends Component {
 
-    onNewOneChoice = (e) => {
+    onNewTask = (type) => (e) => {
         e.preventDefault();
-        this.props.addOneChoiceTask('OneChoice');
-    }
-    onNewMultipleChoice = (e) => {
-        e.preventDefault();
-    }
-    onNewText = (e) => {
-        e.preventDefault();
+        this.props.addOneChoiceTask(type);
     }
 
     render() {
@@ -33,6 +29,22 @@ class TasksEditor extends Component {
                                     />
                                 )
                             }
+                            case 'MultipleChoiceExercise': {
+                                return (
+                                    <MultipleChoiceTask
+                                        className="my-1"
+                                        num={i} key={i}
+                                    />
+                                )
+                            }
+                            case 'TextExercise': {
+                                return (
+                                    <TextTask
+                                        className="my-1"
+                                        num={i} key={i}
+                                    />
+                                )
+                            }
                             default: {
                                 return (
                                     <div key={i}>
@@ -44,7 +56,7 @@ class TasksEditor extends Component {
                     })}
                 </div>
                 <div className="mt-2">
-                    <a href="#void" onClick={this.onNewOneChoice}>
+                    <a href="#void" onClick={this.onNewTask('OneChoice')}>
                         <Icon
                             icon={faDiceOne}
                             className="pr-1"
@@ -53,7 +65,7 @@ class TasksEditor extends Component {
                     </a>
                     <br/>
 
-                    <a href="#void" onClick={this.onNewMultipleChoice}>
+                    <a href="#void" onClick={this.onNewTask('MultipleChoice')}>
                         <Icon
                             icon={ faTasks }
                             className="pr-1"
@@ -62,7 +74,7 @@ class TasksEditor extends Component {
                     </a>
                     <br/>
 
-                    <a href="#void" onClick={this.onNewText}>
+                    <a href="#void" onClick={this.onNewTask('Text')}>
                         <Icon
                             icon={ faFeather }
                             className="pr-1"

@@ -46,6 +46,11 @@ class EditExercise extends Component {
         })
     }
 
+    componentWillUnmount() {
+        this.handleLeave();
+    }
+
+
     handleLeave = () => {
         this.props.cleanup();
         this.props.onClose && this.props.onClose();

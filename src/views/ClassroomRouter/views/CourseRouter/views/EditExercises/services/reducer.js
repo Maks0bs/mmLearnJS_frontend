@@ -119,7 +119,12 @@ let servicesReducer = function(state = initialState, action) {
 			}
 		}
 		case API_UPDATE_EXERCISES: {
-			//TODO remove unused refs
+			if (action.payload.error){
+				return {
+					...state,
+					error: action.payload.error.message || action.payload.error
+				}
+			}
 			return {
 				...initialState,
 				oldCourseData: state.oldCourseData,

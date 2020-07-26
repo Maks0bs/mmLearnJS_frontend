@@ -2,34 +2,35 @@ import React, {Component} from 'react';
 import { editTask } from "../../../../../services/actions";
 import {connect} from "react-redux";
 import ChoiceOption from "../../ChoiceOption";
+import { cloneDeep} from "lodash";
 
-class OneChoiceOption extends Component {
+class TextOption extends Component {
 
     render() {
         let { taskNum, optionNum, tasks } = this.props;
-        let option = tasks[taskNum].options[optionNum];
+        let { correctAnswers } = tasks[taskNum];
+        let ans = correctAnswers[optionNum];
         return (
             <ChoiceOption
-                onToggleCorrect={() => {
-                    this.props.editTask({
-                        correctAnswer: option.key
-                    }, taskNum);
-                }}
+                onToggleCorrect={() => {}}
                 onEditSubmit={(newText) => {
-                    let newOptions = tasks[taskNum].options;
-                    newOptions[optionNum].text = newText;
+                    let newAnswers = correctAnswers;
+                    newAnswers[optionNum] = newText;
                     this.props.editTask({
-                        options: newOptions
+                        correctAnswers: newAnswers,
+                        keepEditLast: false
                     }, taskNum);
                 }}
                 onDelete={() => {
-                    let newOptions = tasks[taskNum].options;
-                    newOptions.splice(optionNum, 1);
+                    let newAnswers = cloneDeep(correctAnswers);
+                    newAnswers.splice(optionNum, 1);
+
+
                     this.props.editTask({
-                        options: newOptions
+                        correctAnswers: newAnswers
                     }, taskNum);
                 }}
-                option={option}
+                option={ans}
                 {...this.props}
             />
 
@@ -52,4 +53,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(OneChoiceOption);
+)(TextOption);
