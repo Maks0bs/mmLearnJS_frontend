@@ -10,7 +10,7 @@ class CourseData extends Component {
 
 	render() {
 		let course = this.props.courseData;
-		let { name, teachers, sections } = course;
+		let { name, teachers, sections, exercises } = course;
 		if (!sections){
 			//Update page if no sections 
 			sections = [];
@@ -48,9 +48,15 @@ class CourseData extends Component {
 				<h2 className="mt-3">
 					<strong>Exercises / tests:</strong>
 				</h2>
-				<p>
-					{JSON.stringify(course.exercises)}
-				</p>
+				<div>
+					{exercises.map((exercise, i) => (
+						<div>
+							<Link to={`/classroom/course/${course._id}/exercise/${exercise._id}`}>
+								{exercise.name}
+							</Link>
+						</div>
+					))}
+				</div>
 			</div>
 		);
 	}

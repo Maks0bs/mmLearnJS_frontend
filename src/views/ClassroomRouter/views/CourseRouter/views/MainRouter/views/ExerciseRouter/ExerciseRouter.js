@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
-import Topic from './views/Topic'
-import Forum from './views/Forum'
 import { connect } from 'react-redux'
-import { getForumFromCourse } from './services/actions'
+import { getExerciseFromCourse } from "./services/actions";
 import OptimizedComponent from "../../../../../../../../components/OptimizedComponent";
+import ExercisePreview from "./views/ExercisePreview/ExercisePreview";
 
 
-class ForumRouter extends OptimizedComponent {
+class ExerciseRouter extends OptimizedComponent {
 	render() {
 		super.render();
 		if (this.canCallOptimally()){
-			console.log('check this out', this.props.forumData);
-			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
+			this.props.getExerciseFromCourse(this.props.courseData, this.props.match.params.exerciseId);
 		}
-		if (!this.props.forumData){
+		if (!this.props.exercise){
 			return null;
 		}
-		if (this.props.forumData === 'not accessible'){
+		if (this.props.exercise === 'not accessible'){
 			return (
 				<Redirect
 					to={`/classroom/course/${this.props.courseData._id}`}
@@ -30,14 +28,8 @@ class ForumRouter extends OptimizedComponent {
 				<Switch>
 					<Route
 						exact path={`${path}`}
-						component={Forum}
+						component={ExercisePreview}
 					/>
-					
-					<Route
-						exact path={`${path}/topic/:topicId`}
-						component={Topic}
-					/>
-					
 				</Switch>
 			</div>
 		);
@@ -46,18 +38,18 @@ class ForumRouter extends OptimizedComponent {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.main.forum,
+		...state.views.classroom.course.main.exercise,
 		...state.views.classroom.course.main.services
 	}
 }
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		getForumFromCourse: (courseData, forumId) => dispatch(getForumFromCourse(courseData, forumId))
+		getExerciseFromCourse: (courseData, id) => dispatch(getExerciseFromCourse(courseData, id))
 	}
 }
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(ForumRouter)
+)(ExerciseRouter)
