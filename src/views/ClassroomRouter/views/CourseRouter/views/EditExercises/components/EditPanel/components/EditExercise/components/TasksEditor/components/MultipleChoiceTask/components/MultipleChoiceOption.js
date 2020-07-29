@@ -36,7 +36,8 @@ class MultipleChoiceOption extends Component {
                     let newOptions = options;
                     newOptions[optionNum].text = newText;
                     this.props.editTask({
-                        options: newOptions
+                        options: newOptions,
+                        keepEditLast: false
                     }, taskNum);
                 }}
                 onDelete={() => {

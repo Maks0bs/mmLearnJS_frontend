@@ -22,14 +22,15 @@ class OneChoiceTask extends Component {
             key: uuidv1()
         })
         this.props.editTask({
-            options: newOptions
+            options: newOptions,
+            keepEditLast: true
         }, num)
     }
 
     render() {
         let { tasks, num } = this.props;
         let task = tasks[num];
-        let { options, correctAnswer } = task
+        let { options, correctAnswer, keepEditLast } = task
         let correctPos = -1;
 
         for (let i = 0; i < options.length; i++) {
@@ -52,6 +53,7 @@ class OneChoiceTask extends Component {
                                 taskNum={num}
                                 optionNum={i}
                                 correct={(i === correctPos)}
+                                keepEdit={(i === (options.length - 1) && keepEditLast )}
                             />
                         </div>
                     ))}

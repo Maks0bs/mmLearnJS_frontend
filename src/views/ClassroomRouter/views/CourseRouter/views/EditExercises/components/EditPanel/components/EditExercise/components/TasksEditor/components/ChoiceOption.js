@@ -16,6 +16,9 @@ class ChoiceOption extends Component {
     }
 
     componentDidMount() {
+        if (this.props.keepEdit){
+            this.textArea.focus();
+        }
         this.setState({
             backgroundColor: this.props.correct ? '#2c8f31' : '#dedede'
         })
@@ -103,6 +106,7 @@ class ChoiceOption extends Component {
                                 value={editText}
                                 onKeyPress={this.onInputEnterHandle}
                                 onChange={this.handleChange("editText")}
+                                ref={(ta) => this.textArea = ta }
                             />
                             <Icon
                                 className="mx-1"

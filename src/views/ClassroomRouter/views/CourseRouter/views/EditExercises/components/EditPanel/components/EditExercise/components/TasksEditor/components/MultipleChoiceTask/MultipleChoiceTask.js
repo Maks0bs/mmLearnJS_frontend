@@ -23,7 +23,8 @@ class MultipleChoiceTask extends Component {
             key: uuidv1()
         })
         this.props.editTask({
-            options: newOptions
+            options: newOptions,
+            keepEditLast: true
         }, num)
     }
 
@@ -37,7 +38,7 @@ class MultipleChoiceTask extends Component {
     render() {
         let { tasks, num } = this.props;
         let task = tasks[num];
-        let { options, correctAnswers } = task
+        let { options, correctAnswers, keepEditLast } = task
         let correctAnswersSet = {};
 
         for (let i of correctAnswers) {
@@ -57,6 +58,7 @@ class MultipleChoiceTask extends Component {
                                 taskNum={num}
                                 optionNum={i}
                                 correct={correctAnswersSet[option.key]}
+                                keepEdit={(i === (options.length - 1) && keepEditLast )}
                             />
                         </div>
                     ))}

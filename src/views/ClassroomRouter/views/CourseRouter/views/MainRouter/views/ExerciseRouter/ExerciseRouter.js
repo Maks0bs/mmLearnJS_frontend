@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getExerciseFromCourse } from "./services/actions";
 import OptimizedComponent from "../../../../../../../../components/OptimizedComponent";
 import ExercisePreview from "./views/ExercisePreview/ExercisePreview";
+import Attempt from "./views/Attempt";
 
 
 class ExerciseRouter extends OptimizedComponent {
@@ -31,6 +32,12 @@ class ExerciseRouter extends OptimizedComponent {
 						component={ExercisePreview}
 					/>
 				</Switch>
+				<Switch>
+					<Route
+						exact path={`${path}/attempt/:attemptId`}
+						component={Attempt}
+					/>
+				</Switch>
 			</div>
 		);
 	}
@@ -38,7 +45,7 @@ class ExerciseRouter extends OptimizedComponent {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.main.exercise,
+		...state.views.classroom.course.main.exercise.services,
 		...state.views.classroom.course.main.services
 	}
 }

@@ -19,7 +19,8 @@ class OneChoiceOption extends Component {
                     let newOptions = tasks[taskNum].options;
                     newOptions[optionNum].text = newText;
                     this.props.editTask({
-                        options: newOptions
+                        options: newOptions,
+                        keepEditLast: false
                     }, taskNum);
                 }}
                 onDelete={() => {

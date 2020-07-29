@@ -23,6 +23,13 @@ class Info extends Component {
 				<Redirect to="/classroom/dashboard" />
 			)
 		}
+		if (this.props.loading){
+			return (
+				<div>
+					loading
+				</div>
+			)
+		}
 		if (!this.props.courseData){
 			return null;
 		}
@@ -105,7 +112,7 @@ let mapStateToProps = (state) => {
 	return {
 		...state.views.classroom.course.main.info,
 		...state.views.classroom.course.main.services,
-		authenticatedUser: state.services.authenticatedUser
+		...state.services
 	}
 }
 

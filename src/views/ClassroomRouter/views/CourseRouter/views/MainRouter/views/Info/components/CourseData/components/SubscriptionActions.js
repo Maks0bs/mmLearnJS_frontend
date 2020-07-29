@@ -88,7 +88,7 @@ class SubscriptionActions extends Component {
         console.log('subbed', subbed);
 
         return (
-            <div>
+            <span>
                 {(() => {
                     if (!subbed) return (
                         <button
@@ -109,7 +109,7 @@ class SubscriptionActions extends Component {
                         </button>
                     )
                 })()}
-            </div>
+            </span>
         );
     }
 }

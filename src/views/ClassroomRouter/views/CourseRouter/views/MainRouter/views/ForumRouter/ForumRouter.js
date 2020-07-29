@@ -11,7 +11,6 @@ class ForumRouter extends OptimizedComponent {
 	render() {
 		super.render();
 		if (this.canCallOptimally()){
-			console.log('check this out', this.props.forumData);
 			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
 		}
 		if (!this.props.forumData){
