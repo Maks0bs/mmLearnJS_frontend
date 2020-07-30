@@ -16,7 +16,7 @@ class MainRouter extends OptimizedPureComponent {
 	render() {
 		super.render();
 		if (this.canCallOptimally()){
-			this.props.toggleLoading(true);
+			//this.props.toggleLoading(true);
 			this.props.getCourseById(this.props.match.params.courseId)
 			if (this.props.authenticatedUser) {
 				this.props.viewCourse(this.props.match.params.courseId);
@@ -33,7 +33,7 @@ class MainRouter extends OptimizedPureComponent {
 				</div>
 			)
 		} else {
-			this.props.toggleLoading(false);
+			//this.props.toggleLoading(false);
 		}
 		let { path } = this.props.match;
 		return (

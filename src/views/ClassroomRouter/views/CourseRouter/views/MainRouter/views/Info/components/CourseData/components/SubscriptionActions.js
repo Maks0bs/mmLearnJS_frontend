@@ -76,6 +76,7 @@ class SubscriptionActions extends Component {
             )
         }
         let subbed = false;
+        console.log(this.props.authenticatedUser.subscribedCourses, 'bruh', this.props.courseData._id)
         for (let i of this.props.authenticatedUser.subscribedCourses){
             if (i.course._id === this.props.courseData._id){
                 subbed = true;
@@ -83,9 +84,6 @@ class SubscriptionActions extends Component {
             }
         }
 
-        console.log(this.props.authenticatedUser.subscribedCourses, 'bruh', this.props.courseData._id)
-
-        console.log('subbed', subbed);
 
         return (
             <span>
@@ -118,7 +116,7 @@ let mapStateToProps = (state) => {
     return {
         ...state.views.classroom.course.main.info,
         ...state.views.classroom.course.main.services,
-        ...state.services
+        authenticatedUser: state.services.authenticatedUser
     }
 }
 
