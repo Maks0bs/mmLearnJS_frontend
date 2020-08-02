@@ -71,7 +71,7 @@ class CourseData extends Component {
 						<h2>Exercises / tests:</h2>
 						<ul>
 							{exercises.map((exercise, i) => (
-								<li>
+								<li key={i}>
 									<h5>
 										<Link to={`/classroom/course/${course._id}/exercise/${exercise._id}`}>
 											{exercise.name}

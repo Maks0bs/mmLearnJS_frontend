@@ -30,6 +30,10 @@ class ExercisePreview extends Component {
             })
     }
 
+    componentWillUnmount() {
+        this.props.cleanup();
+    }
+
     onExerciseStart = (e) => {
         e.preventDefault();
         this.props.newAttempt(this.props.courseData._id, this.props.exercise._id)
@@ -84,7 +88,7 @@ class ExercisePreview extends Component {
                                 </thead>
                                 <tbody>
                                     {attempts.map((a, i) => (
-                                        <tr>
+                                        <tr key={i}>
                                             <td>
                                                 {i + 1}
                                             </td>

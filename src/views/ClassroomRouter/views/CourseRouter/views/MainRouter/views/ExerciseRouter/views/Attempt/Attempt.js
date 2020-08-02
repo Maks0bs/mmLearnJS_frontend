@@ -2,34 +2,58 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import { getAttemptById } from "./services/actions";
 import { addToast } from "../../../../../../../../../../components/ToastRoot/services/actions";
+import LoadingRingAnimated from "../../../../../../../../../../res/images/LoadingRingAnimated200px.svg";
+import FinishedAttempt from "./components/FinishedAttempt/FinishedAttempt";
+import ActiveAttempt from "./components/ActiveAttempt/ActiveAttempt";
 
 class Attempt extends Component {
+
+    displayError(text){
+        this.props.addToast(
+            (
+                <div>
+                    {text || 'Problem with loading data. Try reloading the page'}
+                </div>
+            ),
+            {
+                type: 'error'
+            }
+        )
+    }
 
     componentDidMount() {
         this.props.getAttemptById(this.props.courseData._id, this.props.exercise._id, this.props.match.params.attemptId)
             .then(() => {
                 if (this.props.error){
-                    this.props.addToast(
-                        (
-                            <div>
-                                Problem with loading attempts
-                            </div>
-                        ),
-                        {
-                            type: 'error'
-                        }
-                    )
+                    this.displayError('Problem loading attempt')
                 }
             })
     }
 
     render() {
-        //TODO return finishedReview if there is time of finish
-        return (
-            <div>
-                {JSON.stringify(this.props.attempt)}
-            </div>
-        )
+        if (!this.props.attempt || !this.props.attempt._id){
+
+            return (
+                <div
+                    style={{
+                        textAlign: 'center'
+                    }}
+                >
+                    <img src={LoadingRingAnimated} alt="loading"/>
+                </div>
+            )
+        }
+
+
+        if (this.props.attempt.endTime){
+            return (
+                <FinishedAttempt />
+            )
+        } else {
+            return (
+                <ActiveAttempt />
+            )
+        }
     }
 }
 

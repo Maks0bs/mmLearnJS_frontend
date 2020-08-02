@@ -2,7 +2,7 @@ import types from './actionTypes'
 import { combineReducers } from 'redux'
 import attemptReducer from '../views/Attempt/services/reducer'
 let { 
-	GET_EXERCISE_FROM_COURSE,
+	API_GET_EXERCISE_BY_ID,
 	GET_STUDENT_ATTEMPTS,
 	API_NEW_ATTEMPT,
 	CLEANUP
@@ -31,7 +31,7 @@ let servicesReducer =  function(state = initialState, action) {
 				attempts: action.payload.attempts
 			}
 		}
-		case GET_EXERCISE_FROM_COURSE: {
+		case API_GET_EXERCISE_BY_ID: {
 			return {
 				...state,
 				exercise: action.payload

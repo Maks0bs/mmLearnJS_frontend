@@ -122,7 +122,7 @@ class CourseTabs extends Component {
                                             href="#void"
                                             onClick={this.onStudentsResultsClick}
                                         >
-                                            Student's results
+                                            Students' results
                                         </a>
                                     </div>
                                 </nav>
