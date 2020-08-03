@@ -64,6 +64,7 @@ class ExercisePreview extends Component {
             )
         }
 
+
         return (
             <div className="container">
                 <h1>{name}</h1>

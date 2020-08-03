@@ -11,6 +11,14 @@ class ForumActions extends Component {
 		)
 	}
 
+	handleLeave = () => {
+		this.props.onClose && this.props.onClose();
+	}
+
+	componentWillUnmount(){
+		this.handleLeave();
+	}
+
 	render() {
 		return (
 			<div>

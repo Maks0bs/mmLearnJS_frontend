@@ -26,6 +26,7 @@ let servicesReducer =  function(state = initialState, action) {
 				}
 			}
 
+
 			return {
 				...state,
 				attempts: action.payload.attempts

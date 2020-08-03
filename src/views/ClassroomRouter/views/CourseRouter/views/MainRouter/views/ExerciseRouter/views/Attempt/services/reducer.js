@@ -25,7 +25,11 @@ export default function(state = initialState, action) {
 				}
 			}
 
-			return state;
+			return {
+				...state,
+				attempt: action.payload.attempt,
+				oldAttempt: action.payload.attempt
+			}
 		}
 		case GET_ATTEMPT_BY_ID: {
 			console.log('get attempt');

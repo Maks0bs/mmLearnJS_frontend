@@ -54,3 +54,20 @@ export let updateAttempt = (courseId, exerciseId, attemptId, attempt) => (dispat
 		}))
 		.catch(err => console.log(err))
 }
+
+export let finishAttempt = (courseId, exerciseId, attemptId) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/attempt/${attemptId}/finish`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json"
+		},
+		credentials: 'include'
+	})
+		.then(res => res.json())
+		.then(data => dispatch({
+			type: API_FINISH_ATTEMPT,
+			payload: data
+		}))
+		.catch(err => console.log(err))
+}

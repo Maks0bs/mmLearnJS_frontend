@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import AttemptActions from "./components/AttemptActions";
-import OneChoiceTask from "./components/OneChoiceTask";
-import MultipleChoiceTask from "./components/MultipleChoiceTask";
-import TextTask from "./components/TextTask";
+import OneChoiceTask from "../OneChoiceTask";
+import MultipleChoiceTask from "../MultipleChoiceTask";
+import TextTask from "../TextTask";
 
 class ActiveAttempt extends Component {
 

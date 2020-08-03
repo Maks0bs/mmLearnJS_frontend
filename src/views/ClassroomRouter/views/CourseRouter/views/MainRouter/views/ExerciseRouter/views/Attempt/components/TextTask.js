@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import TaskBase from "./TaskBase";
-import { toggleAttemptValue } from "../../../services/actions";
+import { toggleAttemptValue } from "../services/actions";
 
 class TextTask extends Component {
 
@@ -25,6 +25,7 @@ class TextTask extends Component {
                     type="text"
                     value={value}
                     onChange={this.onSelectOption}
+                    disabled={!!this.props.disabled}
                 />
             </TaskBase>
         );

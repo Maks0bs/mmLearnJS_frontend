@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import TaskBase from "./TaskBase";
-import { toggleAttemptValue } from "../../../services/actions";
+import { toggleAttemptValue } from "../services/actions";
 
-
-class MultipleChoiceTask extends Component {
+class OneChoiceTask extends Component {
 
     onSelectOption = (e) => {
         //e.preventDefault();
@@ -14,12 +13,12 @@ class MultipleChoiceTask extends Component {
     render() {
         let { exercise, attempt, oldAttempt } = this.props;
         let { options, _id } = exercise.tasks[this.props.num]
-        let { values } = attempt.answers[this.props.num];
-        let { values: oldValues } = oldAttempt.answers[this.props.num]
+        let { value } = attempt.answers[this.props.num];
+        let { value: oldValue } = oldAttempt.answers[this.props.num]
         return (
             <TaskBase
                 {...this.props}
-                changed={JSON.stringify(values) != JSON.stringify(oldValues)}
+                changed={value !== oldValue}
             >
                 <ul
                     style={{
@@ -30,10 +29,12 @@ class MultipleChoiceTask extends Component {
                         <li key={i}>
                             <input
                                 id={_id + '-' + i}
-                                type="checkbox"
+                                type="radio"
                                 value={option.key}
-                                checked={values.indexOf(option.key) >= 0}
+                                checked={value === option.key}
                                 onChange={this.onSelectOption}
+                                name={_id}
+                                disabled={!!this.props.disabled}
                             />
                             <label
                                 className="ml-1"
@@ -65,4 +66,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(MultipleChoiceTask)
+)(OneChoiceTask)

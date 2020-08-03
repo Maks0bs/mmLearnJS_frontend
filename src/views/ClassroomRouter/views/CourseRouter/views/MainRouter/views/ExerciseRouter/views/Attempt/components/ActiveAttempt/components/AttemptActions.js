@@ -4,6 +4,7 @@ import {Link, Redirect, withRouter} from "react-router-dom";
 import { updateAttempt } from "../../../services/actions";
 import { addToast } from "../../../../../../../../../../../../../components/ToastRoot/services/actions";
 import { showModal, hideModal } from "../../../../../../../../../../../../../components/ModalRoot/services/actions";
+import FinishModal from "./FinishModal";
 
 
 class AttemptActions extends Component {
@@ -29,6 +30,7 @@ class AttemptActions extends Component {
     }
 
     onSaveChanges = (e) => {
+        e.preventDefault();
         this.props.updateAttempt(
             this.props.courseData._id,
             this.props.exercise._id,
@@ -54,11 +56,14 @@ class AttemptActions extends Component {
                     })
                 }
             })
-        e.preventDefault();
     }
 
-    onFinishAttempt = (e) => {
+    onFinishAttemptModal = (e) => {
         e.preventDefault();
+
+        this.props.showModal(
+            <FinishModal onClose={this.props.hideModal} />
+        )
     }
 
     render() {
@@ -112,7 +117,7 @@ class AttemptActions extends Component {
                     <li>
                         <a
                             href="#void"
-                            onClick={this.onFinishAttempt}
+                            onClick={this.onFinishAttemptModal}
                         >
                             Finish attempt
                         </a>

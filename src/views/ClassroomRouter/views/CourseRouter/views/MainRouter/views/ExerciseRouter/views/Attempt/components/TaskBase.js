@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 
 class OneChoiceTask extends Component {
     render() {
+        let { achievedScore } = this.props;
         let { description, score } = this.props.exercise.tasks[this.props.num]
         return (
             <div className="container my-2">
@@ -15,8 +16,14 @@ class OneChoiceTask extends Component {
                                 display: 'inline-block'
                             }}
                         >
-                            <i>Score:</i>
-                            <strong className="mx-1">{score}</strong>
+                            <i>Score:</i>{(achievedScore === undefined || this.props.achievedScore === null) ? (
+                                <strong className="mx-1">{score}</strong>
+                            ) : (
+                                <div>
+                                    <strong className="mx-1">{achievedScore}</strong> / {score}
+                                </div>
+                            )}
+
                         </p>
                     </div>
 
