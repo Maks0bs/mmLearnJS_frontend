@@ -16,6 +16,7 @@ class GradesRouter extends OptimizedPureComponent {
             //TODO
         }
         let { path } = this.props.match;
+        console.log('path', path);
         return (
             <div className="container mt-3">
                 <CourseTabs />

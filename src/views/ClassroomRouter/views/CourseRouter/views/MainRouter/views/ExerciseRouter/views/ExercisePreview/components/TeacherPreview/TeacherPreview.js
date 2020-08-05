@@ -4,6 +4,8 @@ import { addToast } from "../../../../../../../../../../../../components/ToastRo
 import { toggleLoading } from "../../../../../../../../../../../../services/actions";
 import LoadingRingAnimated from '../../../../../../../../../../../../res/images/LoadingRingAnimated50px.svg'
 import {Link} from "react-router-dom";
+import {cleanup} from "../../../../services/actions";
+import StudentAttempt from "./components/StudentAttempt";
 
 class TeacherPreview extends Component {
 
@@ -27,20 +29,32 @@ class TeacherPreview extends Component {
         //     })
     }
 
+    componentWillUnmount() {
+        this.props.cleanup();
+    }
+
 
     render() {
         let { exercise, loading, courseData } = this.props;
         let { name } = exercise;
+        let { participants } = exercise;
 
 
         return (
             <div className="container">
                 <h1>{name}</h1>
-                {loading ? (
-                    <img src={LoadingRingAnimated} alt="loading" />
-                ) : (
-                    JSON.stringify(exercise)
-                )}
+                <p>To edit the this exercise, please go to the { }
+                    <Link to={`/classroom/course/edit-exercises/${this.props.courseData._id}`}>editor</Link>
+                </p>
+
+                <h2>Students' stats:</h2>
+                <ul>
+                    {participants.map((p, i) => (
+                        <StudentAttempt
+                            num={i}
+                        />
+                    ))}
+                </ul>
             </div>
         )
     }
@@ -57,7 +71,8 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
     return {
         toggleLoading: (loading) => dispatch(toggleLoading(loading)),
-        addToast: (toast, options) => dispatch(addToast(toast, options))
+        addToast: (toast, options) => dispatch(addToast(toast, options)),
+        cleanup: () => dispatch(cleanup())
     }
 }
 

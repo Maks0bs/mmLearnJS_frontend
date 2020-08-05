@@ -110,7 +110,7 @@ class ExercisePreview extends Component {
                                                     </div>
                                                 ) : (
                                                     <div>
-                                                        {a.score}
+                                                        {a.score.toFixed(2)}
                                                     </div>
                                                 )}
                                             </td>
