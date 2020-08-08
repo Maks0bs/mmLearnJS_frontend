@@ -39,3 +39,10 @@ export let getEnrollmentStatus = (course, user) => {
 
 	return 'not enrolled'
 }
+
+export let removeLastUrlParam = (url) => {
+	let copy = `${url}`;
+	let splitted = copy.split('/');
+	let last = splitted[splitted.length - 1];
+	return copy.slice(0, -(last.length + 1) );
+}

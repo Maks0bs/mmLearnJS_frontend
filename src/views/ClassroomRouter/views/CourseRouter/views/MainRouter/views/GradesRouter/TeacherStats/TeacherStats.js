@@ -1,16 +1,58 @@
 import React, {Component} from 'react';
+import {getExerciseSummaries} from "../services/actions";
+import {connect} from "react-redux";
+import StatsEntry from "./components/StatsEntry";
 
 class TeacherStats extends Component {
     render() {
-
-        //TODO teachers can view overall statistics in course
-        // they can also view a list of grades separately for each student
+        let {summaries} = this.props;
+        let {exercises} = this.props.courseData;
         return (
-            <div>
-                Teacher stats
+            <div
+                className="container my-4"
+                style={{
+                    overflow: 'auto',
+                    maxWidth: '100%'
+                }}
+            >
+                <table className="table table-bordered">
+                    <tr key={-1}>
+                        <td />
+                        {exercises && exercises.map((e, i) => (
+                            <th
+                                key={i}
+                                scope="col"
+                                style={{
+                                    wordBreak: 'keep-all',
+                                    whiteSpace: 'nowrap'
+                                }}
+                            >
+                                {e.name}
+                            </th>
+                        ))}
+                    </tr>
+                    {summaries.map((s, i) => (
+                        <StatsEntry
+                            key={i}
+                            userId={s.id}
+                            userNum={i}
+                        />
+
+                    ))}
+                </table>
             </div>
         );
     }
 }
 
-export default TeacherStats;
+let mapStateToProps = (state) => {
+    return {
+        ...state.views.classroom.course.main.grades,
+        ...state.views.classroom.course.main.services
+    }
+}
+
+
+export default connect(
+    mapStateToProps
+)(TeacherStats)

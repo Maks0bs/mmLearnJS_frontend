@@ -55,7 +55,7 @@ class MainRouter extends OptimizedPureComponent {
 					/>
 
 					<Route
-						path={`${path}/grades`}
+						path={`${path}/grades/:gradeFilter`}
 						component={GradesRouter}
 					/>
 					

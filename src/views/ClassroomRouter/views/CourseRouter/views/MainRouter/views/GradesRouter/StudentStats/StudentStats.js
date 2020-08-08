@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from "react-redux";
 
 class StudentStats extends Component {
     render() {
@@ -7,10 +8,19 @@ class StudentStats extends Component {
         //TODO see how it's made in moodle
         return (
             <div>
-                Student stats
+                {JSON.stringify(this.props)}
             </div>
         );
     }
 }
 
-export default StudentStats;
+let mapStateToProps = (state) => {
+    return {
+        ...state.views.classroom.course.main.grades
+    }
+}
+
+
+export default connect(
+    mapStateToProps
+)(StudentStats)

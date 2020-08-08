@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import TeacherStats from "./TeacherStats";
 import StudentStats from "./StudentStats";
 import OptimizedPureComponent from "../../../../../../../../components/OptimizedPureComponent";
 import CourseTabs from "../../components/CourseTabs";
+import {removeLastUrlParam} from "../../../../services/helpers";
+import { getExerciseSummaries } from "./services/actions";
+import BigLoadingCentered from "../../../../../../../../components/BigLoadingCentered";
 
 
 class GradesRouter extends OptimizedPureComponent {
 
     render() {
         super.render();
-        console.log('bruh');
-        if (this.canCallOptimally()){
-            //TODO
+        if (!this.props.authenticatedUser){
+            return <Redirect to={`/classroom/course/${this.props.courseData._id}`} />
         }
-        let { path } = this.props.match;
-        console.log('path', path);
+        if (this.canCallOptimally()){
+            let filter = this.props.match.params.gradeFilter;
+            this.props.getExerciseSummaries(this.props.courseData._id,
+                (filter === 'teacher') ? 'all' : filter
+            )
+        }
+        if (!this.props.summaries){
+            return (
+                <BigLoadingCentered/>
+            )
+        }
+        let path = removeLastUrlParam(this.props.match.path);
         return (
             <div className="container mt-3">
                 <CourseTabs />
@@ -40,12 +52,14 @@ class GradesRouter extends OptimizedPureComponent {
 let mapStateToProps = (state) => {
     return {
         ...state.views.classroom.course.main.services,
+        ...state.views.classroom.course.main.grades,
         ...state.services
     }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
+        getExerciseSummaries: (courseId, param) => dispatch(getExerciseSummaries(courseId, param))
     }
 }
 

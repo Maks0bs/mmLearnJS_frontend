@@ -6,6 +6,7 @@ import OptimizedComponent from "../../../../../../../../components/OptimizedComp
 import ExercisePreview from "./views/ExercisePreview/ExercisePreview";
 import Attempt from "./views/Attempt";
 import LoadingRingAnimated from "../../../../../../../../res/images/LoadingRingAnimated200px.svg";
+import BigLoadingCentered from "../../../../../../../../components/BigLoadingCentered";
 
 
 class ExerciseRouter extends OptimizedComponent {
@@ -16,13 +17,7 @@ class ExerciseRouter extends OptimizedComponent {
 		}
 		if (!this.props.exercise || !this.props.exercise._id){
 			return (
-				<div
-					style={{
-						textAlign: 'center'
-					}}
-				>
-					<img src={LoadingRingAnimated} alt="loading"/>
-				</div>
+				<BigLoadingCentered />
 			)
 		}
 		if (this.props.exercise === 'not accessible'){

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import infoReducer from '../views/Info/services/reducer'
 import forumReducer from '../views/ForumRouter/services/reducer'
 import exerciseReducer from '../views/ExerciseRouter/services/reducer'
+import gradesReducer from '../views/GradesRouter/services/reducer'
 import types from './actionTypes'
 let {
 	API_GET_COURSE_BY_ID,
@@ -28,5 +29,6 @@ export default combineReducers({
 	info: infoReducer,
 	forum: forumReducer,
 	exercise: exerciseReducer,
-	services: servicesReducer
+	services: servicesReducer,
+	grades: gradesReducer
 })

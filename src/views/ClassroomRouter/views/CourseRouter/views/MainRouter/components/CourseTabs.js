@@ -47,9 +47,9 @@ class CourseTabs extends Component {
         }
 
         let courseLink = `/classroom/course/${this.props.courseData._id}`;
-        let gradesLink = `/classroom/course/${this.props.courseData._id}`;
+        let gradesLink = `/classroom/course/${this.props.courseData._id}/grades/`;
         if (status !== 'not enrolled'){
-            gradesLink += '/' +  this.props.authenticatedUser._id;
+            gradesLink += this.props.authenticatedUser._id;
         }
         let studentsResultsLink = `/classroom/course/${this.props.courseData._id}/grades/teacher`;
 
