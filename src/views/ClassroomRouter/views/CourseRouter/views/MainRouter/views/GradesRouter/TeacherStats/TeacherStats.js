@@ -15,7 +15,7 @@ class TeacherStats extends Component {
                     maxWidth: '100%'
                 }}
             >
-                <table className="table table-bordered">
+                <table className="table table-bordered table-hover">
                     <tr key={-1}>
                         <td />
                         {exercises && exercises.map((e, i) => (

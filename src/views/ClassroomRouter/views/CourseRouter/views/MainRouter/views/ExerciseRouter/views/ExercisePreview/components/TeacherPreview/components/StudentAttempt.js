@@ -111,7 +111,7 @@ class StudentAttempt extends Component {
                                     {i + 1}
                                 </td>
                                 <td>
-                                    {a.score}
+                                    {a.score.toFixed(2)}
                                 </td>
                                 <td>
                                     <strong>Finished</strong> on {(new Date(a.endTime)).toLocaleDateString()} at {(new Date(a.endTime)).toLocaleTimeString()}
