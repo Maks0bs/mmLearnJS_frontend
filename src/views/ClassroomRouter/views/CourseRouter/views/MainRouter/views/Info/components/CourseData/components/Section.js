@@ -8,13 +8,19 @@ class Section extends Component {
 			<div>
 				<h3> <strong> {name} </strong> </h3>
                 <p>{description}</p>
-                <div className="ml-4">
+                <ul
+					style={{
+						listStyleType: 'none'
+					}}
+				>
 	                {entries.map((entry, i) => {
 	                	if (!entry ){
-	                		return null;
+	                		return (
+	                			<li key={i}>Problem with entry</li>
+							)
 	                	}
 	                	return (
-	                		<div key={i}>
+	                		<li key={i}>
 		                        <Entry 
 		                            name={entry.name}
 		                            type={entry.type}
@@ -23,10 +29,10 @@ class Section extends Component {
 		                            courseId={courseId}
 		                            access={entry.access}
 		                        />
-		                    </div>
+		                    </li>
 		                )
 	                })}
-	            </div>
+	            </ul>
 			</div>
 		);
 	}

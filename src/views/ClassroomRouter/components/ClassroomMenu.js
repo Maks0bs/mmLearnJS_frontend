@@ -6,7 +6,7 @@ import Signin from '../../components/Signin'
 import _ from 'lodash'
 import { logout } from '../../../services/actions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faBell as faBellSolid } from '@fortawesome/free-solid-svg-icons'
+import { faBell as faBellSolid, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
 
 // !!!! maybe put all these small secondary components in another file
@@ -73,7 +73,10 @@ class ClassroomMenu extends Component {
 	constructor(){
 		super();
 		this.state = {
-			redirectToHome: false
+			redirectToHome: false,
+			searchQuery: '',
+			redirectToSearch: false,
+			display: false
 		}
 	}
 
@@ -87,80 +90,147 @@ class ClassroomMenu extends Component {
 		})
 	}
 
+	handleChange = (name) => (event) => {
+		this.setState({
+			[name]: event.target.value
+		})
+	}
+
 	showSigninModal = () => {
 		this.props.showModal(
 			<Signin onClose={this.props.hideModal} />
 		)
 	}
+
+	onSubmitSearch = (e) => {
+		if (e){
+			e.preventDefault();
+		}
+		this.setState({
+			redirectToSearch: true
+		})
+	}
+
+	toggleNavbar = (e) => {
+		e.preventDefault();
+		this.setState({
+			display: !this.state.display
+		})
+	}
 			
 	render() {
 		let { pathname } = this.props.location;
 		let { authenticatedUser: curUser } = this.props
-		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
+		let { redirectToHome, redirectToSearch, searchQuery, display } = this.state;
 		return (
-			<nav className="navbar navbar-expand-lg navbar-light bg-light">
-				<NavItem pageURI={pathname} path="/classroom/dashboard" name="Classroom" brand="true"/>
-		        <ul className="navbar-nav mr-auto">
-		            <NavItem pageURI={pathname} path="/" name="public page" />
-		            <NavItem pageURI={pathname} path="/classroom/page2" name="test2" />
-		            <NavItem pageURI={pathname} path="/classroom/page3" name="test3" />
-		        </ul>
-		        {(curUser && curUser._id) ? (
-		        	<ul className="navbar-nav">
-		        	<NavDropdown 
-		        		name={ curUser.notifications.length > 0 ?
-		        			curUser.notifications.length :
-		        			''
-		        		}
-		        		displayComponent={
-			        			
-		        			<Icon 
-		        				icon={curUser.notifications.length > 0 ?
-		        					faBellSolid :
-		        					faBellHollow
-		        				} 
-		        				size="2x"
-		        			/>
-		        		}
-		        	>
-		        		<div className="dropdown-item">
-		        			{JSON.stringify(curUser.notifications)}
-		        		</div>
-		        	</NavDropdown>
-		        	
-				    <NavDropdown name={curUser.name}>
-				    	<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
-				    		Profile
-				    	</Link>
-				    	<Link className="dropdown-item" to="/classroom/dashboard">
-				    		Dashboard
-				    	</Link>
-						<Link className="dropdown-item" to="/classroom/courses">
-							Courses
-						</Link>
-				    	<span 
-				    		className="dropdown-item" 
-				    		onClick={(e) => this.handleLogout()}
-				    		style={{
-				    			cursor: 'pointer'
-				    		}}
-				    	>
-				    		Log out
-				    	</span>
-				    </NavDropdown>
-				</ul>
-		        ) : (
-			        <ul className="navbar-nav">
-			        	<button 
-			        		className="btn btn-outline my-sm-0"
-			        		onClick={(e) => this.showSigninModal()}
-			        	>
-			        		Sign in
-			        	</button>
-			        </ul>
-			    )}
-			    
-			    {this.state.redirectToHome && (<Redirect to="/" />)}
+			<nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+				<button
+					className="navbar-toggler"
+					type="button"
+					onClick={this.toggleNavbar}
+				>
+					<span className="navbar-toggler-icon" />
+				</button>
+				<div className={(display ? '' : 'collapse ') + "navbar-collapse"}>
+					{(() => {
+						if (redirectToSearch){
+							this.setState({
+								redirectToSearch: false
+							})
+							return (
+								<Redirect to={`/classroom/search/${searchQuery}`} />
+							)
+						}
+					})()}
+					{redirectToHome && (<Redirect to="/" />)}
+					<NavItem pageURI={pathname} path="/classroom/dashboard" name="Classroom" brand="true"/>
+					<ul className="navbar-nav mr-auto">
+						<NavItem pageURI={pathname} path="/" name="public page" />
+						<NavItem pageURI={pathname} path="/classroom/page2" name="test2" />
+						<NavItem pageURI={pathname} path="/classroom/page3" name="test3" />
+					</ul>
+					<ul className="navbar-nav">
+
+						<form
+							className="mr-3"
+							style={{
+								display: 'flex',
+								alignItems: 'center'
+							}}
+							onSubmit={this.onSubmitSearch}
+						>
+							<input
+								onChange={this.handleChange("searchQuery")}
+								type="text"
+								className="form-control py-0 px-2"
+								value={this.state.searchQuery}
+							/>
+							<Icon
+								style={{
+									display: 'flex',
+									cursor: 'pointer'
+								}}
+								type="submit"
+								icon={faSearch}
+								onClick={this.onSubmitSearch}
+							/>
+						</form>
+						{(curUser && curUser._id) ? (
+							<div style={{display: 'flex'}}>
+								<NavDropdown
+									name={ curUser.notifications.length > 0 ?
+										curUser.notifications.length :
+										''
+									}
+									displayComponent={
+
+										<Icon
+											icon={curUser.notifications.length > 0 ?
+												faBellSolid :
+												faBellHollow
+											}
+											size="2x"
+										/>
+									}
+								>
+									<div className="dropdown-item">
+										{JSON.stringify(curUser.notifications)}
+									</div>
+								</NavDropdown>
+
+								<NavDropdown name={curUser.name}>
+									<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
+										Profile
+									</Link>
+									<Link className="dropdown-item" to="/classroom/dashboard">
+										Dashboard
+									</Link>
+									<Link className="dropdown-item" to="/classroom/courses">
+										Courses
+									</Link>
+									<span
+										className="dropdown-item"
+										onClick={(e) => this.handleLogout()}
+										style={{
+											cursor: 'pointer'
+										}}
+									>
+										Log out
+									</span>
+								</NavDropdown>
+							</div>
+						) : (
+							<div style={{display: 'flex'}}>
+								<button
+									className="btn btn-outline my-sm-0"
+									onClick={(e) => this.showSigninModal()}
+								>
+									Sign in
+								</button>
+							</div>
+						)}
+					</ul>
+				</div>
 			</nav>
 		);
 	}

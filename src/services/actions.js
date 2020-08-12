@@ -1,7 +1,10 @@
 import types from './actionTypes'
-import Cookies from 'js-cookie'
 import { REACT_APP_API_URL } from '../constants'
-let { API_AUTHENTICATED_USER, API_LOGOUT } = types;
+let {
+	API_AUTHENTICATED_USER,
+	API_LOGOUT,
+	TOGGLE_LOADING
+} = types;
 
 // all api requests related to Home view will be placed here
 // all nested components should only use these actions for backend requests
@@ -137,4 +140,13 @@ export let getUserById = (userId, returnDispatchType) => (dispatch) => {
 		})
 	})
 	.catch(err => console.log(err))
+}
+
+export let toggleLoading = (loading) => (dispatch) => {
+	return dispatch({
+		type: TOGGLE_LOADING,
+		payload: {
+			loading
+		}
+	})
 }

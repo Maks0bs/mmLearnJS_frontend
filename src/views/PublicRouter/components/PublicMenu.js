@@ -68,7 +68,8 @@ class PublicMenu extends Component {
 	constructor(){
 		super();
 		this.state = {
-			redirectToHome: false
+			redirectToHome: false,
+			display: false
 		}
 	}
 
@@ -88,10 +89,18 @@ class PublicMenu extends Component {
 			<Signin onClose={this.props.hideModal} />
 		)
 	}
+
+	toggleNavbar = (e) => {
+		e.preventDefault();
+		this.setState({
+			display: !this.state.display
+		})
+	}
 			
 	render() {
 		let { pathname } = this.props.location;
 		let { authenticatedUser: curUser } = this.props
+		let { display } = this.state;
 		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
 		return (
 			<nav 
@@ -100,49 +109,58 @@ class PublicMenu extends Component {
 					backgroundColor: '#64B5F6'
 				}}
 			>
-				<NavItem pageURI={pathname} path="/" name="mmLearnJS" brand="true"/>
-		        <ul className="navbar-nav mr-auto">
-		            <NavItem pageURI={pathname} path="/page2" name="Page2" />
-		            <NavItem pageURI={pathname} path="/page3" name="Disabled" disabled="true" />
-		        </ul>
-		        {(curUser && curUser._id) ? (
-		        	<ul className="navbar-nav">
-				    <NavDropdown name={curUser.name}>
-				    	<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
-				    		Profile
-				    	</Link>
-				    	<Link className="dropdown-item" to="/classroom/dashboard">
-				    		Dashboard
-				    	</Link>
-						<Link className="dropdown-item" to="/classroom/courses">
-							Courses
-						</Link>
-				    	<span 
-				    		className="dropdown-item" 
-				    		onClick={(e) => this.handleLogout()}
-				    		style={{
-				    			cursor: 'pointer'
-				    		}}
-				    	>
-				    		Log out
-				    	</span>
-				    </NavDropdown>
-				</ul>
-		        ) : (
-			        <ul className="navbar-nav">
-			        	<button 
-			        		className="btn btn-outline my-sm-0"
-			        		style={{
-			        			backgroundColor: '#B3E5FC'
-			        		}}
-			        		onClick={this.showSigninModal}
-			        	>
-			        		Sign in
-			        	</button>
-			        </ul>
-			    )}
-			    
-			    {this.state.redirectToHome && (<Redirect to="/" />)}
+				<button
+					className="navbar-toggler"
+					type="button"
+					onClick={this.toggleNavbar}
+				>
+					<span className="navbar-toggler-icon" />
+				</button>
+				<div className={(display ? '' : 'collapse ') + "navbar-collapse"}>
+					<NavItem pageURI={pathname} path="/" name="mmLearnJS" brand="true"/>
+					<ul className="navbar-nav mr-auto">
+						<NavItem pageURI={pathname} path="/page2" name="Page2" />
+						<NavItem pageURI={pathname} path="/page3" name="Disabled" disabled="true" />
+					</ul>
+					{(curUser && curUser._id) ? (
+						<ul className="navbar-nav">
+						<NavDropdown name={curUser.name}>
+							<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
+								Profile
+							</Link>
+							<Link className="dropdown-item" to="/classroom/dashboard">
+								Dashboard
+							</Link>
+							<Link className="dropdown-item" to="/classroom/courses">
+								Courses
+							</Link>
+							<span
+								className="dropdown-item"
+								onClick={(e) => this.handleLogout()}
+								style={{
+									cursor: 'pointer'
+								}}
+							>
+								Log out
+							</span>
+						</NavDropdown>
+					</ul>
+					) : (
+						<ul className="navbar-nav">
+							<button
+								className="btn btn-outline my-sm-0"
+								style={{
+									backgroundColor: '#B3E5FC'
+								}}
+								onClick={this.showSigninModal}
+							>
+								Sign in
+							</button>
+						</ul>
+					)}
+
+					{this.state.redirectToHome && (<Redirect to="/" />)}
+				</div>
 			</nav>
 		);
 	}

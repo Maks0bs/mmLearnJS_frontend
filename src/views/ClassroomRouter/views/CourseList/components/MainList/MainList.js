@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import CourseListItem from "../CourseListItem";
+import CollapsibleCourseList from "../CollapsibleCourseList";
 
 class MainList extends Component {
 
 	render() {
 
 		return (
-			<div className={this.props.className}>
-				<h1>Open courses:</h1>
+			<CollapsibleCourseList
+				listName={"Open courses"}
+			>
 				{this.props.openCourses.map((course, i) => (
 					<div key={i}>
 						<CourseListItem
@@ -16,7 +18,7 @@ class MainList extends Component {
 						/>
 					</div>
 				))}
-			</div>
+			</CollapsibleCourseList>
 		);
 	}
 }

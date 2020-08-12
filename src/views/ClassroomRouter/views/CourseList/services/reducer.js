@@ -37,7 +37,10 @@ export default  function(state = initialState, action) {
 			}
 			return {
 				...state,
-				notViewedNotifications: action.payload
+				notViewedNotifications: {
+					...state.notViewedNotifications,
+					...action.payload
+				}
 			}
 		}
 		case API_GET_OPEN_COURSES: {

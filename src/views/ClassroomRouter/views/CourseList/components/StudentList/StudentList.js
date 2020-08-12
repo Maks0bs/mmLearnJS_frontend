@@ -2,24 +2,48 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import CourseListItem from "../CourseListItem";
 import {getUserSubscribedSet} from "../../services/helpers";
+import CollapsibleCourseList from "../CollapsibleCourseList";
 
 class StudentList extends Component {
 
 	render() {
 		let subscribedSet = getUserSubscribedSet(this.props.authenticatedUser);
+		let { notViewedNotifications, enrolledCourses } = this.props;
+		let notificationsCount = 0;
+		for (let c of enrolledCourses){
+			let curNotifications = notViewedNotifications[c._id];
+			notificationsCount += curNotifications ? curNotifications : 0
+		}
+
+		console.log(this.props);
+
+
 		return (
-			<div className={this.props.className}>
-				<h1>Enrolled courses:</h1>
-				{this.props.enrolledCourses.map((course, i) => (
+			<CollapsibleCourseList
+				listName={(
+					<div>
+						Enrolled courses list
+						<mark
+							style={{
+								background: 'yellow',
+								display: (notificationsCount > 0) ? '' : 'none'
+							}}
+						>
+							{notificationsCount}
+						</mark>
+					</div>
+				)}
+			>
+				{enrolledCourses.map((course, i) => (
 					<div key={i}>
 						<CourseListItem
 							course={course}
-							notifications={this.props.notViewedNotifications[course._id]}
+							notifications={notViewedNotifications[course._id]}
 							subscribed={!!subscribedSet[course._id]}
 						/>
 					</div>
 				))}
-			</div>
+			</CollapsibleCourseList>
 		);
 	}
 }

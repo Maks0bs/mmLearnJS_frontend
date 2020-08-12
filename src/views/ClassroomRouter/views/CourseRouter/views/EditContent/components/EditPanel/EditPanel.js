@@ -16,7 +16,8 @@ let { SECTIONS, ENTRIES } = dndTypes;
 
 class EditPanel extends Component {
 
-	showAddSectionModal = () => {
+	showAddSectionModal = (e) => {
+		e.preventDefault();
 		this.props.showModal(
 			<AddSection onClose={this.props.hideModal} />
 		)
@@ -84,6 +85,7 @@ class EditPanel extends Component {
 				onDragEnd={this.onDragEnd}
 			>
 				<p className="ml-3 mt-2"> <Icon icon={faAlignJustify} /> = Move around sections and entries </p>
+				<hr />
 				<Droppable droppableId="droppableRoot" type={SECTIONS}>
 					{(provided, snapshot) => (
 						<div
@@ -141,18 +143,14 @@ class EditPanel extends Component {
 								))}
 								{provided.placeholder}
 							</div>
-							<div 
-								onClick={this.showAddSectionModal}
-								style={{
-									cursor: 'pointer',
-								}}
-							>
-								<Icon 
-									icon={faPlus} 
+
+							<a href="#void" onClick={this.showAddSectionModal}>
+								<Icon
+									icon={faPlus}
 									className="pr-1"
 								/>
-								<a>Add section</a>
-							</div>
+								Add section
+							</a>
 						</div>
 					)}
 				</Droppable>

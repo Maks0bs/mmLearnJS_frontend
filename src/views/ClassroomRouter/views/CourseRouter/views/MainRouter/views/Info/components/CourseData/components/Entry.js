@@ -11,9 +11,6 @@ class Entry extends Component {
                 href={link}
                 download={name}
                 target="_blank"
-                style={{
-                    color: 'blue'
-                }}
             >
                 File: {name}
             </a>
@@ -53,9 +50,6 @@ class Entry extends Component {
                                 return (
                                     <Link
                                         to={`/classroom/course/${courseId}/forum/${id}`}
-                                        style={{
-                                            color: 'blue'
-                                        }}
                                     >
                                         Forum: {name}
                                     </Link>

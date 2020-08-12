@@ -5,17 +5,17 @@ import Forum from './views/Forum'
 import { connect } from 'react-redux'
 import { getForumFromCourse } from './services/actions'
 import OptimizedComponent from "../../../../../../../../components/OptimizedComponent";
+import BigLoadingCentered from "../../../../../../../../components/BigLoadingCentered";
 
 
 class ForumRouter extends OptimizedComponent {
 	render() {
 		super.render();
-		console.log(this.upd);
 		if (this.canCallOptimally()){
 			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
 		}
 		if (!this.props.forumData){
-			return null;
+			return <BigLoadingCentered />
 		}
 		if (this.props.forumData === 'not accessible'){
 			return (
@@ -53,7 +53,7 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		getForumFromCourse: (courseId, forumId) => dispatch(getForumFromCourse(courseId, forumId))
+		getForumFromCourse: (courseData, forumId) => dispatch(getForumFromCourse(courseData, forumId))
 	}
 }
 

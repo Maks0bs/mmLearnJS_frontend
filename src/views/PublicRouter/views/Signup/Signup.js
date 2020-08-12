@@ -17,7 +17,6 @@ class Signup extends Component {
 	}
 
 	handleChange = (name) => (event) => {
-		console.log(event);
 		this.props.clearMessages();
 		this.setState({
 			[name]: event.target.value

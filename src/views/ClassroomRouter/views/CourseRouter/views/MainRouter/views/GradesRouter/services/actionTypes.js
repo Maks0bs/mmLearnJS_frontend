@@ -1,0 +1,3 @@
+export default {
+	API_GET_SUMMARIES: 'API_GET_SUMMARIES_GRADES_ROUTER'
+}

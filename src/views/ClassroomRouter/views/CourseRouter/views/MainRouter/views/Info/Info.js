@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
-import { getCourseById } from './services/actions'
+import {clearMessages, getCourseById} from './services/actions'
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
 import TeacherActions from './components/TeacherActions'
@@ -10,6 +10,7 @@ import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
 import InvitedTeacherInfo from './components/InvitedTeacherInfo'
 import { getEnrollmentStatus } from '../../../../services/helpers'
+import CourseTabs from "../../components/CourseTabs";
 
 class Info extends Component {
 
@@ -17,6 +18,7 @@ class Info extends Component {
 
 	render() {
 		if (this.props.redirectToDashboard){
+			this.props.clearMessages();
 			return (
 				<Redirect to="/classroom/dashboard" />
 			)
@@ -29,7 +31,7 @@ class Info extends Component {
 		switch (status){
 			case 'not logged in':
 				course = (
-					<div className="container">
+					<div className="container mt-3">
 						<OpenCourseInfo />
 						<div className="alert alert-info">
 							Please log in to access this course
@@ -40,14 +42,16 @@ class Info extends Component {
 				break;
 			case 'enrolled':
 				course = (
-					<div className="container">
+					<div className="container mt-3">
+						<CourseTabs status={status}/>
 						<CourseData />
 					</div>
 				)
 				break;
 			case 'teacher':
 				course =(
-					<div className="container">
+					<div className="container mt-3">
+						<CourseTabs status={status}/>
 						<CourseData />
 						<TeacherActions />
 					</div>
@@ -55,7 +59,7 @@ class Info extends Component {
 				break;
 			case 'invited teacher':
 				course = (
-					<div className="container">
+					<div className="container mt-3">
 						<InvitedTeacherInfo />
 						<OpenCourseInfo />
 						<CourseEnrollForm />
@@ -64,7 +68,8 @@ class Info extends Component {
 				break;
 			case 'invited teacher enrolled':
 				course = (
-					<div className="container">
+					<div className="container mt-3">
+						<CourseTabs status={status}/>
 						<InvitedTeacherInfo />
 						<CourseData />
 					</div>
@@ -72,7 +77,8 @@ class Info extends Component {
 				break;
 			case 'creator':
 				course = (
-					<div className="container">
+					<div className="container mt-3">
+						<CourseTabs status={status}/>
 						<CourseData />
 						<TeacherActions />
 						<CreatorActions />
@@ -81,7 +87,7 @@ class Info extends Component {
 				break;
 			case 'not enrolled':
 				course = (
-					<div className="container">
+					<div className="container mt-3">
 						<OpenCourseInfo />
 						<CourseEnrollForm />
 					</div>
@@ -103,7 +109,13 @@ let mapStateToProps = (state) => {
 	}
 }
 
+let mapDispatchToProps = (dispatch) => {
+	return {
+		clearMessages: () => dispatch(clearMessages())
+	}
+}
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(withRouter(Info));

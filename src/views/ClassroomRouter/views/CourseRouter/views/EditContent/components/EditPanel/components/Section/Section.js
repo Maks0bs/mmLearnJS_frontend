@@ -145,18 +145,17 @@ class Section extends Component {
                         
                     )}
                 </Droppable>
-                <div 
-                    onClick={(e) => this.showAddEntryModal(sectionId)}
-                    style={{
-                        cursor: 'pointer'
-                    }}
+
+                <a
+                    href="#void"
+                    onClick={(e) => { e.preventDefault(); this.showAddEntryModal(sectionId)}}
                 >
-                    <Icon 
-                        icon={faPlus} 
+                    <Icon
+                        icon={faPlus}
                         className="pr-1"
                     />
-                    <a>Add entry</a>
-                </div>
+                    Add entry
+                </a>
 
             </div>
         );

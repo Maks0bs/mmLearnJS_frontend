@@ -5,9 +5,10 @@ import EditUser from "./views/EditUser";
 import User from "./views/User/User";
 import { getUser } from "./services/actions";
 import OptimizedComponent from "../../../../components/OptimizedComponent";
+import OptimizedPureComponent from "../../../../components/OptimizedPureComponent";
 
 
-class UserRouter extends OptimizedComponent {
+class UserRouter extends OptimizedPureComponent {
 
     render() {
         super.render();

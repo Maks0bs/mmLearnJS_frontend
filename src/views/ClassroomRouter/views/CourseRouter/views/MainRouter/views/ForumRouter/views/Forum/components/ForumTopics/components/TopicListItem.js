@@ -5,8 +5,9 @@ import UserPreview from "../../../../../../../../../../../../../components/UserP
 
 class TopicListItem extends Component {
 	render() {
-		let { name, creator, _id } = this.props.topic;
+		let { name, creator, _id, created } = this.props.topic;
 		let { pathname: path } = this.props.location;
+		let date = new Date(created);
 		return (
 		  	<tr>
 		    	<td>
@@ -20,7 +21,7 @@ class TopicListItem extends Component {
 		      		<UserPreview user={creator}/>
 		    	</td>
 		    	<td>
-		      		Description...
+					On {date.toLocaleDateString()} at {date.toLocaleTimeString()}
 		    	</td>
 		  	</tr>
 		);
