@@ -34,9 +34,16 @@ class StatsDetails extends Component {
 
         return (
             <div className="container my-3">
-                <h2>
-                    Attempts of student <strong>{summary.name}</strong> on exercise <strong>{exercise.name}</strong>
-                </h2>
+                {this.props.onClose ? (
+                    <h2>
+                        Attempts of student <strong>{summary.name}</strong> on exercise <strong>{exercise.name}</strong>
+                    </h2>
+                ) : (
+                    <h2>
+                        Attempts on exercise <strong>{exercise.name}</strong>
+                    </h2>
+                )}
+
                 <table className="table table-hover">
                     <thead>
                         <tr>
@@ -70,7 +77,7 @@ class StatsDetails extends Component {
                                     {(new Date(a.endTime)).toLocaleDateString()}
                                 </td>
                                 <td>
-                                    {a.score ? a.score.toFixed(20) : 'Still running'}
+                                    {a.score ? a.score.toFixed(2) : 'Still running'}
                                 </td>
                             </tr>
                         ))}
@@ -81,6 +88,9 @@ class StatsDetails extends Component {
                     className="btn btn-outline btn-raised"
                     onClick={this.handleLeave}
                     type="button"
+                    style={{
+                        display: this.props.onClose ? '' : 'none'
+                    }}
                 >
                     Cancel
                 </button>

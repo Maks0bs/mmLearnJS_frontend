@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {getExerciseSummaries} from "../services/actions";
 import {connect} from "react-redux";
-import StatsEntry from "./components/StatsEntry";
+import StatsEntry from "../components/StatsEntry/StatsEntry";
 
 class TeacherStats extends Component {
     render() {

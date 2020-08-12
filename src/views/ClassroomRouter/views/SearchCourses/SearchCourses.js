@@ -23,6 +23,11 @@ class SearchCourses extends OptimizedComponent {
 						listStyleType: 'square'
 					}}
 				>
+					{(!this.props.courses || (this.props.courses.length === 0) ) && (
+						<h1>
+							Nothing was found for given query
+						</h1>
+					)}
 					{this.props.courses.map((course, i) => (
 						<li>
 							<CourseSearchItem
