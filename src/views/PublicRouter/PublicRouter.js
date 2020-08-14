@@ -11,7 +11,8 @@ import ActivationMessage from '../components/ActivationMessage'
 import InviteSignup from './views/InviteSignup'
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ResetPassword from "./views/ResetPassword/ResetPassword";
-import OptimizedComponent from "../../components/OptimizedComponent";
+import OptimizedComponent from "../../components/performance/OptimizedComponent";
+import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 
 
 
@@ -21,16 +22,18 @@ class PublicRouter extends OptimizedComponent {
 		super.render();
 		if (this.canCallOptimally()){
 			this.props.getAuthenticatedUser()
+			this.loading = true;
 		}
 		if (this.props.authenticatedUser === false){
-			return null;
+			return (
+				<BigLoadingCentered />
+			)
+		} else {
+			this.loading = false;
 		}
 
 		let { path } = this.props.match;
 		return (
-			// notice that you can horizontally scroll the page
-			// this is most likely the problem with the main container
-			// for menu and switch (the following div)
 			<div>
 				<ActivationMessage />
 				<PublicMenu/>

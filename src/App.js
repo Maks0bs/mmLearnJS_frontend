@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import ClassroomRouter from './views/ClassroomRouter'
 import PublicRouter from './views/PublicRouter'
 import ModalRoot from './components/ModalRoot'
-import Reload from './components/Reload'
+import Reload from './components/performance/Reload'
 import ToastRoot from './components/ToastRoot'
 
 class App extends Component {

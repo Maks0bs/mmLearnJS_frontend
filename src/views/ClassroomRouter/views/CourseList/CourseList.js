@@ -11,27 +11,43 @@ import {
 	addNotViewedNotifications
 } from "./services/actions";
 import { addToast } from "../../../../components/ToastRoot/services/actions";
-import OptimizedPureComponent from '../../../../components/OptimizedPureComponent'
-import {isEqual} from "lodash";
+import OptimizedPureComponent from '../../../../components/performance/OptimizedPureComponent'
+import SmallLoading from "../../../../components/reusables/SmallLoading";
 
 
 class CourseList extends OptimizedPureComponent {
+	loadOpen = false
+	loadEnrolled = false
+	loadTeacher = false
 
 
 	componentWillUnmount() {
 		this.props.clearNotifications();
 	}
 
+	handleLoad = () => {
+		this.loading = this.loadOpen || this.loadEnrolled || this.loadTeacher
+	}
+
 	onLoad = () => {
 		let { authenticatedUser: user } = this.props;
 
-		this.props.getOpenCourses();
-		if (user && user._id && !(this.props.enrolledCourses.length > 0)) {
+		this.loadOpen = true;
+		this.props.getOpenCourses()
+			.then(() => {
+				this.loadOpen = false;
+				this.handleLoad();
+			})
+		if (user && user._id && !(this.props.enrolledCourses)) {
+			this.loadEnrolled = true;
 			this.props.getEnrolledCourses(user._id)
 				.then(() => {
 					if (this.props.error) throw {
 						message: 'Problem with loading enrolled courses'
 					}
+
+					this.loadEnrolled = false;
+					this.handleLoad();
 
 					return this.props.addNotViewedNotifications(
 						this.props.enrolledCourses.map(c => c._id)
@@ -59,13 +75,17 @@ class CourseList extends OptimizedPureComponent {
 				})
 		}
 		if (user && user._id && user.role === 'teacher' &&
-			!(this.props.teacherCourses.length > 0)
+			!(this.props.teacherCourses)
 		){
+			this.loadTeacher = true;
 			this.props.getTeacherCourses(user._id)
 				.then(() => {
 					if (this.props.error) throw {
 						message: 'Problem with loading teacher courses'
 					}
+
+					this.loadTeacher = false;
+					this.handleLoad();
 
 					return this.props.addNotViewedNotifications(
 						this.props.teacherCourses.map(c => c._id)
@@ -111,24 +131,39 @@ class CourseList extends OptimizedPureComponent {
 
 	render() {
 		super.render();
-		if (this.canCallOptimally()){
+		if (this.canCallOptimally() && !this.loading){
 			this.onLoad();
-		}
-		if (!this.props.openCourses){
-			return null;
 		}
 		let { authenticatedUser: user } = this.props;
 
 		return (
 			<div className="container">
 				{user && user._id && user.role === 'teacher' && (
-					<TeacherDashboard />
+					<div>
+						{this.props.teacherCourses ? (
+							<TeacherDashboard />
+						) : (
+							<SmallLoading />
+						)}
+					</div>
 				)}
 				{user && user._id && (
-					<StudentDashboard className="mt-5"/>
+					<div>
+						{this.props.enrolledCourses ? (
+							<StudentDashboard className="mt-5" />
+						) : (
+							<SmallLoading />
+						)}
+					</div>
 				)}
 
-				<MainDashboard />
+				<div>
+					{this.props.openCourses ? (
+						<MainDashboard />
+					) : (
+						<SmallLoading />
+					)}
+				</div>
 			</div>
 		);
 	}

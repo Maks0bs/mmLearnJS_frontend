@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { activateAccount } from './services/actions'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 class Signup extends Component {
@@ -12,6 +11,7 @@ class Signup extends Component {
 	
 	render(){
 		let { error, message } = this.props;
+
 		return (
 			<div className="m-2">
 				<div 

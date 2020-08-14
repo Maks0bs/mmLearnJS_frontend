@@ -3,71 +3,12 @@ import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
 import Signin from '../../components/Signin'
-import _ from 'lodash'
 import { logout } from '../../../services/actions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faBell as faBellSolid, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
-
-// !!!! maybe put all these small secondary components in another file
-
-let NavItem = props => {
-	if (props.brand){
-		return (
-			<Link className="navbar-brand" to={props.path}
-			>
-				{props.name}
-			</Link>
-		)
-	}
-  	return (
-    	<li className={(props.path === props.pageURI) ? 'nav-item active' : 'nav-item'}>
-      		<Link
-      			to={props.path} 
-      			className={props.disabled ? 'nav-link disabled' : 'nav-link'}
-      		>
-      			{props.name}
-      		</Link>
-    	</li>
-  	);
-}
-
-class NavDropdown extends React.Component {
-	constructor(props) {
-	super(props);
-		this.state = {
-			isToggleOn: false
-		};
-	}
-	showDropdown(e) {
-		e.preventDefault();
-		this.setState(prevState => ({
-			isToggleOn: !prevState.isToggleOn
-		}));
-	}
-	render() {
-		const classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
-		return (
-			<li className="nav-item dropdown">
-			    <a
-			    	className="nav-link dropdown-toggle"
-			        onClick={(e) => {this.showDropdown(e)}}
-			        style={{
-			        	cursor: 'pointer',
-			        	textTransform: 'none'
-			        }}
-			    >
-			    	{this.props.name}
-			    	{this.props.displayComponent}
-			    </a>
-			    <ul className={`${classDropdownMenu} dropdown-menu-right`}>
-			        {this.props.children}
-			    </ul>
-			</li>
-
-		)
-	}
-}
+import NavItem from "../../../components/reusables/navbar/NavItem";
+import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 
 class ClassroomMenu extends Component {
 	constructor(){
@@ -119,6 +60,7 @@ class ClassroomMenu extends Component {
 	}
 			
 	render() {
+		//TODO customize each menu to differentiate better between them!!!!
 		let { pathname } = this.props.location;
 		let { authenticatedUser: curUser } = this.props
 		let { redirectToHome, redirectToSearch, searchQuery, display } = this.state;

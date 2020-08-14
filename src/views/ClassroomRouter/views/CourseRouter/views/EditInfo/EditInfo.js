@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { editCourse, getCourseById } from './services/actions'
+import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
 
 class EditInfo extends Component {
 	constructor () {
@@ -10,7 +11,8 @@ class EditInfo extends Component {
 		this.state = {
 			name: '',
 			about: '',
-			redirectToCourse: false
+			redirectToCourse: false,
+			show: false
 		}
 	}
 
@@ -44,7 +46,8 @@ class EditInfo extends Component {
 		.then(() => {
 			return this.setState({
 				name: this.props.courseData.name,
-				about: this.props.courseData.about
+				about: this.props.courseData.about,
+				show: true
 			})
 		})
 	}
@@ -52,7 +55,7 @@ class EditInfo extends Component {
 
 	render() {
 		let { error, match } = this.props;
-		let { name, about, redirectToCourse } = this.state;
+		let { name, about, redirectToCourse, show } = this.state;
 		if (redirectToCourse) {
 			return (
 				<Redirect 
@@ -60,6 +63,13 @@ class EditInfo extends Component {
 				/>
 			)
 		}
+
+		if (!show){
+			return (
+				<BigLoadingCentered />
+			)
+		}
+
 		return (
 			<div className="container">
 				<h2>Edit course info</h2>

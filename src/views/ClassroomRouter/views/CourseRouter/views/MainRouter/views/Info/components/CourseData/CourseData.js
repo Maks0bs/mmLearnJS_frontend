@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { v1 as uuidv1 } from 'uuid'
 import Section from './components/Section'
-import UserPreview from "../../../../../../../../../../components/UserPreview";
+import UserPreview from "../../../../../../../../../../components/reusables/UserPreview";
 import SubscriptionActions from "./components/SubscriptionActions";
 
 class CourseData extends Component {

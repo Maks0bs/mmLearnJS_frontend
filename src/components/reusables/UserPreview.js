@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
-import {REACT_APP_API_URL} from "../constants";
-import DefaultUserAvatar from '../res/images/DefaultUserAvatar.png'
+import {REACT_APP_API_URL} from "../../constants";
+import DefaultUserAvatar from '../../res/images/DefaultUserAvatar.png'
 
 
 class UserPreview extends Component {

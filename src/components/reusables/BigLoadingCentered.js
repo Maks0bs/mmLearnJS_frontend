@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import LoadingRingAnimated from "../res/images/LoadingRingAnimated200px.svg";
+import LoadingRingAnimated from "../../res/images/LoadingRingAnimated200px.svg";
 
 class BigLoadingCentered extends Component {
     render() {

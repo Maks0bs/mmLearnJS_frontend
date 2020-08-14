@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import EditUser from "./views/EditUser";
 import User from "./views/User/User";
 import { getUser } from "./services/actions";
-import OptimizedComponent from "../../../../components/OptimizedComponent";
-import OptimizedPureComponent from "../../../../components/OptimizedPureComponent";
+import OptimizedComponent from "../../../../components/performance/OptimizedComponent";
+import OptimizedPureComponent from "../../../../components/performance/OptimizedPureComponent";
+import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
 
 
 class UserRouter extends OptimizedPureComponent {
@@ -14,12 +15,16 @@ class UserRouter extends OptimizedPureComponent {
         super.render();
         if (this.canCallOptimally()){
             this.props.getUser(this.props.match.params.userId)
+            this.loading = true;
         }
         if (!this.props.user || !this.props.user._id){
-            return null;
+            return (
+                <BigLoadingCentered />
+            )
+        } else {
+            this.loading = false;
         }
         let { path } = this.props.match;
-        console.log('user router', this.props);
         return (
             <div>
                 <Switch>

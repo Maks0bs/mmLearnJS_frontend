@@ -1,13 +1,30 @@
 import React, {Component} from 'react';
-import { isEqual } from "lodash";
+import { toast } from 'react-toastify'
 
 
 /**
- * This component's behaviour is very similar to React PureComponent, but it also doesn't permit making
- * initial async calls more than once (this problem is caused due to redux)
+ * This component allows you to make only one async call at a time to prevent
+ * rerenders (and as a consequence duplicate requests to server). This problem is mainly caused by
+ * redux changing props. If async is implemented through componentDidMount, it
+ * doesn't dynamically change the state (e. g. login time ran out, course info updated).
+ * This component updates data, every time the router brings the user to the OptimizedComponent
  */
 class OptimizedComponent extends Component {
     upd = 0
+    loading = false
+
+    componentDidMount() {
+        setTimeout(() => {
+            if (this.loading){
+                toast.error(
+                    <div>
+                        Error loading data, try reloading the page
+                    </div>
+                )
+            }
+        }, 30000)
+    }
+
 
     /**
      * @param nextProps new props that the component receives

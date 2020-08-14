@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { getCourseById } from './services/actions'
 import EditPanel from './components/EditPanel'
 import EditActions from './components/EditActions'
+import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
 
 class EditContent extends Component {
 	constructor() {
@@ -41,7 +42,9 @@ class EditContent extends Component {
 			);
 		}
 		else{
-			return null;
+			return (
+				<BigLoadingCentered />
+			)
 		}
 	}
 }

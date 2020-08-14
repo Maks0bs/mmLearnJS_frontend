@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getExerciseById } from "./services/actions";
-import OptimizedComponent from "../../../../../../../../components/OptimizedComponent";
+import OptimizedComponent from "../../../../../../../../components/performance/OptimizedComponent";
 import ExercisePreview from "./views/ExercisePreview/ExercisePreview";
 import Attempt from "./views/Attempt";
 import LoadingRingAnimated from "../../../../../../../../res/images/LoadingRingAnimated200px.svg";
-import BigLoadingCentered from "../../../../../../../../components/BigLoadingCentered";
+import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
 
 
 class ExerciseRouter extends OptimizedComponent {

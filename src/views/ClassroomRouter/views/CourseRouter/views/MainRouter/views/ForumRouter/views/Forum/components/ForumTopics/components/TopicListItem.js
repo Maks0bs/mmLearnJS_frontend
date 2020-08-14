@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom'
 import User from "../../../../../../../../../../UserRouter/views/User/User";
-import UserPreview from "../../../../../../../../../../../../../components/UserPreview";
+import UserPreview from "../../../../../../../../../../../../../components/reusables/UserPreview";
 
 class TopicListItem extends Component {
 	render() {

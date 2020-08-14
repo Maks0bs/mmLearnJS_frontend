@@ -4,8 +4,8 @@ import Topic from './views/Topic'
 import Forum from './views/Forum'
 import { connect } from 'react-redux'
 import { getForumFromCourse } from './services/actions'
-import OptimizedComponent from "../../../../../../../../components/OptimizedComponent";
-import BigLoadingCentered from "../../../../../../../../components/BigLoadingCentered";
+import OptimizedComponent from "../../../../../../../../components/performance/OptimizedComponent";
+import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
 
 
 class ForumRouter extends OptimizedComponent {

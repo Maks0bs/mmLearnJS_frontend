@@ -1,19 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {
-	searchCourses
+	searchCourses,
+	cleanup
 } from "./services/actions";
 import { addToast } from "../../../../components/ToastRoot/services/actions";
-import OptimizedComponent from "../../../../components/OptimizedComponent";
+import OptimizedComponent from "../../../../components/performance/OptimizedComponent";
 import {isEqual} from "lodash";
 import CourseSearchItem from "./components/CourseSearchItem";
+import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
 
 
 class SearchCourses extends OptimizedComponent {
+
+	componentWillUnmount() {
+		this.props.cleanup();
+	}
+
+
 	render() {
 		super.render();
-		if (this.canCallOptimally()){
+		if (this.canCallOptimally() && !this.loading){
+			//this.props.cleanup();
 			this.props.searchCourses(this.props.match.params.searchQuery)
+			this.loading = true;
+		}
+
+		if (this.props.courses){
+			this.loading = false;
+		}
+
+		if (this.loading){
+			return (
+				<BigLoadingCentered />
+			)
 		}
 
 		return (
@@ -28,7 +48,7 @@ class SearchCourses extends OptimizedComponent {
 							Nothing was found for given query
 						</h1>
 					)}
-					{this.props.courses.map((course, i) => (
+					{this.props.courses && this.props.courses.map((course, i) => (
 						<li>
 							<CourseSearchItem
 								course={course}
@@ -52,7 +72,8 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
 	return {
 		addToast: (component, options) => dispatch(addToast(component, options)),
-		searchCourses: (key) => dispatch(searchCourses(key))
+		searchCourses: (key) => dispatch(searchCourses(key)),
+		cleanup: () => dispatch(cleanup())
 	}
 }
 

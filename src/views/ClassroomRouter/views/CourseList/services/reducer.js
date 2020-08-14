@@ -9,9 +9,9 @@ let {
 } = types;
 
 let initialState = {
-	enrolledCourses: [],
-	teacherCourses: [],
-	openCourses: [],
+	enrolledCourses: null,
+	teacherCourses: null,
+	openCourses: null,
 	/**
 	 * notViewedNotifications saves the amount of updates, which the user hasn't seen since the last visit
 	 * as the value for the corresponding course id (which is the key)
@@ -22,11 +22,7 @@ let initialState = {
 export default  function(state = initialState, action) {
 	switch(action.type){
 		case CLEAR_NOTIFICATIONS: {
-			return {
-				...state,
-				notViewedNotifications: {},
-				error: ''
-			}
+			return initialState;
 		}
 		case API_GET_NOT_VIEWED_NOTIFICATIONS: {
 			if (action.payload.error){

@@ -4,7 +4,7 @@ import { getEnrollmentStatus } from '../../../../../../services/helpers'
 import { connect } from 'react-redux'
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { answerTopicPost, deleteTopicPost } from '../../services/actions'
-import UserPreview from "../../../../../../../../../../components/UserPreview";
+import UserPreview from "../../../../../../../../../../components/reusables/UserPreview";
 
 class Topic extends Component {
 	constructor(){

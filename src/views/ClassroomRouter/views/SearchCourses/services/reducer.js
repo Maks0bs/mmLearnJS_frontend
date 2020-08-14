@@ -1,11 +1,12 @@
 import types from './actionTypes'
 let {
-	API_SEARCH_COURSES
+	API_SEARCH_COURSES,
+	CLEANUP
 } = types;
 
 let initialState = {
 	error: '',
-	courses: []
+	courses: null
 }
 export default  function(state = initialState, action) {
 	switch(action.type){
@@ -20,6 +21,9 @@ export default  function(state = initialState, action) {
 				...state,
 				courses: action.payload
 			}
+		}
+		case CLEANUP: {
+			return initialState;
 		}
 		default:
 			return state;

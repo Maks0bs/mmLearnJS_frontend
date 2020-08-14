@@ -5,25 +5,7 @@ import { REACT_APP_API_URL } from '../../../../constants'
 
 class Home extends Component {
 
-	state = {
-		reload: false
-	}
-
-
     render() {
-
-    	if (this.state.reload){
-			return (
-				<Redirect 
-					to={{
-						pathname: '/reload',
-						state: {
-							page: this.props.location.pathname
-						}
-					}}
-				/>
-			)
-		}
 
     	//styling is important!!!
         return (

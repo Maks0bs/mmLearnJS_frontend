@@ -3,11 +3,11 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import TeacherStats from "./TeacherStats";
 import StudentStats from "./StudentStats";
-import OptimizedPureComponent from "../../../../../../../../components/OptimizedPureComponent";
+import OptimizedPureComponent from "../../../../../../../../components/performance/OptimizedPureComponent";
 import CourseTabs from "../../components/CourseTabs";
 import {removeLastUrlParam} from "../../../../services/helpers";
 import { getExerciseSummaries } from "./services/actions";
-import BigLoadingCentered from "../../../../../../../../components/BigLoadingCentered";
+import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
 
 
 class GradesRouter extends OptimizedPureComponent {

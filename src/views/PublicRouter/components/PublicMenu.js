@@ -3,66 +3,9 @@ import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
 import Signin from '../../components/Signin'
-import _ from 'lodash'
 import { logout } from '../../../services/actions'
-
-let NavItem = props => {
-	if (props.brand){
-		return (
-			<Link className="navbar-brand" to={props.path}
-			>
-				{props.name}
-			</Link>
-		)
-	}
-  	return (
-    	<li className={(props.path === props.pageURI) ? 'nav-item active' : 'nav-item'}>
-      		<Link
-      			to={props.path} 
-      			className={props.disabled ? 'nav-link disabled' : 'nav-link'}
-      		>
-      			{props.name}
-      		</Link>
-    	</li>
-  	);
-}
-
-class NavDropdown extends React.Component {
-	constructor(props) {
-	super(props);
-		this.state = {
-			isToggleOn: false
-		};
-	}
-	showDropdown(e) {
-		e.preventDefault();
-		this.setState(prevState => ({
-			isToggleOn: !prevState.isToggleOn
-		}));
-	}
-	render() {
-		const classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
-		return (
-			<li className="nav-item dropdown">
-			    <a 
-			    	className="nav-link dropdown-toggle" 
-			    	data-toggle="dropdown"
-			        onClick={(e) => {this.showDropdown(e)}}
-			        style={{
-			        	cursor: 'pointer',
-			        	textTransform: 'none'
-			        }}
-			    >
-			    	{this.props.name}
-			    </a>
-			    <ul className={`${classDropdownMenu} dropdown-menu-right`}>
-			        {this.props.children}
-			    </ul>
-			</li>
-
-		)
-	}
-}
+import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
+import NavItem from "../../../components/reusables/navbar/NavItem";
 
 class PublicMenu extends Component {
 	constructor(){

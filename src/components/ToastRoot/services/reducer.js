@@ -13,8 +13,7 @@ export default (state = initialState, action) => {
             if (!options || !options.type){
                 t = toast(action.component);
             } else if (options && options.type){
-                //simply did this to check if nested 'switch' operators work
-                //And the actually do
+
                 switch (options.type){
                     case 'info':
                         t = toast.info(action.component);

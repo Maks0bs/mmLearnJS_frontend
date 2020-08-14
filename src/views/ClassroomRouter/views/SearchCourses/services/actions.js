@@ -2,7 +2,8 @@ import types from './actionTypes'
 import { getCoursesFiltered } from '../../../../../services/actions'
 import {REACT_APP_API_URL} from "../../../../../constants";
 let {
-	API_SEARCH_COURSES
+	API_SEARCH_COURSES,
+	CLEANUP
 } = types;
 
 export let searchCourses = (key) => (dispatch) => {
@@ -13,5 +14,11 @@ export let searchCourses = (key) => (dispatch) => {
 		},
 		API_SEARCH_COURSES
 	))
+}
+
+export let cleanup = () => (dispatch) => {
+	return dispatch({
+		type: CLEANUP
+	})
 }
 

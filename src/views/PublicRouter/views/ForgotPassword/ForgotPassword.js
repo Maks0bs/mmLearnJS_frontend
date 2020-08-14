@@ -57,8 +57,7 @@ class ForgotPassword extends Component {
 
 
 	render(){
-		let { name, email, password, teacherChecked, teacherPassword } = this.state;
-		let { error, message } = this.props;
+		let { email } = this.state;
 		return (
 			<div className="container">
 				<h2 className="mt-5 mb-5">Enter email to send password reset info to</h2>

@@ -5,7 +5,7 @@ import ForumRouter from './views/ForumRouter'
 import { connect } from 'react-redux'
 import { toggleLoading } from "../../../../../../services/actions";
 import {getCourseById, viewCourse} from './services/actions'
-import OptimizedPureComponent from "../../../../../../components/OptimizedPureComponent";
+import OptimizedPureComponent from "../../../../../../components/performance/OptimizedPureComponent";
 import GradesRouter from "./views/GradesRouter/GradesRouter";
 import ExerciseRouter from "./views/ExerciseRouter/ExerciseRouter";
 import LoadingRingAnimated from '../../../../../../res/images/LoadingRingAnimated200px.svg'

@@ -4,6 +4,7 @@ import { getCourseById } from './services/actions'
 import EditPanel from './components/EditPanel'
 import EditActions from "./components/EditActions";
 import { addToast } from "../../../../../../components/ToastRoot/services/actions";
+import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
 
 class EditExercises extends Component {
     constructor() {
@@ -58,7 +59,9 @@ class EditExercises extends Component {
             );
         }
         else{
-            return null;
+            return (
+                <BigLoadingCentered />
+            )
         }
     }
 }

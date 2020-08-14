@@ -9,8 +9,9 @@ import UserRouter from './views/UserRouter'
 import CourseList from './views/CourseList'
 import Dashboard from "./views/Dashboard";
 import CourseRouter from './views/CourseRouter'
-import OptimizedComponent from "../../components/OptimizedComponent";
+import OptimizedComponent from "../../components/performance/OptimizedComponent";
 import SearchCourses from "./views/SearchCourses/SearchCourses";
+import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 
 class ClassroomRouter extends OptimizedComponent {
 
@@ -20,7 +21,11 @@ class ClassroomRouter extends OptimizedComponent {
 			this.props.getAuthenticatedUser()
 		}
 		if (this.props.authenticatedUser === false){
-			return null;
+			return (
+				<BigLoadingCentered />
+			)
+		} else {
+			this.loading = false;
 		}
 		
 		let { path } = this.props.match;

@@ -5,9 +5,12 @@ import {Link} from "react-router-dom";
 import { addToast } from "../../../../components/ToastRoot/services/actions";
 import { showModal, hideModal} from "../../../../components/ModalRoot/services/actions";
 import ChooseCourses from "./components/ChooseCourses";
+import OptimizedComponent from "../../../../components/performance/OptimizedComponent";
+import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
+import SmallLoading from "../../../../components/reusables/SmallLoading";
 
 
-class Dashboard extends Component {
+class Dashboard extends OptimizedComponent {
 	constructor(props) {
 		super(props);
 
@@ -85,6 +88,7 @@ class Dashboard extends Component {
 			chosenCourses
 		})
 
+		this.loading = true;
 		this.props.getUpdates(dateFrom, dateTo, this.getCoursesFilter(), 0, 5)
 			.then(() => {
 				if (this.props.error){
@@ -101,6 +105,8 @@ class Dashboard extends Component {
 				} else {
 					this.updateStarting();
 				}
+
+				this.loading = false;
 			})
 
 
@@ -135,6 +141,7 @@ class Dashboard extends Component {
 	onSubmit = (e) => {
 		e.preventDefault();
 
+		this.loading = true;
 		this.props.getUpdates(this.state.dateFrom, this.state.dateTo, this.getCoursesFilter(), 0, 5)
 			.then(() => {
 				if (this.props.error){
@@ -152,12 +159,15 @@ class Dashboard extends Component {
 				} else {
 					this.updateStarting();
 				}
+
+				this.loading = false;
 			})
 	}
 
 	onLoadMore = (e) => {
 		e.preventDefault();
 
+		this.loading = true;
 		this.props.getUpdates(this.state.dateFrom, this.state.dateTo, this.getCoursesFilter(), this.state.starting, 5)
 			.then(() => {
 				if (this.props.error){
@@ -175,6 +185,8 @@ class Dashboard extends Component {
 				} else {
 					this.updateStarting();
 				}
+
+				this.loading = false;
 			})
 	}
 
@@ -217,10 +229,12 @@ class Dashboard extends Component {
 			updatesData = this.props.updatesData;
 		}
 
-		console.log('st', this.state);
-		console.log('pr', this.props);
 
-
+		if (this.loading && !updatesData){
+			return (
+				<BigLoadingCentered />
+			)
+		}
 
 		return (
 			<div className={"container mt-2 mb-5"}>
@@ -307,7 +321,7 @@ class Dashboard extends Component {
 				</form>
 
 				<hr />
-				{updatesData.map((update, i) => {
+				{updatesData && updatesData.map((update, i) => {
 					let time = new Date(update.data.created);
 					let timeStr =
 						`on ${time.toLocaleDateString()} at ${time.toLocaleTimeString().substring(0, 5)}`;
