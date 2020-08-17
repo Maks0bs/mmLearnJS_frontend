@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class NavDropdown extends React.Component {
     constructor(props) {
@@ -35,6 +36,18 @@ class NavDropdown extends React.Component {
 
         )
     }
+}
+
+NavDropdown.propTypes = {
+    name: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
+    displayComponent: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.func,
+        PropTypes.string
+    ])
 }
 
 export default NavDropdown;

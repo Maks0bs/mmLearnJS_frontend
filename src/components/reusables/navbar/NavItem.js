@@ -1,5 +1,7 @@
 import {Link} from "react-router-dom";
 import React from "react";
+import PropTypes from "prop-types";
+import NavDropdown from "./NavDropdown";
 
 let NavItem = props => {
     if (props.brand){
@@ -20,6 +22,17 @@ let NavItem = props => {
             </Link>
         </li>
     );
+}
+
+NavItem.propTypes = {
+    path: PropTypes.string,
+    pageURI: PropTypes.string,
+    disabled: PropTypes.bool,
+    name: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
+    brand: PropTypes.bool
 }
 
 export default NavItem;

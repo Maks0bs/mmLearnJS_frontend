@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { toggleActivationMessage, getActivationMessageStatus } from './services/actions'
+import PropTypes from "prop-types";
 
 class ActivationMessage extends Component {
 
@@ -39,6 +40,10 @@ let mapStateToProps = (state) => {
 		...state.services,
 		show: state.views.components.activationMessage.show
 	}
+}
+
+ActivationMessage.propTypes = {
+	show: PropTypes.bool
 }
 
 let mapDispatchToProps = (dispatch) => {

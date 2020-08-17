@@ -3,13 +3,17 @@ import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import EditUser from "./views/EditUser";
 import User from "./views/User/User";
-import { getUser } from "./services/actions";
+import { getUser, cleanup } from "./services/actions";
 import OptimizedComponent from "../../../../components/performance/OptimizedComponent";
 import OptimizedPureComponent from "../../../../components/performance/OptimizedPureComponent";
 import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
 
 
 class UserRouter extends OptimizedPureComponent {
+
+    componentWillUnmount() {
+        this.props.cleanup();
+    }
 
     render() {
         super.render();
@@ -52,7 +56,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        getUser: (userId) => dispatch(getUser(userId))
+        getUser: (userId) => dispatch(getUser(userId)),
+        cleanup: () => dispatch(cleanup())
     }
 }
 

@@ -28,8 +28,8 @@ let servicesReducer = function(state = initialState, action) {
 			}
 		case API_LOGOUT:
 			return {
-				initialState
-			}
+				...initialState
+			};
 		default:
 			return state;
 	}

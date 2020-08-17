@@ -3,6 +3,7 @@ import { resetPassword } from './services/actions'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addToast } from "../../../../components/ToastRoot/services/actions";
+import PropTypes from "prop-types";
 
 class ResetPassword extends Component {
 	constructor(props){
@@ -127,6 +128,11 @@ let mapDispatchToProps = (dispatch) => {
 		resetPassword: (password, token) => dispatch(resetPassword(password, token)),
 		addToast: (component, options) => dispatch(addToast(component, options)),
 	}
+}
+
+ResetPassword.propTypes = {
+	message: PropTypes.string,
+	error: PropTypes.string
 }
 
 export default connect(

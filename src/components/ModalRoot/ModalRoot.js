@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
 import { hideModal } from './services/actions'
+import PropTypes from "prop-types";
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -72,6 +73,15 @@ let mapStateToProps = (state) => {
 	return {
 		ModalComponent
 	}
+}
+
+ModalRoot.propTypes = {
+	hideModal: PropTypes.func,
+	ModalComponent: PropTypes.oneOfType([
+		PropTypes.node,
+		PropTypes.func,
+		PropTypes.string
+	])
 }
 
 export default connect(

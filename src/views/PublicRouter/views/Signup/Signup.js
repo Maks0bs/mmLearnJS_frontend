@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { signup, clearMessages } from './services/actions'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import PropTypes from "prop-types";
 
 class Signup extends Component {
 	constructor(props){
@@ -123,6 +123,10 @@ class Signup extends Component {
 		);
 	}
 
+	componentWillUnmount() {
+		this.props.clearMessages();
+	}
+
 	render(){
 		let { name, email, password, teacherChecked, teacherPassword } = this.state;
 		let { error, message } = this.props;
@@ -161,6 +165,11 @@ let mapStateToProps = (state) => {
 	return {
 		...state.views.public.signup
 	}
+}
+
+Signup.propTypes = {
+	message: PropTypes.string,
+	error: PropTypes.string
 }
 
 export default connect(

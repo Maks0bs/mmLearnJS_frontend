@@ -14,22 +14,20 @@ import ResetPassword from "./views/ResetPassword/ResetPassword";
 import OptimizedComponent from "../../components/performance/OptimizedComponent";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 
-
-
 class PublicRouter extends OptimizedComponent {
 
 	render() {
 		super.render();
 		if (this.canCallOptimally()){
 			this.props.getAuthenticatedUser()
-			this.loading = true;
+			this.startLoading();
 		}
 		if (this.props.authenticatedUser === false){
 			return (
 				<BigLoadingCentered />
 			)
 		} else {
-			this.loading = false;
+			this.stopLoading();
 		}
 
 		let { path } = this.props.match;

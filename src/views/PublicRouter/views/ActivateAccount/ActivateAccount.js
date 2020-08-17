@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { activateAccount } from './services/actions'
 import { connect } from 'react-redux'
+import PropTypes from "prop-types";
 
-class Signup extends Component {
+class ActivateAccount extends Component {
 
 	componentDidMount(){
 		let token = this.props.match.params.activationToken;
@@ -44,7 +45,12 @@ let mapStateToProps = (state) => {
 	}
 }
 
+ActivateAccount.propTypes = {
+	message: PropTypes.string,
+	error: PropTypes.string
+}
+
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Signup);
+)(ActivateAccount);

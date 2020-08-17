@@ -6,7 +6,8 @@ let {
     FILE_ERROR,
     CLEAR_ERROR,
     API_SEND_ACTIVATION,
-    API_DELETE_USER
+    API_DELETE_USER,
+    CLEANUP
 } = types;
 
 let initialState = {
@@ -66,6 +67,9 @@ export default function(state = initialState, action) {
                 user: action.payload,
                 newHiddenFields: action.payload.hiddenFields
             }
+        case CLEANUP: {
+            return initialState;
+        }
         default:
             return state;
     }

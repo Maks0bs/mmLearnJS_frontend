@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { forgotPassword } from './services/actions'
 import { connect } from 'react-redux'
 import { addToast } from "../../../../components/ToastRoot/services/actions";
+import PropTypes from "prop-types";
 
 class ForgotPassword extends Component {
 	constructor(props){
@@ -98,6 +99,11 @@ let mapDispatchToProps = (dispatch) => {
 		forgotPassword: (email) => dispatch(forgotPassword(email)),
 		addToast: (component, options) => dispatch(addToast(component, options)),
 	}
+}
+
+ForgotPassword.propTypes = {
+	message: PropTypes.string,
+	error: PropTypes.string
 }
 
 export default connect(

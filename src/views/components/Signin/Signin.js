@@ -4,6 +4,7 @@ import { signin, clearMessages } from './services/actions'
 import { addToast } from '../../../components/ToastRoot/services/actions'
 import { connect } from 'react-redux'
 import { toast } from 'react-toastify'
+import PropTypes from 'prop-types'
 
 
 // make controlled components
@@ -34,7 +35,6 @@ class Signin extends PureComponent {
         this.setState({
             reload: false
         })
-        console.log('handleLeave', this.props);
         this.props.clearMessages();
         this.props.onClose && this.props.onClose();
     }
@@ -112,7 +112,12 @@ class Signin extends PureComponent {
         let { error, message } = this.props;
         if (reload){
             this.handleLeave();
-            console.log('redirect');
+            if (this.props.shouldRedirect){
+                return (
+                    <Redirect to={`/classroom/dashboard`} />
+                )
+            }
+
             return (
                 <Redirect 
                     to={{
@@ -184,6 +189,12 @@ let mapStateToProps = (state) => {
     return {
         ...state.views.components.signin
     }
+}
+
+Signin.propTypes = {
+    shouldRedirect: PropTypes.bool,
+    message: PropTypes.string,
+    error: PropTypes.string
 }
 
 

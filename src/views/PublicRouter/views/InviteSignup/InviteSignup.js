@@ -3,6 +3,7 @@ import { inviteSignup, clearMessages } from './services/actions'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import QueryString from 'query-string'
+import PropTypes from "prop-types";
 
 class InviteSingup extends Component {
 	constructor(props){
@@ -18,11 +19,14 @@ class InviteSingup extends Component {
 	}
 
 	handleChange = (name) => (event) => {
-		console.log(event);
 		this.props.clearMessages();
 		this.setState({
 			[name]: event.target.value
 		})
+	}
+
+	componentWillUnmount() {
+		this.props.clearMessages();
 	}
 
 	handleTeacherCheck = () => {
@@ -191,6 +195,11 @@ let mapStateToProps = (state) => {
 	return {
 		...state.views.public.inviteSignup
 	}
+}
+
+InviteSingup.propTypes = {
+	message: PropTypes.string,
+	error: PropTypes.string
 }
 
 export default connect(

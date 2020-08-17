@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import NewsFeed from './components/NewsFeed'
 import { Link, Redirect } from 'react-router-dom'
-import { REACT_APP_API_URL } from '../../../../constants'
 
 class Home extends Component {
 
@@ -9,7 +8,7 @@ class Home extends Component {
 
     	//styling is important!!!
         return (
-        	<div className="container-fluid ml-0 mr-0">
+        	<div className="container my-3">
 	            <div className="row">
 		            <div className="col md-auto">
 		                <NewsFeed />
@@ -17,12 +16,9 @@ class Home extends Component {
 		            <div className="col col-md-auto">
 	            		<Link 
 	            			className="btn btn-outline my-sm-0"
-	            			style={{
-			        			backgroundColor: '#B3E5FC'
-			        		}}
 	            			to="/open-courses"
 	            		>
-	            			Open courses
+	            			Open courses[To be implemented]
 	            		</Link>
 		            </div>
 	            </div>

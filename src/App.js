@@ -28,7 +28,7 @@ class App extends Component {
                             component={PublicRouter}
                         />
                     </Switch>
-                    {/*maybe add a common footer for all pages*/}
+                    {/*TODO maybe add a common footer for all pages*/}
                 </Router>
             </div>
         );

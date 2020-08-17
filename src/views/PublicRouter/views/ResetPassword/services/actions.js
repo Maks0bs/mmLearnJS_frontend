@@ -2,9 +2,6 @@ import types from './actionTypes'
 import { REACT_APP_API_URL } from '../../../../../constants'
 let { API_RESET_PASSWORD } = types;
 
-// all api requests related to Home view will be placed here
-// all nested components should only use these actions for backend requests
-
 export let resetPassword = (password, token) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/auth/reset-password`, {
 		method: "POST",

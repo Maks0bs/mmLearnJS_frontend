@@ -14,7 +14,8 @@ let {
     FILE_ERROR,
     CLEAR_ERROR,
     API_SEND_ACTIVATION,
-    API_DELETE_USER
+    API_DELETE_USER,
+    CLEANUP
 } = types;
 
 export let getUser = (userId) => (dispatch) => {
@@ -106,4 +107,10 @@ export let deleteUser = (userId) => (dispatch) => {
             payload: data
         }))
         .catch(err => console.log(err))
+}
+
+export let cleanup = () => (dispatch) => {
+    return dispatch({
+        type: CLEANUP
+    })
 }

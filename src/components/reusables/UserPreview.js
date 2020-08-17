@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import {REACT_APP_API_URL} from "../../constants";
 import DefaultUserAvatar from '../../res/images/DefaultUserAvatar.png'
+import PropTypes from "prop-types";
+import User from "../../views/ClassroomRouter/views/UserRouter/views/User/User";
 
 
 class UserPreview extends Component {
@@ -39,6 +41,14 @@ class UserPreview extends Component {
             </div>
         );
     }
+}
+
+UserPreview.propTypes = {
+    user: PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        photo: PropTypes.string
+    })
 }
 
 export default UserPreview;

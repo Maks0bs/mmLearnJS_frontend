@@ -13,9 +13,26 @@ class OptimizedComponent extends Component {
     upd = 0
     loading = false
 
+    constructor() {
+        super();
+        /**
+            There was an option to put "loading" into global redux state (state.services)
+            However, I think it's better to do it this way, as each component has their OWN
+            loading indicator, this will allow more flexibility in async calls
+            Furthermore, redux global state would cause a lot of unnecessary rerenders
+         */
+        this.state = {
+            loading: false
+        }
+    }
+
     componentDidMount() {
+        /**
+         * If we are still loading smth for 30+ seconds, notify user about that,
+         * an error might have occurred and a page reload might fix it
+         */
         setTimeout(() => {
-            if (this.loading){
+            if (this.loading || this.state.loading){
                 toast.error(
                     <div>
                         Error loading data, try reloading the page
@@ -24,18 +41,10 @@ class OptimizedComponent extends Component {
             }
         }, 30000)
     }
-
-
-    /**
-     * @param nextProps new props that the component receives
-     * @param nextState new state that the component receives
-     * @returns {boolean} true if another render with new props / state should occur, false otherwise
-     */
     shouldComponentUpdate(nextProps, nextState) {
-        // if (!isEqual(nextProps, this.props)){
-        //     return true;
-        // }
-        // return (!isEqual(nextState, this.state) || !isEqual(nextProps, this.props))
+        /**
+         * Always update
+         */
         return true;
     }
 
@@ -44,7 +53,27 @@ class OptimizedComponent extends Component {
      * @returns {boolean} true if you can make initial async calls, false otherwise
      */
     canCallOptimally = () => {
-        return this.upd === 1;
+        return this.upd === 1 && !this.state.loading;
+    }
+
+    /**
+     * Notify component that some, most likely async, loading has started
+     */
+    startLoading = () => {
+        this.loading = true;
+        // this.setState({
+        //     loading: true
+        // })
+    }
+
+    /**
+     * Notify component that some, most likely async, loading has been terminated
+     */
+    stopLoading = () => {
+        this.loading = false;
+        // this.setState({
+        //     loading: false
+        // })
     }
 
     render() {

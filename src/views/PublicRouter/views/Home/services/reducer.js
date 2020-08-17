@@ -1,5 +1,5 @@
 import types from './actionTypes'
-let { API_FETCH_NEWS } = types;
+let { API_FETCH_NEWS, CLEANUP } = types;
 
 let initialState = {
 	newsEntries: []
@@ -12,6 +12,9 @@ export default function(state = initialState, action) {
 				...state,
 				newsEntries: [...action.payload]
 			}
+		case CLEANUP: {
+			return initialState;
+		}
 		default:
 			return state;
 	}

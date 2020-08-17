@@ -84,8 +84,7 @@ class ClassroomMenu extends Component {
 							)
 						}
 					})()}
-					{redirectToHome && (<Redirect to="/" />)}
-					<NavItem pageURI={pathname} path="/classroom/dashboard" name="Classroom" brand="true"/>
+					<NavItem pageURI={pathname} path="/classroom/dashboard" name="Classroom" brand/>
 					<ul className="navbar-nav mr-auto">
 						<NavItem pageURI={pathname} path="/" name="public page" />
 						<NavItem pageURI={pathname} path="/classroom/page2" name="test2" />
@@ -173,6 +172,7 @@ class ClassroomMenu extends Component {
 						)}
 					</ul>
 				</div>
+				{redirectToHome && (<Redirect to="/" />)}
 			</nav>
 		);
 	}

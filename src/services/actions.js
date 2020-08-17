@@ -3,11 +3,18 @@ import { REACT_APP_API_URL } from '../constants'
 let {
 	API_AUTHENTICATED_USER,
 	API_LOGOUT,
-	TOGGLE_LOADING
+	TOGGLE_LOADING,
+	CLEAN_STATE
 } = types;
 
 // all api requests related to Home view will be placed here
 // all nested components should only use these actions for backend requests
+
+export let cleanState = () => (dispatch) => {
+	dispatch({
+		type: CLEAN_STATE
+	})
+}
 
 export let getAuthenticatedUser = () => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/auth/cur-user`, {

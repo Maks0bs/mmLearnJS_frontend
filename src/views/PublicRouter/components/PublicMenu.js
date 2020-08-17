@@ -6,6 +6,7 @@ import Signin from '../../components/Signin'
 import { logout } from '../../../services/actions'
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 import NavItem from "../../../components/reusables/navbar/NavItem";
+import PropTypes from "prop-types";
 
 class PublicMenu extends Component {
 	constructor(){
@@ -29,7 +30,10 @@ class PublicMenu extends Component {
 
 	showSigninModal = () => {
 		this.props.showModal(
-			<Signin onClose={this.props.hideModal} />
+			<Signin
+				onClose={this.props.hideModal}
+				shouldRedirect={true}
+			/>
 		)
 	}
 
@@ -60,7 +64,7 @@ class PublicMenu extends Component {
 					<span className="navbar-toggler-icon" />
 				</button>
 				<div className={(display ? '' : 'collapse ') + "navbar-collapse"}>
-					<NavItem pageURI={pathname} path="/" name="mmLearnJS" brand="true"/>
+					<NavItem pageURI={pathname} path="/" name="mmLearnJS" brand/>
 					<ul className="navbar-nav mr-auto">
 						<NavItem pageURI={pathname} path="/page2" name="Page2" />
 						<NavItem pageURI={pathname} path="/page3" name="Disabled" disabled="true" />
@@ -93,7 +97,7 @@ class PublicMenu extends Component {
 							<button
 								className="btn btn-outline my-sm-0"
 								style={{
-									backgroundColor: '#B3E5FC'
+									background: 'white'
 								}}
 								onClick={this.showSigninModal}
 							>
@@ -121,6 +125,13 @@ let mapStateToProps = (state) => {
 	return {
 		...state.services
 	}
+}
+
+PublicMenu.propTypes = {
+	authenticatedUser: PropTypes.shape({
+		_id: PropTypes.string,
+		name: PropTypes.string
+	})
 }
 
 export default connect(
