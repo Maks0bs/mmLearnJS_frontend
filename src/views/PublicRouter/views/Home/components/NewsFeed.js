@@ -1,12 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { fetchNews, cleanup } from '../services/actions'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import OptimizedComponent from "../../../../../components/performance/OptimizedComponent";
+import SmallLoading from "../../../../../components/reusables/SmallLoading";
 
-class NewsFeed extends Component {
+class NewsFeed extends OptimizedComponent {
 	
 	componentDidMount(){
+		this.startLoading()
         this.props.fetchNews()
+			.then(() => {
+				this.stopLoading();
+			})
     }
 
     componentWillUnmount() {
@@ -14,11 +20,13 @@ class NewsFeed extends Component {
 	}
 
 	render() {
+		console.log('render news feed');
+		let { newsEntries } = this.props;
 		return (
 			<div>
 				<h1>Welcome to mmLearnJS</h1>
 				<ul>
-					{this.props.newsEntries.map((e, i) => (
+					{newsEntries && newsEntries.map((e, i) => (
 						<li
 							key={i}
 						>

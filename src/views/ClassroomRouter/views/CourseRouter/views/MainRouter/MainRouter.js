@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom'
 import Info from './views/Info'
 import ForumRouter from './views/ForumRouter'
 import { connect } from 'react-redux'
-import { toggleLoading } from "../../../../../../services/actions";
 import {getCourseById, viewCourse} from './services/actions'
 import OptimizedPureComponent from "../../../../../../components/performance/OptimizedPureComponent";
 import GradesRouter from "./views/GradesRouter/GradesRouter";
@@ -16,13 +15,12 @@ class MainRouter extends OptimizedPureComponent {
 	render() {
 		super.render();
 		if (this.canCallOptimally()){
-			//this.props.toggleLoading(true);
 			this.props.getCourseById(this.props.match.params.courseId)
 			if (this.props.authenticatedUser) {
 				this.props.viewCourse(this.props.match.params.courseId);
 			}
 		}
-		if (!this.props.courseData._id){
+		if (!this.props.courseData._id) {
 			return (
 				<div
 					style={{
@@ -32,8 +30,6 @@ class MainRouter extends OptimizedPureComponent {
 					<img src={LoadingRingAnimated} alt="loading"/>
 				</div>
 			)
-		} else {
-			//this.props.toggleLoading(false);
 		}
 		let { path } = this.props.match;
 		return (
@@ -75,8 +71,7 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
 	return {
 		getCourseById: (courseId) => dispatch(getCourseById(courseId)),
-		viewCourse: (courseId) => dispatch(viewCourse(courseId)),
-		toggleLoading: (loading) => dispatch(toggleLoading(loading))
+		viewCourse: (courseId) => dispatch(viewCourse(courseId))
 	}
 }
 

@@ -2,30 +2,40 @@ import { combineReducers } from 'redux'
 import viewsReducer from '../views/services/reducer'
 import componentsReducer from '../components/services/reducer'
 import types from './actionTypes'
+import { isEqual } from 'lodash'
 let {
-	API_AUTHENTICATED_USER,
+	API_FETCH_AUTHENTICATED_USER,
+	START_FETCH_AUTHENTICATED_USER,
 	API_LOGOUT,
-	TOGGLE_LOADING
 } = types;
 
 let initialState = {
-	authenticatedUser: false,
-	loading: false
+	authenticatedUser: null,
+	canLoad: true
 }
 
 let servicesReducer = function(state = initialState, action) {
 	switch(action.type){
-		case TOGGLE_LOADING: {
+		case API_FETCH_AUTHENTICATED_USER:{
+			if (action.payload === 'Not authenticated'){
+				return {
+					...state,
+					authenticatedUser: false,
+					canLoad: false
+				}
+			}
 			return {
 				...state,
-				loading: action.payload.loading
+				authenticatedUser: action.payload,
+				canLoad: false
 			}
 		}
-		case API_AUTHENTICATED_USER:
+		case START_FETCH_AUTHENTICATED_USER: {
 			return {
 				...state,
-				authenticatedUser: action.payload
+				canLoad: true
 			}
+		}
 		case API_LOGOUT:
 			return {
 				...initialState
@@ -33,11 +43,23 @@ let servicesReducer = function(state = initialState, action) {
 		default:
 			return state;
 	}
+	return state;
 }
 
+let initialStateLoading = {
+	loading: false
+}
+
+let loadingReducer = function(state = initialStateLoading, action) {
+	switch (action.type) {
+		default:
+			return state;
+	}
+}
 
 export default combineReducers({
 	views: viewsReducer,
 	services: servicesReducer,
+	loading: loadingReducer,
 	components: componentsReducer
 })

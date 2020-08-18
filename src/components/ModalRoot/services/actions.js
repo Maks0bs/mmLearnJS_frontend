@@ -1,9 +1,9 @@
 import types from './actionTypes'
 
-export let showModal = (Component) => dispatch => {
+export let showModal = (component) => dispatch => {
 	dispatch({
 		type: types.signinModal.SHOW,
-		ModalComponent: Component
+		modalComponent: component
 	})
 }
 

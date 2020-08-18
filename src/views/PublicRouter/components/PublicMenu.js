@@ -7,6 +7,7 @@ import { logout } from '../../../services/actions'
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 import NavItem from "../../../components/reusables/navbar/NavItem";
 import PropTypes from "prop-types";
+import { propTypesByName } from "../../../services/helpers";
 
 class PublicMenu extends Component {
 	constructor(){
@@ -66,8 +67,7 @@ class PublicMenu extends Component {
 				<div className={(display ? '' : 'collapse ') + "navbar-collapse"}>
 					<NavItem pageURI={pathname} path="/" name="mmLearnJS" brand/>
 					<ul className="navbar-nav mr-auto">
-						<NavItem pageURI={pathname} path="/page2" name="Page2" />
-						<NavItem pageURI={pathname} path="/page3" name="Disabled" disabled="true" />
+						<NavItem pageURI={pathname} path="/classroom/courses" name="Classroom" />
 					</ul>
 					{(curUser && curUser._id) ? (
 						<ul className="navbar-nav">
@@ -128,10 +128,7 @@ let mapStateToProps = (state) => {
 }
 
 PublicMenu.propTypes = {
-	authenticatedUser: PropTypes.shape({
-		_id: PropTypes.string,
-		name: PropTypes.string
-	})
+	authenticatedUser: propTypesByName['authenticatedUser']
 }
 
 export default connect(

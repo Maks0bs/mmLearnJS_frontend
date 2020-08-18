@@ -3,32 +3,31 @@ import {connect} from "react-redux";
 import { Redirect } from 'react-router-dom'
 import { getCurUserAttempts, newAttempt, cleanup } from "../../../services/actions";
 import { addToast } from "../../../../../../../../../../../components/ToastRoot/services/actions";
-import { toggleLoading } from "../../../../../../../../../../../services/actions";
 import LoadingRingAnimated from '../../../../../../../../../../../res/images/LoadingRingAnimated50px.svg'
 import {Link} from "react-router-dom";
 
 class ExercisePreview extends Component {
 
 
-    componentDidMount() {
-        this.props.toggleLoading(true);
-        this.props.getAttempts(this.props.courseData._id, this.props.exercise._id)
-            .then(() => {
-                this.props.toggleLoading(false);
-                if (this.props.error){
-                    this.props.addToast(
-                        (
-                            <div>
-                                Problem with loading attempts
-                            </div>
-                        ),
-                        {
-                            type: 'error'
-                        }
-                    )
-                }
-            })
-    }
+    // componentDidMount() {
+    //     this.props.toggleLoading(true);
+    //     this.props.getAttempts(this.props.courseData._id, this.props.exercise._id)
+    //         .then(() => {
+    //             this.props.toggleLoading(false);
+    //             if (this.props.error){
+    //                 this.props.addToast(
+    //                     (
+    //                         <div>
+    //                             Problem with loading attempts
+    //                         </div>
+    //                     ),
+    //                     {
+    //                         type: 'error'
+    //                     }
+    //                 )
+    //             }
+    //         })
+    // }
 
     componentWillUnmount() {
         this.props.cleanup();
@@ -156,7 +155,6 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        toggleLoading: (loading) => dispatch(toggleLoading(loading)),
         getAttempts: (courseId, exerciseId) => dispatch(getCurUserAttempts(courseId, exerciseId)),
         addToast: (toast, options) => dispatch(addToast(toast, options)),
         newAttempt: (courseId, exerciseId) => dispatch(newAttempt(courseId, exerciseId)),

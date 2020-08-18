@@ -1,22 +1,13 @@
 import types from './actionTypes'
 import { REACT_APP_API_URL } from '../constants'
 let {
-	API_AUTHENTICATED_USER,
-	API_LOGOUT,
-	TOGGLE_LOADING,
-	CLEAN_STATE
+	API_FETCH_AUTHENTICATED_USER,
+	START_FETCH_AUTHENTICATED_USER,
+	API_LOGOUT
 } = types;
 
-// all api requests related to Home view will be placed here
-// all nested components should only use these actions for backend requests
-
-export let cleanState = () => (dispatch) => {
-	dispatch({
-		type: CLEAN_STATE
-	})
-}
-
 export let getAuthenticatedUser = () => (dispatch) => {
+
 	return fetch(`${REACT_APP_API_URL}/auth/cur-user`, {
 		method: "GET",
 		headers: {
@@ -27,7 +18,7 @@ export let getAuthenticatedUser = () => (dispatch) => {
 	})
 	.then(res => res.json())
 	.then(data => dispatch({
-		type: API_AUTHENTICATED_USER,
+		type: API_FETCH_AUTHENTICATED_USER,
 		payload: data
 	}))
 	.catch(err => console.log(err))
@@ -147,13 +138,4 @@ export let getUserById = (userId, returnDispatchType) => (dispatch) => {
 		})
 	})
 	.catch(err => console.log(err))
-}
-
-export let toggleLoading = (loading) => (dispatch) => {
-	return dispatch({
-		type: TOGGLE_LOADING,
-		payload: {
-			loading
-		}
-	})
 }

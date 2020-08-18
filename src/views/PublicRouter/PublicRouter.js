@@ -20,14 +20,11 @@ class PublicRouter extends OptimizedComponent {
 		super.render();
 		if (this.canCallOptimally()){
 			this.props.getAuthenticatedUser()
-			this.startLoading();
 		}
-		if (this.props.authenticatedUser === false){
+		if (this.props.authenticatedUser === null) {
 			return (
-				<BigLoadingCentered />
+				<BigLoadingCentered/>
 			)
-		} else {
-			this.stopLoading();
 		}
 
 		let { path } = this.props.match;
@@ -52,7 +49,7 @@ class PublicRouter extends OptimizedComponent {
 						exact path={`/signin`}
 						component={Signin}
 					/>
-					<Route 
+					<Route
 						exact path={`/invite-signup/:token`}
 						component={InviteSignup}
 					/>

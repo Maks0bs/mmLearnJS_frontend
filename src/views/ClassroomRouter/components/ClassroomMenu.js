@@ -9,6 +9,7 @@ import { faBell as faBellSolid, faSearch } from '@fortawesome/free-solid-svg-ico
 import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
 import NavItem from "../../../components/reusables/navbar/NavItem";
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
+import {propTypesByName} from "../../../services/helpers";
 
 class ClassroomMenu extends Component {
 	constructor(){
@@ -84,11 +85,11 @@ class ClassroomMenu extends Component {
 							)
 						}
 					})()}
-					<NavItem pageURI={pathname} path="/classroom/dashboard" name="Classroom" brand/>
+					<NavItem pageURI={pathname} path={pathname} name="Classroom" brand/>
 					<ul className="navbar-nav mr-auto">
-						<NavItem pageURI={pathname} path="/" name="public page" />
-						<NavItem pageURI={pathname} path="/classroom/page2" name="test2" />
-						<NavItem pageURI={pathname} path="/classroom/page3" name="test3" />
+						<NavItem pageURI={pathname} path="/classroom/dashboard" name="Dashboard" />
+						<NavItem pageURI={pathname} path="/classroom/courses" name="Course list" />
+						<NavItem pageURI={pathname} path="/" name="Public page" />
 					</ul>
 					<ul className="navbar-nav">
 
@@ -190,6 +191,10 @@ let mapStateToProps = (state) => {
 	return {
 		...state.services
 	}
+}
+
+ClassroomMenu.propTypes = {
+	authenticatedUser: propTypesByName['authenticatedUser']
 }
 
 export default connect(

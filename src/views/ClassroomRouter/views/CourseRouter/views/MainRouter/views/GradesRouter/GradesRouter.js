@@ -12,6 +12,14 @@ import BigLoadingCentered from "../../../../../../../../components/reusables/Big
 
 class GradesRouter extends OptimizedPureComponent {
 
+    mounted = false;
+
+    componentDidMount() {
+        this.mounted = true;
+        console.log('mounted');
+    }
+
+
     render() {
         super.render();
         if (!this.props.authenticatedUser){

@@ -16,6 +16,7 @@ class UserRouter extends OptimizedPureComponent {
     }
 
     render() {
+
         super.render();
         if (this.canCallOptimally()){
             this.props.getUser(this.props.match.params.userId)

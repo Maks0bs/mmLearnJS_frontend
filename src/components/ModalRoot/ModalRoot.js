@@ -9,12 +9,12 @@ Modal.setAppElement(document.getElementById('root'));
 class ModalRoot extends Component {
 	
 	componentDidMount() {
-        document.addEventListener('mouseup', this.handleClick, false);
+        document.addEventListener('mousedown', this.handleClick, false);
         document.addEventListener('keydown', this.handleKey, false);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('mouseup', this.handleClick, false);
+        document.removeEventListener('mousedown', this.handleClick, false);
         document.removeEventListener('keydown', this.handleKey, false);
     }
 
@@ -33,11 +33,11 @@ class ModalRoot extends Component {
     }
 
 	render() {
-		let { ModalComponent } = this.props;
-		if (!ModalComponent) {
+		let { modalComponent } = this.props;
+		if (!modalComponent) {
 			return null;
 		}
-		// may be able to pass props to custon modal
+		// may be able to pass props to custom modal
 		// see https://stackoverflow.com/questions/35623656/how-can-i-display-a-modal-dialog-in-redux-that-performs-asynchronous-actions
 		return (
 			<Modal
@@ -62,22 +62,22 @@ class ModalRoot extends Component {
                 > 
                     <span aria-hidden="true">&times;</span>
                 </button>
-				{ModalComponent}
+				{modalComponent}
 			</Modal>
 		)
 	}
 }
 
 let mapStateToProps = (state) => {
-	let { ModalComponent } = state.components.modalRoot;
+	let { modalComponent } = state.components.modalRoot;
 	return {
-		ModalComponent
+		modalComponent
 	}
 }
 
 ModalRoot.propTypes = {
 	hideModal: PropTypes.func,
-	ModalComponent: PropTypes.oneOfType([
+	modalComponent: PropTypes.oneOfType([
 		PropTypes.node,
 		PropTypes.func,
 		PropTypes.string

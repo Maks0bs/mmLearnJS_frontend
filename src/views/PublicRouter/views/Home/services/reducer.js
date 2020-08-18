@@ -2,7 +2,8 @@ import types from './actionTypes'
 let { API_FETCH_NEWS, CLEANUP } = types;
 
 let initialState = {
-	newsEntries: []
+	newsEntries: null,
+	error: ''
 }
 
 export default function(state = initialState, action) {

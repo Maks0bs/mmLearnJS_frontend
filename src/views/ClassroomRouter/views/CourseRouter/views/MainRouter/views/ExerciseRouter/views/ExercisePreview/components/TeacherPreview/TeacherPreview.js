@@ -1,33 +1,31 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import { addToast } from "../../../../../../../../../../../../components/ToastRoot/services/actions";
-import { toggleLoading } from "../../../../../../../../../../../../services/actions";
-import LoadingRingAnimated from '../../../../../../../../../../../../res/images/LoadingRingAnimated50px.svg'
 import {Link} from "react-router-dom";
 import {cleanup} from "../../../../services/actions";
 import StudentAttempt from "./components/StudentAttempt";
 
 class TeacherPreview extends Component {
 
-    componentDidMount() {
-        // this.props.toggleLoading(true);
-        // this.props.getAttempts(this.props.courseData._id, this.props.exercise._id)
-        //     .then(() => {
-        //         this.props.toggleLoading(false);
-        //         if (this.props.error){
-        //             this.props.addToast(
-        //                 (
-        //                     <div>
-        //                         Problem with loading attempts
-        //                     </div>
-        //                 ),
-        //                 {
-        //                     type: 'error'
-        //                 }
-        //             )
-        //         }
-        //     })
-    }
+    // componentDidMount() {
+    //     this.props.toggleLoading(true);
+    //     this.props.getAttempts(this.props.courseData._id, this.props.exercise._id)
+    //         .then(() => {
+    //             this.props.toggleLoading(false);
+    //             if (this.props.error){
+    //                 this.props.addToast(
+    //                     (
+    //                         <div>
+    //                             Problem with loading attempts
+    //                         </div>
+    //                     ),
+    //                     {
+    //                         type: 'error'
+    //                     }
+    //                 )
+    //             }
+    //         })
+    // }
 
     componentWillUnmount() {
         this.props.cleanup();
@@ -70,7 +68,6 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        toggleLoading: (loading) => dispatch(toggleLoading(loading)),
         addToast: (toast, options) => dispatch(addToast(toast, options)),
         cleanup: () => dispatch(cleanup())
     }
