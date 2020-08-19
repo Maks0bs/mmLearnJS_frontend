@@ -31,7 +31,7 @@ class Forum extends Component {
 			}
 			case 'enrolled': {
 				return (
-					<div>
+					<div className="container my-3">
 						{!forumContent.teachersOnly && (
 							<ForumActions />
 						)}
@@ -42,7 +42,7 @@ class Forum extends Component {
 			case 'teacher':
 			case 'creator': {
 				return (
-					<div>
+					<div className="container my-3">
 						<ForumActions />
 						<ForumTopics />
 					</div>

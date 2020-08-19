@@ -30,7 +30,7 @@ class CourseList extends OptimizedPureComponent {
 	}
 
 	onLoad = () => {
-		let { authenticatedUser: user } = this.props;
+		let { authenticatedUser: user, enrolledCourses, openCourses, teacherCourses } = this.props;
 
 		this.loadOpen = true;
 		this.props.getOpenCourses()
@@ -50,7 +50,7 @@ class CourseList extends OptimizedPureComponent {
 					this.handleLoad();
 
 					return this.props.addNotViewedNotifications(
-						this.props.enrolledCourses.map(c => c._id)
+						enrolledCourses ? enrolledCourses.map(c => c._id) : []
 					);
 				})
 				.then(() => {
@@ -63,7 +63,7 @@ class CourseList extends OptimizedPureComponent {
 				})
 		} else if (user && user._id){
 			this.props.addNotViewedNotifications(
-				this.props.enrolledCourses.map(c => c._id)
+				enrolledCourses ? enrolledCourses.map(c => c._id) : []
 			)
 				.then(() => {
 					if (this.props.error) throw {
@@ -88,7 +88,7 @@ class CourseList extends OptimizedPureComponent {
 					this.handleLoad();
 
 					return this.props.addNotViewedNotifications(
-						this.props.teacherCourses.map(c => c._id)
+						teacherCourses ? teacherCourses.map(c => c._id) : []
 					);
 				})
 				.then(() => {
@@ -101,7 +101,7 @@ class CourseList extends OptimizedPureComponent {
 				})
 		} else if (user && user._id && user.role === 'teacher'){
 			this.props.addNotViewedNotifications(
-				this.props.teacherCourses.map(c => c._id)
+				teacherCourses ? teacherCourses.map(c => c._id) : []
 			)
 				.then(() => {
 					if (this.props.error) throw {
@@ -116,10 +116,11 @@ class CourseList extends OptimizedPureComponent {
 	}
 
 	displayError = (text) => {
+		console.log('display error');
 		return this.props.addToast(
 			(
 				<div>
-					{this.props.error || text.message}
+					{this.props.error || text.message || text}
 				</div>
 			),
 			{

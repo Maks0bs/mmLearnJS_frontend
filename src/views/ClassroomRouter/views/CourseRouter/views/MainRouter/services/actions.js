@@ -4,7 +4,8 @@ import types from './actionTypes'
 
 let { 
 	API_GET_COURSE_BY_ID,
-	API_VIEW_COURSE
+	API_VIEW_COURSE,
+	CLEANUP
 } = types;
 
 export let getCourseById = (courseId) => (dispatch) => {
@@ -32,4 +33,10 @@ export let viewCourse = (courseId) => (dispatch) => {
 			})
 		})
 		.catch(err => console.log(err))
+}
+
+export let cleanup = () => (dispatch) => {
+	return dispatch({
+		type: CLEANUP
+	})
 }

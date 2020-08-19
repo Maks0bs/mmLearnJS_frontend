@@ -76,7 +76,6 @@ class SubscriptionActions extends Component {
             )
         }
         let subbed = false;
-        console.log(this.props.authenticatedUser.subscribedCourses, 'bruh', this.props.courseData._id)
         for (let i of this.props.authenticatedUser.subscribedCourses){
             if (i.course._id === this.props.courseData._id){
                 subbed = true;

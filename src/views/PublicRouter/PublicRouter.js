@@ -17,7 +17,6 @@ import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 class PublicRouter extends OptimizedComponent {
 
 	render() {
-		console.log('public router', this.props);
 		super.render();
 		if (this.canCallOptimally()){
 			this.props.getAuthenticatedUser()

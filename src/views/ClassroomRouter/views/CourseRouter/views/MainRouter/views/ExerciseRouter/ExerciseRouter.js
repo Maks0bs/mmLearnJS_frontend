@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getExerciseById } from "./services/actions";
+import { getExerciseById, cleanup } from "./services/actions";
 import OptimizedComponent from "../../../../../../../../components/performance/OptimizedComponent";
 import ExercisePreview from "./views/ExercisePreview/ExercisePreview";
 import Attempt from "./views/Attempt";
@@ -10,6 +10,11 @@ import BigLoadingCentered from "../../../../../../../../components/reusables/Big
 
 
 class ExerciseRouter extends OptimizedComponent {
+
+	componentWillUnmount() {
+		this.props.cleanup();
+	}
+
 	render() {
 		super.render();
 		if (this.canCallOptimally()){
@@ -56,7 +61,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		getExerciseById: (courseData, id) => dispatch(getExerciseById(courseData, id))
+		getExerciseById: (courseData, id) => dispatch(getExerciseById(courseData, id)),
+		cleanup: () => dispatch(cleanup())
 	}
 }
 

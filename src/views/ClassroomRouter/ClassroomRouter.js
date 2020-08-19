@@ -12,11 +12,11 @@ import CourseRouter from './views/CourseRouter'
 import OptimizedComponent from "../../components/performance/OptimizedComponent";
 import SearchCourses from "./views/SearchCourses/SearchCourses";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
+import OptimizedPureComponent from "../../components/performance/OptimizedPureComponent";
 
-class ClassroomRouter extends OptimizedComponent {
+class ClassroomRouter extends OptimizedPureComponent {
 
 	render() {
-		console.log('classroom router', this.props);
 		super.render();
 		if (this.canCallOptimally()){
 			this.props.getAuthenticatedUser()
@@ -25,8 +25,6 @@ class ClassroomRouter extends OptimizedComponent {
 			return (
 				<BigLoadingCentered />
 			)
-		} else {
-			this.loading = false;
 		}
 		
 		let { path } = this.props.match;

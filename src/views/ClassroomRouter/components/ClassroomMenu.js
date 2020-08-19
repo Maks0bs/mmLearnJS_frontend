@@ -90,9 +90,33 @@ class ClassroomMenu extends Component {
 					})()}
 					<NavItem pageURI={pathname} path={pathname} name="Classroom" brand/>
 					<ul className="navbar-nav mr-auto">
-						<NavItem pageURI={pathname} path="/classroom/dashboard" name="Dashboard" />
-						<NavItem pageURI={pathname} path="/classroom/courses" name="Course list" />
-						<NavItem pageURI={pathname} path="/" name="Public page" />
+						<NavItem
+							pageURI={pathname}
+							path="/classroom/dashboard"
+							name="Dashboard"
+							key={-1}
+						/>
+						<NavItem
+							pageURI={pathname}
+							path="/classroom/courses"
+							name="Course list"
+							key={-2}
+						/>
+						<NavItem
+							pageURI={pathname}
+							path="/"
+							name="Public page"
+							key={-3}
+						/>
+						{this.props.navItems.map((item, i) => (
+							<NavItem
+								pageURI={pathname}
+								path={item.path}
+								name={item.name}
+								key={i}
+								dynamic
+							/>
+						))}
 					</ul>
 					<ul className="navbar-nav">
 
@@ -194,7 +218,8 @@ let mapDispatchToProps = dispatch => {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.services
+		...state.services,
+		...state.routing
 	}
 }
 

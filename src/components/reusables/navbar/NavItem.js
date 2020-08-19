@@ -17,8 +17,16 @@ let NavItem = props => {
             <Link
                 to={props.path}
                 className={props.disabled ? 'nav-link disabled' : 'nav-link'}
+                style={{
+                    textTransform: props.dynamic ? 'none' : ''
+
+                }}
             >
-                {props.name}
+                {props.dynamic ? (
+                    <i>{props.name}</i>
+                ) : (
+                    props.name
+                )}
             </Link>
         </li>
     );
@@ -32,7 +40,8 @@ NavItem.propTypes = {
         PropTypes.string,
         PropTypes.number
     ]),
-    brand: PropTypes.bool
+    brand: PropTypes.bool,
+    dynamic: PropTypes.bool
 }
 
 export default NavItem;

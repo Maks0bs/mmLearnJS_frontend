@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getTopicFromForum, formatTopicPosts } from '../../services/helpers'
 import { getEnrollmentStatus } from '../../../../../../services/helpers'
 import { connect } from 'react-redux'
+import { addNavItem, removeNavItem } from "../../../../../../../../../../services/actions";
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { answerTopicPost, deleteTopicPost } from '../../services/actions'
 import UserPreview from "../../../../../../../../../../components/reusables/UserPreview";
@@ -15,6 +16,10 @@ class Topic extends Component {
 			replyText: '',
 			reload: false
 		}
+	}
+
+	componentWillUnmount() {
+		this.props.removeNavItem('forum topic link')
 	}
 
 	handleChange = (name) => (event) => {
@@ -84,12 +89,20 @@ class Topic extends Component {
 
 		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
 		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
+		console.log('topic', topic);
 
 		if (!topic){
 			return (
 				<Redirect to={`/classroom/course/${this.props.courseData._id}/forum/${this.props.forumData._id}`} />
 			)
 		}
+
+		this.props.removeNavItem('forum topic link')
+		this.props.addNavItem({
+			id: 'forum topic link',
+			name: 'Topic "' + this.props.forumData.name + '"',
+			path: `/classroom/course/${this.props.courseData._id}/forum/${this.props.forumData._id}/topic/${topic._id}`
+		})
 
 		let posts = formatTopicPosts(topic.posts);
 
@@ -211,7 +224,6 @@ class Topic extends Component {
 									<label className="text-muted">Response</label>
 									<textarea 
 										onChange={this.handleChange("replyText")}
-										type="text" 
 										className="form-control"
 										value={this.state.replyText}
 									/>
@@ -245,7 +257,9 @@ let mapDispatchToProps = (dispatch) => {
 		answerTopicPost: (courseId, forumId, topicId, postId, post) => 
 			dispatch(answerTopicPost(courseId, forumId, topicId, postId, post)),
 		deleteTopicPost: (courseId, forumId, topicId, postId) => 
-			dispatch(deleteTopicPost(courseId, forumId, topicId, postId))
+			dispatch(deleteTopicPost(courseId, forumId, topicId, postId)),
+		addNavItem: (item) => dispatch(addNavItem(item)),
+		removeNavItem: (id) => dispatch(removeNavItem(id))
 	}
 }
 

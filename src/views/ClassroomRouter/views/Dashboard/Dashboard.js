@@ -25,7 +25,7 @@ class Dashboard extends OptimizedPureComponent {
 	}
 
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
-		console.log('dashboard', this.props, nextProps);
+
 		if (nextProps.authenticatedUser && !this.props.authenticatedUser){
 			let chosenCourses = [];
 
@@ -112,7 +112,6 @@ class Dashboard extends OptimizedPureComponent {
 	}
 
 	componentDidMount() {
-		console.log('mounted', this.props);
 		this.initData();
 	}
 

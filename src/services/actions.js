@@ -2,9 +2,24 @@ import types from './actionTypes'
 import { REACT_APP_API_URL } from '../constants'
 let {
 	API_FETCH_AUTHENTICATED_USER,
-	START_FETCH_AUTHENTICATED_USER,
-	API_LOGOUT
+	API_LOGOUT,
+	ADD_NAV_ITEM,
+	REMOVE_NAV_ITEM
 } = types;
+
+export let addNavItem = (item) => (dispatch) => {
+	dispatch({
+		type: ADD_NAV_ITEM,
+		payload: item
+	})
+}
+
+export let removeNavItem = (id) => (dispatch) => {
+	dispatch({
+		type: REMOVE_NAV_ITEM,
+		payload: id
+	})
+}
 
 export let getAuthenticatedUser = () => (dispatch) => {
 

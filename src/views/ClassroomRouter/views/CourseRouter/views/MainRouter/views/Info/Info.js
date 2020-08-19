@@ -31,7 +31,7 @@ class Info extends Component {
 		switch (status){
 			case 'not logged in':
 				course = (
-					<div className="container mt-3">
+					<div>
 						<OpenCourseInfo />
 						<div className="alert alert-info">
 							Please log in to access this course
@@ -42,7 +42,7 @@ class Info extends Component {
 				break;
 			case 'enrolled':
 				course = (
-					<div className="container mt-3">
+					<div>
 						<CourseTabs status={status}/>
 						<CourseData />
 					</div>
@@ -50,7 +50,7 @@ class Info extends Component {
 				break;
 			case 'teacher':
 				course =(
-					<div className="container mt-3">
+					<div>
 
 
 						<CourseTabs status={status}/>
@@ -62,7 +62,7 @@ class Info extends Component {
 				break;
 			case 'invited teacher':
 				course = (
-					<div className="container mt-3">
+					<div>
 						<InvitedTeacherInfo />
 						<OpenCourseInfo />
 						<CourseEnrollForm />
@@ -71,7 +71,7 @@ class Info extends Component {
 				break;
 			case 'invited teacher enrolled':
 				course = (
-					<div className="container mt-3">
+					<div>
 						<CourseTabs status={status}/>
 						<InvitedTeacherInfo />
 						<CourseData />
@@ -80,7 +80,7 @@ class Info extends Component {
 				break;
 			case 'creator':
 				course = (
-					<div className="container mt-3">
+					<div>
 
 						<CourseTabs status={status}/>
 						<TeacherActions />
@@ -92,7 +92,7 @@ class Info extends Component {
 				break;
 			case 'not enrolled':
 				course = (
-					<div className="container mt-3">
+					<div >
 						<OpenCourseInfo />
 						<CourseEnrollForm />
 					</div>
@@ -102,7 +102,16 @@ class Info extends Component {
 				course = null;
 				break;
 		}
-		return course;
+		return (
+			<div className="container mt-3 mb-5">
+				{course}
+				<hr style={{
+					borderWidth: '2px',
+					borderColor: 'black'
+				}}/>
+			</div>
+
+		)
 	}
 }
 
