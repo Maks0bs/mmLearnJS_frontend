@@ -7,10 +7,10 @@ import { showModal, hideModal} from "../../../../components/ModalRoot/services/a
 import ChooseCourses from "./components/ChooseCourses";
 import OptimizedComponent from "../../../../components/performance/OptimizedComponent";
 import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
-import SmallLoading from "../../../../components/reusables/SmallLoading";
+import OptimizedPureComponent from "../../../../components/performance/OptimizedPureComponent";
 
 
-class Dashboard extends OptimizedComponent {
+class Dashboard extends OptimizedPureComponent {
 	constructor(props) {
 		super(props);
 
@@ -25,6 +25,7 @@ class Dashboard extends OptimizedComponent {
 	}
 
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		console.log('dashboard', this.props, nextProps);
 		if (nextProps.authenticatedUser && !this.props.authenticatedUser){
 			let chosenCourses = [];
 
@@ -48,7 +49,7 @@ class Dashboard extends OptimizedComponent {
 		})
 	}
 
-	componentDidMount() {
+	initData = () => {
 		let yesterday = new Date(), today = new Date();
 		yesterday.setDate((new Date()).getDate() - 1);
 
@@ -108,8 +109,11 @@ class Dashboard extends OptimizedComponent {
 
 				this.loading = false;
 			})
+	}
 
-
+	componentDidMount() {
+		console.log('mounted', this.props);
+		this.initData();
 	}
 
 	updateStarting = () => {

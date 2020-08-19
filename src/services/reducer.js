@@ -10,8 +10,7 @@ let {
 } = types;
 
 let initialState = {
-	authenticatedUser: null,
-	canLoad: true
+	authenticatedUser: null
 }
 
 let servicesReducer = function(state = initialState, action) {
@@ -20,30 +19,21 @@ let servicesReducer = function(state = initialState, action) {
 			if (action.payload === 'Not authenticated'){
 				return {
 					...state,
-					authenticatedUser: false,
-					canLoad: false
+					authenticatedUser: false
 				}
 			}
 			return {
 				...state,
-				authenticatedUser: action.payload,
-				canLoad: false
-			}
-		}
-		case START_FETCH_AUTHENTICATED_USER: {
-			return {
-				...state,
-				canLoad: true
+				authenticatedUser: action.payload
 			}
 		}
 		case API_LOGOUT:
 			return {
-				...initialState
-			};
+				initialState
+			}
 		default:
 			return state;
 	}
-	return state;
 }
 
 let initialStateLoading = {

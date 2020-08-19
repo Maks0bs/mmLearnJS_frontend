@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
-import {clearMessages, getCourseById} from './services/actions'
+import { clearMessages, getCourseById } from './services/actions'
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
 import TeacherActions from './components/TeacherActions'
@@ -51,9 +51,12 @@ class Info extends Component {
 			case 'teacher':
 				course =(
 					<div className="container mt-3">
+
+
 						<CourseTabs status={status}/>
-						<CourseData />
 						<TeacherActions />
+						<hr />
+						<CourseData />
 					</div>
 				)
 				break;
@@ -78,10 +81,12 @@ class Info extends Component {
 			case 'creator':
 				course = (
 					<div className="container mt-3">
+
 						<CourseTabs status={status}/>
-						<CourseData />
 						<TeacherActions />
 						<CreatorActions />
+						<hr/>
+						<CourseData />
 					</div>
 				)
 				break;

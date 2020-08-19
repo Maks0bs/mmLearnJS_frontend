@@ -1,6 +1,7 @@
 import React, { Component, PureComponent } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { signin, clearMessages } from './services/actions'
+import { getAuthenticatedUser } from "../../../services/actions";
 import { addToast } from '../../../components/ToastRoot/services/actions'
 import { connect } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -9,14 +10,13 @@ import PropTypes from 'prop-types'
 
 // make controlled components
 
-class Signin extends PureComponent {
+class Signin extends Component {
     constructor(props){
         super(props);
 
         this.state = {
             email: '',
             password: '',
-            loading: false,
             reload: false
         }
 
@@ -32,9 +32,9 @@ class Signin extends PureComponent {
 
     handleLeave = () => {
 
-        this.setState({
-            reload: false
-        })
+        // this.setState({
+        //     reload: false
+        // })
         this.props.clearMessages();
         this.props.onClose && this.props.onClose();
     }
@@ -49,7 +49,10 @@ class Signin extends PureComponent {
         }
 
         this.props.signin(user)
-            .then((data) => {
+            .then(() => {
+                return this.props.getAuthenticatedUser();
+            })
+            .then(() => {
                 if (!this.props.error){
                     this.setState({
                         reload: true
@@ -108,7 +111,7 @@ class Signin extends PureComponent {
     }
 
     render() {
-        let {email, password, loading, reload} = this.state;
+        let {email, password, reload} = this.state;
         let { error, message } = this.props;
         if (reload){
             this.handleLeave();
@@ -181,7 +184,8 @@ let mapDispatchToProps = (dispatch) => {
     return {
         clearMessages: () => dispatch(clearMessages()),
         signin: (user) => dispatch(signin(user)),
-        addToast: (component, options) => dispatch(addToast(component, options))
+        addToast: (component, options) => dispatch(addToast(component, options)),
+        getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
     }
 }
 

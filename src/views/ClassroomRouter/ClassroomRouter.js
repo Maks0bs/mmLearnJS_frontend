@@ -16,11 +16,12 @@ import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 class ClassroomRouter extends OptimizedComponent {
 
 	render() {
+		console.log('classroom router', this.props);
 		super.render();
 		if (this.canCallOptimally()){
 			this.props.getAuthenticatedUser()
 		}
-		if (this.props.authenticatedUser === false){
+		if (this.props.authenticatedUser === null){
 			return (
 				<BigLoadingCentered />
 			)

@@ -3,7 +3,7 @@ import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
 import Signin from '../../components/Signin'
-import { logout } from '../../../services/actions'
+import { logout, getAuthenticatedUser } from '../../../services/actions'
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 import NavItem from "../../../components/reusables/navbar/NavItem";
 import PropTypes from "prop-types";
@@ -22,11 +22,14 @@ class PublicMenu extends Component {
 	handleLogout = () => {
 		
 		this.props.logout()
-		.then(() => {
-			this.setState({
-				redirectToHome: true
+			.then(() => {
+				return this.props.getAuthenticatedUser();
 			})
-		})
+			.then(() => {
+				this.setState({
+					redirectToHome: true
+				})
+			})
 	}
 
 	showSigninModal = () => {
@@ -117,7 +120,9 @@ let mapDispatchToProps = dispatch => {
 	return {
 		showModal: (Component) => dispatch(showModal(Component)),
 		hideModal: () => dispatch(hideModal()),
-		logout: () => dispatch(logout())
+		logout: () => dispatch(logout()),
+		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+
 	}
 }
 

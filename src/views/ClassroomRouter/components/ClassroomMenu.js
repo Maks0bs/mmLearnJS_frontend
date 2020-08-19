@@ -3,7 +3,7 @@ import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
 import Signin from '../../components/Signin'
-import { logout } from '../../../services/actions'
+import { logout, getAuthenticatedUser } from '../../../services/actions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faBell as faBellSolid, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
@@ -25,11 +25,14 @@ class ClassroomMenu extends Component {
 	handleLogout = () => {
 
 		this.props.logout()
-		.then(() => {
-			this.setState({
-				redirectToHome: true
+			.then(() => {
+				return this.props.getAuthenticatedUser();
 			})
-		})
+			.then(() => {
+				this.setState({
+					redirectToHome: true
+				})
+			})
 	}
 
 	handleChange = (name) => (event) => {
@@ -172,8 +175,9 @@ class ClassroomMenu extends Component {
 							</div>
 						)}
 					</ul>
+					{redirectToHome && (<Redirect to="/" />)}
 				</div>
-				{redirectToHome && (<Redirect to="/" />)}
+
 			</nav>
 		);
 	}
@@ -183,7 +187,8 @@ let mapDispatchToProps = dispatch => {
 	return {
 		showModal: (Component) => dispatch(showModal(Component)),
 		hideModal: () => dispatch(hideModal()),
-		logout: () => dispatch(logout())
+		logout: () => dispatch(logout()),
+		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
 	}
 }
 

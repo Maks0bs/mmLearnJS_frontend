@@ -8,6 +8,7 @@ import OptimizedPureComponent from "../../../../../../components/performance/Opt
 import GradesRouter from "./views/GradesRouter/GradesRouter";
 import ExerciseRouter from "./views/ExerciseRouter/ExerciseRouter";
 import LoadingRingAnimated from '../../../../../../res/images/LoadingRingAnimated200px.svg'
+import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
 
 
 class MainRouter extends OptimizedPureComponent {
@@ -22,13 +23,7 @@ class MainRouter extends OptimizedPureComponent {
 		}
 		if (!this.props.courseData._id) {
 			return (
-				<div
-					style={{
-						textAlign: 'center'
-					}}
-				>
-					<img src={LoadingRingAnimated} alt="loading"/>
-				</div>
+				<BigLoadingCentered />
 			)
 		}
 		let { path } = this.props.match;

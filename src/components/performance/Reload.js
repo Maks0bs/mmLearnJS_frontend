@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import PropTypes from "prop-types";
+import BigLoadingCentered from "../reusables/BigLoadingCentered";
 
 /**
  * instead of window.reload or
@@ -21,14 +22,17 @@ class Reload extends Component {
 	}
 
 	render() {
+		console.log('reload');
 		if (this.state.mounted){
 			return (
 				<Redirect to={this.props.location.state.page} />
 			)
 		} else {
-			//return null;
+			// return (
+			// 	<Redirect to={this.props.location.state.page} />
+			// )
 			return (
-				<Redirect to={this.props.location.state.page} />
+				<BigLoadingCentered />
 			)
 		}
 	}

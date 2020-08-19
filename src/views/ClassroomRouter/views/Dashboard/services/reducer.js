@@ -17,7 +17,8 @@ export default function(state = initialState, action) {
 			if (action.payload.data.error){
 				return {
 					...state,
-					error: action.payload.data.error.message
+					error: action.payload.data.error.message,
+					updatesData: null
 				}
 			} else {
 				let newState = {
