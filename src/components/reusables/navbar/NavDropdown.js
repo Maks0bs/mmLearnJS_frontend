@@ -9,10 +9,11 @@ class NavDropdown extends React.Component {
         };
     }
     toggleDropdown(e) {
+        console.log('bruh');
         e.preventDefault();
-        this.setState(prevState => ({
-            isToggleOn: !prevState.isToggleOn
-        }));
+        this.setState({
+            isToggleOn: !this.state.isToggleOn
+        })
     }
 
     componentDidMount() {
@@ -37,13 +38,16 @@ class NavDropdown extends React.Component {
     render() {
         const classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
         return (
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown"
+                ref={node => (this.innerContentRef = node)}
+            >
                 <a
                     className="nav-link dropdown-toggle"
                     onClick={(e) => {this.toggleDropdown(e)}}
                     style={{
                         cursor: 'pointer',
-                        textTransform: 'none'
+                        textTransform: 'none',
+
                     }}
                 >
                     {this.props.name}
@@ -51,7 +55,10 @@ class NavDropdown extends React.Component {
                 </a>
                 <ul
                     className={`${classDropdownMenu} dropdown-menu-right`}
-                    ref={node => (this.innerContentRef = node)}
+                    style={{
+                        overflow: 'auto',
+                        maxHeight: window.innerHeight / 2
+                    }}
                 >
                     {this.props.children}
                 </ul>

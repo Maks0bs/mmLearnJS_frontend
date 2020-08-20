@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Topic from './views/Topic'
 import Forum from './views/Forum'
 import { connect } from 'react-redux'
-import { getForumFromCourse } from './services/actions'
+import { getForumFromCourse, cleanup } from './services/actions'
 import { addNavItem, removeNavItem } from "../../../../../../../../services/actions";
 import OptimizedComponent from "../../../../../../../../components/performance/OptimizedComponent";
 import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
@@ -14,6 +14,7 @@ class ForumRouter extends OptimizedPureComponent {
 
 	componentWillUnmount() {
 		this.props.removeNavItem('forum link')
+		this.props.cleanup();
 	}
 
 	render() {
@@ -31,7 +32,6 @@ class ForumRouter extends OptimizedPureComponent {
 				/>
 			)
 		}
-		this.props.removeNavItem('forum link')
 		this.props.addNavItem({
 			id: 'forum link',
 			name: 'Forum "' + this.props.forumData.name + '"',
@@ -68,7 +68,8 @@ let mapDispatchToProps = (dispatch) => {
 	return {
 		getForumFromCourse: (courseData, forumId) => dispatch(getForumFromCourse(courseData, forumId)),
 		addNavItem: (item) => dispatch(addNavItem(item)),
-		removeNavItem: (id) => dispatch(removeNavItem(id))
+		removeNavItem: (id) => dispatch(removeNavItem(id)),
+		cleanup: () => dispatch(cleanup())
 	}
 }
 

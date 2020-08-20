@@ -28,12 +28,12 @@ class Reload extends Component {
 				<Redirect to={this.props.location.state.page} />
 			)
 		} else {
-			// return (
-			// 	<Redirect to={this.props.location.state.page} />
-			// )
 			return (
-				<BigLoadingCentered />
+				<Redirect to={this.props.location.state.page} />
 			)
+			// return (
+			// 	<BigLoadingCentered />
+			// )
 		}
 	}
 }

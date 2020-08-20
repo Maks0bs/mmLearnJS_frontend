@@ -74,30 +74,28 @@ class Topic extends Component {
 	}
 
 	render() {
+		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
+		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
 		if (this.state.reload){
+			this.setState({
+				reload: false,
+				replyTo: null,
+				replyText: null
+			})
 			return (
 				<Redirect
-					to={{
-						pathname: '/reload',
-						state: {
-							page: this.props.location.pathname
-						}
-					}}
+					to={`/classroom/course/${this.props.courseData._id}/forum/${this.props.forumData._id}/topic/${topic._id}`}
 				/>
 			)
 		}
 
-		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
-		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
-		console.log('topic', topic);
+
 
 		if (!topic){
 			return (
 				<Redirect to={`/classroom/course/${this.props.courseData._id}/forum/${this.props.forumData._id}`} />
 			)
 		}
-
-		this.props.removeNavItem('forum topic link')
 		this.props.addNavItem({
 			id: 'forum topic link',
 			name: 'Topic "' + this.props.forumData.name + '"',

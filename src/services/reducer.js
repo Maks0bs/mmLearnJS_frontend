@@ -47,6 +47,11 @@ let initialStateRouting = {
 let routingReducer = function(state = initialStateRouting, action) {
 	switch (action.type) {
 		case ADD_NAV_ITEM: {
+			for (let i of state.navItems){
+				if (action.payload.id === i.id){
+					return state;
+				}
+			}
 			return {
 				...state,
 				navItems: [...state.navItems, action.payload]

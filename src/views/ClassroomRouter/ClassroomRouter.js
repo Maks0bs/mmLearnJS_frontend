@@ -19,7 +19,11 @@ class ClassroomRouter extends OptimizedPureComponent {
 	render() {
 		super.render();
 		if (this.canCallOptimally()){
+			this.startLoading()
 			this.props.getAuthenticatedUser()
+				.then(() => {
+					this.stopLoading();
+				})
 		}
 		if (this.props.authenticatedUser === null){
 			return (
@@ -66,7 +70,7 @@ class ClassroomRouter extends OptimizedPureComponent {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.services
+		authenticatedUser: state.services.authenticatedUser
 	}
 }
 

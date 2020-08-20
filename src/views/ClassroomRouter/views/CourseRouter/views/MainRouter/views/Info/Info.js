@@ -11,12 +11,14 @@ import CourseData from './components/CourseData'
 import InvitedTeacherInfo from './components/InvitedTeacherInfo'
 import { getEnrollmentStatus } from '../../../../services/helpers'
 import CourseTabs from "../../components/CourseTabs";
+import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
 
 class Info extends Component {
 
 
 
 	render() {
+		console.log('render info', this.props);
 		if (this.props.redirectToDashboard){
 			this.props.clearMessages();
 			return (
@@ -24,7 +26,9 @@ class Info extends Component {
 			)
 		}
 		if (!this.props.courseData){
-			return null;
+			return (
+				<BigLoadingCentered />
+			);
 		}
 		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
 		let course;

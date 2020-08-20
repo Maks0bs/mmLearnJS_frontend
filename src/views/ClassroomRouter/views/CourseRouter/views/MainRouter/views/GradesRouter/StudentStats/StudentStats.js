@@ -13,7 +13,15 @@ class StudentStats extends Component {
             <div className="container my-4">
                 <ul>
                     {exercises && exercises.map((e, i) => {
-                        let data = this.props.userToExerciseDict[summaries[0].id][e._id]
+                        let preData = this.props.userToExerciseDict[summaries[0].id];
+                        if (!preData){
+                            return (
+                                <li key={i}>
+                                    No data for exercise "{e.name}"
+                                </li>
+                            )
+                        }
+                        let data = preData[e._id];
                         if (data){
                             return (
                                 <li key={i}>

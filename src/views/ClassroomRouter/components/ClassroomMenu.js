@@ -10,6 +10,7 @@ import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
 import NavItem from "../../../components/reusables/navbar/NavItem";
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 import {propTypesByName} from "../../../services/helpers";
+import NotificationItem from "../../../components/reusables/navbar/NotificationItem";
 
 class ClassroomMenu extends Component {
 	constructor(){
@@ -92,6 +93,12 @@ class ClassroomMenu extends Component {
 					<ul className="navbar-nav mr-auto">
 						<NavItem
 							pageURI={pathname}
+							path="/"
+							name="Public page"
+							key={-3}
+						/>
+						<NavItem
+							pageURI={pathname}
 							path="/classroom/dashboard"
 							name="Dashboard"
 							key={-1}
@@ -101,12 +108,6 @@ class ClassroomMenu extends Component {
 							path="/classroom/courses"
 							name="Course list"
 							key={-2}
-						/>
-						<NavItem
-							pageURI={pathname}
-							path="/"
-							name="Public page"
-							key={-3}
 						/>
 						{this.props.navItems.map((item, i) => (
 							<NavItem
@@ -162,9 +163,14 @@ class ClassroomMenu extends Component {
 										/>
 									}
 								>
-									<div className="dropdown-item">
-										{JSON.stringify(curUser.notifications)}
-									</div>
+									{curUser.notifications.map((n, i) => (
+										<NotificationItem
+											key={i}
+											created={n.created}
+											title={n.title}
+											text={n.text}
+										/>
+									))}
 								</NavDropdown>
 
 								<NavDropdown name={curUser.name}>

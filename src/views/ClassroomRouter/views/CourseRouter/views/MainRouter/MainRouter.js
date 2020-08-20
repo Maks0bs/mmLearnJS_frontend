@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, PureComponent} from 'react';
 import { Switch, Route } from 'react-router-dom'
 import Info from './views/Info'
 import ForumRouter from './views/ForumRouter'
@@ -21,22 +21,28 @@ class MainRouter extends OptimizedPureComponent {
 		this.props.removeNavItem('course link')
 	}
 
+	com
+
 	render() {
-		console.log('render main router', this.props);
+		console.log('render main router', this.props, this.upd);
 		super.render();
 		if (this.canCallOptimally()){
+			this.startLoading();
 			this.props.getCourseById(this.props.match.params.courseId)
+				.then(() => {
+					this.stopLoading()
+				})
 			if (this.props.authenticatedUser) {
 				this.props.viewCourse(this.props.match.params.courseId);
 			}
 		}
 		if (!this.props.courseData._id) {
+			console.log('bruh bruh');
 			return (
 				<BigLoadingCentered />
 			)
 		}
 
-		this.props.removeNavItem('course link')
 		this.props.addNavItem({
 			id: 'course link',
 			name: 'Course "' + this.props.courseData.name + '"',

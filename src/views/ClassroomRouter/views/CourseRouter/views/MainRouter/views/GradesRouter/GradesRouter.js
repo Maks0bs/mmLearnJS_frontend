@@ -27,9 +27,13 @@ class GradesRouter extends OptimizedPureComponent {
         }
         if (this.canCallOptimally()){
             let filter = this.props.match.params.gradeFilter;
+            this.startLoading();
             this.props.getExerciseSummaries(this.props.courseData._id,
                 (filter === 'teacher') ? 'all' : filter
             )
+                .then(() => {
+                    this.stopLoading();
+                })
         }
         if (!this.props.summaries){
             return (

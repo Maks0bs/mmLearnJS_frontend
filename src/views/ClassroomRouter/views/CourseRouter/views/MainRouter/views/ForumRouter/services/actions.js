@@ -5,7 +5,8 @@ let {
 	GET_FORUM_FROM_COURSE, 
 	CLEAR_FORUM_DATA,
 	API_ANSWER_TOPIC_POST,
-	API_DELETE_TOPIC_POST
+	API_DELETE_TOPIC_POST,
+	CLEANUP
 } = types;
 
 // all api requests related to Home view will be placed here
@@ -95,8 +96,10 @@ export let deleteTopicPost = (courseId, forumId, topicId, postId) => dispatch =>
 	.catch(err => console.log(err))
 }
 
-export let clearForumData = () => (dispatch) => {
+export let cleanup = () => (dispatch) => {
 	return dispatch({
-		type: CLEAR_FORUM_DATA
+		type: CLEANUP
 	})
 }
+
+

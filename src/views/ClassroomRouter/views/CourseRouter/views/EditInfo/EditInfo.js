@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { editCourse, getCourseById } from './services/actions'
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
+import {addNavItem, removeNavItem} from "../../../../../../services/actions";
 
 class EditInfo extends Component {
 	constructor () {
@@ -44,12 +45,21 @@ class EditInfo extends Component {
 		let courseId = this.props.match.params.courseId;
 		this.props.getCourseById(courseId)
 		.then(() => {
+			this.props.addNavItem({
+				id: 'course link',
+				name: 'Course "' + this.props.courseData.name + '"',
+				path: `/classroom/course/${this.props.courseData._id}`
+			})
 			return this.setState({
 				name: this.props.courseData.name,
 				about: this.props.courseData.about,
 				show: true
 			})
 		})
+	}
+
+	componentWillUnmount() {
+		this.props.removeNavItem('course link');
 	}
 
 
@@ -128,7 +138,9 @@ class EditInfo extends Component {
 let mapDispatchToProps = (dispatch) => {
 	return {
 		editCourse: (data, id) => dispatch(editCourse(data, id)),
-		getCourseById: (id) => dispatch(getCourseById(id))
+		getCourseById: (id) => dispatch(getCourseById(id)),
+		addNavItem: (item) => dispatch(addNavItem(item)),
+		removeNavItem: (id) => dispatch(removeNavItem(id))
 	}
 }
 

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { subscribe, unsubscribe } from "../../../services/actions";
 import {connect} from "react-redux";
 import {Redirect, withRouter} from 'react-router-dom'
+import { getCourseById } from "../../../../../services/actions";
 import { addToast } from "../../../../../../../../../../../components/ToastRoot/services/actions";
 
 class SubscriptionActions extends Component {
@@ -66,12 +67,7 @@ class SubscriptionActions extends Component {
             })
             return (
                 <Redirect
-                    to={{
-                        pathname: '/reload',
-                        state: {
-                            page: this.props.location.pathname
-                        }
-                    }}
+                    to={`/classroom/course/${this.props.courseData._id}`}
                 />
             )
         }
@@ -123,7 +119,8 @@ let mapDispatchToProps = (dispatch) => {
     return {
         subscribe: (id) => dispatch(subscribe(id)),
         unsubscribe: (id) => dispatch(unsubscribe(id)),
-        addToast: (component, options) => dispatch(addToast(component, options))
+        addToast: (component, options) => dispatch(addToast(component, options)),
+        getCourseById: (id) => dispatch(getCourseById(id))
     }
 }
 

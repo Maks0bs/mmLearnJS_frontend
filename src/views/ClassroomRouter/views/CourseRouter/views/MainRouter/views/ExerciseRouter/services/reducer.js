@@ -9,8 +9,8 @@ let {
 } = types;
 
 let initialState = {
-	exercise: {},
-	attempts: [],//they are sorted by time, the first one is always the latest one, may not be finished
+	exercise: null,
+	attempts: null,//they are sorted by time, the first one is always the latest one, may not be finished
 	error: '',
 	newAttemptId: null
 }
