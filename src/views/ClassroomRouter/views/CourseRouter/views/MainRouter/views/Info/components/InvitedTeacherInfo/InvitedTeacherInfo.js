@@ -49,16 +49,14 @@ class InvitedTeacherInfo extends Component {
 	render() {
 
 		if (this.state.redirectToCourse){
+			this.setState({
+				redirectToCourse: false
+			})
 			return (
-                <Redirect 
-                    to={{
-                        pathname: '/reload',
-                        state: {
-                            page: this.props.location.pathname
-                        }
-                    }}
-                />
-            )
+				<Redirect
+					to={`/classroom/course/${this.props.courseData._id}`}
+				/>
+			)
 		}
 
 		return (

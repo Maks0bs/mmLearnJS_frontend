@@ -57,14 +57,12 @@ class NewTopic extends Component {
 
         if (reload){
             this.handleLeave();
+            this.setState({
+                reload: false
+            })
             return (
-                <Redirect 
-                    to={{
-                        pathname: '/reload',
-                        state: {
-                            page: this.props.location.pathname
-                        }
-                    }}
+                <Redirect
+                    to={this.props.location.pathname}
                 />
             );
         }

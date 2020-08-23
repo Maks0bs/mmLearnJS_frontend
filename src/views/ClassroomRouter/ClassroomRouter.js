@@ -14,7 +14,7 @@ import SearchCourses from "./views/SearchCourses/SearchCourses";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 import OptimizedPureComponent from "../../components/performance/OptimizedPureComponent";
 
-class ClassroomRouter extends OptimizedPureComponent {
+class ClassroomRouter extends OptimizedComponent {
 
 	render() {
 		super.render();

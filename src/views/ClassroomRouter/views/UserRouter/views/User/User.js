@@ -53,18 +53,15 @@ class User extends Component {
 
 	render() {
 		let { user, authenticatedUser } = this.props;
-		console.log(user);
 
 
 		if (this.state.reload){
+			this.setState({
+				reload: false
+			})
 			return (
 				<Redirect
-					to={{
-						pathname: '/reload',
-						state: {
-							page: this.props.location.pathname
-						}
-					}}
+					to={`/classroom/user/${user._id}`}
 				/>
 			)
 		}

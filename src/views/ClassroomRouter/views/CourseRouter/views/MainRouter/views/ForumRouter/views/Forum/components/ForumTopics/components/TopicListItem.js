@@ -11,11 +11,15 @@ class TopicListItem extends Component {
 		return (
 		  	<tr>
 		    	<td>
-		      		<Link
-		      			to={`${path}/topic/${_id}`}
-		      		>
-		      			{name}
-		      		</Link>
+					<h5>
+						<strong>
+							<Link
+								to={`${path}/topic/${_id}`}
+							>
+								{name}
+							</Link>
+						</strong>
+					</h5>
 		    	</td>
 		    	<td>
 		      		<UserPreview user={creator}/>

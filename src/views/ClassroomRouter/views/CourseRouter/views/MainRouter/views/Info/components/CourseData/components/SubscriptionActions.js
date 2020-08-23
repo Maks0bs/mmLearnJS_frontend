@@ -73,7 +73,7 @@ class SubscriptionActions extends Component {
         }
         let subbed = false;
         for (let i of this.props.authenticatedUser.subscribedCourses){
-            if (i.course._id === this.props.courseData._id){
+            if (i.course && i.course._id === this.props.courseData._id){
                 subbed = true;
                 break;
             }

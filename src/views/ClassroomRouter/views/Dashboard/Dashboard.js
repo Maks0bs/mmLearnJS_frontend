@@ -130,11 +130,11 @@ class Dashboard extends OptimizedPureComponent {
 
 		if (this.state.coursesFilter === 'all'){
 			for (let c of this.props.authenticatedUser.subscribedCourses){
-				courses.push(c.course._id);
+				c.course && courses.push(c.course._id);
 			}
 		} else {
 			for (let c of this.state.chosenCourses){
-				courses.push(c._id);
+				c && courses.push(c._id);
 			}
 		}
 
