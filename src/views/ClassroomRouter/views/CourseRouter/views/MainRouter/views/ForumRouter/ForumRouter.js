@@ -12,12 +12,16 @@ import OptimizedPureComponent from "../../../../../../../../components/performan
 
 class ForumRouter extends OptimizedPureComponent {
 
+	update = 0;
+
 	componentWillUnmount() {
 		this.props.removeNavItem('forum link')
 		this.props.cleanup();
 	}
 
 	render() {
+		this.update++;
+		console.log('render forum', this.update);
 		super.render();
 		if (this.canCallOptimally()){
 			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);

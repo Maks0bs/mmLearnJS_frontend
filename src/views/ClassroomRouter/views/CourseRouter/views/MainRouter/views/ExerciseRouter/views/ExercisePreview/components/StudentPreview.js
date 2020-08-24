@@ -16,7 +16,7 @@ class ExercisePreview extends Component {
                     this.props.addToast(
                         (
                             <div>
-                                Problem with loading attempts
+                                {this.props.error}
                             </div>
                         ),
                         {
@@ -39,7 +39,7 @@ class ExercisePreview extends Component {
                     this.props.addToast(
                         (
                             <div>
-                                Problem with loading attempts
+                                {this.props.error}
                             </div>
                         ),
                         {
@@ -129,7 +129,7 @@ class ExercisePreview extends Component {
                             className="btn btn-raised btn-outline btn-info ml-3"
                             onClick={this.onExerciseStart}
                             style={{
-                                display: (attempts && attempts.length > 0 && !attempts[0].endTime) ? 'none' : ''
+                                display: (!attempts || (attempts && (attempts.length > 0) && !attempts[0].endTime) ) ? 'none' : ''
                             }}
                         >
                             Start the exercise
