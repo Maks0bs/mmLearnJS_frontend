@@ -24,7 +24,7 @@ class MainRouter extends OptimizedPureComponent {
 	com
 
 	render() {
-		console.log('render main router', this.props, this.upd);
+
 		super.render();
 		if (this.canCallOptimally()){
 			this.startLoading();
@@ -37,7 +37,6 @@ class MainRouter extends OptimizedPureComponent {
 			}
 		}
 		if (!this.props.courseData._id) {
-			console.log('bruh bruh');
 			return (
 				<BigLoadingCentered />
 			)

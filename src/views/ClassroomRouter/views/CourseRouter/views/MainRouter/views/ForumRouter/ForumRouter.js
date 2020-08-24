@@ -10,9 +10,8 @@ import BigLoadingCentered from "../../../../../../../../components/reusables/Big
 import OptimizedPureComponent from "../../../../../../../../components/performance/OptimizedPureComponent";
 
 
-class ForumRouter extends OptimizedPureComponent {
+class ForumRouter extends OptimizedComponent {
 
-	update = 0;
 
 	componentWillUnmount() {
 		this.props.removeNavItem('forum link')
@@ -20,12 +19,8 @@ class ForumRouter extends OptimizedPureComponent {
 	}
 
 	render() {
-		this.update++;
-		console.log('render forum', this.update);
 		super.render();
-		if (this.canCallOptimally()){
-			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
-		}
+		this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
 		if (!this.props.forumData){
 			return <BigLoadingCentered />
 		}

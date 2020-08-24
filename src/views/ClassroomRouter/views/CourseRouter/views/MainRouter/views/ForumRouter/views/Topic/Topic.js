@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { addNavItem, removeNavItem } from "../../../../../../../../../../services/actions";
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { answerTopicPost, deleteTopicPost } from '../../services/actions'
+import { getAuthenticatedUser } from "../../../../../../../../../../services/actions";
 import UserPreview from "../../../../../../../../../../components/reusables/UserPreview";
 
 class Topic extends Component {
@@ -51,11 +52,14 @@ class Topic extends Component {
 			postId,
 			replyText
 		)
-		.then(() => {
-			this.setState({
-				reload: true
+			.then(() => {
+				return this.props.getAuthenticatedUser();
 			})
-		})
+			.then(() => {
+				this.setState({
+					reload: true
+				})
+			})
 	}
 
 	onDeletePost = (e, postId) => {
@@ -66,11 +70,14 @@ class Topic extends Component {
 			this.props.match.params.topicId,
 			postId
 		)
-		.then(() => {
-			this.setState({
-				reload: true
+			.then(() => {
+				return this.props.getAuthenticatedUser();
 			})
-		})
+			.then(() => {
+				this.setState({
+					reload: true
+				})
+			})
 	}
 
 	render() {
@@ -257,7 +264,8 @@ let mapDispatchToProps = (dispatch) => {
 		deleteTopicPost: (courseId, forumId, topicId, postId) => 
 			dispatch(deleteTopicPost(courseId, forumId, topicId, postId)),
 		addNavItem: (item) => dispatch(addNavItem(item)),
-		removeNavItem: (id) => dispatch(removeNavItem(id))
+		removeNavItem: (id) => dispatch(removeNavItem(id)),
+		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
 	}
 }
 
