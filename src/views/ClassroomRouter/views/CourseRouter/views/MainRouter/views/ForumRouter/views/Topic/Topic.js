@@ -71,7 +71,7 @@ class Topic extends Component {
 			postId
 		)
 			.then(() => {
-				return this.props.getAuthenticatedUser();
+				return this.props.getCourseById(this.props.courseData._id);
 			})
 			.then(() => {
 				this.setState({

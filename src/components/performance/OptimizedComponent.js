@@ -33,11 +33,7 @@ class OptimizedComponent extends Component {
          */
         setTimeout(() => {
             if (this.loading || this.state.loading){
-                toast.error(
-                    <div>
-                        Error loading data, try reloading the page
-                    </div>
-                )
+                console.log('Error loading data, try reloading the page');
             }
         }, 30000)
     }

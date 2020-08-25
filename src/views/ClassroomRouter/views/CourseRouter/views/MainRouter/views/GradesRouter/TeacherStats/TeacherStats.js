@@ -16,29 +16,33 @@ class TeacherStats extends Component {
                 }}
             >
                 <table className="table table-bordered table-hover">
-                    <tr key={-1}>
-                        <td />
-                        {exercises && exercises.map((e, i) => (
-                            <th
+                    <thead>
+                        <tr key={-1}>
+                            <td />
+                            {exercises && exercises.map((e, i) => (
+                                <th
+                                    key={i}
+                                    scope="col"
+                                    style={{
+                                        wordBreak: 'keep-all',
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    {e.name}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {summaries.map((s, i) => (
+                            <StatsEntry
                                 key={i}
-                                scope="col"
-                                style={{
-                                    wordBreak: 'keep-all',
-                                    whiteSpace: 'nowrap'
-                                }}
-                            >
-                                {e.name}
-                            </th>
-                        ))}
-                    </tr>
-                    {summaries.map((s, i) => (
-                        <StatsEntry
-                            key={i}
-                            userId={s.id}
-                            userNum={i}
-                        />
+                                userId={s.id}
+                                userNum={i}
+                            />
 
-                    ))}
+                        ))}
+                    </tbody>
                 </table>
             </div>
         );

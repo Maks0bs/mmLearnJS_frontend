@@ -8,11 +8,13 @@ import {isEqual} from "lodash";
 let {
 	API_GET_COURSE_BY_ID,
 	API_VIEW_COURSE,
-	CLEANUP
+	CLEANUP,
+	GET_FIRST_TIME_STATUS
 } = types;
 
 let initialState = {
-	courseData: {}
+	courseData: {},
+	firstTime: false
 }
 
 let servicesReducer = function(state = initialState, action) {
@@ -21,6 +23,17 @@ let servicesReducer = function(state = initialState, action) {
 			return {
 				...state,
 				courseData: action.payload[0]
+			}
+		}
+
+		case GET_FIRST_TIME_STATUS: {
+			if (action.payload === state.firstTime){
+				return state;
+			} else {
+				return {
+					...state,
+					firstTime: action.payload
+				}
 			}
 		}
 

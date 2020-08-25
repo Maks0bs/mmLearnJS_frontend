@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
 import { clearMessages, getCourseById } from './services/actions'
+import { showModal, hideModal} from "../../../../../../../../components/ModalRoot/services/actions";
+import { getFirstTimeStatus } from "../../services/actions";
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
 import TeacherActions from './components/TeacherActions'
@@ -12,9 +14,21 @@ import InvitedTeacherInfo from './components/InvitedTeacherInfo'
 import { getEnrollmentStatus } from '../../../../services/helpers'
 import CourseTabs from "../../components/CourseTabs";
 import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
+import FirstTimeInfo from "./components/FirstTimeInfo";
 
 class Info extends Component {
 
+	componentDidMount() {
+		this.props.getFirstTimeStatus()
+			.then((v) => {
+				console.log(v);
+				if (this.props.firstTime){
+					this.props.showModal(
+						<FirstTimeInfo onClose={this.props.hideModal}/>
+					)
+				}
+			})
+	}
 
 
 	render() {
@@ -129,7 +143,10 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		clearMessages: () => dispatch(clearMessages())
+		clearMessages: () => dispatch(clearMessages()),
+		getFirstTimeStatus: () => dispatch(getFirstTimeStatus()),
+		showModal: (component) => dispatch(showModal(component)),
+		hideModal: () => dispatch(hideModal())
 	}
 }
 

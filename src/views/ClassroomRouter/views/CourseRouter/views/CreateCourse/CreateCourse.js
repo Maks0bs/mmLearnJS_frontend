@@ -87,8 +87,14 @@ class CreateCourse extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label className="text-muted">Add a password to the course?</label>
+					<label
+						className="text-muted"
+						htmlFor="course_add_password"
+					>
+						Add a password to the course?
+					</label>
 					<input
+						id="course_add_password"
 						type="checkbox"
 						onChange={this.handleHasPassword}
 						className="ml-3"

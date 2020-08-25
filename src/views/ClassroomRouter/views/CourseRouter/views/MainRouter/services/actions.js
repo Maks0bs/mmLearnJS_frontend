@@ -5,8 +5,39 @@ import types from './actionTypes'
 let { 
 	API_GET_COURSE_BY_ID,
 	API_VIEW_COURSE,
-	CLEANUP
+	CLEANUP,
+	GET_FIRST_TIME_STATUS
 } = types;
+
+/**
+ *
+ * @return {function(*): Promise<boolean>}
+ */
+export let getFirstTimeStatus = () => (dispatch) => {
+
+	/**
+	 * Reading from local storage might be async, return promise
+	 * @return {Promise} promise that resolves the storage operation and dispatching action afterwards
+	 */
+	return new Promise((resolve => {
+		let value = true;
+		if (window && (typeof window !== 'undefined') && localStorage.getItem(GET_FIRST_TIME_STATUS	)){
+			value = JSON.parse(localStorage.getItem(GET_FIRST_TIME_STATUS));
+		} else {
+			localStorage.setItem(GET_FIRST_TIME_STATUS, 'false');
+		}
+
+		resolve(value);
+	}))
+		.then((v) => {
+			dispatch({
+				type: GET_FIRST_TIME_STATUS,
+				payload: v
+			})
+
+			return v;
+		})
+}
 
 export let getCourseById = (courseId) => (dispatch) => {
 	return dispatch(getCoursesFiltered(

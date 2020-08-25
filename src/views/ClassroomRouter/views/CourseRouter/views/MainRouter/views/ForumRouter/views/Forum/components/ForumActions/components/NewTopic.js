@@ -3,6 +3,7 @@ import { Link, Redirect, withRouter } from 'react-router-dom'
 import { createTopic } from '../../../../../services/actions'
 import { connect } from 'react-redux'
 import {getCourseById} from "../../../../../../../services/actions";
+import PropTypes from 'prop-types'
 
 
 // make controlled components
@@ -125,6 +126,12 @@ let mapStateToProps = (state) => {
         ...state.views.classroom.course.main.forum,
         ...state.views.classroom.course.main.services
     }
+}
+
+NewTopic.propTypes = {
+    onClose: PropTypes.func,
+    courseData: PropTypes.object,
+    forumData: PropTypes.object
 }
 
 
