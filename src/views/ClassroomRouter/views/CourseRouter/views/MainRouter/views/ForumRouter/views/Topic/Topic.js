@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { addNavItem, removeNavItem } from "../../../../../../../../../../services/actions";
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { answerTopicPost, deleteTopicPost } from '../../services/actions'
-import { getAuthenticatedUser } from "../../../../../../../../../../services/actions";
+import { getCourseById } from "../../../../services/actions";
 import UserPreview from "../../../../../../../../../../components/reusables/UserPreview";
 
 class Topic extends Component {
@@ -53,7 +53,7 @@ class Topic extends Component {
 			replyText
 		)
 			.then(() => {
-				return this.props.getAuthenticatedUser();
+				return this.props.getCourseById(this.props.courseData._id);
 			})
 			.then(() => {
 				this.setState({
@@ -164,6 +164,7 @@ class Topic extends Component {
 												style={{
 													color: 'red'
 												}}
+												href="#void"
 												onClick={(e) => this.onDeletePost(e, post.data._id)}
 											>
 												Delete post
@@ -176,6 +177,7 @@ class Topic extends Component {
 													style={{
 														color: 'red'
 													}}
+													href="#void"
 													onClick={(e) => this.onDeletePost(e, post.data._id)}
 												>
 													Delete post
@@ -187,6 +189,7 @@ class Topic extends Component {
 													style={{
 														color: 'red'
 													}}
+													href="#void"
 													onClick={(e) => this.onDeletePost(e, post.data._id)}
 												>
 													Delete post tree
@@ -203,8 +206,12 @@ class Topic extends Component {
 										return null;
 									} else return (
 										<a
+											href="#void"
 											className="ml-3"
-											onClick={(e) => this.handleReplyClick(i)}
+											onClick={(e) => {
+												e.preventDefault();
+												this.handleReplyClick(i)
+											}}
 										>
 											Answer
 										</a>
@@ -265,7 +272,7 @@ let mapDispatchToProps = (dispatch) => {
 			dispatch(deleteTopicPost(courseId, forumId, topicId, postId)),
 		addNavItem: (item) => dispatch(addNavItem(item)),
 		removeNavItem: (id) => dispatch(removeNavItem(id)),
-		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+		getCourseById: (id) => dispatch(getCourseById(id))
 	}
 }
 

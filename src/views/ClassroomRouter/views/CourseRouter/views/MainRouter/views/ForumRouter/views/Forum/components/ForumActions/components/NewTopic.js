@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { createTopic } from '../../../../../services/actions'
 import { connect } from 'react-redux'
+import {getCourseById} from "../../../../../../../services/actions";
 
 
 // make controlled components
@@ -39,12 +40,14 @@ class NewTopic extends Component {
                 initContent: content
             }
         )
-        .then(() => {
-            this.setState({
-                reload: true
+            .then(() => (
+                this.props.getCourseById(this.props.courseData._id)
+            ))
+            .then(() => {
+                this.setState({
+                    reload: true
+                })
             })
-            //this.handleLeave();
-        })
     }
 
     componentWillUnmount(){
@@ -112,7 +115,8 @@ class NewTopic extends Component {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        createTopic: (courseId, forumId, content) => dispatch(createTopic(courseId, forumId, content))
+        createTopic: (courseId, forumId, content) => dispatch(createTopic(courseId, forumId, content)),
+        getCourseById: (id) => dispatch(getCourseById(id))
     }
 }
 
