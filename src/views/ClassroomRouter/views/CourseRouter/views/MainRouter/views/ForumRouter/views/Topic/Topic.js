@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getTopicFromForum, formatTopicPosts } from '../../services/helpers'
 import { getEnrollmentStatus } from '../../../../../../services/helpers'
 import { connect } from 'react-redux'
-import { addNavItem, removeNavItem } from "../../../../../../../../../../services/actions";
+import { addNavItem, removeNavItem } from "../../../../../../../../../../services/routing/actions";
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { answerTopicPost, deleteTopicPost } from '../../services/actions'
 import { getCourseById } from "../../../../services/actions";

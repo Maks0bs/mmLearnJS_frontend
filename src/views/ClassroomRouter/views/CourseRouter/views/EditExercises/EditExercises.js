@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getCourseById } from './services/actions'
-import { addNavItem, removeNavItem} from "../../../../../../services/actions";
+import { addNavItem, removeNavItem } from "../../../../../../services/routing/actions";
 import EditPanel from './components/EditPanel'
 import EditActions from "./components/EditActions";
 import { addToast } from "../../../../../../components/ToastRoot/services/actions";

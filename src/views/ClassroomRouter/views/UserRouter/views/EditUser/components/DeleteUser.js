@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { deleteUser } from "../../../services/actions";
-import { logout } from "../../../../../../../services/actions";
 import { Redirect } from 'react-router-dom'
 import { addToast } from '../../../../../../../components/ToastRoot/services/actions'
+import {logout} from "../../../../../../../services/main/actions";
 
 class DeleteUser extends Component {
     constructor() {

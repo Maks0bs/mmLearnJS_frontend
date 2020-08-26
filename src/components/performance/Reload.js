@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
-import PropTypes from "prop-types";
-import BigLoadingCentered from "../reusables/BigLoadingCentered";
+import PropTypes from 'prop-types'
+
 
 /**
- * instead of window.reload or
- * history.push(...) I use this all over the app
- * IMHO this is a better solution, it unmounts the
- * component we want to reload, which is helpful
+ * Reloads the page, specified under {@link props.location.pathname.page}
+ * or under {@link props.link}
+ * Unmounts the component on the current page, making the component call
+ * {@link componentDidMount} when it gets loaded again
+ * @component
  */
 class Reload extends Component {
 
@@ -22,20 +23,23 @@ class Reload extends Component {
 	}
 
 	render() {
-		console.log('reload');
 		if (this.state.mounted){
 			return (
-				<Redirect to={this.props.location.state.page} />
+				<Redirect to={this.props.link || this.props.location.state.page} />
 			)
 		} else {
-			return (
-				<Redirect to={this.props.location.state.page} />
-			)
-			// return (
-			// 	<BigLoadingCentered />
-			// )
+			return null;
 		}
 	}
+}
+
+Reload.propTypes = {
+	/**
+	 * The page that should actually be reloaded.
+	 * The component redirects to this URL, when the component
+	 * on this URL has been unmounted
+	 */
+	link: PropTypes.string
 }
 
 export default Reload

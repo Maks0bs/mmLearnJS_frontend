@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import LoadingRingAnimated from "../../res/images/LoadingRingAnimated200px.svg";
 
+/**
+ * Big centered loading indicator
+ * @component
+ */
 class BigLoadingCentered extends Component {
     render() {
         return (

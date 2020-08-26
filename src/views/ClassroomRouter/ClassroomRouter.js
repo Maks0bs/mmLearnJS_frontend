@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import ClassroomMenu from './components/ClassroomMenu'
 import Main from './views/Main'
-import { getAuthenticatedUser } from '../../services/actions'
 import { connect } from 'react-redux'
 import ActivationMessage from '../components/ActivationMessage'
 import UserRouter from './views/UserRouter'
@@ -13,6 +12,8 @@ import OptimizedComponent from "../../components/performance/OptimizedComponent"
 import SearchCourses from "./views/SearchCourses/SearchCourses";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 import OptimizedPureComponent from "../../components/performance/OptimizedPureComponent";
+import {getAuthenticatedUser} from "../../services/main/actions";
+import PropTypes from 'prop-types';
 
 class ClassroomRouter extends OptimizedComponent {
 

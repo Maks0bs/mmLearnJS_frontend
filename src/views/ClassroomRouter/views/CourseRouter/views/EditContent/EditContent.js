@@ -4,7 +4,7 @@ import { getCourseById } from './services/actions'
 import EditPanel from './components/EditPanel'
 import EditActions from './components/EditActions'
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
-import {addNavItem, removeNavItem} from "../../../../../../services/actions";
+import { addNavItem, removeNavItem } from "../../../../../../services/routing/actions";
 
 class EditContent extends Component {
 	constructor() {

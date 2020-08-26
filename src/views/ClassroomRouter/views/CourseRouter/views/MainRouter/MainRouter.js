@@ -3,14 +3,12 @@ import { Switch, Route } from 'react-router-dom'
 import Info from './views/Info'
 import ForumRouter from './views/ForumRouter'
 import { connect } from 'react-redux'
-import { addNavItem, removeNavItem } from "../../../../../../services/actions";
+import { addNavItem, removeNavItem } from "../../../../../../services/routing/actions";
 import {getCourseById, viewCourse, cleanup} from './services/actions'
 import OptimizedPureComponent from "../../../../../../components/performance/OptimizedPureComponent";
 import GradesRouter from "./views/GradesRouter/GradesRouter";
 import ExerciseRouter from "./views/ExerciseRouter/ExerciseRouter";
-import LoadingRingAnimated from '../../../../../../res/images/LoadingRingAnimated200px.svg'
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
-import OptimizedComponent from "../../../../../../components/performance/OptimizedComponent";
 
 
 class MainRouter extends OptimizedPureComponent {
@@ -42,11 +40,11 @@ class MainRouter extends OptimizedPureComponent {
 			)
 		}
 
-		this.props.addNavItem({
+		console.log('add nav', this.props.addNavItem({
 			id: 'course link',
 			name: 'Course "' + this.props.courseData.name + '"',
 			path: `/classroom/course/${this.props.courseData._id}`
-		})
+		}))
 
 
 		let { path } = this.props.match;

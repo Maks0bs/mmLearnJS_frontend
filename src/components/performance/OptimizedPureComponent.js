@@ -1,14 +1,17 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { isEqual } from "lodash";
 import OptimizedComponent from "./OptimizedComponent";
 
 
 /**
- * This component's behaviour is very similar to React PureComponent, but it also doesn't permit making
- * initial async calls more than once (this problem is caused due to redux)
+ * The same as {@link OptimizedComponent}, but also has the properties of {@link React.PureComponent}
+ * @component
  */
 class OptimizedPureComponent extends OptimizedComponent {
     shouldComponentUpdate(nextProps, nextState) {
+        /*
+            Make the component pure
+         */
         if (!isEqual(nextProps, this.props)){
             return true;
         }

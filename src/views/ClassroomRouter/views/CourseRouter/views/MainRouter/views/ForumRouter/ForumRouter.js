@@ -4,10 +4,9 @@ import Topic from './views/Topic'
 import Forum from './views/Forum'
 import { connect } from 'react-redux'
 import { getForumFromCourse, cleanup } from './services/actions'
-import { addNavItem, removeNavItem } from "../../../../../../../../services/actions";
+import { addNavItem, removeNavItem} from "../../../../../../../../services/routing/actions";
 import OptimizedComponent from "../../../../../../../../components/performance/OptimizedComponent";
 import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
-import OptimizedPureComponent from "../../../../../../../../components/performance/OptimizedPureComponent";
 
 
 class ForumRouter extends OptimizedComponent {

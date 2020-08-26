@@ -6,13 +6,13 @@ import Signup from './views/Signup'
 import ActivateAccount from './views/ActivateAccount'
 import Signin from './views/Signin'
 import { connect } from 'react-redux'
-import { getAuthenticatedUser } from '../../services/actions'
 import ActivationMessage from '../components/ActivationMessage'
 import InviteSignup from './views/InviteSignup'
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ResetPassword from "./views/ResetPassword/ResetPassword";
 import OptimizedComponent from "../../components/performance/OptimizedComponent";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
+import {getAuthenticatedUser} from "../../services/main/actions";
 
 class PublicRouter extends OptimizedComponent {
 

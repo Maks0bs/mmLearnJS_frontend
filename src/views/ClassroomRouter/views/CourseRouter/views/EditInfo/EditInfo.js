@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { editCourse, getCourseById } from './services/actions'
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
-import {addNavItem, removeNavItem} from "../../../../../../services/actions";
+import { addNavItem, removeNavItem } from "../../../../../../services/routing/actions";
 
 class EditInfo extends Component {
 	constructor () {

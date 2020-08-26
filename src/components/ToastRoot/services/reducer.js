@@ -1,10 +1,27 @@
 import actionTypes from './actionTypes'
 import { toast } from 'react-toastify'
 
+/**
+ * @typedef ToastRootState
+ * @type Object
+ * @property {Object[]} toastsList the list of toasts that were manually displayed
+ */
+
+/**
+ *
+ * @type ToastRootState
+ */
 const initialState = {
      toastsList: []
 }
 
+/**
+ *
+ * @param {ToastRootState} state
+ * @param {ReduxAction} action
+ * @param {Object[]} state.toastsList  the list of toasts that were manually displayed
+ * @return {ToastRootState}
+ */
 export default (state = initialState, action) => {
   	switch (action.type) {
         case actionTypes.ADD_TOAST:

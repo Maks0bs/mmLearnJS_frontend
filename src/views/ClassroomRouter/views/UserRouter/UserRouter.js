@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import EditUser from "./views/EditUser";
 import User from "./views/User/User";
 import { getUser, cleanup } from "./services/actions";
-import { addNavItem, removeNavItem} from "../../../../services/actions";
+import { addNavItem, removeNavItem } from "../../../../services/routing/actions";
 import OptimizedComponent from "../../../../components/performance/OptimizedComponent";
 import OptimizedPureComponent from "../../../../components/performance/OptimizedPureComponent";
 import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";

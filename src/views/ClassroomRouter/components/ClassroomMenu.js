@@ -3,7 +3,6 @@ import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
 import Signin from '../../components/Signin'
-import { logout, getAuthenticatedUser } from '../../../services/actions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faBell as faBellSolid, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
@@ -11,6 +10,7 @@ import NavItem from "../../../components/reusables/navbar/NavItem";
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 import {propTypesByName} from "../../../services/helpers";
 import NotificationItem from "../../../components/reusables/navbar/NotificationItem";
+import {getAuthenticatedUser, logout} from "../../../services/main/actions";
 
 class ClassroomMenu extends Component {
 	constructor(){

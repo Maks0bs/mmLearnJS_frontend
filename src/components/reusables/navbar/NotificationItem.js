@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
 
+/**
+ * Notification item for notifications in navigation bar
+ * @component
+ */
 class NotificationItem extends Component {
     constructor(props) {
         super(props);
@@ -22,11 +26,17 @@ class NotificationItem extends Component {
                     width: '100%'
                 }}
                 onMouseEnter={(e) => {
+                    /*
+                        Gets highlighted when mouse is hovered over
+                    */
                     this.setState({
                         background: '#ebebeb'
                     })
                 }}
                 onMouseLeave={(e) => {
+                    /*
+                        Remove highlighting
+                    */
                     this.setState({
                         background: '#ffffff'
                     })
@@ -44,6 +54,9 @@ class NotificationItem extends Component {
                         fontSize: '8px'
                     }}
                 >
+                    {/*
+                        Display the date, when the notification was created
+                    */}
                     {`${(new Date(created)).toLocaleDateString()}, ${(new Date(created)).toLocaleTimeString()}`}
                 </span>
             </div>
@@ -52,8 +65,14 @@ class NotificationItem extends Component {
 }
 
 NotificationItem.propTypes = {
+    /**
+     * The date (and time), when the notification was created
+     */
     created: PropTypes.string,
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    /**
+     * The main information of the notification
+     */
     text: PropTypes.string
 }
 

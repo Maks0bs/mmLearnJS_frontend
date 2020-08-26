@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import {REACT_APP_API_URL} from "../../constants";
 import DefaultUserAvatar from '../../res/images/DefaultUserAvatar.png'
 import PropTypes from "prop-types";
-import User from "../../views/ClassroomRouter/views/UserRouter/views/User/User";
 
-
+/**
+ * User preview and link.
+ * Mainly used in forums and grade tables
+ * @component
+ */
 class UserPreview extends Component {
     render() {
         let { user } = this.props;
@@ -44,6 +47,11 @@ class UserPreview extends Component {
 }
 
 UserPreview.propTypes = {
+    /**
+     * The whole user date, necessary to display the preview:
+     * `_id`, `name`, `photo`
+     * See API docs for details
+     */
     user: PropTypes.shape({
         _id: PropTypes.string,
         name: PropTypes.string,

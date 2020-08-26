@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getExerciseById, cleanup } from "./services/actions";
-import OptimizedComponent from "../../../../../../../../components/performance/OptimizedComponent";
 import ExercisePreview from "./views/ExercisePreview/ExercisePreview";
 import Attempt from "./views/Attempt";
-import LoadingRingAnimated from "../../../../../../../../res/images/LoadingRingAnimated200px.svg";
 import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
-import {addNavItem, removeNavItem} from "../../../../../../../../services/actions";
+import { addNavItem, removeNavItem } from "../../../../../../../../services/routing/actions";
 import OptimizedPureComponent from "../../../../../../../../components/performance/OptimizedPureComponent";
 
 
