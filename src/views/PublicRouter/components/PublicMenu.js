@@ -3,11 +3,11 @@ import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
 import Signin from '../../components/Signin'
-import { logout, getAuthenticatedUser } from '../../../services/actions'
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 import NavItem from "../../../components/reusables/navbar/NavItem";
 import PropTypes from "prop-types";
 import { propTypesByName } from "../../../services/helpers";
+import {getAuthenticatedUser, logout} from "../../../services/main/actions";
 
 class PublicMenu extends Component {
 	constructor(){

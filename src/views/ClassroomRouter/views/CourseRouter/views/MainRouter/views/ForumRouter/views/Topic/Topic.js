@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { getTopicFromForum, formatTopicPosts } from '../../services/helpers'
 import { getEnrollmentStatus } from '../../../../../../services/helpers'
 import { connect } from 'react-redux'
+import { addNavItem, removeNavItem } from "../../../../../../../../../../services/routing/actions";
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { answerTopicPost, deleteTopicPost } from '../../services/actions'
+import { getCourseById } from "../../../../services/actions";
 import UserPreview from "../../../../../../../../../../components/reusables/UserPreview";
 
 class Topic extends Component {
@@ -15,6 +17,10 @@ class Topic extends Component {
 			replyText: '',
 			reload: false
 		}
+	}
+
+	componentWillUnmount() {
+		this.props.removeNavItem('forum topic link')
 	}
 
 	handleChange = (name) => (event) => {
@@ -46,11 +52,14 @@ class Topic extends Component {
 			postId,
 			replyText
 		)
-		.then(() => {
-			this.setState({
-				reload: true
+			.then(() => {
+				return this.props.getCourseById(this.props.courseData._id);
 			})
-		})
+			.then(() => {
+				this.setState({
+					reload: true
+				})
+			})
 	}
 
 	onDeletePost = (e, postId) => {
@@ -61,35 +70,44 @@ class Topic extends Component {
 			this.props.match.params.topicId,
 			postId
 		)
-		.then(() => {
-			this.setState({
-				reload: true
+			.then(() => {
+				return this.props.getCourseById(this.props.courseData._id);
 			})
-		})
+			.then(() => {
+				this.setState({
+					reload: true
+				})
+			})
 	}
 
 	render() {
+		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
+		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
 		if (this.state.reload){
+			this.setState({
+				reload: false,
+				replyTo: null,
+				replyText: null
+			})
 			return (
 				<Redirect
-					to={{
-						pathname: '/reload',
-						state: {
-							page: this.props.location.pathname
-						}
-					}}
+					to={`/classroom/course/${this.props.courseData._id}/forum/${this.props.forumData._id}/topic/${topic._id}`}
 				/>
 			)
 		}
 
-		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
-		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
+
 
 		if (!topic){
 			return (
 				<Redirect to={`/classroom/course/${this.props.courseData._id}/forum/${this.props.forumData._id}`} />
 			)
 		}
+		this.props.addNavItem({
+			id: 'forum topic link',
+			name: 'Topic "' + this.props.forumData.name + '"',
+			path: `/classroom/course/${this.props.courseData._id}/forum/${this.props.forumData._id}/topic/${topic._id}`
+		})
 
 		let posts = formatTopicPosts(topic.posts);
 
@@ -146,6 +164,7 @@ class Topic extends Component {
 												style={{
 													color: 'red'
 												}}
+												href="#void"
 												onClick={(e) => this.onDeletePost(e, post.data._id)}
 											>
 												Delete post
@@ -158,6 +177,7 @@ class Topic extends Component {
 													style={{
 														color: 'red'
 													}}
+													href="#void"
 													onClick={(e) => this.onDeletePost(e, post.data._id)}
 												>
 													Delete post
@@ -169,6 +189,7 @@ class Topic extends Component {
 													style={{
 														color: 'red'
 													}}
+													href="#void"
 													onClick={(e) => this.onDeletePost(e, post.data._id)}
 												>
 													Delete post tree
@@ -185,8 +206,12 @@ class Topic extends Component {
 										return null;
 									} else return (
 										<a
+											href="#void"
 											className="ml-3"
-											onClick={(e) => this.handleReplyClick(i)}
+											onClick={(e) => {
+												e.preventDefault();
+												this.handleReplyClick(i)
+											}}
 										>
 											Answer
 										</a>
@@ -211,7 +236,6 @@ class Topic extends Component {
 									<label className="text-muted">Response</label>
 									<textarea 
 										onChange={this.handleChange("replyText")}
-										type="text" 
 										className="form-control"
 										value={this.state.replyText}
 									/>
@@ -245,7 +269,10 @@ let mapDispatchToProps = (dispatch) => {
 		answerTopicPost: (courseId, forumId, topicId, postId, post) => 
 			dispatch(answerTopicPost(courseId, forumId, topicId, postId, post)),
 		deleteTopicPost: (courseId, forumId, topicId, postId) => 
-			dispatch(deleteTopicPost(courseId, forumId, topicId, postId))
+			dispatch(deleteTopicPost(courseId, forumId, topicId, postId)),
+		addNavItem: (item) => dispatch(addNavItem(item)),
+		removeNavItem: (id) => dispatch(removeNavItem(id)),
+		getCourseById: (id) => dispatch(getCourseById(id))
 	}
 }
 

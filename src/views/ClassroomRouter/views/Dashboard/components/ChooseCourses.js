@@ -75,9 +75,11 @@ class ChooseCourses extends Component {
                                         padding: '5px'
                                     }}
                                 >
-                                    {course.name}</td>
+                                    <label htmlFor={"choose courses dashboard " + course._id}>{course.name}</label>
+                                </td>
                                 <td>
                                     <input
+                                        id={"choose courses dashboard " + course._id}
                                         type="checkbox"
                                         onChange={this.onChange(course._id)}
                                         checked={this.state.selected[course._id]}

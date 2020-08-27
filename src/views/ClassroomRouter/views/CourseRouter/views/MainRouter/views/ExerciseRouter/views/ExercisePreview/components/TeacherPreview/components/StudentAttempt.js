@@ -90,7 +90,7 @@ class StudentAttempt extends Component {
                                 Total attempts: {attempts.length}
                             </th>
                             <th scope="col">
-                                Best score: {(maxScore >= 0) ? maxScore : '-'}
+                                Best score: {(maxScore >= 0) ? maxScore.toFixed(2) : '-'}
                             </th>
                             <th scope="col">
                                 {/*empty th for time*/}
@@ -111,10 +111,20 @@ class StudentAttempt extends Component {
                                     {i + 1}
                                 </td>
                                 <td>
-                                    {a.score.toFixed(2)}
+                                    {a.score ? a.score.toFixed(2) : '-'}
                                 </td>
                                 <td>
-                                    <strong>Finished</strong> on {(new Date(a.endTime)).toLocaleDateString()} at {(new Date(a.endTime)).toLocaleTimeString()}
+                                    {a.endTime ? (
+                                        <span>
+                                            <strong>Finished</strong> on {(new Date(a.endTime)).toLocaleDateString()}
+                                            { } at {(new Date(a.endTime)).toLocaleTimeString()}
+                                        </span>
+                                    ) : (
+                                        <strong>
+                                            Still running
+                                        </strong>
+                                    )}
+
                                 </td>
                             </tr>
                         ))}

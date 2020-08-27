@@ -38,7 +38,6 @@ class CourseTabs extends Component {
 
     render() {
 
-        console.log('my props', this.props);
         let { redirectToStudentsResults, redirectToGrades, redirectToCourse } = this.state;
         let { status, location } = this.props;
         let { pathname } = location;

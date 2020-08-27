@@ -1,10 +1,10 @@
 import types from './actionTypes'
 let { 
 	API_CREATE_TOPIC, 
-	GET_FORUM_FROM_COURSE, 
-	CLEAR_FORUM_DATA,
+	GET_FORUM_FROM_COURSE,
 	API_ANSWER_TOPIC_POST,
-	API_DELETE_TOPIC_POST
+	API_DELETE_TOPIC_POST,
+	CLEANUP
 } = types;
 
 let initialState = {
@@ -29,11 +29,8 @@ export default function(state = initialState, action) {
 				forumData: action.payload
 			}
 		}
-		case CLEAR_FORUM_DATA: {
-			return {
-				...state,
-				forumData: {}
-			}
+		case CLEANUP: {
+			return initialState
 		}
 		default:
 			return state;

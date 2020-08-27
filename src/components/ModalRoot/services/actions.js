@@ -1,14 +1,25 @@
 import types from './actionTypes'
 
+/**
+ * Displays the specified component inside a modal, which can be easily closed
+ * @function
+ * @param {React.Component|JSX.Element} component
+ * @return {function(*): ReduxAction}
+ */
 export let showModal = (component) => dispatch => {
-	dispatch({
+	return dispatch({
 		type: types.signinModal.SHOW,
-		modalComponent: component
+		payload: component
 	})
 }
 
+/**
+ * Close the modal and remove all refs to its component
+ * @function
+ * @return {function(*): ReduxAction}
+ */
 export let hideModal = () => dispatch => {
-	dispatch({
+	return dispatch({
 		type: types.signinModal.HIDE
 	})
 }

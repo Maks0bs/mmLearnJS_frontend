@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
 import { clearMessages, getCourseById } from './services/actions'
+import { showModal, hideModal} from "../../../../../../../../components/ModalRoot/services/actions";
+import { getFirstTimeStatus } from "../../services/actions";
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
 import TeacherActions from './components/TeacherActions'
@@ -11,12 +13,26 @@ import CourseData from './components/CourseData'
 import InvitedTeacherInfo from './components/InvitedTeacherInfo'
 import { getEnrollmentStatus } from '../../../../services/helpers'
 import CourseTabs from "../../components/CourseTabs";
+import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
+import FirstTimeInfo from "./components/FirstTimeInfo";
 
 class Info extends Component {
 
+	componentDidMount() {
+		this.props.getFirstTimeStatus()
+			.then((v) => {
+				console.log(v);
+				if (this.props.firstTime){
+					this.props.showModal(
+						<FirstTimeInfo onClose={this.props.hideModal}/>
+					)
+				}
+			})
+	}
 
 
 	render() {
+		console.log('render info', this.props);
 		if (this.props.redirectToDashboard){
 			this.props.clearMessages();
 			return (
@@ -24,14 +40,16 @@ class Info extends Component {
 			)
 		}
 		if (!this.props.courseData){
-			return null;
+			return (
+				<BigLoadingCentered />
+			);
 		}
 		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
 		let course;
 		switch (status){
 			case 'not logged in':
 				course = (
-					<div className="container mt-3">
+					<div>
 						<OpenCourseInfo />
 						<div className="alert alert-info">
 							Please log in to access this course
@@ -42,7 +60,7 @@ class Info extends Component {
 				break;
 			case 'enrolled':
 				course = (
-					<div className="container mt-3">
+					<div>
 						<CourseTabs status={status}/>
 						<CourseData />
 					</div>
@@ -50,7 +68,7 @@ class Info extends Component {
 				break;
 			case 'teacher':
 				course =(
-					<div className="container mt-3">
+					<div>
 
 
 						<CourseTabs status={status}/>
@@ -62,7 +80,7 @@ class Info extends Component {
 				break;
 			case 'invited teacher':
 				course = (
-					<div className="container mt-3">
+					<div>
 						<InvitedTeacherInfo />
 						<OpenCourseInfo />
 						<CourseEnrollForm />
@@ -71,7 +89,7 @@ class Info extends Component {
 				break;
 			case 'invited teacher enrolled':
 				course = (
-					<div className="container mt-3">
+					<div>
 						<CourseTabs status={status}/>
 						<InvitedTeacherInfo />
 						<CourseData />
@@ -80,7 +98,7 @@ class Info extends Component {
 				break;
 			case 'creator':
 				course = (
-					<div className="container mt-3">
+					<div>
 
 						<CourseTabs status={status}/>
 						<TeacherActions />
@@ -92,7 +110,7 @@ class Info extends Component {
 				break;
 			case 'not enrolled':
 				course = (
-					<div className="container mt-3">
+					<div >
 						<OpenCourseInfo />
 						<CourseEnrollForm />
 					</div>
@@ -102,7 +120,16 @@ class Info extends Component {
 				course = null;
 				break;
 		}
-		return course;
+		return (
+			<div className="container mt-3 mb-5">
+				{course}
+				<hr style={{
+					borderWidth: '2px',
+					borderColor: 'black'
+				}}/>
+			</div>
+
+		)
 	}
 }
 
@@ -116,7 +143,10 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		clearMessages: () => dispatch(clearMessages())
+		clearMessages: () => dispatch(clearMessages()),
+		getFirstTimeStatus: () => dispatch(getFirstTimeStatus()),
+		showModal: (component) => dispatch(showModal(component)),
+		hideModal: () => dispatch(hideModal())
 	}
 }
 

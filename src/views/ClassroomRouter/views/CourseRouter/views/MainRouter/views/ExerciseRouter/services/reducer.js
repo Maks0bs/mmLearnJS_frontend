@@ -9,8 +9,8 @@ let {
 } = types;
 
 let initialState = {
-	exercise: {},
-	attempts: [],//they are sorted by time, the first one is always the latest one, may not be finished
+	exercise: null,
+	attempts: null,//they are sorted by time, the first one is always the latest one, may not be finished
 	error: '',
 	newAttemptId: null
 }
@@ -33,12 +33,24 @@ let servicesReducer =  function(state = initialState, action) {
 			}
 		}
 		case API_GET_EXERCISE_BY_ID: {
+			if (action.payload.error){
+				return {
+					...state,
+					error: action.payload.error.message || action.payload.error,
+				}
+			}
 			return {
 				...state,
 				exercise: action.payload
 			}
 		}
 		case API_NEW_ATTEMPT: {
+			if (action.payload.error){
+				return {
+					...state,
+					error: action.payload.error.message || action.payload.error,
+				}
+			}
 			return {
 				...state,
 				newAttemptId: action.payload.newAttempt._id

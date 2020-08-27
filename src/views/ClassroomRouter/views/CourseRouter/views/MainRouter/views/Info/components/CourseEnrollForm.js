@@ -72,14 +72,12 @@ class CourseEnrollForm extends Component {
 	render() {
 		let { password, reload } = this.state;
 		if (reload){
+			this.setState({
+				reload: false
+			})
 			return (
-				<Redirect 
-					to={{
-						pathname: '/reload',
-						state: {
-							page: this.props.location.pathname
-						}
-					}}
+				<Redirect
+					to={`/classroom/course/${this.props.courseData._id}`}
 				/>
 			)
 		}

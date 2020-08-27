@@ -1,43 +1,18 @@
-import types from './actionTypes'
-import { REACT_APP_API_URL } from '../constants'
-let {
-	API_FETCH_AUTHENTICATED_USER,
-	START_FETCH_AUTHENTICATED_USER,
-	API_LOGOUT
-} = types;
+import {REACT_APP_API_URL} from '../constants'
 
-export let getAuthenticatedUser = () => (dispatch) => {
-
-	return fetch(`${REACT_APP_API_URL}/auth/cur-user`, {
-		method: "GET",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json"
-		},
-		credentials: 'include'
-	})
-	.then(res => res.json())
-	.then(data => dispatch({
-		type: API_FETCH_AUTHENTICATED_USER,
-		payload: data
-	}))
-	.catch(err => console.log(err))
-}
-
-export let logout = () => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/auth/logout`, {
-		method: "GET",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json"
-		},
-		credentials: 'include'
-	})
-	.then(data => dispatch({
-		type: API_LOGOUT
-	}))
-}
-
+/**
+ * @typedef ReduxDispatchType
+ * @type string
+ * @description a string which specifies, what redux action you want to dispatch,
+ * all located in actionTypes.js files
+ */
+/**
+ *
+ * @async
+ * @param {FormData} filesForm
+ * @param {ReduxDispatchType} returnDispatchType
+ * @return {function(*): Promise<any | void>}
+ */
 export let uploadFiles = (filesForm, returnDispatchType) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/files/upload`, {
 		method: "POST",
@@ -55,6 +30,13 @@ export let uploadFiles = (filesForm, returnDispatchType) => (dispatch) => {
 	.catch(err => console.log(err))
 }
 
+/**
+ *
+ * @async
+ * @param {Object} filter - specifies the way, how the API should filter result courses
+ * @param {ReduxDispatchType} returnDispatchType
+ * @return {function(*): Promise<any | void>}
+ */
 export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/courses/filter`, {
 		method: "POST",
@@ -73,6 +55,13 @@ export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
 	.catch(err => console.log(err))
 }
 
+/**
+ * @deprecated
+ * @async
+ * @param {Object} filter - specifies the way, how the API should filter result courses
+ * @param {ReduxDispatchType} returnDispatchType
+ * @return {function(*): Promise<any | void>}
+ */
 export let getFilesFiltered = (filter, returnDispatchType, ref) => (dispatch) => {
 	console.log('ref get files filtered', ref);
 	return fetch(`${REACT_APP_API_URL}/files/filter`, {
@@ -83,7 +72,9 @@ export let getFilesFiltered = (filter, returnDispatchType, ref) => (dispatch) =>
 		credentials: 'include',
 		body: JSON.stringify(filter)
 	})
-	.then(res => res.json())
+		/*
+			Don't do res.json(), because files are binary
+		 */
 	.then(data => {
 		if (ref){
 			if (ref.byId === true){
@@ -98,6 +89,14 @@ export let getFilesFiltered = (filter, returnDispatchType, ref) => (dispatch) =>
 	.catch(err => console.log(err))
 }
 
+/**
+ *
+ * @async
+ * @param {string} fileId
+ * @param {ReduxDispatchType} returnDispatchType
+ * @param {Object} options
+ * @return {function(*): Promise<Response | void>}
+ */
 export let streamFileById = (fileId, returnDispatchType, options) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/files/stream/${fileId}`, {
 		method: "GET",
@@ -106,9 +105,10 @@ export let streamFileById = (fileId, returnDispatchType, options) => (dispatch) 
 		},
 		credentials: 'include'
 	})
-	//.then(res => res.json())
+		/*
+			Don't do res.json(), because files are binary
+		 */
 	.then(res => {
-		console.log('response', res);
 		return dispatch({
 			type: returnDispatchType,
 			payload: res.body,
@@ -118,10 +118,12 @@ export let streamFileById = (fileId, returnDispatchType, options) => (dispatch) 
 	.catch(err => console.log(err))
 }
 
-export let getUsersFiltered = (filter, returnDispatchType) => (dispatch) => {
-
-}
-
+/**
+ * @async
+ * @param {string} userId
+ * @param {ReduxDispatchType} returnDispatchType
+ * @return {function(*): Promise<any | void>}
+ */
 export let getUserById = (userId, returnDispatchType) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/users/${userId}`, {
 		method: "GET",

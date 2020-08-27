@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getCourseById } from './services/actions'
+import { addNavItem, removeNavItem } from "../../../../../../services/routing/actions";
 import EditPanel from './components/EditPanel'
 import EditActions from "./components/EditActions";
 import { addToast } from "../../../../../../components/ToastRoot/services/actions";
@@ -15,11 +16,20 @@ class EditExercises extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.removeNavItem('course link');
+    }
+
     componentDidMount(){
         let courseId = this.props.match.params.courseId;
         this.props.getCourseById(courseId)
             .then(() => {
                 if (!this.props.error){
+                    this.props.addNavItem({
+                        id: 'course link',
+                        name: 'Course "' + this.props.courseData.name + '"',
+                        path: `/classroom/course/${this.props.courseData._id}`
+                    })
                     this.setState({
                         showEditPanel: true
                     })
@@ -76,7 +86,9 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
     return {
         getCourseById: (courseId) => dispatch(getCourseById(courseId)),
-        addToast: (component, options) => dispatch(addToast(component, options))
+        addToast: (component, options) => dispatch(addToast(component, options)),
+        addNavItem: (item) => dispatch(addNavItem(item)),
+        removeNavItem: (id) => dispatch(removeNavItem(id))
     }
 }
 

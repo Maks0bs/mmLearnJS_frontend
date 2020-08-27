@@ -3,17 +3,23 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Topic from './views/Topic'
 import Forum from './views/Forum'
 import { connect } from 'react-redux'
-import { getForumFromCourse } from './services/actions'
+import { getForumFromCourse, cleanup } from './services/actions'
+import { addNavItem, removeNavItem} from "../../../../../../../../services/routing/actions";
 import OptimizedComponent from "../../../../../../../../components/performance/OptimizedComponent";
 import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
 
 
 class ForumRouter extends OptimizedComponent {
+
+
+	componentWillUnmount() {
+		this.props.removeNavItem('forum link')
+		this.props.cleanup();
+	}
+
 	render() {
 		super.render();
-		if (this.canCallOptimally()){
-			this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
-		}
+		this.props.getForumFromCourse(this.props.courseData, this.props.match.params.forumId);
 		if (!this.props.forumData){
 			return <BigLoadingCentered />
 		}
@@ -24,6 +30,11 @@ class ForumRouter extends OptimizedComponent {
 				/>
 			)
 		}
+		this.props.addNavItem({
+			id: 'forum link',
+			name: 'Forum "' + this.props.forumData.name + '"',
+			path: `/classroom/course/${this.props.courseData._id}/forum/${this.props.forumData._id}`
+		})
 		let { path } = this.props.match;
 		return (
 			<div>
@@ -53,7 +64,10 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		getForumFromCourse: (courseData, forumId) => dispatch(getForumFromCourse(courseData, forumId))
+		getForumFromCourse: (courseData, forumId) => dispatch(getForumFromCourse(courseData, forumId)),
+		addNavItem: (item) => dispatch(addNavItem(item)),
+		removeNavItem: (id) => dispatch(removeNavItem(id)),
+		cleanup: () => dispatch(cleanup())
 	}
 }
 

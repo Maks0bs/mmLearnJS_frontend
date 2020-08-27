@@ -25,7 +25,7 @@ class Dashboard extends OptimizedPureComponent {
 	}
 
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
-		console.log('dashboard', this.props, nextProps);
+
 		if (nextProps.authenticatedUser && !this.props.authenticatedUser){
 			let chosenCourses = [];
 
@@ -112,7 +112,6 @@ class Dashboard extends OptimizedPureComponent {
 	}
 
 	componentDidMount() {
-		console.log('mounted', this.props);
 		this.initData();
 	}
 
@@ -131,11 +130,11 @@ class Dashboard extends OptimizedPureComponent {
 
 		if (this.state.coursesFilter === 'all'){
 			for (let c of this.props.authenticatedUser.subscribedCourses){
-				courses.push(c.course._id);
+				c.course && courses.push(c.course._id);
 			}
 		} else {
 			for (let c of this.state.chosenCourses){
-				courses.push(c._id);
+				c && courses.push(c._id);
 			}
 		}
 

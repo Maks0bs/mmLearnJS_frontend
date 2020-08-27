@@ -1,25 +1,44 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getExerciseById } from "./services/actions";
-import OptimizedComponent from "../../../../../../../../components/performance/OptimizedComponent";
+import { getExerciseById, cleanup } from "./services/actions";
 import ExercisePreview from "./views/ExercisePreview/ExercisePreview";
 import Attempt from "./views/Attempt";
-import LoadingRingAnimated from "../../../../../../../../res/images/LoadingRingAnimated200px.svg";
 import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
+import { addNavItem, removeNavItem } from "../../../../../../../../services/routing/actions";
+import OptimizedPureComponent from "../../../../../../../../components/performance/OptimizedPureComponent";
 
 
-class ExerciseRouter extends OptimizedComponent {
+class ExerciseRouter extends OptimizedPureComponent {
+
+	componentWillUnmount() {
+		this.props.cleanup();
+		this.props.removeNavItem('exercise link');
+	}
+
 	render() {
 		super.render();
 		if (this.canCallOptimally()){
-			this.props.getExerciseById(this.props.courseData._id, this.props.match.params.exerciseId);
+			this.startLoading();
+			this.props.getExerciseById(this.props.courseData._id, this.props.match.params.exerciseId)
+				.then(() => {
+					this.stopLoading();
+				})
 		}
-		if (!this.props.exercise || !this.props.exercise._id){
+		if (!this.props.exercise){
 			return (
 				<BigLoadingCentered />
 			)
 		}
+
+		this.props.addNavItem({
+			id: 'exercise link',
+			name: 'Exercise "' + this.props.exercise.name + '"',
+			path: `/classroom/course/${this.props.courseData._id}/exercise/${this.props.exercise._id}`
+		})
+
+		console.log('ex',this.props.exercise);
+
 		if (this.props.exercise === 'not accessible'){
 			return (
 				<Redirect
@@ -56,7 +75,10 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		getExerciseById: (courseData, id) => dispatch(getExerciseById(courseData, id))
+		getExerciseById: (courseData, id) => dispatch(getExerciseById(courseData, id)),
+		cleanup: () => dispatch(cleanup()),
+		addNavItem: (item) => dispatch(addNavItem(item)),
+		removeNavItem: (id) => dispatch(removeNavItem(id))
 	}
 }
 

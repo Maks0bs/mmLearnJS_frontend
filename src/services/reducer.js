@@ -1,55 +1,20 @@
-import { combineReducers } from 'redux'
 import viewsReducer from '../views/services/reducer'
 import componentsReducer from '../components/services/reducer'
-import types from './actionTypes'
-import { isEqual } from 'lodash'
-let {
-	API_FETCH_AUTHENTICATED_USER,
-	START_FETCH_AUTHENTICATED_USER,
-	API_LOGOUT,
-} = types;
+import routingReducer from './routing/reducer'
+import { combineReducers } from "redux";
+import servicesReducer from './main/reducer'
 
-let initialState = {
-	authenticatedUser: null
-}
 
-let servicesReducer = function(state = initialState, action) {
-	switch(action.type){
-		case API_FETCH_AUTHENTICATED_USER:{
-			if (action.payload === 'Not authenticated'){
-				return {
-					...state,
-					authenticatedUser: false
-				}
-			}
-			return {
-				...state,
-				authenticatedUser: action.payload
-			}
-		}
-		case API_LOGOUT:
-			return {
-				initialState
-			}
-		default:
-			return state;
-	}
-}
-
-let initialStateLoading = {
-	loading: false
-}
-
-let loadingReducer = function(state = initialStateLoading, action) {
-	switch (action.type) {
-		default:
-			return state;
-	}
-}
-
+/**
+ *
+ * @description `views` - the reducer for actions inside all views inside the app
+ * @description `components` - the reducer to for components, that are commonly used across the app
+ * @description `services` - the basic information from the api: authenticated user...
+ * @description `routing` - the reducer used for navigation, primarily for the navigation bars
+ */
 export default combineReducers({
 	views: viewsReducer,
 	services: servicesReducer,
-	loading: loadingReducer,
+	routing: routingReducer,
 	components: componentsReducer
 })

@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import Loading from '../../res/images/LoadingRingAnimated50px.svg'
 
+/**
+ * Small loading indicator
+ * @component
+ */
 class SmallLoading extends Component {
     render() {
         return (

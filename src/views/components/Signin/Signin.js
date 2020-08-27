@@ -1,11 +1,11 @@
 import React, { Component, PureComponent } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { signin, clearMessages } from './services/actions'
-import { getAuthenticatedUser } from "../../../services/actions";
 import { addToast } from '../../../components/ToastRoot/services/actions'
 import { connect } from 'react-redux'
 import { toast } from 'react-toastify'
 import PropTypes from 'prop-types'
+import {getAuthenticatedUser} from "../../../services/main/actions";
 
 
 // make controlled components

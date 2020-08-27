@@ -6,7 +6,9 @@ export let getUserSubscribedSet = (user) => {
     let result = {};
 
     for (let c of user.subscribedCourses){
-        result[c.course._id] = true;
+        if (c.course){
+            result[c.course._id] = true;
+        }
     }
 
     return result;

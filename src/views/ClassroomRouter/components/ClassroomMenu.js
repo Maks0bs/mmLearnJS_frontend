@@ -3,13 +3,14 @@ import { Link, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { hideModal, showModal } from '../../../components/ModalRoot/services/actions';
 import Signin from '../../components/Signin'
-import { logout, getAuthenticatedUser } from '../../../services/actions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faBell as faBellSolid, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
 import NavItem from "../../../components/reusables/navbar/NavItem";
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 import {propTypesByName} from "../../../services/helpers";
+import NotificationItem from "../../../components/reusables/navbar/NotificationItem";
+import {getAuthenticatedUser, logout} from "../../../services/main/actions";
 
 class ClassroomMenu extends Component {
 	constructor(){
@@ -90,9 +91,33 @@ class ClassroomMenu extends Component {
 					})()}
 					<NavItem pageURI={pathname} path={pathname} name="Classroom" brand/>
 					<ul className="navbar-nav mr-auto">
-						<NavItem pageURI={pathname} path="/classroom/dashboard" name="Dashboard" />
-						<NavItem pageURI={pathname} path="/classroom/courses" name="Course list" />
-						<NavItem pageURI={pathname} path="/" name="Public page" />
+						<NavItem
+							pageURI={pathname}
+							path="/"
+							name="Public page"
+							key={-3}
+						/>
+						<NavItem
+							pageURI={pathname}
+							path="/classroom/dashboard"
+							name="Dashboard"
+							key={-1}
+						/>
+						<NavItem
+							pageURI={pathname}
+							path="/classroom/courses"
+							name="Course list"
+							key={-2}
+						/>
+						{this.props.navItems.map((item, i) => (
+							<NavItem
+								pageURI={pathname}
+								path={item.path}
+								name={item.name}
+								key={i}
+								dynamic
+							/>
+						))}
 					</ul>
 					<ul className="navbar-nav">
 
@@ -138,9 +163,14 @@ class ClassroomMenu extends Component {
 										/>
 									}
 								>
-									<div className="dropdown-item">
-										{JSON.stringify(curUser.notifications)}
-									</div>
+									{curUser.notifications.map((n, i) => (
+										<NotificationItem
+											key={i}
+											created={n.created}
+											title={n.title}
+											text={n.text}
+										/>
+									))}
 								</NavDropdown>
 
 								<NavDropdown name={curUser.name}>
@@ -194,7 +224,8 @@ let mapDispatchToProps = dispatch => {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.services
+		...state.services,
+		...state.routing
 	}
 }
 

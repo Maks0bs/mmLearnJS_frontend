@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import ClassroomMenu from './components/ClassroomMenu'
 import Main from './views/Main'
-import { getAuthenticatedUser } from '../../services/actions'
 import { connect } from 'react-redux'
 import ActivationMessage from '../components/ActivationMessage'
 import UserRouter from './views/UserRouter'
@@ -12,21 +11,25 @@ import CourseRouter from './views/CourseRouter'
 import OptimizedComponent from "../../components/performance/OptimizedComponent";
 import SearchCourses from "./views/SearchCourses/SearchCourses";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
+import OptimizedPureComponent from "../../components/performance/OptimizedPureComponent";
+import {getAuthenticatedUser} from "../../services/main/actions";
+import PropTypes from 'prop-types';
 
 class ClassroomRouter extends OptimizedComponent {
 
 	render() {
-		console.log('classroom router', this.props);
 		super.render();
 		if (this.canCallOptimally()){
+			this.startLoading()
 			this.props.getAuthenticatedUser()
+				.then(() => {
+					this.stopLoading();
+				})
 		}
 		if (this.props.authenticatedUser === null){
 			return (
 				<BigLoadingCentered />
 			)
-		} else {
-			this.loading = false;
 		}
 		
 		let { path } = this.props.match;
@@ -68,7 +71,7 @@ class ClassroomRouter extends OptimizedComponent {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.services
+		authenticatedUser: state.services.authenticatedUser
 	}
 }
 

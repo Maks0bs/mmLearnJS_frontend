@@ -4,6 +4,7 @@ import { getCourseById } from './services/actions'
 import EditPanel from './components/EditPanel'
 import EditActions from './components/EditActions'
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
+import { addNavItem, removeNavItem } from "../../../../../../services/routing/actions";
 
 class EditContent extends Component {
 	constructor() {
@@ -21,7 +22,16 @@ class EditContent extends Component {
 				this.setState({
 					showEditPanel: true
 				})
+				this.props.addNavItem({
+					id: 'course link',
+					name: 'Course "' + this.props.courseData.name + '"',
+					path: `/classroom/course/${this.props.courseData._id}`
+				})
 			})
+	}
+
+	componentWillUnmount() {
+		this.props.removeNavItem('course link')
 	}
 
 	render() {
@@ -58,7 +68,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
 	return {
-		getCourseById: (courseId) => dispatch(getCourseById(courseId))
+		getCourseById: (courseId) => dispatch(getCourseById(courseId)),
+		addNavItem: (item) => dispatch(addNavItem(item)),
+		removeNavItem: (id) => dispatch(removeNavItem(id))
 	}
 }
 

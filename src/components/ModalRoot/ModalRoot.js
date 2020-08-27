@@ -4,31 +4,51 @@ import Modal from 'react-modal'
 import { hideModal } from './services/actions'
 import PropTypes from "prop-types";
 
+/*
+	Initial configuration.
+	Essential for modal to display normally
+ */
 Modal.setAppElement(document.getElementById('root'));
 
+/**
+ * Used to display modals with any custom component inside
+ * There should only be one ModalRoot per app
+ * @component
+ */
 class ModalRoot extends Component {
 	
 	componentDidMount() {
+		/*
+			If user clicks outside of modal inner area or presses Escape, close the modal
+		 */
         document.addEventListener('mousedown', this.handleClick, false);
         document.addEventListener('keydown', this.handleKey, false);
     }
 
     componentWillUnmount() {
+		/*
+			Cleanup of listeners to prevent memory leaks
+		 */
         document.removeEventListener('mousedown', this.handleClick, false);
         document.removeEventListener('keydown', this.handleKey, false);
     }
 
     handleKey = (e) => {
+		/*
+			Close modal, when Escape is pressed
+		 */
     	if (this.contentRef && e.key === 'Escape'){
     		this.props.hideModal()
     	}
     }
 
     handleClick = (e) => {
+		/*
+			Close modal, if user clicks outside of modal inner content
+		 */
         if (this.contentRef && this.contentRef.contains(e.target)){
             return;
         }
-
         this.props.hideModal();
     }
 
@@ -37,8 +57,6 @@ class ModalRoot extends Component {
 		if (!modalComponent) {
 			return null;
 		}
-		// may be able to pass props to custom modal
-		// see https://stackoverflow.com/questions/35623656/how-can-i-display-a-modal-dialog-in-redux-that-performs-asynchronous-actions
 		return (
 			<Modal
 				isOpen={true}
@@ -56,6 +74,9 @@ class ModalRoot extends Component {
 					}
 				}}
 			>
+				{/*
+					[X] button to close the modal on click
+				*/}
 				<button 
                     onClick={() => this.props.hideModal()}
                     className="float-right close m-2"
@@ -73,15 +94,6 @@ let mapStateToProps = (state) => {
 	return {
 		modalComponent
 	}
-}
-
-ModalRoot.propTypes = {
-	hideModal: PropTypes.func,
-	modalComponent: PropTypes.oneOfType([
-		PropTypes.node,
-		PropTypes.func,
-		PropTypes.string
-	])
 }
 
 export default connect(

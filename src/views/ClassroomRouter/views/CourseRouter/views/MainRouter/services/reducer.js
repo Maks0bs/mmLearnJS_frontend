@@ -4,22 +4,43 @@ import forumReducer from '../views/ForumRouter/services/reducer'
 import exerciseReducer from '../views/ExerciseRouter/services/reducer'
 import gradesReducer from '../views/GradesRouter/services/reducer'
 import types from './actionTypes'
+import {isEqual} from "lodash";
 let {
 	API_GET_COURSE_BY_ID,
-	API_VIEW_COURSE
+	API_VIEW_COURSE,
+	CLEANUP,
+	GET_FIRST_TIME_STATUS
 } = types;
 
 let initialState = {
-	courseData: {}
+	courseData: {},
+	firstTime: false
 }
 
 let servicesReducer = function(state = initialState, action) {
 	switch(action.type){
-		case API_GET_COURSE_BY_ID:
+		case API_GET_COURSE_BY_ID: {
 			return {
 				...state,
 				courseData: action.payload[0]
 			}
+		}
+
+		case GET_FIRST_TIME_STATUS: {
+			if (action.payload === state.firstTime){
+				return state;
+			} else {
+				return {
+					...state,
+					firstTime: action.payload
+				}
+			}
+		}
+
+		case CLEANUP: {
+			return initialState;
+		}
+		case API_VIEW_COURSE:
 		default: 
 			return state;
 	}

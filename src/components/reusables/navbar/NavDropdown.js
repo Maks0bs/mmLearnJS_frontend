@@ -1,6 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Navigation element, which opens a dropdown list of inner components.
+ * Displays `props.children` when open
+ * @component
+ */
 class NavDropdown extends React.Component {
     constructor(props) {
         super(props);
@@ -10,20 +15,29 @@ class NavDropdown extends React.Component {
     }
     toggleDropdown(e) {
         e.preventDefault();
-        this.setState(prevState => ({
-            isToggleOn: !prevState.isToggleOn
-        }));
+        this.setState({
+            isToggleOn: !this.state.isToggleOn
+        })
     }
 
     componentDidMount() {
+        /*
+            When user clicks outside of dropdown, close it
+         */
         document.addEventListener('mousedown', this.handleClick, false);
     }
 
     componentWillUnmount() {
+        /*
+            Cleanup to prevent memory leaks
+         */
         document.removeEventListener('mousedown', this.handleClick, false);
     }
 
     handleClick = (e) => {
+        /*
+            When user clicks outside of dropdown, close it
+         */
         if (!this.state.isToggleOn ||
             (this.innerContentRef && this.innerContentRef.contains(e.target))
         ){
@@ -35,15 +49,21 @@ class NavDropdown extends React.Component {
     }
 
     render() {
-        const classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
+        /*
+            class name specifies the state - if dropdown inner elements should be displayed
+         */
+        let classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
         return (
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown"
+                ref={node => (this.innerContentRef = node)}
+            >
                 <a
                     className="nav-link dropdown-toggle"
                     onClick={(e) => {this.toggleDropdown(e)}}
                     style={{
                         cursor: 'pointer',
-                        textTransform: 'none'
+                        textTransform: 'none',
+
                     }}
                 >
                     {this.props.name}
@@ -51,7 +71,13 @@ class NavDropdown extends React.Component {
                 </a>
                 <ul
                     className={`${classDropdownMenu} dropdown-menu-right`}
-                    ref={node => (this.innerContentRef = node)}
+                    style={{
+                        overflow: 'auto',
+                        /*
+                            Don't let the dropdown overflow the screen size
+                         */
+                        maxHeight: window.innerHeight / 2
+                    }}
                 >
                     {this.props.children}
                 </ul>
@@ -62,10 +88,18 @@ class NavDropdown extends React.Component {
 }
 
 NavDropdown.propTypes = {
+    /**
+     * The name that should primarily be displayed on the dropdown
+     * (when it is closed in the first place)
+     */
     name: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
-    ]),
+    ]).isRequired,
+    /**
+     * The additional component that should be displayed apart
+     * from the name
+     */
     displayComponent: PropTypes.oneOfType([
         PropTypes.node,
         PropTypes.func,
