@@ -10,14 +10,18 @@ let {
 } = types;
 
 /**
- *
+ * Notifies the redux store state if  main router has
+ * been visited for the first time (to display greeting
+ * modal with info, how to use the navigation panel in the
+ * navigation bar)
+ * @function
  * @return {function(*): Promise<boolean>}
  */
 export let getFirstTimeStatus = () => (dispatch) => {
 
-	/**
+	/*
 	 * Reading from local storage might be async, return promise
-	 * @return {Promise} promise that resolves the storage operation and dispatching action afterwards
+	 * Return a promise that resolves the storage operation and dispatching action afterwards
 	 */
 	return new Promise((resolve => {
 		let value = true;

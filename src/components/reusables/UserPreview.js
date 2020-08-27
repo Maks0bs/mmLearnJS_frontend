@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 /**
  * User preview and link.
  * Mainly used in forums and grade tables
+ *
+ * @memberOf components.common
  * @component
  */
 class UserPreview extends Component {

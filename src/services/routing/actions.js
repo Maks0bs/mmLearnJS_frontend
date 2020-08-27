@@ -18,6 +18,8 @@ let {
  * @function
  * @param {RouterNavItem} item
  * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.routingActions
  */
 export let addNavItem = (item) => (dispatch) => {
 	return dispatch({
@@ -30,6 +32,8 @@ export let addNavItem = (item) => (dispatch) => {
  *
  * @param {string} id - the id of the navigation item you want to remove
  * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.routingActions
  */
 export let removeNavItem = (id) => (dispatch) => {
 	return dispatch({

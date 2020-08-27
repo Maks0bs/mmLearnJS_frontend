@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> NavDropdown</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">My React components</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="components.html">components</a></li><li><a href="components.common.html">common</a></li><li><a href="components.views.html">views</a></li><li><a href="storeState.html">storeState</a></li><li><a href="storeState.components.html">components</a></li><li><a href="storeState.componentsActions.html">componentsActions</a></li><li><a href="storeState.routing.html">routing</a></li><li><a href="storeState.routingActions.html">routingActions</a></li><li><a href="storeState.services.html">services</a></li><li><a href="storeState.servicesActions.html">servicesActions</a></li><li><a href="storeState.views.html">views</a></li><li><a href="storeState.views.components.html">components</a></li><li><a href="storeStateActions.html">storeStateActions</a></li></ul><h3>Classes</h3><ul><li><a href="Signin.html">Signin</a></li></ul><h3>Components</h3><ul><li><a href="components.App.html">App</a></li><li><a href="components.common.BigLoadingCentered.html">BigLoadingCentered</a></li><li><a href="components.common.ModalRoot.html">ModalRoot</a></li><li><a href="components.common.NavDropdown.html">NavDropdown</a></li><li><a href="components.common.NavItem.html">NavItem</a></li><li><a href="components.common.NotificationItem.html">NotificationItem</a></li><li><a href="components.common.OptimizedComponent.html">OptimizedComponent</a></li><li><a href="components.common.OptimizedPureComponent.html">OptimizedPureComponent</a></li><li><a href="components.common.Reload.html">Reload</a></li><li><a href="components.common.SmallLoading.html">SmallLoading</a></li><li><a href="components.common.ToastRoot.html">ToastRoot</a></li><li><a href="components.common.UserPreview.html">UserPreview</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getExercisePositionById">getExercisePositionById</a></li><li><a href="global.html#getFirstTimeStatus">getFirstTimeStatus</a></li><li><a href="global.html#reorderArray">reorderArray</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Components</p>
+                    <h1>NavDropdown</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            &ltNavDropdown <i>name</i> <i>displayComponent</i> /&gt
+        </h2>
+        
+            <div class="class-description"><p>Navigation element, which opens a dropdown list of inner components.
+Displays <code>props.children</code> when open</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <div class="members">
+                    <div class="member">
+                        <div class=name>
+                            <span class="tag">Constructor</span>
+                        </div>
+                        
+
+
+    
+    <h4 class="name" id="NavDropdown">
+        <a class="href-link" href="#NavDropdown">#</a>
+        
+        <span class="code-name">
+            
+                &ltNavDropdown <i>name</i> <i>displayComponent</i> /&gt
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+    
+        <h5>PropTypes:</h5>
+        
+<div class="table-container">
+  <table class="params table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th class="last">Default</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+          <tr class="deep-level-0">
+            <td class="name"><code>name</code></td>
+            <td>
+              union
+            </td>
+            <td>Yes</td>
+            <td>The name that should primarily be displayed on the dropdown
+(when it is closed in the first place)</td>
+            <td></td>
+          </tr>
+          
+    
+          <tr class="deep-level-0">
+            <td class="name"><code>displayComponent</code></td>
+            <td>
+              union
+            </td>
+            <td>No</td>
+            <td>The additional component that should be displayed apart
+from the name</td>
+            <td></td>
+          </tr>
+          
+    
+    </tbody>
+  </table>
+</div>
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_reusables_navbar_NavDropdown.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_reusables_navbar_NavDropdown.js.html">components/reusables/navbar/NavDropdown.js</a>, <a href="components_reusables_navbar_NavDropdown.js.html#line12">line 12</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+        
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

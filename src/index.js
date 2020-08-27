@@ -4,6 +4,15 @@ import App from './App';
 import {Provider} from 'react-redux'
 import store from './store'
 
+/**
+ * @namespace components
+ */
+/**
+ * @namespace components.common
+ */
+/**
+ * @namespace components.views
+ */
 
 ReactDOM.render(
   	<React.StrictMode>

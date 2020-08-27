@@ -9,15 +9,18 @@ import React, {Component} from 'react';
  * If async is implemented through componentDidMount, it
  * doesn't dynamically change the state (e. g. login time ran out, course info updated).
  * This component should be mainly implemented in routers, that are connected to redux store
- * and get rendered on every page update
+ * and get rendered on every page update.
+ *
  * @property {number} upd - this is the most important variable, that counts the amount of renders
  * of the component and doesn't allow additional (useless) calls
  * @property {boolean} loading - also optimizes the component: there is no point to make another
  * api async call, if the same has been called moments ago
- * @property {function: boolean} canCallOptimally if returns true, another additional
+ * @property {function(): boolean} canCallOptimally if returns true, another additional
  * call is allowed
- * @property {function: void} startLoading sets {@link loading} to true
- * @property {function: void} stopLoading sets {@link loading} to false
+ * @property {function(): void} startLoading sets {@link loading} to true
+ * @property {function(): void} stopLoading sets {@link loading} to false
+ *
+ * @memberOf components.common
  * @component
  */
 class OptimizedComponent extends Component {

@@ -7,11 +7,15 @@ import {REACT_APP_API_URL} from '../constants'
  * all located in actionTypes.js files
  */
 /**
- *
+ * Uploads files via a POST request to the API database through a form (`filesForm`).
+ * See API docs for details
+ * @function
  * @async
  * @param {FormData} filesForm
  * @param {ReduxDispatchType} returnDispatchType
  * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeStateActions
  */
 export let uploadFiles = (filesForm, returnDispatchType) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/files/upload`, {
@@ -31,11 +35,15 @@ export let uploadFiles = (filesForm, returnDispatchType) => (dispatch) => {
 }
 
 /**
- *
+ * Gets a list of courses, that meet the criteria, specified in the `filter` parameter.
+ * See API docs for details
  * @async
+ * @function
  * @param {Object} filter - specifies the way, how the API should filter result courses
  * @param {ReduxDispatchType} returnDispatchType
  * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeStateActions
  */
 export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/courses/filter`, {
@@ -56,11 +64,16 @@ export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
 }
 
 /**
+ * Gets files by ids, specified in the `filter` parameter;
+ * See API docs for details
  * @deprecated
+ * @function
  * @async
  * @param {Object} filter - specifies the way, how the API should filter result courses
  * @param {ReduxDispatchType} returnDispatchType
  * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeStateActions
  */
 export let getFilesFiltered = (filter, returnDispatchType, ref) => (dispatch) => {
 	console.log('ref get files filtered', ref);
@@ -90,12 +103,14 @@ export let getFilesFiltered = (filter, returnDispatchType, ref) => (dispatch) =>
 }
 
 /**
- *
+ * @function
  * @async
  * @param {string} fileId
  * @param {ReduxDispatchType} returnDispatchType
  * @param {Object} options
  * @return {function(*): Promise<Response | void>}
+ *
+ * @memberOf storeStateActions
  */
 export let streamFileById = (fileId, returnDispatchType, options) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/files/stream/${fileId}`, {
@@ -120,9 +135,12 @@ export let streamFileById = (fileId, returnDispatchType, options) => (dispatch) 
 
 /**
  * @async
+ * @function
  * @param {string} userId
  * @param {ReduxDispatchType} returnDispatchType
  * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeStateActions
  */
 export let getUserById = (userId, returnDispatchType) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/users/${userId}`, {

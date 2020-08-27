@@ -5,7 +5,12 @@ let {
 	REMOVE_NAV_ITEM
 } = types;
 
-
+/**
+ * @namespace storeState.routing
+ */
+/**
+ * @namespace storeState.routingActions
+ */
 /**
  * @typedef RoutingState
  * @type Object
@@ -13,10 +18,6 @@ let {
  * are currently present in the path of the page
  */
 
-/**
- *
- * @type RoutingState
- */
 let initialState = {
 	navItems: []
 }
@@ -28,6 +29,8 @@ let initialState = {
  * @param {Object[]} state.navItems the list of navigation items, that
  * are currently present in the path of the page
  * @return {RoutingState}
+ *
+ * @memberOf storeState.routing
  */
 export default function(state = initialState, action) {
 	switch (action.type) {

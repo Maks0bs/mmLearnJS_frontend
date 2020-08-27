@@ -7,20 +7,18 @@ import { toast } from 'react-toastify'
  * @property {Object[]} toastsList the list of toasts that were manually displayed
  */
 
-/**
- *
- * @type ToastRootState
- */
 const initialState = {
      toastsList: []
 }
 
 /**
- *
+ * @function toastRootReducer
  * @param {ToastRootState} state
  * @param {ReduxAction} action
  * @param {Object[]} state.toastsList  the list of toasts that were manually displayed
  * @return {ToastRootState}
+ *
+ * @memberOf storeState.components
  */
 export default (state = initialState, action) => {
   	switch (action.type) {

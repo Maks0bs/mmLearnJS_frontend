@@ -11,6 +11,8 @@ toast.configure();
  * Allows to display toast in left bottom corner.
  * Uses redux state, which makes it more flexible.
  * There should only be one ToastRoot per app.
+ *
+ * @memberOf components.common
  * @component
  */
 class ToastRoot extends Component {

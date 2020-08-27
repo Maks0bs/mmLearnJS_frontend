@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
  *
  * Simple Navigation item for navigation bars
  * @return {JSX.Element}
+ *
+ * @memberOf components.common
  * @component
  */
 let NavItem = props => {

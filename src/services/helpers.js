@@ -1,8 +1,5 @@
 import PropTypes from "prop-types";
 
-/**
- * Custom prop types that are used in various components throughout the app
- */
 export let customPropTypes = {
     component: PropTypes.oneOfType([
         PropTypes.node,
@@ -19,9 +16,6 @@ export let customPropTypes = {
     ])
 }
 
-/**
- * @deprecated
- */
 export let propTypesByName = {
     authenticatedUser: PropTypes.oneOfType([
         PropTypes.shape({

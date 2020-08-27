@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 /**
  * Notification item for notifications in navigation bar
+ * @memberOf components.common
  * @component
  */
 class NotificationItem extends Component {

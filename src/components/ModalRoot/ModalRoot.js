@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
 import { hideModal } from './services/actions'
-import PropTypes from "prop-types";
 
 /*
 	Initial configuration.
@@ -13,6 +12,8 @@ Modal.setAppElement(document.getElementById('root'));
 /**
  * Used to display modals with any custom component inside
  * There should only be one ModalRoot per app
+ *
+ * @memberOf components.common
  * @component
  */
 class ModalRoot extends Component {

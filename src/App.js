@@ -6,6 +6,13 @@ import ModalRoot from './components/ModalRoot'
 import Reload from './components/performance/Reload'
 import ToastRoot from './components/ToastRoot'
 
+/**
+ * The main component, that gets rendered by the DOM.
+ * At the same time it is the main router for the whole app.
+ *
+ * @component
+ * @memberOf components
+ */
 class App extends Component {
     render() {
         return (
@@ -28,7 +35,6 @@ class App extends Component {
                             component={PublicRouter}
                         />
                     </Switch>
-                    {/*TODO maybe add a common footer for all pages*/}
                 </Router>
             </div>
         );

@@ -12,6 +12,8 @@ let {
  * @async
  * @function
  * @return {function(*): Promise<Object|string|Response>}
+ *
+ * @memberOf storeState.servicesActions
  */
 export let getAuthenticatedUser = () => (dispatch) => {
     return fetch(`${REACT_APP_API_URL}/auth/cur-user`, {
@@ -38,6 +40,8 @@ export let getAuthenticatedUser = () => (dispatch) => {
  * @async
  * @function
  * @returns {function(*): Promise<Response>}
+ *
+ * @memberOf storeState.servicesActions
  */
 export let logout = () => (dispatch) => {
     return fetch(`${REACT_APP_API_URL}/auth/logout`, {

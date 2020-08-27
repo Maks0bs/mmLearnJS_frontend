@@ -4,6 +4,12 @@ import routingReducer from './routing/reducer'
 import { combineReducers } from "redux";
 import servicesReducer from './main/reducer'
 
+/**
+ * @namespace storeState
+ */
+/**
+ * @namespace storeStateActions
+ */
 
 /**
  *

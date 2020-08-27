@@ -3,6 +3,9 @@ import LoadingRingAnimated from "../../res/images/LoadingRingAnimated200px.svg";
 
 /**
  * Big centered loading indicator
+ *
+ *
+ * @memberOf components.common
  * @component
  */
 class BigLoadingCentered extends Component {

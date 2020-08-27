@@ -6,16 +6,19 @@ let {
 } = types;
 
 /**
+ * @namespace storeState.services
+ */
+/**
+ * @namespace storeState.servicesActions
+ */
+
+/**
  * @typedef ServicesBasicState
  * @type Object
  * @property {Object} authenticatedUser whole data about the
  * current authenticate user
  */
 
-/**
- *
- * @type ServicesBasicState
- */
 let initialState = {
     authenticatedUser: null
 }

@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 /**
  * Navigation element, which opens a dropdown list of inner components.
  * Displays `props.children` when open
+ *
+ * @memberOf components.common
  * @component
  */
 class NavDropdown extends React.Component {

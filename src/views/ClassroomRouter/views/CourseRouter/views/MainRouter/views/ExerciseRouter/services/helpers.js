@@ -1,6 +1,7 @@
 /**
- * @param courseData the data to look for the exercise in
- * @param id the id of the wanted exercise
+ * @function
+ * @param {Object} courseData the data to look for the exercise in
+ * @param {string} id the id of the wanted exercise
  * @return {number} the position of the exercise in courseData.exercises with the given id,
  *                  -1 if no such exercise was found
  */
