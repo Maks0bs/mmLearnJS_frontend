@@ -41,7 +41,7 @@ class CourseData extends Component {
 						>
 							{teachers.map((teacher, i) => (
 								<li key={i}>
-									<UserPreview user={teacher}/>
+									<UserPreview {...teacher}/>
 								</li>
 							))}
 						</ul>

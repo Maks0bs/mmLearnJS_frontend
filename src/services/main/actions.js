@@ -6,6 +6,9 @@ let {
 } = types;
 
 /**
+ * @namespace storeState.servicesActions
+ */
+/**
  * Puts the authenticated user to redux store
  * Even though this function returns a promise with user data,
  * prefer using the updated prop in the component

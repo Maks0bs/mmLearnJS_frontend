@@ -1,10 +1,24 @@
 import types from './actionTypes'
 let { TOGGLE_ACTIVATION_MESSAGE, GET_ACTIVATION_MESSAGE_STATUS } = types;
 
+/**
+ * @typedef ActivationMessageState
+ * @type Object
+ * @property {boolean} show - true if the activation message should be displayed
+ */
+
 let initialState = {
 	show: true 
 }
 
+/**
+ * @function activationMessageReducer
+ * @param {ActivationMessageState} state
+ * @param {ReduxAction} action
+ * @return {ActivationMessageState}
+ *
+ * @memberOf storeState.views.components
+ */
 export default function(state = initialState, action) {
 	switch(action.type) {
 		case TOGGLE_ACTIVATION_MESSAGE: {

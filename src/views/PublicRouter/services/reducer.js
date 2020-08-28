@@ -5,8 +5,10 @@ import activateAccountReducer from '../views/ActivateAccount/services/reducer'
 import inviteSignupReducer from '../views/InviteSignup/services/reducer'
 import forgotPasswordReducer from '../views/ForgotPassword/services/reducer'
 import resetPasswordReducer from '../views/ResetPassword/services/reducer'
+/**
+ * @namespace storeState.views.public
+ */
 
-// here we collect ALL reducers from views directory
 export default combineReducers({
 	home: homeReducer,
 	signup: signupReducer,

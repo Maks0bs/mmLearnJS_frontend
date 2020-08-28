@@ -15,7 +15,7 @@ class OpenCourseInfo extends Component {
 					<div className="ml-4">
 						{teachers.map((teacher, i) => (
 							<div key={i}>
-								<UserPreview user={teacher} />
+								<UserPreview {...teacher} />
 							</div>
 						))}
 					</div>

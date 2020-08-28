@@ -2,11 +2,12 @@ import signinReducer from '../Signin/services/reducer'
 import activationMessageReducer from '../ActivationMessage/services/reducer'
 import { combineReducers } from 'redux'
 
-
 /**
  * @namespace storeState.views.components
  */
-
+/**
+ * @namespace components.views.components
+ */
 
 /**
  *

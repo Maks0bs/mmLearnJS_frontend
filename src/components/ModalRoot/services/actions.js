@@ -1,6 +1,8 @@
 import types from './actionTypes'
-
-
+let {
+	HIDE,
+	SHOW
+} = types
 
 /**
  * Displays the specified component inside a modal, which can be easily closed
@@ -12,7 +14,7 @@ import types from './actionTypes'
  */
 export let showModal = (component) => dispatch => {
 	return dispatch({
-		type: types.signinModal.SHOW,
+		type: SHOW,
 		payload: component
 	})
 }
@@ -26,6 +28,6 @@ export let showModal = (component) => dispatch => {
  */
 export let hideModal = () => dispatch => {
 	return dispatch({
-		type: types.signinModal.HIDE
+		type: HIDE
 	})
 }

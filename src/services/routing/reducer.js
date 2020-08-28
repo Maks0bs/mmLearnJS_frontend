@@ -8,9 +8,7 @@ let {
 /**
  * @namespace storeState.routing
  */
-/**
- * @namespace storeState.routingActions
- */
+
 /**
  * @typedef RoutingState
  * @type Object
@@ -23,7 +21,7 @@ let initialState = {
 }
 
 /**
- *
+ * @function routingReducer
  * @param {RoutingState} state
  * @param {ReduxAction} action
  * @param {Object[]} state.navItems the list of navigation items, that

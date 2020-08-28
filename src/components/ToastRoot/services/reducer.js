@@ -1,5 +1,8 @@
 import actionTypes from './actionTypes'
 import { toast } from 'react-toastify'
+let {
+    ADD_TOAST
+} = actionTypes
 
 /**
  * @typedef ToastRootState
@@ -22,25 +25,25 @@ const initialState = {
  */
 export default (state = initialState, action) => {
   	switch (action.type) {
-        case actionTypes.ADD_TOAST:
-            let options = action.options;
+        case ADD_TOAST:
+            let { options, component } = action.payload
             let t;
             if (!options || !options.type){
-                t = toast(action.component);
+                t = toast(component);
             } else if (options && options.type){
 
                 switch (options.type){
                     case 'info':
-                        t = toast.info(action.component);
+                        t = toast.info(component);
                         break;
                     case 'success':
-                        t = toast.success(action.component);
+                        t = toast.success(component);
                         break;
                     case 'error':
-                        t = toast.error(action.component);
+                        t = toast.error(component);
                         break;
                     default:
-                        t = toast(action.component)
+                        t = toast(component)
                 }
             }
       		return {

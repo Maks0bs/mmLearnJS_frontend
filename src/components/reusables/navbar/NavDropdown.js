@@ -15,6 +15,7 @@ class NavDropdown extends React.Component {
             isToggleOn: false
         };
     }
+
     toggleDropdown(e) {
         e.preventDefault();
         this.setState({

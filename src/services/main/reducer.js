@@ -8,9 +8,6 @@ let {
 /**
  * @namespace storeState.services
  */
-/**
- * @namespace storeState.servicesActions
- */
 
 /**
  * @typedef ServicesBasicState
@@ -24,12 +21,14 @@ let initialState = {
 }
 
 /**
- *
+ * @function servicesReducer
  * @param {ServicesBasicState} state
  * @param {ReduxAction} action
  * @param {Object} state.authenticatedUser whole data about the
  * current authenticate user
  * @return {ServicesBasicState}
+ *
+ * @memberOf storeState.services
  */
 export default function(state = initialState, action) {
     switch(action.type){

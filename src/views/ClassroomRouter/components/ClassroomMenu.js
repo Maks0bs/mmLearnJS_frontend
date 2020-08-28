@@ -8,7 +8,6 @@ import { faBell as faBellSolid, faSearch } from '@fortawesome/free-solid-svg-ico
 import { faBell as faBellHollow } from '@fortawesome/free-regular-svg-icons'
 import NavItem from "../../../components/reusables/navbar/NavItem";
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
-import {propTypesByName} from "../../../services/helpers";
 import NotificationItem from "../../../components/reusables/navbar/NotificationItem";
 import {getAuthenticatedUser, logout} from "../../../services/main/actions";
 
@@ -44,7 +43,7 @@ class ClassroomMenu extends Component {
 
 	showSigninModal = () => {
 		this.props.showModal(
-			<Signin onClose={this.props.hideModal} />
+			<Signin shouldCloseModal/>
 		)
 	}
 
@@ -229,9 +228,6 @@ let mapStateToProps = (state) => {
 	}
 }
 
-ClassroomMenu.propTypes = {
-	authenticatedUser: propTypesByName['authenticatedUser']
-}
 
 export default connect(
 	mapStateToProps,

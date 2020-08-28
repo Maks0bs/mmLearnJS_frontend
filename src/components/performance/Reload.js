@@ -13,9 +13,12 @@ import PropTypes from 'prop-types'
  * @component
  */
 class Reload extends Component {
+	constructor(props) {
+		super(props);
 
-	state = {
-		mounted: false
+		this.state = {
+			mounted: false
+		}
 	}
 
 	componentDidMount() {

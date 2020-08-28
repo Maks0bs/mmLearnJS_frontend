@@ -1,7 +1,6 @@
 import modalRootReducer from '../ModalRoot/services/reducer'
 import toastRootReducer from '../ToastRoot/services/reducer'
 import { combineReducers } from 'redux'
-
 /**
  * @namespace storeState.components
  */

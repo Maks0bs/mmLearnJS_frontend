@@ -67,10 +67,14 @@ class NotificationItem extends Component {
 
 NotificationItem.propTypes = {
     /**
-     * The date (and time), when the notification was created
+     * The date (and time), when the notification was created.
+     * Should be a formatted date string. Gets converted to {@link Date} in the
+     * component.
      */
     created: PropTypes.string,
+
     title: PropTypes.string.isRequired,
+
     /**
      * The main information of the notification
      */

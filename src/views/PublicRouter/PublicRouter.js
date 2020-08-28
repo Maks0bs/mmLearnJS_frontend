@@ -14,7 +14,18 @@ import OptimizedComponent from "../../components/performance/OptimizedComponent"
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 import {getAuthenticatedUser} from "../../services/main/actions";
 
-class PublicRouter extends OptimizedComponent {
+/**
+ * @namespace components.views.public
+ */
+
+/**
+ * This router is responsible for routing to all links that are visible to
+ * all users (unauthenticated users in the first place).
+ * It also contains some utility pages, like password reset and account activation
+ * @memberOf components.views.public
+ * @component
+ */
+class PublicRouter extends OptimizedComponent {//TODO get rid of OptimizedComponent
 
 	render() {
 		super.render();
@@ -26,7 +37,6 @@ class PublicRouter extends OptimizedComponent {
 				<BigLoadingCentered/>
 			)
 		}
-
 		let { path } = this.props.match;
 		return (
 			<div>
@@ -67,18 +77,12 @@ class PublicRouter extends OptimizedComponent {
 	}
 }
 
-let mapDispatchToProps = dispatch => {
-	return {
-		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
-	}
-}
-
-let mapStateToProps = (state) => {
-	return {
-		...state.services
-	}
-}
-
+let mapDispatchToProps = dispatch => ({
+	getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+})
+let mapStateToProps = (state) => ({
+	...state.services
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

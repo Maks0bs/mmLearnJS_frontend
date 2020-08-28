@@ -71,12 +71,16 @@ export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
  * @async
  * @param {Object} filter - specifies the way, how the API should filter result courses
  * @param {ReduxDispatchType} returnDispatchType
+ * @param {?any} ref - Parameter for simplifying the result of the received request.
+ * See API docs for details
  * @return {function(*): Promise<any | void>}
  *
  * @memberOf storeStateActions
  */
-export let getFilesFiltered = (filter, returnDispatchType, ref) => (dispatch) => {
-	console.log('ref get files filtered', ref);
+export let getFilesFiltered = (filter,
+							   returnDispatchType,
+							   ref
+) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/files/filter`, {
 		method: "POST",
 		headers: {
@@ -112,7 +116,10 @@ export let getFilesFiltered = (filter, returnDispatchType, ref) => (dispatch) =>
  *
  * @memberOf storeStateActions
  */
-export let streamFileById = (fileId, returnDispatchType, options) => (dispatch) => {
+export let streamFileById = (fileId,
+							 returnDispatchType,
+							 options
+) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/files/stream/${fileId}`, {
 		method: "GET",
 		headers: {

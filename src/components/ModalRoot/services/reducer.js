@@ -1,6 +1,8 @@
-import actionTypes from './actionTypes'
-
-
+import types from './actionTypes'
+let {
+	HIDE,
+	SHOW
+} = types
 /**
  * @typedef ModalRootState
  * @type Object
@@ -12,7 +14,6 @@ import actionTypes from './actionTypes'
 const initialState = {
 	modalComponent: null
 }
-
 /**
  * @function modalRootReducer
  * @param {ModalRootState} state
@@ -25,12 +26,12 @@ const initialState = {
  */
 export default (state = initialState, action) => {
   	switch (action.type) {
-    	case actionTypes.signinModal.SHOW:
+    	case SHOW:
       		return {
       			...state,
 				modalComponent: action.payload
             }
-    	case actionTypes.signinModal.HIDE:
+    	case HIDE:
       		return initialState
     	default:
       		return state

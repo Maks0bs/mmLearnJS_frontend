@@ -14,8 +14,10 @@ import types from './actionTypes'
 export let addToast = (component, options) => dispatch => {
 	return dispatch({
 		type: types.ADD_TOAST,
-		component: component,
-		options: options
+		payload: {
+			component,
+			options
+		}
 	})
 }
 

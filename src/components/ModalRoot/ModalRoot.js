@@ -55,17 +55,18 @@ class ModalRoot extends Component {
 
 	render() {
 		let { modalComponent } = this.props;
-		if (!modalComponent) {
-			return null;
-		}
 		return (
 			<Modal
-				isOpen={true}
+				isOpen={!!modalComponent}
 				contentRef={node => (this.contentRef = node)}
 				style={{
 					overlay: {
 						position: 'fixed',
 						backgroundColor: 'rgba(0, 0, 0, 0.4)',
+						/*
+							Increase z-index, so that
+							the modal is shown above all other components
+						 */
 						zIndex: 10
 					},
 					content: {
@@ -84,20 +85,20 @@ class ModalRoot extends Component {
                 > 
                     <span aria-hidden="true">&times;</span>
                 </button>
+
 				{modalComponent}
 			</Modal>
 		)
 	}
 }
 
-let mapStateToProps = (state) => {
-	let { modalComponent } = state.components.modalRoot;
-	return {
-		modalComponent
-	}
-}
-
+let mapStateToProps = (state) => ({
+	...state.components.modalRoot
+})
+let mapDispatchToProps = (dispatch) => ({
+	hideModal: () => dispatch(hideModal())
+})
 export default connect(
 	mapStateToProps,
-	{ hideModal }
+	mapDispatchToProps
 )(ModalRoot)

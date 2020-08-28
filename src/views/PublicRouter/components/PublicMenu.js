@@ -5,13 +5,17 @@ import { hideModal, showModal } from '../../../components/ModalRoot/services/act
 import Signin from '../../components/Signin'
 import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 import NavItem from "../../../components/reusables/navbar/NavItem";
-import PropTypes from "prop-types";
-import { propTypesByName } from "../../../services/helpers";
 import {getAuthenticatedUser, logout} from "../../../services/main/actions";
 
+/**
+ * This navigation bar is displayed on all pages, that
+ * are indexed by the {@link PublicRouter}
+ * @memberOf components.views.public
+ * @component
+ */
 class PublicMenu extends Component {
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 		this.state = {
 			redirectToHome: false,
 			display: false
@@ -20,24 +24,16 @@ class PublicMenu extends Component {
 
 
 	handleLogout = () => {
-		
 		this.props.logout()
-			.then(() => {
-				return this.props.getAuthenticatedUser();
-			})
-			.then(() => {
-				this.setState({
-					redirectToHome: true
-				})
-			})
+			.then(() => this.props.getAuthenticatedUser())
+			.then(() => this.setState({
+				redirectToHome: true
+			}))
 	}
 
 	showSigninModal = () => {
 		this.props.showModal(
-			<Signin
-				onClose={this.props.hideModal}
-				shouldRedirect={true}
-			/>
+			<Signin shouldRedirect shouldCloseModal/>
 		)
 	}
 
@@ -52,7 +48,6 @@ class PublicMenu extends Component {
 		let { pathname } = this.props.location;
 		let { authenticatedUser: curUser } = this.props
 		let { display } = this.state;
-		/* doesn't have mobile support. Visit bootstrap navbar docs to see how to implement it */
 		return (
 			<nav 
 				className="navbar navbar-expand-lg navbar-light sticky-top"
@@ -60,6 +55,11 @@ class PublicMenu extends Component {
 					backgroundColor: '#64B5F6'
 				}}
 			>
+				{/*
+					This button is not shown on desktop,
+					but is very important for navigation on mobile
+					version of the site
+				*/}
 				<button
 					className="navbar-toggler"
 					type="button"
@@ -72,10 +72,16 @@ class PublicMenu extends Component {
 					<ul className="navbar-nav mr-auto">
 						<NavItem pageURI={pathname} path="/classroom/courses" name="Classroom" />
 					</ul>
+					{/*
+						If user is authenticated, show links to dashboard / course list
+						and some other options
+					*/}
 					{(curUser && curUser._id) ? (
 						<ul className="navbar-nav">
 						<NavDropdown name={curUser.name}>
-							<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
+							<Link
+								className="dropdown-item text-right"
+								to={`/classroom/user/${curUser._id}`}>
 								Profile
 							</Link>
 							<Link className="dropdown-item" to="/classroom/dashboard">
@@ -86,15 +92,17 @@ class PublicMenu extends Component {
 							</Link>
 							<span
 								className="dropdown-item"
-								onClick={(e) => this.handleLogout()}
-								style={{
-									cursor: 'pointer'
-								}}
+								onClick={() => this.handleLogout()}
+								style={{cursor: 'pointer'}}
 							>
 								Log out
 							</span>
 						</NavDropdown>
 					</ul>
+					/*
+						Otherwise, if user is not logged in,
+						display the button, that opens the sign in modal
+					 */
 					) : (
 						<ul className="navbar-nav">
 							<button
@@ -109,6 +117,12 @@ class PublicMenu extends Component {
 						</ul>
 					)}
 
+					{/*
+						This should be a part of the whole navigation bar,
+						because through all redirect the bar should be visible.
+						If we simply returned the redirect to '/', the navbar would
+						disappear.
+					*/}
 					{this.state.redirectToHome && (<Redirect to="/" />)}
 				</div>
 			</nav>
@@ -116,26 +130,15 @@ class PublicMenu extends Component {
 	}
 }
 
-let mapDispatchToProps = dispatch => {
-	return {
-		showModal: (Component) => dispatch(showModal(Component)),
-		hideModal: () => dispatch(hideModal()),
-		logout: () => dispatch(logout()),
-		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
-
-	}
-}
-
-let mapStateToProps = (state) => {
-	return {
-		...state.services
-	}
-}
-
-PublicMenu.propTypes = {
-	authenticatedUser: propTypesByName['authenticatedUser']
-}
-
+let mapDispatchToProps = dispatch => ({
+	showModal: (Component) => dispatch(showModal(Component)),
+	hideModal: () => dispatch(hideModal()),
+	logout: () => dispatch(logout()),
+	getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+})
+let mapStateToProps = (state) => ({
+	...state.services
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

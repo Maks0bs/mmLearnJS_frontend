@@ -57,3 +57,18 @@ reactComponents['ToastRoot'] = Component10;
 
 import Component11 from '../src/components/reusables/UserPreview.js';
 reactComponents['UserPreview'] = Component11;
+
+import Component12 from '../src/views/components/ActivationMessage/ActivationMessage.js';
+reactComponents['ActivationMessage'] = Component12;
+
+import Component13 from '../src/views/components/Signin/Signin.js';
+reactComponents['Signin'] = Component13;
+
+import Component14 from '../src/views/PublicRouter/components/PublicMenu.js';
+reactComponents['PublicMenu'] = Component14;
+
+import Component15 from '../src/views/PublicRouter/PublicRouter.js';
+reactComponents['PublicRouter'] = Component15;
+
+import Component16 from '../src/views/PublicRouter/views/Signin.js';
+reactComponents['Signin'] = Component16;

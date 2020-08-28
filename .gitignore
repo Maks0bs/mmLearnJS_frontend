@@ -6,6 +6,9 @@
 # testing
 /coverage
 
+# my own helpful files for development
+/dev_help
+
 # production
 /build
 
@@ -24,5 +27,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# jb project
+# jetbrains (webstorm) project files
 .idea/
