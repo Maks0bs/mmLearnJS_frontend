@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import { forgotPassword } from './services/actions'
 import { connect } from 'react-redux'
 import { addToast } from "../../../../components/ToastRoot/services/actions";
-import PropTypes from "prop-types";
 
+/**
+ * This page allows the users to notify the API, that they forgot
+ * their password and to request an email with instructions
+ * on how to reset their password
+ *
+ * @memberOf components.views.public
+ * @component
+ */
 class ForgotPassword extends Component {
 	constructor(props){
 		super(props);
@@ -19,46 +26,25 @@ class ForgotPassword extends Component {
 		})
 	}
 
-
-
 	onSubmit = (event) => {
 		event.preventDefault()
-		let { email} = this.state;
-
-		this.props.forgotPassword(email)
-			.then((data) => {
+		this.props.forgotPassword(this.state.email)
+			.then(() => {
 				if (!this.props.error || this.props.message){
 					this.props.addToast(
-						(
-							<div>
-								{this.props.message}
-							</div>
-						),
-						{
-							type: 'info'
-						}
+						(<div>{this.props.message}</div>),
+						{type: 'info'}
 					)
 				} else {
 					this.props.addToast(
-						(
-							<div>
-								{this.props.error}
-							</div>
-						),
-						{
-							type: 'error'
-						}
+						(<div>{this.props.error}</div>),
+						{type: 'error'}
 					)
 				}
 			})
-		
-		
 	}
 
-
-
 	render(){
-		let { email } = this.state;
 		return (
 			<div className="container">
 				<h2 className="mt-5 mb-5">Enter email to send password reset info to</h2>
@@ -71,7 +57,7 @@ class ForgotPassword extends Component {
 							onChange={this.handleChange("email")}
 							type="email"
 							className="form-control"
-							value={email}
+							value={this.state.email}
 						/>
 					</div>
 					<button
@@ -86,26 +72,13 @@ class ForgotPassword extends Component {
 	}
 }
 
-
-
-let mapStateToProps = (state) => {
-	return {
-		...state.views.public.forgotPassword,
-	}
-}
-
-let mapDispatchToProps = (dispatch) => {
-	return {
-		forgotPassword: (email) => dispatch(forgotPassword(email)),
-		addToast: (component, options) => dispatch(addToast(component, options)),
-	}
-}
-
-ForgotPassword.propTypes = {
-	message: PropTypes.string,
-	error: PropTypes.string
-}
-
+let mapStateToProps = (state) => ({
+	...state.views.public.forgotPassword,
+})
+let mapDispatchToProps = (dispatch) => ({
+	forgotPassword: (email) => dispatch(forgotPassword(email)),
+	addToast: (component, options) => dispatch(addToast(component, options)),
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

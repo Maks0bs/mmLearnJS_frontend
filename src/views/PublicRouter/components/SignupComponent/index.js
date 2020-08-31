@@ -1,4 +1,4 @@
-import Signup from './Signup'
+import Signup from './SignupComponent'
 export default Signup;
 // such files exist to make working on code easeir
 // (so that there aren't too many index.js files)

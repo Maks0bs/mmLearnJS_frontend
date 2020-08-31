@@ -14,6 +14,7 @@ let initialState = {
 /**
  * @function activationMessageReducer
  * @param {ActivationMessageState} state
+ * @param {boolean} state.show
  * @param {ReduxAction} action
  * @return {ActivationMessageState}
  *

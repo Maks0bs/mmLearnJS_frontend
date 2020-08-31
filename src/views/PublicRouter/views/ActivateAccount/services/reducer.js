@@ -6,6 +6,16 @@ let initialState = {
 	error: ''
 }
 
+/**
+ * @function activateAccountReducer
+ * @param {ErrorAndMessageState} state
+ * @param {state} state.message
+ * @param {state|Object} state.error
+ * @param {ReduxAction} action
+ * @return {ErrorAndMessageState}
+ *
+ * @memberOf storeState.views.public
+ */
 export default function(state = initialState, action) {
 	switch(action.type){
 		case API_ACTIVATE_ACCOUNT:

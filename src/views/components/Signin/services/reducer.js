@@ -16,6 +16,8 @@ let initialState = {
 /**
  * @function signinReducer
  * @param {SigninState} state
+ * @param {state} state.message - the message about signin status
+ * @param {state|Object} state.error - any error messages that can happen during the log in process
  * @param {ReduxAction} action
  * @return {SigninState}
  *

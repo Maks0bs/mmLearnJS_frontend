@@ -64,11 +64,38 @@ reactComponents['ActivationMessage'] = Component12;
 import Component13 from '../src/views/components/Signin/Signin.js';
 reactComponents['Signin'] = Component13;
 
-import Component14 from '../src/views/PublicRouter/components/PublicMenu.js';
-reactComponents['PublicMenu'] = Component14;
+import Component14 from '../src/views/PublicRouter/views/ActivateAccount/ActivateAccount.js';
+reactComponents['ActivateAccount'] = Component14;
 
-import Component15 from '../src/views/PublicRouter/PublicRouter.js';
-reactComponents['PublicRouter'] = Component15;
+import Component15 from '../src/views/PublicRouter/views/ForgotPassword/ForgotPassword.js';
+reactComponents['ForgotPassword'] = Component15;
 
-import Component16 from '../src/views/PublicRouter/views/Signin.js';
-reactComponents['Signin'] = Component16;
+import Component16 from '../src/views/PublicRouter/views/Home/Home.js';
+reactComponents['Home'] = Component16;
+
+import Component17 from '../src/views/PublicRouter/views/Home/components/NewsFeed.js';
+reactComponents['NewsFeed'] = Component17;
+
+import Component18 from '../src/views/PublicRouter/views/InviteSignup.js';
+reactComponents['InviteSignup'] = Component18;
+
+import Component19 from '../src/views/PublicRouter/components/PublicMenu.js';
+reactComponents['PublicMenu'] = Component19;
+
+import Component20 from '../src/views/PublicRouter/PublicRouter.js';
+reactComponents['PublicRouter'] = Component20;
+
+import Component21 from '../src/views/PublicRouter/views/ResetPassword/ResetPassword.js';
+reactComponents['ResetPassword'] = Component21;
+
+import Component22 from '../src/views/PublicRouter/views/Signin.js';
+reactComponents['Signin'] = Component22;
+
+import Component23 from '../src/views/PublicRouter/views/Signup.js';
+reactComponents['Signup'] = Component23;
+
+import Component24 from '../src/views/PublicRouter/components/SignupComponent/SignupComponent.js';
+reactComponents['SignupComponent'] = Component24;
+
+import Component25 from '../src/views/PublicRouter/components/SignupComponent/components/SignupForm.js';
+reactComponents['SignupForm'] = Component25;

@@ -43,13 +43,7 @@ class Signin extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        let {email, password} = this.state;
-        let user = {
-            email,
-            password
-        }
-
-        this.props.signin(user)
+        this.props.signin({...this.state})
             .then(() => this.props.getAuthenticatedUser())
             .then(() => {
                 if (!this.props.error){
@@ -100,6 +94,7 @@ class Signin extends Component {
     render() {
         let {email, password, reload} = this.state;
         let { error, message } = this.props;
+        let isMobileWidth = (window.innerWidth <= 1000)
         if (reload){
             this.handleLeave();
             if (this.props.shouldRedirect){
@@ -110,7 +105,10 @@ class Signin extends Component {
         }
         return (
             <div>
-                <div className="p-4 text-center">
+                <div
+                    className="container text-center my-3"
+                    style={{width: isMobileWidth ? '90%' : '60%'}}
+                >
                     <h1>Sign in</h1>
                     <div
                         className="alert alert-danger"

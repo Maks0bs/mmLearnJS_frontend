@@ -12,7 +12,8 @@ import {REACT_APP_API_URL} from '../constants'
  * @function
  * @async
  * @param {FormData} filesForm
- * @param {ReduxDispatchType} returnDispatchType
+ * @param {ReduxDispatchType} returnDispatchType - the type of action to dispatch in after
+ * calling this function
  * @return {function(*): Promise<any | void>}
  *
  * @memberOf storeStateActions
@@ -40,7 +41,8 @@ export let uploadFiles = (filesForm, returnDispatchType) => (dispatch) => {
  * @async
  * @function
  * @param {Object} filter - specifies the way, how the API should filter result courses
- * @param {ReduxDispatchType} returnDispatchType
+ * @param {ReduxDispatchType} returnDispatchType - the type of action to dispatch in after
+ * calling this function
  * @return {function(*): Promise<any | void>}
  *
  * @memberOf storeStateActions
@@ -70,7 +72,8 @@ export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
  * @function
  * @async
  * @param {Object} filter - specifies the way, how the API should filter result courses
- * @param {ReduxDispatchType} returnDispatchType
+ * @param {ReduxDispatchType} returnDispatchType - the type of action to dispatch in after
+ * calling this function
  * @param {?any} ref - Parameter for simplifying the result of the received request.
  * See API docs for details
  * @return {function(*): Promise<any | void>}
@@ -110,7 +113,8 @@ export let getFilesFiltered = (filter,
  * @function
  * @async
  * @param {string} fileId
- * @param {ReduxDispatchType} returnDispatchType
+ * @param {ReduxDispatchType} returnDispatchType - the type of action to dispatch in after
+ * calling this function
  * @param {Object} options
  * @return {function(*): Promise<Response | void>}
  *
@@ -144,7 +148,8 @@ export let streamFileById = (fileId,
  * @async
  * @function
  * @param {string} userId
- * @param {ReduxDispatchType} returnDispatchType
+ * @param {ReduxDispatchType} returnDispatchType - the type of action to dispatch in after
+ * calling this function
  * @return {function(*): Promise<any | void>}
  *
  * @memberOf storeStateActions

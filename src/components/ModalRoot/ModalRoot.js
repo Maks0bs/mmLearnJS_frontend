@@ -55,6 +55,7 @@ class ModalRoot extends Component {
 
 	render() {
 		let { modalComponent } = this.props;
+		let isMobileWidth = (window.innerWidth <= 1000)
 		return (
 			<Modal
 				isOpen={!!modalComponent}
@@ -71,8 +72,8 @@ class ModalRoot extends Component {
 					},
 					content: {
 						padding: '0px',
-						left: '15%',
-						right: '15%'
+						left: isMobileWidth ? '15%' : '25%',
+						right: isMobileWidth ? '15%' : '25%'
 					}
 				}}
 			>

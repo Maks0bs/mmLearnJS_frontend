@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { activateAccount } from './services/actions'
 import { connect } from 'react-redux'
-import PropTypes from "prop-types";
 
+/**
+ * Displays the activation status of the user after sending an API
+ * request to activate the user
+ *
+ * @memberOf components.views.public
+ * @component
+ */
 class ActivateAccount extends Component {
 
 	componentDidMount(){
@@ -12,7 +18,6 @@ class ActivateAccount extends Component {
 	
 	render(){
 		let { error, message } = this.props;
-
 		return (
 			<div className="m-2">
 				<div 
@@ -33,23 +38,12 @@ class ActivateAccount extends Component {
 	}
 }
 
-let mapDispatchToProps = (dispatch) => {
-	return {
-		activateAccount: (token) => dispatch(activateAccount(token))
-	}
-}
-
-let mapStateToProps = (state) => {
-	return {
-		...state.views.public.activateAccount
-	}
-}
-
-ActivateAccount.propTypes = {
-	message: PropTypes.string,
-	error: PropTypes.string
-}
-
+let mapDispatchToProps = (dispatch) => ({
+	activateAccount: (token) => dispatch(activateAccount(token))
+})
+let mapStateToProps = (state) => ({
+	...state.views.public.activateAccount
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

@@ -6,6 +6,17 @@ let initialState = {
 	error: ''
 }
 
+
+/**
+ * @function forgotPasswordReducer
+ * @param {ErrorAndMessageState} state
+ * @param {state} state.message
+ * @param {state|Object} state.error
+ * @param {ReduxAction} action
+ * @return {ErrorAndMessageState}
+ *
+ * @memberOf storeState.views.public
+ */
 export default function(state = initialState, action) {
 	switch(action.type){
 		case API_FORGOT_PASSWORD:

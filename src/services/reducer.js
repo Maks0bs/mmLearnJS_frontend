@@ -12,11 +12,20 @@ import servicesReducer from './main/reducer'
  */
 
 /**
+ * @typedef ErrorAndMessageState
+ * @type Object
+ * @property {string} message - message about the page status after performing a certain action
+ * or a an affirmative response from the API
+ * @property {string|Object} error - error that occurs after calling an async
+ * request from the API.
+ */
+
+/**
  *
- * @description `views` - the reducer for actions inside all views inside the app
- * @description `components` - the reducer to for components, that are commonly used across the app
- * @description `services` - the basic information from the api: authenticated user...
- * @description `routing` - the reducer used for navigation, primarily for the navigation bars
+ * @property views - the reducer for actions inside all views inside the app
+ * @property components - the reducer to for components, that are commonly used across the app
+ * @property services - the basic information from the api: authenticated user...
+ * @property routing - the reducer used for navigation, primarily for the navigation bars
  */
 export default combineReducers({
 	views: viewsReducer,

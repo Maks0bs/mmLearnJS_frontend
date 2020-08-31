@@ -22,7 +22,6 @@ class PublicMenu extends Component {
 		}
 	}
 
-
 	handleLogout = () => {
 		this.props.logout()
 			.then(() => this.props.getAuthenticatedUser())
