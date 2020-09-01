@@ -6,10 +6,6 @@ let {
 } = types;
 
 /**
- * @namespace storeState.services
- */
-
-/**
  * @typedef ServicesBasicState
  * @type Object
  * @property {Object} authenticatedUser whole data about the
@@ -28,7 +24,7 @@ let initialState = {
  * current authenticate user
  * @return {ServicesBasicState}
  *
- * @memberOf storeState.services
+ * @memberOf storeState
  */
 export default function(state = initialState, action) {
     switch(action.type){

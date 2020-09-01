@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import CourseListItem from "../CourseListItem";
-import { getUserSubscribedSet, transitionStyles} from "../../services/helpers";
-import { Transition } from 'react-transition-group'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons'
-import CollapsibleCourseList from "../CollapsibleCourseList";
+import CourseListItem from "./CourseListItem";
+import { getUserSubscribedSet } from "../services/helpers";
+import CollapsibleCourseList from "./CollapsibleCourseList";
 
+/**
+ * The list of courses, where the current user is a teacher, wrapped in a
+ * {@link components.views.classroom.CourseList.CollapsibleCourseList}
+ * @memberOf components.views.classroom.CourseList
+ * @component
+ */
 class TeacherList extends Component {
 	constructor(props){
 		super(props);
@@ -18,33 +21,24 @@ class TeacherList extends Component {
 		}
 	}
 
-	handleCreateCourse = () => {
-		this.setState({
-			redirectToCreateCourse: true
-		})
-	}
-
-
+	handleCreateCourse = () => this.setState({redirectToCreateCourse: true})
 
 	render() {
 		let { redirectToCreateCourse } = this.state;
-		let { notViewedNotifications, teacherCourses } = this.props;
+		let { notViewedNotifications, teacherCourses, authenticatedUser } = this.props;
 		if (redirectToCreateCourse){
-			return (
-				<Redirect to="/classroom/course/create" />
-			)
+			return (<Redirect to="/classroom/create-course" />)
 		}
 
-		let subscribedSet = getUserSubscribedSet(this.props.authenticatedUser);
-
+		let subscribedSet = getUserSubscribedSet(authenticatedUser);
 		let notificationsCount = 0;
+		/*
+			Calculate the overall amount of notifications in the given list
+		 */
 		for (let c of teacherCourses){
 			let curNotifications = notViewedNotifications[c._id];
 			notificationsCount += curNotifications ? curNotifications : 0;
 		}
-
-
-
 		return (
 			<div className={this.props.className}>
 				<button
@@ -54,7 +48,7 @@ class TeacherList extends Component {
 					Create new course
 				</button>
 				<CollapsibleCourseList
-					listName={(
+					listHeading={(
 						<div>
 							Teachers list
 							<mark
@@ -83,14 +77,10 @@ class TeacherList extends Component {
 	}
 }
 
-let mapStateToProps = (state) => {
-	return {
-		...state.views.classroom.courseList,
-		authenticatedUser: state.services.authenticatedUser
-	}
-}
-
+let mapStateToProps = (state) => ({
+	...state.views.classroom.courseList,
+	...state.services
+})
 export default connect(
-	mapStateToProps,
-	null
+	mapStateToProps
 )(TeacherList);

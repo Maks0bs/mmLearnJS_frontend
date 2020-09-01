@@ -1,5 +1,5 @@
 import types from './actionTypes'
-import { REACT_APP_API_URL } from '../../../../../../../constants'
+import { REACT_APP_API_URL } from '../../../../../constants'
 let { API_CREATE_COURSE, CLEAR_MESSAGES } = types;
 
 // all api requests related to Home view will be placed here

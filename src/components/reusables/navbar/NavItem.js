@@ -20,7 +20,9 @@ let NavItem = props => {
         )
     }
     return (
-        <li className={(props.path === props.pageURI) ? 'nav-item active' : 'nav-item'}>
+        <li
+            className={(props.path === props.pageURI) ? 'nav-item active' : 'nav-item'}
+        >
             <Link
                 to={props.path}
                 className={props.disabled ? 'nav-link disabled' : 'nav-link'}

@@ -9,7 +9,7 @@ import {getAuthenticatedUser, logout} from "../../../services/main/actions";
 
 /**
  * This navigation bar is displayed on all pages, that
- * are indexed by the {@link PublicRouter}
+ * are indexed by the {@link components.views.public.PublicRouter}
  * @memberOf components.views.public
  * @component
  */
@@ -22,7 +22,9 @@ class PublicMenu extends Component {
 		}
 	}
 
-	handleLogout = () => {
+	handleLogout = (e) => {
+
+		e.preventDefault();
 		this.props.logout()
 			.then(() => this.props.getAuthenticatedUser())
 			.then(() => this.setState({
@@ -63,13 +65,23 @@ class PublicMenu extends Component {
 					className="navbar-toggler"
 					type="button"
 					onClick={this.toggleNavbar}
+					tabIndex={0}
 				>
 					<span className="navbar-toggler-icon" />
 				</button>
 				<div className={(display ? '' : 'collapse ') + "navbar-collapse"}>
-					<NavItem pageURI={pathname} path="/" name="mmLearnJS" brand/>
+					<NavItem
+						pageURI={pathname}
+						path="/"
+						name="mmLearnJS"
+						brand
+					/>
 					<ul className="navbar-nav mr-auto">
-						<NavItem pageURI={pathname} path="/classroom/courses" name="Classroom" />
+						<NavItem
+							pageURI={pathname}
+							path="/classroom/courses"
+							name="Classroom"
+						/>
 					</ul>
 					{/*
 						If user is authenticated, show links to dashboard / course list
@@ -77,25 +89,38 @@ class PublicMenu extends Component {
 					*/}
 					{(curUser && curUser._id) ? (
 						<ul className="navbar-nav">
-						<NavDropdown name={curUser.name}>
+						<NavDropdown
+							name={curUser.name}
+							tabIndex={0}
+						>
 							<Link
 								className="dropdown-item text-right"
-								to={`/classroom/user/${curUser._id}`}>
+								to={`/classroom/user/${curUser._id}`}
+								tabIndex={0}
+							>
 								Profile
 							</Link>
-							<Link className="dropdown-item" to="/classroom/dashboard">
+							<Link
+								className="dropdown-item"
+								to="/classroom/dashboard"
+								tabIndex={0}
+							>
 								Dashboard
 							</Link>
-							<Link className="dropdown-item" to="/classroom/courses">
+							<Link
+								className="dropdown-item"
+								to="/classroom/courses"
+								tabIndex={0}
+							>
 								Courses
 							</Link>
-							<span
+							<a
 								className="dropdown-item"
-								onClick={() => this.handleLogout()}
-								style={{cursor: 'pointer'}}
+								onClick={this.handleLogout}
+								href="#void"
 							>
 								Log out
-							</span>
+							</a>
 						</NavDropdown>
 					</ul>
 					/*
@@ -110,6 +135,7 @@ class PublicMenu extends Component {
 									background: 'white'
 								}}
 								onClick={this.showSigninModal}
+								tabIndex={0}
 							>
 								Sign in
 							</button>

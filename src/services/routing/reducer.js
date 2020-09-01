@@ -6,10 +6,6 @@ let {
 } = types;
 
 /**
- * @namespace storeState.routing
- */
-
-/**
  * @typedef RoutingState
  * @type Object
  * @property {Object[]} navItems the list of navigation items, that
@@ -28,7 +24,7 @@ let initialState = {
  * are currently present in the path of the page
  * @return {RoutingState}
  *
- * @memberOf storeState.routing
+ * @memberOf storeState
  */
 export default function(state = initialState, action) {
 	switch (action.type) {

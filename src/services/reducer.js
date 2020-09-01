@@ -5,9 +5,6 @@ import { combineReducers } from "redux";
 import servicesReducer from './main/reducer'
 
 /**
- * @namespace storeState
- */
-/**
  * @namespace storeStateActions
  */
 
@@ -26,6 +23,7 @@ import servicesReducer from './main/reducer'
  * @property components - the reducer to for components, that are commonly used across the app
  * @property services - the basic information from the api: authenticated user...
  * @property routing - the reducer used for navigation, primarily for the navigation bars
+ * @namespace storeState
  */
 export default combineReducers({
 	views: viewsReducer,

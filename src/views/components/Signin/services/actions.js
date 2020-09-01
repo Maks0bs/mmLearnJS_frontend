@@ -10,7 +10,7 @@ let { API_SIGNIN, CLEAR_MESSAGES } = types;
  * @async
  * @function
  * @param {Object} user - the credentials of the user, that we want to authenticate
- * @return {function(*): Promise<any | void>}
+ * @return {function(*): Promise<ReduxAction>}
  *
  * @memberOf storeState.views.components.signinActions
  */

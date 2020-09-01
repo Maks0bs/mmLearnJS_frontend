@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 import PublicMenu from './components/PublicMenu'
 import Home from './views/Home'
 import Signup from './views/Signup'
@@ -10,9 +10,7 @@ import ActivationMessage from '../components/ActivationMessage'
 import InviteSignup from './views/InviteSignup'
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ResetPassword from "./views/ResetPassword/ResetPassword";
-import OptimizedComponent from "../../components/performance/OptimizedComponent";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
-import {getAuthenticatedUser} from "../../services/main/actions";
 
 /**
  * @namespace components.views.public
@@ -25,13 +23,9 @@ import {getAuthenticatedUser} from "../../services/main/actions";
  * @memberOf components.views.public
  * @component
  */
-class PublicRouter extends OptimizedComponent {//TODO get rid of OptimizedComponent
+class PublicRouter extends Component {
 
 	render() {
-		super.render();
-		if (this.canCallOptimally()){
-			this.props.getAuthenticatedUser()
-		}
 		if (this.props.authenticatedUser === null) {
 			return (
 				<BigLoadingCentered/>
@@ -77,13 +71,9 @@ class PublicRouter extends OptimizedComponent {//TODO get rid of OptimizedCompon
 	}
 }
 
-let mapDispatchToProps = dispatch => ({
-	getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
-})
 let mapStateToProps = (state) => ({
 	...state.services
 })
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(PublicRouter);
+	mapStateToProps
+)(withRouter(PublicRouter));

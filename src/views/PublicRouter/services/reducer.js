@@ -4,10 +4,12 @@ import signupReducer from '../components/SignupComponent/services/reducer'
 import activateAccountReducer from '../views/ActivateAccount/services/reducer'
 import forgotPasswordReducer from '../views/ForgotPassword/services/reducer'
 import resetPasswordReducer from '../views/ResetPassword/services/reducer'
+
+
 /**
  * @namespace storeState.views.public
+ * @memberOf storeState.views
  */
-
 export default combineReducers({
 	home: homeReducer,
 	signup: signupReducer,

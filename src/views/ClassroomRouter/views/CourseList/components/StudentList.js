@@ -1,26 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import CourseListItem from "../CourseListItem";
-import {getUserSubscribedSet} from "../../services/helpers";
-import CollapsibleCourseList from "../CollapsibleCourseList";
+import CourseListItem from "./CourseListItem";
+import {getUserSubscribedSet} from "../services/helpers";
+import CollapsibleCourseList from "./CollapsibleCourseList";
 
+/**
+ * The list of courses, that the current user is enrolled in, wrapped in a
+ * {@link components.views.classroom.CourseList.CollapsibleCourseList}
+ * @memberOf components.views.classroom.CourseList
+ * @component
+ */
 class StudentList extends Component {
 
 	render() {
-		let subscribedSet = getUserSubscribedSet(this.props.authenticatedUser);
-		let { notViewedNotifications, enrolledCourses } = this.props;
+		let { notViewedNotifications, enrolledCourses, authenticatedUser } = this.props;
+		let subscribedSet = getUserSubscribedSet(authenticatedUser);
 		let notificationsCount = 0;
+		/*
+			Calculate the overall amount of notifications in the given list
+		 */
 		for (let c of enrolledCourses){
 			let curNotifications = notViewedNotifications[c._id];
 			notificationsCount += curNotifications ? curNotifications : 0
 		}
 
-		console.log(this.props);
-
-
 		return (
 			<CollapsibleCourseList
-				listName={(
+				listHeading={(
 					<div>
 						Enrolled courses list
 						<mark
@@ -48,14 +54,10 @@ class StudentList extends Component {
 	}
 }
 
-let mapStateToProps = (state) => {
-	return {
-		...state.views.classroom.courseList,
-		authenticatedUser: state.services.authenticatedUser
-	}
-}
-
+let mapStateToProps = (state) => ({
+	...state.views.classroom.courseList,
+	authenticatedUser: state.services.authenticatedUser
+})
 export default connect(
-	mapStateToProps,
-	null
+	mapStateToProps
 )(StudentList);

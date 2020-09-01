@@ -57,8 +57,10 @@ class NavDropdown extends React.Component {
          */
         let classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
         return (
-            <li className="nav-item dropdown"
+            <li
+                className="nav-item dropdown"
                 ref={node => (this.innerContentRef = node)}
+
             >
                 <a
                     className="nav-link dropdown-toggle"
@@ -66,8 +68,9 @@ class NavDropdown extends React.Component {
                     style={{
                         cursor: 'pointer',
                         textTransform: 'none',
-
                     }}
+                    onFocus={(e) => {this.toggleDropdown(e)}}
+                    tabIndex={0}
                 >
                     {this.props.name}
                     {this.props.displayComponent && this.props.displayComponent}

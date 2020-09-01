@@ -3,9 +3,6 @@ import activationMessageReducer from '../ActivationMessage/services/reducer'
 import { combineReducers } from 'redux'
 
 /**
- * @namespace storeState.views.components
- */
-/**
  * @namespace components.views.components
  */
 
@@ -13,6 +10,8 @@ import { combineReducers } from 'redux'
  * @description `signin` - the reducer for the signin component, it handles user authentication
  * @description `activationMessage` - reducer for notifying the user, if their account
  * is not activated (displayed above the navigation bar at the top of each page)
+ * @namespace storeState.views.components
+ * @memberOf storeState.views
  */
 export default combineReducers({
     signin: signinReducer,

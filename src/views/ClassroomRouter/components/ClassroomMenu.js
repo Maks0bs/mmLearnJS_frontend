@@ -11,9 +11,15 @@ import NavDropdown from "../../../components/reusables/navbar/NavDropdown";
 import NotificationItem from "../../../components/reusables/navbar/NotificationItem";
 import {getAuthenticatedUser, logout} from "../../../services/main/actions";
 
+/**
+ * This navigation bar is displayed on all pages, that
+ * are indexed by the {@link components.views.classroom.ClassroomRouter}
+ * @memberOf components.views.classroom
+ * @component
+ */
 class ClassroomMenu extends Component {
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 		this.state = {
 			redirectToHome: false,
 			searchQuery: '',
@@ -22,8 +28,8 @@ class ClassroomMenu extends Component {
 		}
 	}
 
-	handleLogout = () => {
-
+	handleLogout = (e) => {
+		e.preventDefault();
 		this.props.logout()
 			.then(() => {
 				return this.props.getAuthenticatedUser();
@@ -41,16 +47,15 @@ class ClassroomMenu extends Component {
 		})
 	}
 
-	showSigninModal = () => {
+	showSigninModal = (e) => {
+		e.preventDefault();
 		this.props.showModal(
 			<Signin shouldCloseModal/>
 		)
 	}
 
 	onSubmitSearch = (e) => {
-		if (e){
-			e.preventDefault();
-		}
+		e && e.preventDefault();
 		this.setState({
 			redirectToSearch: true
 		})
@@ -64,7 +69,6 @@ class ClassroomMenu extends Component {
 	}
 			
 	render() {
-		//TODO customize each menu to differentiate better between them!!!!
 		let { pathname } = this.props.location;
 		let { authenticatedUser: curUser } = this.props
 		let { redirectToHome, redirectToSearch, searchQuery, display } = this.state;
@@ -79,6 +83,10 @@ class ClassroomMenu extends Component {
 				</button>
 				<div className={(display ? '' : 'collapse ') + "navbar-collapse"}>
 					{(() => {
+						/*
+							This allows the navbar to remain, when the user inputs
+							a search request into the search form
+						 */
 						if (redirectToSearch){
 							this.setState({
 								redirectToSearch: false
@@ -109,6 +117,10 @@ class ClassroomMenu extends Component {
 							key={-2}
 						/>
 						{this.props.navItems.map((item, i) => (
+							/*
+								Navigation items, which get added while the user
+								goes on different routers (e. g. course router, user router)
+							 */
 							<NavItem
 								pageURI={pathname}
 								path={item.path}
@@ -148,11 +160,9 @@ class ClassroomMenu extends Component {
 							<div style={{display: 'flex'}}>
 								<NavDropdown
 									name={ curUser.notifications.length > 0 ?
-										curUser.notifications.length :
-										''
+										curUser.notifications.length : ''
 									}
 									displayComponent={
-
 										<Icon
 											icon={curUser.notifications.length > 0 ?
 												faBellSolid :
@@ -161,6 +171,7 @@ class ClassroomMenu extends Component {
 											size="2x"
 										/>
 									}
+									tabIndex={0}
 								>
 									{curUser.notifications.map((n, i) => (
 										<NotificationItem
@@ -172,7 +183,7 @@ class ClassroomMenu extends Component {
 									))}
 								</NavDropdown>
 
-								<NavDropdown name={curUser.name}>
+								<NavDropdown name={curUser.name} tabIndex={0}>
 									<Link className="dropdown-item text-right" to={`/classroom/user/${curUser._id}`}>
 										Profile
 									</Link>
@@ -182,22 +193,21 @@ class ClassroomMenu extends Component {
 									<Link className="dropdown-item" to="/classroom/courses">
 										Courses
 									</Link>
-									<span
+									<a
 										className="dropdown-item"
-										onClick={(e) => this.handleLogout()}
-										style={{
-											cursor: 'pointer'
-										}}
+										onClick={this.handleLogout}
+										tabIndex={0}
+										href="#void"
 									>
 										Log out
-									</span>
+									</a>
 								</NavDropdown>
 							</div>
 						) : (
 							<div style={{display: 'flex'}}>
 								<button
 									className="btn btn-outline my-sm-0"
-									onClick={(e) => this.showSigninModal()}
+									onClick={this.showSigninModal}
 								>
 									Sign in
 								</button>
@@ -206,29 +216,21 @@ class ClassroomMenu extends Component {
 					</ul>
 					{redirectToHome && (<Redirect to="/" />)}
 				</div>
-
 			</nav>
 		);
 	}
 }
 
-let mapDispatchToProps = dispatch => {
-	return {
-		showModal: (Component) => dispatch(showModal(Component)),
-		hideModal: () => dispatch(hideModal()),
-		logout: () => dispatch(logout()),
-		getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
-	}
-}
-
-let mapStateToProps = (state) => {
-	return {
-		...state.services,
-		...state.routing
-	}
-}
-
-
+let mapDispatchToProps = dispatch => ({
+	showModal: (Component) => dispatch(showModal(Component)),
+	hideModal: () => dispatch(hideModal()),
+	logout: () => dispatch(logout()),
+	getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+})
+let mapStateToProps = (state) => ({
+	...state.services,
+	...state.routing
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

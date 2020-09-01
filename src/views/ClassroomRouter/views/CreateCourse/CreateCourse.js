@@ -175,7 +175,7 @@ let mapDispatchToProps = (dispatch) => {
 
 let mapStateToProps = (state) => {
 	return {
-		...state.views.classroom.course.create
+		...state.views.classroom.createCourse
 	}
 }
 

@@ -3,7 +3,15 @@ import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
 import {Transition} from "react-transition-group";
 import {transitionStyles} from "../services/helpers";
+import PropTypes from 'prop-types'
 
+/**
+ * Allows to group courses into groups, normally the
+ * courses are contained in {@link components.views.classroom.CourseList.CourseListItem}
+ *
+ * @memberOf components.views.classroom.CourseList
+ * @component
+ */
 class CollapsibleCourseList extends Component {
     constructor(props){
         super(props);
@@ -23,12 +31,9 @@ class CollapsibleCourseList extends Component {
     render() {
         return (
             <div>
-                <div
-                    style={{
-                        display: 'flex'
-                    }}
-                >
+                <div style={{display: 'flex'}}>
                     <a
+                        href="#void"
                         onClick={this.handleListClick}
                         style={{
                             display: 'flex',
@@ -40,12 +45,9 @@ class CollapsibleCourseList extends Component {
                         <Icon
                             className="fa-2x"
                             icon={this.state.showList ? faCaretDown : faCaretRight}
-                            style={{
-                                float: 'left'
-                            }}
+                            style={{float: 'left'}}
                         />
-                        <h1>{this.props.listName}</h1>
-
+                        <h1>{this.props.listHeading}</h1>
                     </a>
                 </div>
 
@@ -56,12 +58,12 @@ class CollapsibleCourseList extends Component {
                     appear
                 >
                     {state => (
-                        <div
-                            style={{
-                                ...transitionStyles[state]
-                            }}
-                        >
-                            {this.props.children}
+                        <div style={{...transitionStyles[state]}}>
+                            {(this.props.children && this.props.children.length > 0) ? (
+                                this.props.children
+                            ) : (
+                                'No courses here'
+                            )}
                         </div>
                     )}
                 </Transition>
@@ -70,5 +72,7 @@ class CollapsibleCourseList extends Component {
         );
     }
 }
-
+CollapsibleCourseList.propTypes = {
+    listHeading: PropTypes.node.isRequired
+}
 export default CollapsibleCourseList;

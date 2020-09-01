@@ -8,7 +8,16 @@ let {
 	API_GET_NOT_VIEWED_NOTIFICATIONS,
 	CLEAR_NOTIFICATIONS
 } = types;
+/**
+ * @namespace storeState.views.classroom.courseListActions
+ */
 
+/**
+ * @async
+ * @function
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.courseListActions
+ */
 export let getOpenCourses = () => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
@@ -19,7 +28,14 @@ export let getOpenCourses = () => (dispatch) => {
 	))
 }
 
-
+/**
+ * @async
+ * @function
+ * @param {string} userId
+ * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeState.views.classroom.courseListActions
+ */
 export let getEnrolledCourses = (userId) => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
@@ -30,6 +46,14 @@ export let getEnrolledCourses = (userId) => (dispatch) => {
 	))
 }
 
+/**
+ * @async
+ * @function
+ * @param {string} userId
+ * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeState.views.classroom.courseListActions
+ */
 export let getTeacherCourses = (userId) => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
@@ -40,14 +64,31 @@ export let getTeacherCourses = (userId) => (dispatch) => {
 	))
 }
 
+/**
+ * @function
+ * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.views.classroom.courseListActions
+ */
 export let clearNotifications = () => (dispatch) => {
 	return dispatch({
 		type: CLEAR_NOTIFICATIONS
 	})
 }
 
+/**
+ * Adds notifications that specify, that the users hasn't viewed the courses, the IDs of
+ * which are mentioned in the `courses` param (the user is subscribed to these courses).
+ * This notification means, that there have been some update in the course, but the user hasn't yet
+ * seen this new content. See API docs for details.
+ * @async
+ * @function
+ * @param {string[]} courses - the list of IDs, for which the notifications should be added
+ * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeState.views.classroom.courseListActions
+ */
 export let addNotViewedNotifications = (courses) => (dispatch) => {
-	//console.log(courses);
 	return fetch(`${REACT_APP_API_URL}/courses/updates-notifications`, {
 		method: "POST",
 		headers: {

@@ -3,143 +3,29 @@ import { connect } from 'react-redux'
 import MainDashboard from './components/MainList'
 import StudentDashboard from './components/StudentList'
 import TeacherDashboard from './components/TeacherList'
-import {
-	clearNotifications,
-	getTeacherCourses,
-	getEnrolledCourses,
-	getOpenCourses,
-	addNotViewedNotifications
-} from "./services/actions";
-import { addToast } from "../../../../components/ToastRoot/services/actions";
+import {clearNotifications} from "./services/actions";
 import OptimizedPureComponent from '../../../../components/performance/OptimizedPureComponent'
 import SmallLoading from "../../../../components/reusables/SmallLoading";
 
-
+/**
+ * Lists all courses that are relevant to the user
+ * and also the list of all open courses
+ * @memberOf components.views.classroom
+ * @component
+ */
 class CourseList extends OptimizedPureComponent {
-	loadOpen = false
-	loadEnrolled = false
-	loadTeacher = false
-
 
 	componentWillUnmount() {
 		this.props.clearNotifications();
 	}
 
-	handleLoad = () => {
-		this.loading = this.loadOpen || this.loadEnrolled || this.loadTeacher
-	}
-
-	onLoad = () => {
-		let { authenticatedUser: user, enrolledCourses, openCourses, teacherCourses } = this.props;
-
-		this.loadOpen = true;
-		this.props.getOpenCourses()
-			.then(() => {
-				this.loadOpen = false;
-				this.handleLoad();
-			})
-		if (user && user._id && !(this.props.enrolledCourses)) {
-			this.loadEnrolled = true;
-			this.props.getEnrolledCourses(user._id)
-				.then(() => {
-					if (this.props.error) throw {
-						message: 'Problem with loading enrolled courses'
-					}
-
-					this.loadEnrolled = false;
-					this.handleLoad();
-
-					return this.props.addNotViewedNotifications(
-						enrolledCourses ? enrolledCourses.map(c => c._id) : []
-					);
-				})
-				.then(() => {
-					if (this.props.error) throw {
-						message: 'Problem with loading enrolled courses'
-					}
-				})
-				.catch(err => {
-					this.displayError(err.message);
-				})
-		} else if (user && user._id){
-			this.props.addNotViewedNotifications(
-				enrolledCourses ? enrolledCourses.map(c => c._id) : []
-			)
-				.then(() => {
-					if (this.props.error) throw {
-						message: 'Problem with loading enrolled courses'
-					}
-				})
-				.catch(err => {
-					this.displayError(err.message);
-				})
-		}
-		if (user && user._id && user.role === 'teacher' &&
-			!(this.props.teacherCourses)
-		){
-			this.loadTeacher = true;
-			this.props.getTeacherCourses(user._id)
-				.then(() => {
-					if (this.props.error) throw {
-						message: 'Problem with loading teacher courses'
-					}
-
-					this.loadTeacher = false;
-					this.handleLoad();
-
-					return this.props.addNotViewedNotifications(
-						teacherCourses ? teacherCourses.map(c => c._id) : []
-					);
-				})
-				.then(() => {
-					if (this.props.error) throw {
-						message: 'Problem with loading teacher courses'
-					}
-				})
-				.catch(err => {
-					this.displayError(err.message);
-				})
-		} else if (user && user._id && user.role === 'teacher'){
-			this.props.addNotViewedNotifications(
-				teacherCourses ? teacherCourses.map(c => c._id) : []
-			)
-				.then(() => {
-					if (this.props.error) throw {
-						message: 'Problem with loading teacher courses'
-					}
-				})
-				.catch(err => {
-					this.displayError(err.message);
-				})
-		}
-
-	}
-
-	displayError = (text) => {
-		console.log('display error');
-		return this.props.addToast(
-			(
-				<div>
-					{this.props.error || text.message || text}
-				</div>
-			),
-			{
-				type: 'error'
-			}
-		)
-	}
-
-
 	render() {
-		super.render();
-		if (this.canCallOptimally() && !this.loading){
-			this.onLoad();
-		}
 		let { authenticatedUser: user } = this.props;
+		let isAuthenticated = user && user._id;
 
 		return (
 			<div className="container">
-				{user && user._id && user.role === 'teacher' && (
+				{isAuthenticated && user.role === 'teacher' && (
 					<div>
 						{this.props.teacherCourses ? (
 							<TeacherDashboard />
@@ -148,7 +34,7 @@ class CourseList extends OptimizedPureComponent {
 						)}
 					</div>
 				)}
-				{user && user._id && (
+				{isAuthenticated && (
 					<div>
 						{this.props.enrolledCourses ? (
 							<StudentDashboard className="mt-5" />
@@ -157,7 +43,6 @@ class CourseList extends OptimizedPureComponent {
 						)}
 					</div>
 				)}
-
 				<div>
 					{this.props.openCourses ? (
 						<MainDashboard />
@@ -170,24 +55,13 @@ class CourseList extends OptimizedPureComponent {
 	}
 }
 
-let mapStateToProps = (state) => {
-	return {
-		...state.views.classroom.courseList,
-		authenticatedUser: state.services.authenticatedUser
-	}
-}
-
-let mapDispatchToProps = (dispatch) => {
-	return {
-		clearNotifications: () => dispatch(clearNotifications()),
-		addToast: (component, options) => dispatch(addToast(component, options)),
-		getOpenCourses: () => dispatch(getOpenCourses()),
-		getEnrolledCourses: (userId) => dispatch(getEnrolledCourses(userId)),
-		getTeacherCourses: (userId) => dispatch(getTeacherCourses(userId)),
-		addNotViewedNotifications: (courses) => dispatch(addNotViewedNotifications(courses))
-	}
-}
-
+let mapStateToProps = (state) => ({
+	...state.views.classroom.courseList,
+	...state.services
+})
+let mapDispatchToProps = (dispatch) => ({
+	clearNotifications: () => dispatch(clearNotifications())
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

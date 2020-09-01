@@ -52,7 +52,7 @@ export let signup = (user) => (dispatch) => {
  * @function
  * @param {Object} user - the user data to create a new account with (see API docs for details)
  * This object contains the invitation token with some details
- * @return {function(*): Promise<any | void>}
+ * @return {function(*): Promise<ReduxAction>}
  *
  * @memberOf storeState.views.public.signupActions
  */

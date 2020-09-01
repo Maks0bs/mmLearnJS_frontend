@@ -34,6 +34,7 @@ class Signin extends Component {
     }
 
     handleLeave = () => {
+        this.props.clearMessages();
         this.props.shouldCloseModal && this.props.hideModal();
     }
 

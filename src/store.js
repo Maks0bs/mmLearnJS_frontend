@@ -4,10 +4,10 @@ import rootReducer from './services/reducer'
 /**
  * @typedef ReduxAction
  * @type Object
- * @property type - The type of the action to be dispatched
- * @type string
- * @property payload - data, provided by the action (if any)
- * @type ?Object
+ * @property {string} type - The type of the action to be dispatched
+ * @property {?Object} payload - data, provided by the action (if any). Normally it's
+ * clear what kind of payload is provided by the type of action
+ * or by the api call that is performed
  */
 
 let initialState = {};
