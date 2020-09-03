@@ -1,82 +1,65 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {
-	searchCourses,
-	cleanup
-} from "./services/actions";
+import {searchCourses, cleanup} from "./services/actions";
 import { addToast } from "../../../../components/ToastRoot/services/actions";
-import OptimizedComponent from "../../../../components/performance/OptimizedComponent";
-import {isEqual} from "lodash";
 import CourseSearchItem from "./components/CourseSearchItem";
 import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
 
-
-class SearchCourses extends OptimizedComponent {
+/**
+ * Search for courses with the given query (in the URI params) and
+ * display the found courses
+ * @memberOf components.views.classroom
+ * @component
+ */
+class SearchCourses extends Component {
 
 	componentWillUnmount() {
 		this.props.cleanup();
 	}
 
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps.match.params.searchQuery !== this.props.match.params.searchQuery){
+			this.props.searchCourses(nextProps.match.params.searchQuery);
+		}
+		return true;
+	}
+
+	componentDidMount() {
+		this.props.searchCourses(this.props.match.params.searchQuery);
+	}
 
 	render() {
-		super.render();
-		if (this.canCallOptimally() && !this.loading){
-			//this.props.cleanup();
-			this.props.searchCourses(this.props.match.params.searchQuery)
-			this.loading = true;
-		}
-
-		if (this.props.courses){
-			this.loading = false;
-		}
-
-		if (this.loading){
-			return (
-				<BigLoadingCentered />
-			)
+		let { courses } = this.props;
+		if (!courses || !Array.isArray(courses)){
+			return (<BigLoadingCentered />)
 		}
 
 		return (
 			<div className="container mt-3">
-				<ul
-					style={{
-						listStyleType: 'square'
-					}}
-				>
-					{(!this.props.courses || (this.props.courses.length === 0) ) && (
-						<h1>
-							Nothing was found for given query
-						</h1>
+				<ul style={{listStyleType: 'square'}}>
+					{(courses.length === 0) && (
+						<h1>Nothing was found for given query</h1>
 					)}
-					{this.props.courses && this.props.courses.map((course, i) => (
-						<li>
-							<CourseSearchItem
-								course={course}
-							/>
+					{courses.map((course, i) => (
+						<li key={i}>
+							<CourseSearchItem {...course}/>
 						</li>
 					))}
 				</ul>
 			</div>
 		)
-
 	}
 }
 
-let mapStateToProps = (state) => {
-	return {
-		...state.views.classroom.searchCourses,
-		authenticatedUser: state.services.authenticatedUser
-	}
-}
-
-let mapDispatchToProps = (dispatch) => {
-	return {
-		addToast: (component, options) => dispatch(addToast(component, options)),
-		searchCourses: (key) => dispatch(searchCourses(key)),
-		cleanup: () => dispatch(cleanup())
-	}
-}
-
+let mapStateToProps = (state) => ({
+	...state.views.classroom.searchCourses,
+	...state.services
+})
+let mapDispatchToProps = (dispatch) => ({
+	addToast: (component, options) => dispatch(addToast(component, options)),
+	searchCourses: (key) => dispatch(searchCourses(key)),
+	cleanup: () => dispatch(cleanup())
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

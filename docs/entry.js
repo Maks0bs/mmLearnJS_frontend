@@ -82,47 +82,77 @@ reactComponents['StudentList'] = Component18;
 import Component19 from '../src/views/ClassroomRouter/views/CourseList/components/TeacherList.js';
 reactComponents['TeacherList'] = Component19;
 
-import Component20 from '../src/views/ClassroomRouter/views/MainClassroom.js';
-reactComponents['MainClassroom'] = Component20;
+import Component20 from '../src/views/ClassroomRouter/views/CreateCourse/CreateCourse.js';
+reactComponents['CreateCourse'] = Component20;
 
-import Component21 from '../src/views/components/ActivationMessage/ActivationMessage.js';
-reactComponents['ActivationMessage'] = Component21;
+import Component21 from '../src/views/ClassroomRouter/views/MainClassroom.js';
+reactComponents['MainClassroom'] = Component21;
 
-import Component22 from '../src/views/components/Signin/Signin.js';
-reactComponents['Signin'] = Component22;
+import Component22 from '../src/views/ClassroomRouter/views/SearchCourses/SearchCourses.js';
+reactComponents['SearchCourses'] = Component22;
 
-import Component23 from '../src/views/PublicRouter/views/ActivateAccount/ActivateAccount.js';
-reactComponents['ActivateAccount'] = Component23;
+import Component23 from '../src/views/ClassroomRouter/views/SearchCourses/components/CourseSearchItem.js';
+reactComponents['CourseSearchItem'] = Component23;
 
-import Component24 from '../src/views/PublicRouter/views/ForgotPassword/ForgotPassword.js';
-reactComponents['ForgotPassword'] = Component24;
+import Component24 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/EditUser.js';
+reactComponents['EditUser'] = Component24;
 
-import Component25 from '../src/views/PublicRouter/views/Home/Home.js';
-reactComponents['Home'] = Component25;
+import Component25 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserBasicData.js';
+reactComponents['EditUserBasicData'] = Component25;
 
-import Component26 from '../src/views/PublicRouter/views/Home/components/NewsFeed.js';
-reactComponents['NewsFeed'] = Component26;
+import Component26 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserPhoto.js';
+reactComponents['EditUserPhoto'] = Component26;
 
-import Component27 from '../src/views/PublicRouter/views/InviteSignup.js';
-reactComponents['InviteSignup'] = Component27;
+import Component27 from '../src/views/ClassroomRouter/views/UserRouter/views/User/User.js';
+reactComponents['User'] = Component27;
 
-import Component28 from '../src/views/PublicRouter/components/PublicMenu.js';
-reactComponents['PublicMenu'] = Component28;
+import Component28 from '../src/views/ClassroomRouter/views/UserRouter/views/User/components/UserBasicInfoAndActions.js';
+reactComponents['UserBasicInfoAndActions'] = Component28;
 
-import Component29 from '../src/views/PublicRouter/PublicRouter.js';
-reactComponents['PublicRouter'] = Component29;
+import Component29 from '../src/views/ClassroomRouter/views/UserRouter/views/User/components/UserClassroomContent.js';
+reactComponents['UserClassroomContent'] = Component29;
 
-import Component30 from '../src/views/PublicRouter/views/ResetPassword/ResetPassword.js';
-reactComponents['ResetPassword'] = Component30;
+import Component30 from '../src/views/ClassroomRouter/views/UserRouter/UserRouter.js';
+reactComponents['UserRouter'] = Component30;
 
-import Component31 from '../src/views/PublicRouter/views/Signin.js';
-reactComponents['Signin'] = Component31;
+import Component31 from '../src/views/components/ActivationMessage/ActivationMessage.js';
+reactComponents['ActivationMessage'] = Component31;
 
-import Component32 from '../src/views/PublicRouter/views/Signup.js';
-reactComponents['Signup'] = Component32;
+import Component32 from '../src/views/components/Signin/Signin.js';
+reactComponents['Signin'] = Component32;
 
-import Component33 from '../src/views/PublicRouter/components/SignupComponent/SignupComponent.js';
-reactComponents['SignupComponent'] = Component33;
+import Component33 from '../src/views/PublicRouter/views/ActivateAccount/ActivateAccount.js';
+reactComponents['ActivateAccount'] = Component33;
 
-import Component34 from '../src/views/PublicRouter/components/SignupComponent/components/SignupForm.js';
-reactComponents['SignupForm'] = Component34;
+import Component34 from '../src/views/PublicRouter/views/ForgotPassword/ForgotPassword.js';
+reactComponents['ForgotPassword'] = Component34;
+
+import Component35 from '../src/views/PublicRouter/views/Home/Home.js';
+reactComponents['Home'] = Component35;
+
+import Component36 from '../src/views/PublicRouter/views/Home/components/NewsFeed.js';
+reactComponents['NewsFeed'] = Component36;
+
+import Component37 from '../src/views/PublicRouter/views/InviteSignup.js';
+reactComponents['InviteSignup'] = Component37;
+
+import Component38 from '../src/views/PublicRouter/components/PublicMenu.js';
+reactComponents['PublicMenu'] = Component38;
+
+import Component39 from '../src/views/PublicRouter/PublicRouter.js';
+reactComponents['PublicRouter'] = Component39;
+
+import Component40 from '../src/views/PublicRouter/views/ResetPassword/ResetPassword.js';
+reactComponents['ResetPassword'] = Component40;
+
+import Component41 from '../src/views/PublicRouter/views/Signin.js';
+reactComponents['Signin'] = Component41;
+
+import Component42 from '../src/views/PublicRouter/views/Signup.js';
+reactComponents['Signup'] = Component42;
+
+import Component43 from '../src/views/PublicRouter/components/SignupComponent/SignupComponent.js';
+reactComponents['SignupComponent'] = Component43;
+
+import Component44 from '../src/views/PublicRouter/components/SignupComponent/components/SignupForm.js';
+reactComponents['SignupForm'] = Component44;

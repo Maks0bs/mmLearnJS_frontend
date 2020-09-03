@@ -42,6 +42,7 @@ class NotificationItem extends Component {
                         background: '#ffffff'
                     })
                 }}
+                tabIndex={0}
             >
                 <strong>{title}</strong>
                 <hr />

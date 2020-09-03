@@ -16,6 +16,7 @@ import {
 	getOpenCourses,
 	getTeacherCourses
 } from "./views/CourseList/services/actions";
+import { getUser } from "./views/UserRouter/services/actions";
 import {addToast} from "../../components/ToastRoot/services/actions";
 import CreateCourse from "./views/CreateCourse";
 
@@ -112,7 +113,13 @@ class ClassroomRouter extends Component {
 					/>
 					<Route
 						path={`${path}/user/:userId`}
-						component={UserRouter}
+						render={() => {
+							let [,userId] = /^\/classroom\/user\/([A-Za-z0-9]+)/.exec(
+								this.props.location.pathname
+							);
+							this.props.getUser(userId);
+							return (<UserRouter />)
+						}}
 					/>
 				</Switch>
 			</div>
@@ -123,12 +130,13 @@ class ClassroomRouter extends Component {
 let mapStateToProps = (state) => ({
 	...state.services
 })
-let mapDispatchToProps = (dispatch, props) => ({
+let mapDispatchToProps = (dispatch) => ({
 	getOpenCourses: () => dispatch(getOpenCourses()),
 	getEnrolledCourses: (userId) => dispatch(getEnrolledCourses(userId)),
 	getTeacherCourses: (userId) => dispatch(getTeacherCourses(userId)),
 	addNotViewedNotifications: (courses) => dispatch(addNotViewedNotifications(courses)),
-	addToast: (component, options) => dispatch(addToast(component, options))
+	addToast: (component, options) => dispatch(addToast(component, options)),
+	getUser: (userId) => dispatch(getUser(userId))
 })
 export default connect(
 	mapStateToProps,

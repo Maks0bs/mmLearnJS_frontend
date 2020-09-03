@@ -74,10 +74,7 @@ class SignupForm extends Component {
 
     render() {
         let { name, email, password, teacherChecked, teacherPassword } = this.state;
-        let inlineStyle = {
-            display: 'flex',
-            alignItems: 'center',
-        }
+        let inlineStyle = {display: 'flex', alignItems: 'center'}
         return (
             <form onSubmit={this.onSubmit}>
                 <div className="form-group" style={inlineStyle}>
@@ -113,41 +110,36 @@ class SignupForm extends Component {
                             return (<p>You will be registered as a teacher</p>)
                         default:
                             return (
-                                <div>
-                                    <div className="form-group" style={{alignItems: 'center'}}>
-                                        <div
-                                            className="form-group"
-                                            style={inlineStyle}
+                                <div className="form-group" style={{alignItems: 'center'}}>
+                                    <div className="form-group" style={inlineStyle}>
+                                        <label
+                                            className="text-muted my-0"
+                                            htmlFor="signup-teacher-checkbox"
                                         >
-                                            <label
-                                                className="text-muted my-0"
-                                                htmlFor="signup-teacher-checkbox"
-                                            >
-                                                Sign up as a teacher?
-                                            </label>
-                                            <input
-                                                id="signup-teacher-checkbox"
-                                                type="checkbox"
-                                                onChange={this.handleTeacherCheck}
-                                                className="ml-3"
-                                                checked={teacherChecked}
-                                            />
-                                        </div>
+                                            Sign up as a teacher?
+                                        </label>
+                                        <input
+                                            id="signup-teacher-checkbox"
+                                            type="checkbox"
+                                            onChange={this.handleTeacherCheck}
+                                            className="ml-3"
+                                            checked={teacherChecked}
+                                        />
+                                    </div>
 
-                                        <div
-                                            className="form-group"
-                                            style={{display: teacherChecked ? "flex" : "none"}}
-                                        >
-                                            <label className="text-muted m-2">
-                                                Password for signing up as a teacher
-                                            </label>
-                                            <input
-                                                onChange={this.handleChange("teacherPassword")}
-                                                type="text"
-                                                className="form-control"
-                                                value={teacherPassword}
-                                            />
-                                        </div>
+                                    <div
+                                        className="form-group"
+                                        style={{display: teacherChecked ? "flex" : "none"}}
+                                    >
+                                        <label className="text-muted m-2">
+                                            Password for signing up as a teacher
+                                        </label>
+                                        <input
+                                            onChange={this.handleChange("teacherPassword")}
+                                            type="text"
+                                            className="form-control"
+                                            value={teacherPassword}
+                                        />
                                     </div>
                                 </div>
                             )

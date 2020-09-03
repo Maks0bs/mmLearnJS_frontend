@@ -15,9 +15,10 @@ class NavDropdown extends React.Component {
             isToggleOn: false
         };
     }
+    hasFocus = false;
 
     toggleDropdown(e) {
-        e.preventDefault();
+        e && e.preventDefault();
         this.setState({
             isToggleOn: !this.state.isToggleOn
         })
@@ -26,8 +27,10 @@ class NavDropdown extends React.Component {
     componentDidMount() {
         /*
             When user clicks outside of dropdown, close it
+            Also listener for enter press to open/close dropdown, when focused
          */
         document.addEventListener('mousedown', this.handleClick, false);
+        document.addEventListener('keypress', this.handleKeyPress, false);
     }
 
     componentWillUnmount() {
@@ -35,6 +38,13 @@ class NavDropdown extends React.Component {
             Cleanup to prevent memory leaks
          */
         document.removeEventListener('mousedown', this.handleClick, false);
+        document.removeEventListener('keypress', this.handleKeyPress, false);
+    }
+
+    handleKeyPress = (e) => {
+        if (e.key && e.key === 'Enter' && this.hasFocus){
+            this.toggleDropdown();
+        }
     }
 
     handleClick = (e) => {
@@ -60,7 +70,6 @@ class NavDropdown extends React.Component {
             <li
                 className="nav-item dropdown"
                 ref={node => (this.innerContentRef = node)}
-
             >
                 <a
                     className="nav-link dropdown-toggle"
@@ -69,8 +78,9 @@ class NavDropdown extends React.Component {
                         cursor: 'pointer',
                         textTransform: 'none',
                     }}
-                    onFocus={(e) => {this.toggleDropdown(e)}}
                     tabIndex={0}
+                    onFocus={() => this.hasFocus = true}
+                    onBlur={() => this.hasFocus = false}
                 >
                     {this.props.name}
                     {this.props.displayComponent && this.props.displayComponent}

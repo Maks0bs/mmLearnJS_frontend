@@ -7,7 +7,7 @@ import { faAlignJustify } from "@fortawesome/free-solid-svg-icons";
 import { EDIT_FIELDS_DND_TYPE, USER_FIELDS } from "../../../services/helpers";
 import { reorderArray } from "../../../../../../../components/services/helpers";
 
-class EditFields extends Component {
+class EditUserHiddenFields extends Component {
     constructor() {
         super();
 
@@ -277,4 +277,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EditFields);
+)(EditUserHiddenFields);

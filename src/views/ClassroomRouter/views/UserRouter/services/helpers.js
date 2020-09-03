@@ -10,3 +10,14 @@ export let USER_FIELDS = [
     "enrolledCourses",
     "photo"
 ]
+
+export let EDITABLE_USER_FIELDS = [
+    "name",
+    "email",
+    "about",
+    "newPassword",
+    "oldPassword",
+    "photo",
+    "fileSize",
+    "hiddenFields"
+]

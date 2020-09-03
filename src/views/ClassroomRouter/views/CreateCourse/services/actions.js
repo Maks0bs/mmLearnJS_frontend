@@ -2,11 +2,24 @@ import types from './actionTypes'
 import { REACT_APP_API_URL } from '../../../../../constants'
 let { API_CREATE_COURSE, CLEAR_MESSAGES } = types;
 
-// all api requests related to Home view will be placed here
-// all nested components should only use these actions for backend requests
+/**
+ * @namespace storeState.views.classroom.createCourseActions
+ */
 
+/**
+ * @async
+ * @function
+ * @param {Object} courseData
+ * @param {string} courseData.name
+ * @param {string} courseData.about
+ * @param {string} courseData.type
+ * @param {boolean} courseData.hasPassword
+ * @param {?string} courseData.password
+ * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeState.views.classroom.createCourseActions
+ */
 export let createCourse = (courseData) => (dispatch) => {
-	console.log(courseData);
 	return fetch(`${REACT_APP_API_URL}/courses/create`, {
 		method: "POST",
 		headers: {
@@ -25,9 +38,12 @@ export let createCourse = (courseData) => (dispatch) => {
 	})})
 	.catch(err => console.log(err))
 }
-
-// add actions to change message explicitely
-
+/**
+ * @function
+ * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.views.classroom.createCourseActions
+ */
 export let clearMessages = () => (dispatch) => {
 	return dispatch({
 		type: CLEAR_MESSAGES
