@@ -11,10 +11,8 @@ import CourseRouter from './views/CourseRouter'
 import SearchCourses from "./views/SearchCourses/SearchCourses";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 import {
-	addNotViewedNotifications,
-	getEnrolledCourses,
-	getOpenCourses,
-	getTeacherCourses
+	addNotViewedNotifications, getEnrolledCourses,
+	getOpenCourses, getTeacherCourses
 } from "./views/CourseList/services/actions";
 import { getUser } from "./views/UserRouter/services/actions";
 import {addToast} from "../../components/ToastRoot/services/actions";
@@ -39,39 +37,30 @@ class ClassroomRouter extends Component {
 			{type: 'error'}
 		)
 	}
-	/*
-		Receives course lists, handles errors and adds notifications
-	 */
+	 // Receives course lists, handles errors and adds notifications
 	handleCourseListData = (payload) => {
 		if (payload.error) {
 			return this.displayError(payload.error.message || payload.error);
 		}
 		return this.props.addNotViewedNotifications(
-			Array.isArray(payload) ?
-				/*
-                    Extract IDs from the whole course data
-                 */
-				payload.map(c => c._id) : []
+			// Extract IDs from the whole course data
+			Array.isArray(payload) ? payload.map(c => c._id) : []
 		)
 			.then(() => {
 				if (this.props.error) throw {
 					message: 'Problem with loading enrolled courses'
 				}
 			})
-			.catch(err => {
-				this.displayError(err.message);
-			})
+			.catch(err => this.displayError(err.message))
 	}
 
 	render() {
 		let { authenticatedUser: user } = this.props;
-		if (user === null){
-			return (<BigLoadingCentered />)
-		}
+		if (user === null){ return (<BigLoadingCentered />)}
+
 		let { path } = this.props.match;
 		return (
 			<div>
-
 				<ActivationMessage />
 				<ClassroomMenu />
 				<Switch>
@@ -127,9 +116,7 @@ class ClassroomRouter extends Component {
 	}
 }
 
-let mapStateToProps = (state) => ({
-	...state.services
-})
+let mapStateToProps = (state) => ({...state.services})
 let mapDispatchToProps = (dispatch) => ({
 	getOpenCourses: () => dispatch(getOpenCourses()),
 	getEnrolledCourses: (userId) => dispatch(getEnrolledCourses(userId)),

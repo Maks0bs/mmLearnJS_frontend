@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { forgotPassword } from './services/actions'
 import { connect } from 'react-redux'
 import { addToast } from "../../../../components/ToastRoot/services/actions";
+import BigLoadingAbsolute from "../../../../components/reusables/BigLoadingAbsolute";
 
 /**
  * This page allows the users to notify the API, that they forgot
@@ -16,7 +17,8 @@ class ForgotPassword extends Component {
 		super(props);
 
 		this.state = {
-			email: ''
+			email: '',
+			loading: false
 		}
 	}
 
@@ -28,8 +30,12 @@ class ForgotPassword extends Component {
 
 	onSubmit = (event) => {
 		event.preventDefault()
+		this.setState({loading: true})
 		this.props.forgotPassword(this.state.email)
 			.then(() => {
+				this.setState({
+					loading: false
+				})
 				if (!this.props.error || this.props.message){
 					this.props.addToast(
 						(<div>{this.props.message}</div>),
@@ -47,6 +53,7 @@ class ForgotPassword extends Component {
 	render(){
 		return (
 			<div className="container">
+				{this.state.loading && (<BigLoadingAbsolute />)}
 				<h2 className="mt-5 mb-5">Enter email to send password reset info to</h2>
 
 				<form onSubmit={this.onSubmit}>

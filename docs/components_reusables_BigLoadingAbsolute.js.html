@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> views/components/Signin/Signin.js</title>
+  <title> components/reusables/BigLoadingAbsolute.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -80,7 +80,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>views/components/Signin/Signin.js</h1>
+                    <h1>components/reusables/BigLoadingAbsolute.js</h1>
                 </header>
                 
 
@@ -89,191 +89,38 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
-import { Link, Redirect, withRouter } from 'react-router-dom'
-import { signin, clearMessages } from './services/actions'
-import { addToast } from '../../../components/ToastRoot/services/actions'
-import { hideModal } from "../../../components/ModalRoot/services/actions";
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import {getAuthenticatedUser} from "../../../services/main/actions";
+            <pre class="prettyprint source linenums"><code>import React, {Component} from 'react';
+import BigLoadingCentered from "./BigLoadingCentered";
 
 /**
- * Used to display modals with any custom component inside
- * There should only be one ModalRoot per app
+ * Big centered loading indicator.
+ * It is located in the center of the screen
+ * (vertically and horizontally)
  *
- * @memberOf components.views.components
+ * @memberOf components.common
  * @component
  */
-class Signin extends Component {
-    constructor(props){
-        super(props);
-
-        this.state = {
-            email: '',
-            password: '',
-            reload: false
-        }
-
-    }
-
-    handleChange = (name) => (e) => {
-        this.setState({
-            [name]: e.target.value
-        })
-        this.props.clearMessages();
-    }
-
-    handleLeave = () => {
-        this.props.clearMessages();
-        this.props.shouldCloseModal &amp;&amp; this.props.hideModal();
-    }
-
-    componentWillUnmount() {
-        this.handleLeave();
-    }
-
-    onSubmit = (e) => {
-        e.preventDefault();
-        this.props.signin({...this.state})
-            .then(() => this.props.getAuthenticatedUser())
-            .then(() => {
-                if (!this.props.error){
-                    this.setState({
-                        reload: true
-                    })
-                    this.props.addToast(
-                        (&lt;div>You have signed in successfully&lt;/div>),
-                        {type: 'success'}
-                    )
-                }
-            })
-    }
-
-    renderSigninForm = (email, password) => {
+class BigLoadingAbsolute extends Component {
+    render() {
         return (
-            &lt;form>
-                &lt;div className="form-group">
-                    &lt;label className="text-muted">Email&lt;/label>
-                    &lt;input
-                        onChange={this.handleChange("email")}
-                        type="email"
-                        className="form-control"
-                        value={email}
-                        placeholder="example@email.com"
-                    />
-                &lt;/div>
-                &lt;div className="form-group">
-                    &lt;label className="text-muted">Password&lt;/label>
-                    &lt;input 
-                        onChange={this.handleChange("password")}
-                        type="password" 
-                        className="form-control"
-                        value={password}
-                    />
-                &lt;/div>
-
-                &lt;button 
-                    className="btn btn-outline btn-raised"
-                    onClick={this.onSubmit}
-                >
-                    Sign in
-                &lt;/button>
-            &lt;/form>
+            &lt;div
+                style={{
+                    margin: 0,
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    marginTop: '-100px',
+                    marginLeft: '-100px',
+                    zIndex: 1000
+                }}
+            >
+                &lt;BigLoadingCentered />
+            &lt;/div>
         );
     }
-
-    render() {
-        let {email, password, reload} = this.state;
-        let { error, message } = this.props;
-        let isMobileWidth = (window.innerWidth &lt;= 1000)
-        if (reload){
-            this.handleLeave();
-            if (this.props.shouldRedirect){
-                return (&lt;Redirect to={`/classroom/dashboard`} />)
-            }
-
-            return (&lt;Redirect to={this.props.location.pathname} />)
-        }
-        return (
-            &lt;div>
-                &lt;div
-                    className="container text-center my-3"
-                    style={{width: isMobileWidth ? '90%' : '60%'}}
-                >
-                    &lt;h1>Sign in&lt;/h1>
-                    &lt;div
-                        className="alert alert-danger"
-                        style={{display: error ? "" : "none"}}
-                    >
-                        {error}
-                    &lt;/div>
-
-                    &lt;div
-                        className="alert alert-info"
-                        style={{display: message ? "" : "none"}}
-                    >
-                        {message}
-                    &lt;/div>
-
-                    {this.renderSigninForm(email, password)}
-                &lt;/div>
-                &lt;div className="p-3">
-                    &lt;p>
-                        &lt;Link 
-                            to="/forgot-password" 
-                            className="text-danger"
-                            onClick={this.handleLeave}
-                        >
-                            Forgot Password
-                        &lt;/Link>
-                    &lt;/p>
-                    &lt;p> Don't have an account?{' '}
-                        &lt;Link 
-                            to="/signup" 
-                            className="text-info"
-                            onClick={this.handleLeave}
-                        >
-                            Signup
-                        &lt;/Link>
-                    &lt;/p>
-                &lt;/div>
-            &lt;/div>
-        )
-    }
 }
 
-
-
-let mapStateToProps = (state) => ({
-    ...state.views.components.signin
-})
-let mapDispatchToProps = (dispatch) => ({
-    clearMessages: () => dispatch(clearMessages()),
-    signin: (user) => dispatch(signin(user)),
-    addToast: (component, options) => dispatch(addToast(component, options)),
-    getAuthenticatedUser: () => dispatch(getAuthenticatedUser()),
-    hideModal: () => dispatch(hideModal())
-})
-
-Signin.propTypes = {
-    /**
-     * Set to true if the user should be redirected to `/classroom/dashboard`
-     * after successfully singing in
-     */
-    shouldRedirect: PropTypes.bool,
-    /**
-     * True if the modal in {@link ModalRoot} should be closed
-     * after successful sign in
-     */
-    shouldCloseModal: PropTypes.bool
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withRouter(Signin));
-</code></pre>
+export default BigLoadingAbsolute;</code></pre>
         </article>
     </section>
 

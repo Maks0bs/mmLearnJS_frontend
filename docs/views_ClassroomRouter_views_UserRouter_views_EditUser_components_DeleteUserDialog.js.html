@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> views/components/Signin/Signin.js</title>
+  <title> views/ClassroomRouter/views/UserRouter/views/EditUser/components/DeleteUserDialog.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -80,7 +80,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>views/components/Signin/Signin.js</h1>
+                    <h1>views/ClassroomRouter/views/UserRouter/views/EditUser/components/DeleteUserDialog.js</h1>
                 </header>
                 
 
@@ -89,191 +89,110 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
-import { Link, Redirect, withRouter } from 'react-router-dom'
-import { signin, clearMessages } from './services/actions'
-import { addToast } from '../../../components/ToastRoot/services/actions'
-import { hideModal } from "../../../components/ModalRoot/services/actions";
+            <pre class="prettyprint source linenums"><code>import React, {Component} from 'react';
 import { connect } from 'react-redux'
+import { deleteUser } from "../../../services/actions";
+import { Redirect } from 'react-router-dom'
+import { addToast } from '../../../../../../../components/ToastRoot/services/actions'
+import {logout} from "../../../../../../../services/main/actions";
 import PropTypes from 'prop-types'
-import {getAuthenticatedUser} from "../../../services/main/actions";
 
 /**
- * Used to display modals with any custom component inside
- * There should only be one ModalRoot per app
- *
- * @memberOf components.views.components
+ * Lets the user delete their account. Shows a confirmation popup
+ * @memberOf components.views.classroom.user.User
  * @component
  */
-class Signin extends Component {
-    constructor(props){
+class DeleteUserDialog extends Component {
+    constructor(props) {
         super(props);
-
-        this.state = {
-            email: '',
-            password: '',
-            reload: false
-        }
-
+        this.state = {redirectToHome: false}
     }
 
-    handleChange = (name) => (e) => {
-        this.setState({
-            [name]: e.target.value
-        })
-        this.props.clearMessages();
-    }
+    handleLeave = () => this.props.onClose &amp;&amp; this.props.onClose();
 
-    handleLeave = () => {
-        this.props.clearMessages();
-        this.props.shouldCloseModal &amp;&amp; this.props.hideModal();
-    }
+    componentWillUnmount(){ this.handleLeave(); }
 
-    componentWillUnmount() {
-        this.handleLeave();
-    }
-
-    onSubmit = (e) => {
+    onDelete = (e) => {
         e.preventDefault();
-        this.props.signin({...this.state})
-            .then(() => this.props.getAuthenticatedUser())
+        this.props.deleteUser(this.props.userId)
             .then(() => {
-                if (!this.props.error){
-                    this.setState({
-                        reload: true
-                    })
-                    this.props.addToast(
-                        (&lt;div>You have signed in successfully&lt;/div>),
-                        {type: 'success'}
-                    )
+                if (this.props.error) throw {
+                    message: 'Problem with deleting user'
                 }
+
+                this.props.logout();
+            })
+            .then(() => {
+                if (this.props.error) throw {
+                    message: 'Problem with logging out'
+                }
+
+                this.setState({redirectToHome: true})
+
+                return this.props.addToast(
+                    (&lt;div>User deleted successfully&lt;/div>),
+                    {type: 'info'}
+                )
+            })
+            .catch(err => {
+                this.displayError(err.message);
             })
     }
 
-    renderSigninForm = (email, password) => {
-        return (
-            &lt;form>
-                &lt;div className="form-group">
-                    &lt;label className="text-muted">Email&lt;/label>
-                    &lt;input
-                        onChange={this.handleChange("email")}
-                        type="email"
-                        className="form-control"
-                        value={email}
-                        placeholder="example@email.com"
-                    />
-                &lt;/div>
-                &lt;div className="form-group">
-                    &lt;label className="text-muted">Password&lt;/label>
-                    &lt;input 
-                        onChange={this.handleChange("password")}
-                        type="password" 
-                        className="form-control"
-                        value={password}
-                    />
-                &lt;/div>
-
-                &lt;button 
-                    className="btn btn-outline btn-raised"
-                    onClick={this.onSubmit}
-                >
-                    Sign in
-                &lt;/button>
-            &lt;/form>
-        );
+    displayError = (text) => {
+        return this.props.addToast(
+            (&lt;div>{this.props.error || text.message}&lt;/div>),
+            {type: 'error'}
+        )
     }
 
     render() {
-        let {email, password, reload} = this.state;
-        let { error, message } = this.props;
-        let isMobileWidth = (window.innerWidth &lt;= 1000)
-        if (reload){
+        if (this.state.redirectToHome){
             this.handleLeave();
-            if (this.props.shouldRedirect){
-                return (&lt;Redirect to={`/classroom/dashboard`} />)
-            }
-
-            return (&lt;Redirect to={this.props.location.pathname} />)
+            return (&lt;Redirect to="/" />)
         }
         return (
-            &lt;div>
-                &lt;div
-                    className="container text-center my-3"
-                    style={{width: isMobileWidth ? '90%' : '60%'}}
+            &lt;div className="container my-4">
+                &lt;h1>Are you sure you want to delete this account?&lt;/h1>
+                &lt;button
+                    className="btn btn-raised"
+                    onClick={this.handleLeave}
+                    type="button"
                 >
-                    &lt;h1>Sign in&lt;/h1>
-                    &lt;div
-                        className="alert alert-danger"
-                        style={{display: error ? "" : "none"}}
-                    >
-                        {error}
-                    &lt;/div>
-
-                    &lt;div
-                        className="alert alert-info"
-                        style={{display: message ? "" : "none"}}
-                    >
-                        {message}
-                    &lt;/div>
-
-                    {this.renderSigninForm(email, password)}
-                &lt;/div>
-                &lt;div className="p-3">
-                    &lt;p>
-                        &lt;Link 
-                            to="/forgot-password" 
-                            className="text-danger"
-                            onClick={this.handleLeave}
-                        >
-                            Forgot Password
-                        &lt;/Link>
-                    &lt;/p>
-                    &lt;p> Don't have an account?{' '}
-                        &lt;Link 
-                            to="/signup" 
-                            className="text-info"
-                            onClick={this.handleLeave}
-                        >
-                            Signup
-                        &lt;/Link>
-                    &lt;/p>
-                &lt;/div>
+                    Cancel
+                &lt;/button>
+                &lt;button
+                    className="btn btn-raised btn-danger ml-3"
+                    type="button"
+                    onClick={this.onDelete}
+                >
+                    Delete
+                &lt;/button>
             &lt;/div>
         )
     }
 }
 
 
-
 let mapStateToProps = (state) => ({
-    ...state.views.components.signin
+    ...state.views.classroom.user
 })
 let mapDispatchToProps = (dispatch) => ({
-    clearMessages: () => dispatch(clearMessages()),
-    signin: (user) => dispatch(signin(user)),
+    deleteUser: (userId) => dispatch(deleteUser(userId)),
     addToast: (component, options) => dispatch(addToast(component, options)),
-    getAuthenticatedUser: () => dispatch(getAuthenticatedUser()),
-    hideModal: () => dispatch(hideModal())
+    logout: () => dispatch(logout())
 })
-
-Signin.propTypes = {
+DeleteUserDialog.propTypes = {
     /**
-     * Set to true if the user should be redirected to `/classroom/dashboard`
-     * after successfully singing in
+     * Action that should be performed when the dialog
+     * gets closed if it is inside a modal
      */
-    shouldRedirect: PropTypes.bool,
-    /**
-     * True if the modal in {@link ModalRoot} should be closed
-     * after successful sign in
-     */
-    shouldCloseModal: PropTypes.bool
+    onClose: PropTypes.func
 }
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(Signin));
-</code></pre>
+)(DeleteUserDialog);</code></pre>
         </article>
     </section>
 

@@ -5,10 +5,11 @@ import { updateUser, getUser, editUserData, cleanup } from '../../services/actio
 import { addToast } from '../../../../../../components/ToastRoot/services/actions'
 import { showModal, hideModal } from "../../../../../../components/ModalRoot/services/actions";
 import EditFields from "./components/EditUserHiddenFields"
-import DeleteUser from "./components/DeleteUser";
+import DeleteUser from "./components/DeleteUserDialog";
 import EditUserPhoto from "./components/EditUserPhoto";
 import EditUserBasicData from "./components/EditUserBasicData";
 import {EDITABLE_USER_FIELDS} from "../../services/helpers";
+import BigLoadingAbsolute from "../../../../../../components/reusables/BigLoadingAbsolute";
 
 /**
  * The page which allows users to edit
@@ -21,7 +22,8 @@ class EditUser extends Component {
     constructor(props){
         super(props)
         this.state = {
-            redirect: false
+            redirect: false,
+            loading: false
         }
     }
 
@@ -62,18 +64,17 @@ class EditUser extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.setState({loading: true})
         this.props.updateUser(
             {
                 // The photo file gets handled in the actions itself
                 ...this.props.newUserData,
                 hiddenFields: this.props.newHiddenFields
-            },
-            this.props.user._id
+            }, this.props.user._id
         )
             .then(() => {
                 if (!this.props.error){
-                    this.setState({redirect: true})
-
+                    this.setState({redirect: true, loading: false})
                     this.props.addToast(
                         (<div>User info updated successfully</div>),
                         {type: 'success'}
@@ -105,8 +106,9 @@ class EditUser extends Component {
         return (
             <div
                 className="container my-4"
-                style={{width: isMobileWidth ? '85%' : '60%'}}
+                style={{width: isMobileWidth ? '85%' : '65%'}}
             >
+                {this.state.loading && (<BigLoadingAbsolute />)}
                 <div
                     className="alert alert-danger"
                     style={{display: error ? "" : "none"}}
@@ -115,6 +117,7 @@ class EditUser extends Component {
                 </div>
 
                 <EditUserPhoto />
+                <hr />
                 <EditUserBasicData
                     onSubmit={this.onSubmit}
                     onCancel={this.onCancel}

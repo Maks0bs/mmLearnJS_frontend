@@ -24,7 +24,7 @@ class CourseList extends OptimizedPureComponent {
 		let isAuthenticated = user && user._id;
 
 		return (
-			<div className="container">
+			<div className="container my-5">
 				{isAuthenticated && user.role === 'teacher' && (
 					<div>
 						{this.props.teacherCourses ? (

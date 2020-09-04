@@ -7,7 +7,6 @@ let {
     API_SEND_ACTIVATION,
     API_DELETE_USER,
     CLEANUP,
-    EDIT_PHOTO,
     UPDATE_USER_DATA_LOCAL,
     FORBIDDEN_FIELD_ERROR
 } = types;
@@ -18,10 +17,8 @@ let {
  * @property {Object} user - all relevant user data. See API docs for details
  * @property {Object} newUserData - the data that user entered while using
  * the form
- * @property {Object} newPhotoData - the data of the newly uploaded photo, not yet
- * sent to the server
- * @property {BinaryType} newPhotoData.photo - the reference to the uploaded file
- * @property {number} newPhotoData.fileSize
+ * @property {BinaryType|string} newUserData.photo - the reference to the uploaded file
+ * @property {number} newUserData.photoSize
  * @property {string|Object} error
  * @property {string} message
  * @property {boolean} redirectToProfile
@@ -31,17 +28,14 @@ let {
 let initialState = {
     user: null,
     error: '',
+    message: '',
     redirectToProfile: false,
     newHiddenFields: [],
     newUserData: {
         name: "", email: "", about: "",
         oldPassword: "", newPassword: "",
-    },
-    newPhotoData: {
-        photo: null,
-        fileSize: 0
-    },
-    message: ''
+        photo: "", photoSize: 0
+    }
 }
 
 
@@ -49,12 +43,9 @@ let initialState = {
  * @function userRouterReducer
  * @param {UserRouterState} state
  * @param {Object} state.user - all relevant user data. See API docs for details
- * @param {Object} state.newUserData - the data that user entered while using
- * the form
- * @param {Object} state.newPhotoData - the data of the newly uploaded photo, not yet
- * sent to the server
- * @param {BinaryType} state.newPhotoData.photo - the reference to the uploaded file
- * @param {number} state.newPhotoData.fileSize
+ * @param {Object} state.newUserData - the data that user entered while using the edit form
+ * @param {BinaryType|string} state.newUserData.photo - the reference to the uploaded file
+ * @param {number} state.newUserData.photoSize
  * @param {string|Object} state.error
  * @param {string} state.message
  * @param {boolean} state.redirectToProfile
@@ -104,19 +95,13 @@ export default function(state = initialState, action) {
                 }
             }
         case UPDATE_USER_DATA_LOCAL: {
+            console.log('data local', action.payload);
             return {
                 ...state,
                 newUserData: {
                     ...state.newUserData,
                     ...action.payload
                 },
-                error: ''
-            }
-        }
-        case EDIT_PHOTO: {
-            return {
-                ...state,
-                newPhotoData: action.payload,
                 error: ''
             }
         }

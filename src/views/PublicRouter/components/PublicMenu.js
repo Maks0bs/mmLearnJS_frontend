@@ -27,9 +27,7 @@ class PublicMenu extends Component {
 		e.preventDefault();
 		this.props.logout()
 			.then(() => this.props.getAuthenticatedUser())
-			.then(() => this.setState({
-				redirectToHome: true
-			}))
+			.then(() => this.setState({redirectToHome: true}))
 	}
 
 	showSigninModal = () => {
@@ -40,9 +38,7 @@ class PublicMenu extends Component {
 
 	toggleNavbar = (e) => {
 		e.preventDefault();
-		this.setState({
-			display: !this.state.display
-		})
+		this.setState({display: !this.state.display})
 	}
 			
 	render() {
@@ -52,12 +48,9 @@ class PublicMenu extends Component {
 		return (
 			<nav 
 				className="navbar navbar-expand-lg navbar-light sticky-top"
-				style={{
-					backgroundColor: '#64B5F6'
-				}}
+				style={{backgroundColor: '#64B5F6'}}
 			>
-				{/*
-					This button is not shown on desktop,
+				{/* This button is not shown on desktop,
 					but is very important for navigation on mobile
 					version of the site
 				*/}
@@ -71,15 +64,12 @@ class PublicMenu extends Component {
 				</button>
 				<div className={(display ? '' : 'collapse ') + "navbar-collapse"}>
 					<NavItem
-						pageURI={pathname}
-						path="/"
-						name="mmLearnJS"
-						brand
+						pageURI={pathname} path="/"
+						brand name="mmLearnJS"
 					/>
 					<ul className="navbar-nav mr-auto">
 						<NavItem
-							pageURI={pathname}
-							path="/classroom/courses"
+							pageURI={pathname} path="/classroom/courses"
 							name="Classroom"
 						/>
 					</ul>
@@ -89,29 +79,17 @@ class PublicMenu extends Component {
 					*/}
 					{(curUser && curUser._id) ? (
 						<ul className="navbar-nav">
-						<NavDropdown
-							name={curUser.name}
-							tabIndex={0}
-						>
+						<NavDropdown name={curUser.name} tabIndex={0}>
 							<Link
 								className="dropdown-item text-right"
 								to={`/classroom/user/${curUser._id}`}
-								tabIndex={0}
 							>
 								Profile
 							</Link>
-							<Link
-								className="dropdown-item"
-								to="/classroom/dashboard"
-								tabIndex={0}
-							>
+							<Link className="dropdown-item" to="/classroom/dashboard">
 								Dashboard
 							</Link>
-							<Link
-								className="dropdown-item"
-								to="/classroom/courses"
-								tabIndex={0}
-							>
+							<Link className="dropdown-item" to="/classroom/courses">
 								Courses
 							</Link>
 							<a
@@ -123,19 +101,14 @@ class PublicMenu extends Component {
 							</a>
 						</NavDropdown>
 					</ul>
-					/*
-						Otherwise, if user is not logged in,
-						display the button, that opens the sign in modal
-					 */
+					// Otherwise, if user is not logged in,
+					// display the button, that opens the sign in modal
 					) : (
 						<ul className="navbar-nav">
 							<button
-								className="btn btn-outline my-sm-0"
-								style={{
-									background: 'white'
-								}}
+								className="btn btn-outline-info my-sm-0"
+								style={{color: 'black', borderColor: 'black'}}
 								onClick={this.showSigninModal}
-								tabIndex={0}
 							>
 								Sign in
 							</button>

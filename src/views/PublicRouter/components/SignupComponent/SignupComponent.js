@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { addToast } from "../../../../components/ToastRoot/services/actions";
 import PropTypes from 'prop-types'
 import SignupForm from "./components/SignupForm";
+import BigLoadingAbsolute from "../../../../components/reusables/BigLoadingAbsolute";
 
 /**
  * The page for creating an account on this website.
@@ -16,8 +17,16 @@ import SignupForm from "./components/SignupForm";
  * @component
  */
 class SignupComponent extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			loading: false
+		}
+	}
+
 
 	notify = () => {
+		this.setState({loading: false})
 		if (this.props.error){
 			this.props.addToast(
 				(<div>Error while trying to create the account</div>),
@@ -32,6 +41,7 @@ class SignupComponent extends Component {
 	}
 
 	onSubmit = (data) => {
+		this.setState({loading: true})
 		if (this.props.invitation){
 			return this.props.inviteSignup(data, this.props.token)
 				.then(() => this.notify())
@@ -49,6 +59,7 @@ class SignupComponent extends Component {
 				className="container text-center"
 				style={{width: isMobileWidth ? '85%' : '50%'}}
 			>
+				{this.state.loading && (<BigLoadingAbsolute />)}
 				<h2 className="mt-5 mb-5">Signup</h2>
 				<div 
 					className="alert alert-danger"

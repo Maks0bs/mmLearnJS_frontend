@@ -18,6 +18,6 @@ export let EDITABLE_USER_FIELDS = [
     "newPassword",
     "oldPassword",
     "photo",
-    "fileSize",
+    "photoSize",
     "hiddenFields"
 ]

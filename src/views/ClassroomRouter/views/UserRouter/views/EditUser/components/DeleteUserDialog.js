@@ -4,26 +4,22 @@ import { deleteUser } from "../../../services/actions";
 import { Redirect } from 'react-router-dom'
 import { addToast } from '../../../../../../../components/ToastRoot/services/actions'
 import {logout} from "../../../../../../../services/main/actions";
+import PropTypes from 'prop-types'
 
-class DeleteUser extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            redirectToHome: false
-        }
+/**
+ * Lets the user delete their account. Shows a confirmation popup
+ * @memberOf components.views.classroom.user.User
+ * @component
+ */
+class DeleteUserDialog extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {redirectToHome: false}
     }
 
+    handleLeave = () => this.props.onClose && this.props.onClose();
 
-
-    handleLeave = () => {
-        this.props.onClose && this.props.onClose();
-    }
-
-    componentWillUnmount(){
-        this.handleLeave();
-    }
-
+    componentWillUnmount(){ this.handleLeave(); }
 
     onDelete = (e) => {
         e.preventDefault();
@@ -40,19 +36,11 @@ class DeleteUser extends Component {
                     message: 'Problem with logging out'
                 }
 
-                this.setState({
-                    redirectToHome: true
-                })
+                this.setState({redirectToHome: true})
 
                 return this.props.addToast(
-                    (
-                        <div>
-                            User deleted successfully
-                        </div>
-                    ),
-                    {
-                        type: 'info'
-                    }
+                    (<div>User deleted successfully</div>),
+                    {type: 'info'}
                 )
             })
             .catch(err => {
@@ -62,36 +50,28 @@ class DeleteUser extends Component {
 
     displayError = (text) => {
         return this.props.addToast(
-            (
-                <div>
-                    {this.props.error || text.message}
-                </div>
-            ),
-            {
-                type: 'error'
-            }
+            (<div>{this.props.error || text.message}</div>),
+            {type: 'error'}
         )
     }
 
     render() {
         if (this.state.redirectToHome){
             this.handleLeave();
-            return (
-                <Redirect to="/" />
-            )
+            return (<Redirect to="/" />)
         }
         return (
-            <div className="mt-4">
-                <h1>Are you sure you want to delete this user?</h1>
+            <div className="container my-4">
+                <h1>Are you sure you want to delete this account?</h1>
                 <button
-                    className="btn btn-outline"
+                    className="btn btn-raised"
                     onClick={this.handleLeave}
                     type="button"
                 >
                     Cancel
                 </button>
                 <button
-                    className="btn btn-outline btn-danger ml-3"
+                    className="btn btn-raised btn-danger ml-3"
                     type="button"
                     onClick={this.onDelete}
                 >
@@ -102,21 +82,23 @@ class DeleteUser extends Component {
     }
 }
 
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.user
-    }
-}
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        deleteUser: (userId) => dispatch(deleteUser(userId)),
-        addToast: (component, options) => dispatch(addToast(component, options)),
-        logout: () => dispatch(logout())
-    }
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.user
+})
+let mapDispatchToProps = (dispatch) => ({
+    deleteUser: (userId) => dispatch(deleteUser(userId)),
+    addToast: (component, options) => dispatch(addToast(component, options)),
+    logout: () => dispatch(logout())
+})
+DeleteUserDialog.propTypes = {
+    /**
+     * Action that should be performed when the dialog
+     * gets closed if it is inside a modal
+     */
+    onClose: PropTypes.func
 }
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(DeleteUser);
+)(DeleteUserDialog);

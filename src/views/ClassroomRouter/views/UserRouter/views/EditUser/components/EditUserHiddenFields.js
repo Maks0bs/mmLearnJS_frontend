@@ -8,9 +8,8 @@ import { EDIT_FIELDS_DND_TYPE, USER_FIELDS } from "../../../services/helpers";
 import { reorderArray } from "../../../../../../../components/services/helpers";
 
 class EditUserHiddenFields extends Component {
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
         this.state = {
             hiddenFields: [],
             availableFields: []

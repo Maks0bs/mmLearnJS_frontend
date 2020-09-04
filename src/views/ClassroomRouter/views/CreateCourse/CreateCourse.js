@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createCourse, clearMessages } from './services/actions'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 /**
@@ -14,11 +14,8 @@ class CreateCourse extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			name: '',
-			about: '',
-			type: 'open',
-			hasPassword: false,
-			password: '',
+			name: '', about: '', type: 'open',
+			hasPassword: false, password: '',
 			redirectToCourse: false
 		}
 	}
@@ -29,8 +26,7 @@ class CreateCourse extends Component {
 
 	handleHasPassword = () => {
 		this.setState({
-			hasPassword: !this.state.hasPassword,
-			password: ''
+			hasPassword: !this.state.hasPassword, password: ''
 		})
 	}
 
@@ -47,11 +43,8 @@ class CreateCourse extends Component {
 			.then(() => {
 				if (!this.props.error){
 					this.setState({
-						name: '',
-						about: '',
-						type: '',
-						password: '',
-						hasPassword: false,
+						name: '', about: '', type: '',
+						password: '', hasPassword: false,
 						redirectToCourse: true
 					})
 				}
@@ -64,7 +57,7 @@ class CreateCourse extends Component {
 		return (
 			<form onSubmit={this.onSubmit}>
 				<div className="form-group" style={inlineStyle}>
-					<label className="text-muted my-0">Name</label>
+					<label className="text-muted my-0 mx-2">Name</label>
 					<input 
 						onChange={this.handleChange("name")}
 						type="text" 
@@ -73,7 +66,7 @@ class CreateCourse extends Component {
 					/>
 				</div>
 				<div className="form-group" style={inlineStyle}>
-					<label className="text-muted my-0">Info about course</label>
+					<label className="text-muted my-0 mx-2">Info about course</label>
 					<input
 						onChange={this.handleChange("about")}
 						type="textarea"
@@ -85,11 +78,9 @@ class CreateCourse extends Component {
 					<label className="text-muted my-0" htmlFor="course_add_password">
 						Add a password to the course?
 					</label>
-					<input
+					<input type="checkbox" className="ml-3"
 						id="course_add_password"
-						type="checkbox"
 						onChange={this.handleHasPassword}
-						className="ml-3"
 						checked={hasPassword}
 					/>
 				</div>
@@ -98,18 +89,14 @@ class CreateCourse extends Component {
 					className="form-group"
 					style={hasPassword ? inlineStyle : {display: 'none'}}
 				>
-					<label className="text-muted my-0">Course password</label>
-					<input
+					<label className="text-muted my-0 mx-2">Course password</label>
+					<input type="text" className="form-control"
 						onChange={this.handleChange("password")}
-						type="text"
-						className="form-control"
 						value={password}
 					/>
 				</div>
 				<div className="form-group">
-					<select
-						name="type"
-						value={type}
+					<select name="type" value={type} className="p-1"
 						onChange={this.handleChange("type")}
 					>
 						<option value="open">Open</option>
@@ -119,7 +106,7 @@ class CreateCourse extends Component {
 				</div>
 
 				<button className="btn btn-raised btn-outline" type="submit">
-					Submit
+					Create
 				</button>
 			</form>
 		);

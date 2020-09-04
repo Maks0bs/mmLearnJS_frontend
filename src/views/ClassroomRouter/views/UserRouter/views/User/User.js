@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {Link} from "react-router-dom";
 import { sendActivation } from "../../services/actions";
 import { addToast } from '../../../../../../components/ToastRoot/services/actions'
 import UserBasicInfoAndActions from "./components/UserBasicInfoAndActions";
@@ -53,13 +52,14 @@ class User extends Component {
 		let { authenticatedUser } = this.props;
 		let isAuthenticated = (authenticatedUser && (authenticatedUser._id === _id) );
 		return (
-			<div className="container">
-				<h2 className="mt-5 mb-5">Profile</h2>
+			<div className="container my-5">
 				{!activated && (
 					<h1 className="alert alert-info">
 						User is not yet activated.
 					</h1>
 				)}
+				<h1><strong>Profile</strong></h1>
+
 				<UserBasicInfoAndActions
 					activated={activated}
 					isAuthenticated={isAuthenticated}
@@ -70,6 +70,7 @@ class User extends Component {
 					created={this.shouldDisplay("created") ? created : null}
 					email={this.shouldDisplay("email") ? email : null}
 				/>
+				<hr/>
 				<UserClassroomContent
 					about={this.shouldDisplay("about") ? about : null}
 					teacherCourses={
@@ -86,7 +87,7 @@ class User extends Component {
 
 let mapStateToProps = (state) => ({
 	...state.views.classroom.user,
-	authenticatedUser: state.services.authenticatedUser
+	...state.services
 })
 let mapDispatchToProps = (dispatch) => ({
 	sendActivation: () => dispatch(sendActivation()),

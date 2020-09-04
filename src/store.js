@@ -5,7 +5,7 @@ import rootReducer from './services/reducer'
  * @typedef ReduxAction
  * @type Object
  * @property {string} type - The type of the action to be dispatched
- * @property {?any} payload - data, provided by the action (if any). Normally it's
+ * @property {?any|Object} payload - data, provided by the action (if any). Normally it's
  * clear what kind of payload is provided by the type of action
  * or by the api call that is performed
  */

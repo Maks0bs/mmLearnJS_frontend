@@ -12,7 +12,6 @@ let {
     API_SEND_ACTIVATION,
     API_DELETE_USER,
     CLEANUP,
-    EDIT_PHOTO,
     UPDATE_USER_DATA_LOCAL,
     FORBIDDEN_FIELD_ERROR
 } = types;
@@ -41,13 +40,13 @@ export let getUser = (userId) => (dispatch) => {
  * @return {function(*): Promise<any|void>}
  * @memberOf storeState.views.classroom.userRouterActions
  */
-export let updateUser = (data, userId) => (dispatch, getState) => {
+export let updateUser = (data, userId) => (dispatch) => {
     let form = new FormData();
     // It's only possible to transport file here using getState
     // Ref to file disappears, if we call updateUser
     // from the react component
-    data.photo = getState().views.classroom.user.newPhotoData.photo
-    data.fileSize = getState().views.classroom.user.newPhotoData.fileSize;
+
+    console.log('data', data);
 
     for (let key in data){
         if (data.hasOwnProperty(key)){
@@ -63,7 +62,7 @@ export let updateUser = (data, userId) => (dispatch, getState) => {
         }
     }
 
-    if (data.fileSize > 10000000){
+    if (data.photoSize > 10000000){
         dispatch({
             type: FILE_ERROR
         });
@@ -73,14 +72,12 @@ export let updateUser = (data, userId) => (dispatch, getState) => {
         })
     }
 
-    if (data.photo){
+    if (data.photo && data.photoSize > 0){
         form.append('files', data.photo);
-        /*
-            Clear file data from json body part,
-            it's already under 'files' form attribute
-         */
-        data.fileSize = undefined;
-        data.photo = undefined;
+        // clear file data from json body part, it's already serialized in the form
+        data.fileSize = undefined
+        // Notify the API that there isa new uploaded profile photo
+        data.photo = 'new';
     }
     form.set('newUserData', JSON.stringify(data));
 
@@ -98,22 +95,6 @@ export let updateUser = (data, userId) => (dispatch, getState) => {
             })
         })
         .catch(err => console.log(err))
-}
-
-/**
- *
- * @function
- * @param {Object} data - the data of the newly uploaded photo, not yet
- * sent to the server
- * @param {BinaryType} data.photo - the reference to the uploaded file
- * @param {number} data.fileSize
- * @return {function(*): Promise<ReduxAction>}
- */
-export let editPhoto = (data) => dispatch => {
-    return dispatch({
-        type: EDIT_PHOTO,
-        payload: data
-    })
 }
 
 /**

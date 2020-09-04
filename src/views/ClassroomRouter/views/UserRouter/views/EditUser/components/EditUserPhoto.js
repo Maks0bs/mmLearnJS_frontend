@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import {REACT_APP_API_URL} from "../../../../../../../constants";
 import DefaultUserAvatar from "../../../../../../../res/images/DefaultUserAvatar.png";
-import { editPhoto } from "../../../services/actions";
+import { editUserData } from "../../../services/actions";
 import {connect} from "react-redux";
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import { faUndoAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
+import SmallLoading from "../../../../../../../components/reusables/SmallLoading";
 
 /**
  * This component is responsible for handling the upload
@@ -12,41 +15,80 @@ import {connect} from "react-redux";
  */
 class EditUserPhoto extends Component {
 
-    handlePhotoChange = (event) => {
-        if (!event.target.files[0]){
-            //If file selection was canceled, remove file refs and size
-            return this.props.editPhoto({
-                photo: null,
-                fileSize: 0
-            })
-        } else {
-            return this.props.editPhoto({
-                photo: event.target.files[0],
-                fileSize: event.target.files[0].size
+    handlePhotoChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            return this.props.editUserData({
+                photo: e.target.files[0],
+                photoSize: e.target.files[0].size
             })
         }
     }
 
+    handleRemovePhoto = (e) => {
+        e.preventDefault();
+        return this.props.editUserData({
+            photo: null,
+            photoSize: 0
+        })
+    }
+
+    handleRestorePrevPhoto = (e) => {
+        e.preventDefault();
+        return this.props.editUserData({
+            photo: this.props.user.photo,
+            photoSize: 0
+        })
+    }
+
     render() {
-        let { fileSize, photo } = this.props.newPhotoData;
+        let { photoSize, photo } = this.props.newUserData;
+        let inlineStyle = {
+            display: 'flex',
+            alignItems: 'center',
+            flexFlow: 'row wrap'
+        }
         return (
-            <div>
+            <div style={inlineStyle}>
                 <img
                     className="img-thumbnail"
-                    src={(fileSize > 0) ? URL.createObjectURL(photo) :
-                        `${REACT_APP_API_URL}/files/download/${this.props.user.photo}`}
+                    src={(photoSize > 0) ? URL.createObjectURL(photo) :
+                        `${REACT_APP_API_URL}/files/download/${photo}`}
                     alt={this.props.user.name}
                     style={{height: "200px", width: 'auto'}}
                     onError={e => (e.target.src = `${DefaultUserAvatar}`)}
                 />
-                <div className="form-group">
-                    <label className="text-muted">Profile photo</label>
-                    <input
-                        onChange={this.handlePhotoChange}
-                        type="file"
-                        accept="image/*"
-                        className="form-control"
-                    />
+                <div>
+                    <div className="form-group mx-2 my-2" style={inlineStyle}>
+                        <label className="text-muted my-0">
+                            Upload new profile photo
+                        </label>
+                        <input
+                            onChange={this.handlePhotoChange}
+                            type="file"
+                            accept="image/*"
+                            className="form-control"
+                        />
+                    </div>
+                    <div style={inlineStyle}>
+                        <a
+                            className="mx-2"
+                            style={{...inlineStyle, color: 'grey'}}
+                            href="#void"
+                            onClick={this.handleRestorePrevPhoto}
+                        >
+                            <Icon className="mx-1" icon={faUndoAlt} />
+                            Restore previous photo (before changes)
+                        </a>
+                        <a
+                            className="mx-2"
+                            style={{...inlineStyle, color: 'red'}}
+                            href="#void"
+                            onClick={this.handleRemovePhoto}
+                        >
+                            <Icon className="mx-1" icon={faTimes} />
+                            Remove photo
+                        </a>
+                    </div>
                 </div>
             </div>
         );
@@ -57,7 +99,7 @@ let mapStateToProps = (state) => ({
     ...state.views.classroom.user
 })
 let mapDispatchToProps = (dispatch) => ({
-    editPhoto: (data) => dispatch(editPhoto(data))
+    editUserData: (data) => dispatch(editUserData(data))
 })
 export default connect(
     mapStateToProps,

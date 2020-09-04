@@ -12,7 +12,9 @@ import PropTypes from 'prop-types'
  */
 class UserBasicInfoAndActions extends Component {
     render() {
-        let { photo, name, email, created, isAuthenticated, activated, _id } = this.props;
+        let { photo, name, email, created,
+            isAuthenticated, activated, _id
+        } = this.props;
         return (
             <div className="row">
                 <div className="col-md-4">
@@ -40,8 +42,7 @@ class UserBasicInfoAndActions extends Component {
                             </Link>
                             <a
                                 href="#void"
-                                style={{
-                                    display: activated ? 'none' : '',
+                                style={{display: activated ? 'none' : '',
                                     color: 'red'
                                 }}
                                 onClick={this.props.resendActivation}

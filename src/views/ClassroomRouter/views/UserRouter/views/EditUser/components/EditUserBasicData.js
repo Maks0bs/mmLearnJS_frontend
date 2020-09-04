@@ -24,10 +24,11 @@ class EditUserBasicData extends Component {
         let { onCancel, onSubmit, onShowEditFields,
             onShowDeleteUser
         } = this.props;
+        let inlineStyle = {display: 'flex', alignItems: 'center'}
         return (
             <form onSubmit={onSubmit}>
-                <div className="form-group">
-                    <label className="text-muted">Name</label>
+                <div className="form-group" style={inlineStyle}>
+                    <label className="text-muted my-0 mx-2">Name</label>
                     <input
                         onChange={this.handleChange("name")}
                         type="text"
@@ -35,8 +36,8 @@ class EditUserBasicData extends Component {
                         value={name}
                     />
                 </div>
-                <div className="form-group">
-                    <label className="text-muted">Email</label>
+                <div className="form-group" style={inlineStyle}>
+                    <label className="text-muted my-0 mx-2">Email</label>
                     <input
                         onChange={this.handleChange("email")}
                         type="email"
@@ -45,45 +46,55 @@ class EditUserBasicData extends Component {
                         readOnly
                     />
                 </div>
-                <div className="form-group">
-                    <label className="text-muted">About</label>
+                <div className="form-group" style={inlineStyle}>
+                    <label className="text-muted my-0 mx-2">About</label>
                     <textarea
+                        style={{
+                            borderStyle: 'solid',
+                            borderWidth: '1px',
+                            borderColor: 'gray'
+                        }}
                         onChange={this.handleChange("about")}
                         className="form-control"
                         value={about}
                     />
                 </div>
                 <hr/>
-                <a href="#void" onClick={onShowEditFields}>
-                    <strong> Edit what others people see in your profile </strong>
-                </a>
-                <hr/>
-                <button
-                    className="btn btn-raised btn-danger mt-3"
-                    type="button"
-                    onClick={onShowDeleteUser}
-                >
-                    Delete User
-                </button>
-                <hr />
-                <p className="mt-4">Update password</p>
-                <div className="form-group">
-                    <label className="text-muted">Old password</label>
-                    <input
-                        onChange={this.handleChange("oldPassword")}
-                        type="password"
-                        className="form-control"
-                        value={oldPassword}
-                    />
-                    <label className="text-muted mt-5">New password</label>
-                    <input
-                        onChange={this.handleChange("newPassword")}
-                        type="password"
-                        className="form-control"
-                        value={newPassword}
-                    />
+                <div style={{...inlineStyle, flexFlow: 'row wrap'}}>
+                    <a href="#void" onClick={onShowEditFields}>
+                        <strong> Edit what others people see in your profile </strong>
+                    </a>
+                    <button
+                        className="btn btn-raised btn-danger mx-3"
+                        type="button"
+                        onClick={onShowDeleteUser}
+                    >
+                        Delete User
+                    </button>
                 </div>
+                <hr/>
 
+                <p className="mt-4">Update password</p>
+                <div style={{...inlineStyle, flexFlow: 'row wrap'}}>
+                    <div className="form-group" style={inlineStyle}>
+                        <label className="text-muted my-0 mx-2">Old password</label>
+                        <input
+                            onChange={this.handleChange("oldPassword")}
+                            type="password"
+                            className="form-control"
+                            value={oldPassword}
+                        />
+                    </div>
+                    <div className="form-group" style={inlineStyle}>
+                        <label className="text-muted mx-2 my-2">New password</label>
+                        <input
+                            onChange={this.handleChange("newPassword")}
+                            type="password"
+                            className="form-control"
+                            value={newPassword}
+                        />
+                    </div>
+                </div>
                 <div>
                     <button
                         className="btn btn-raised btn-primary"

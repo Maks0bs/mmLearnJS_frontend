@@ -13,8 +13,7 @@ class UserClassroomContent extends Component {
         let { about, enrolledCourses, teacherCourses } = this.props;
         return (
             <div className="row">
-                <div className="col-md-12 mt-5 mb-5">
-                    <hr/>
+                <div className="col-md-12">
                     {about && (
                         <div>
                             <h4>About</h4>

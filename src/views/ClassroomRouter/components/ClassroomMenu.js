@@ -206,7 +206,8 @@ class ClassroomMenu extends Component {
 						) : (
 							<div style={{display: 'flex'}}>
 								<button
-									className="btn btn-outline my-sm-0"
+									className="btn btn-outline-info my-sm-0"
+									style={{color: 'black'}}
 									onClick={this.showSigninModal}
 								>
 									Sign in
