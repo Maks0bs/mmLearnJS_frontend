@@ -21,3 +21,17 @@ export let EDITABLE_USER_FIELDS = [
     "photoSize",
     "hiddenFields"
 ]
+
+export let getBeautifulFieldName = (name) => {
+    switch(name){
+        case "enrolledCourses":
+            return 'enrolled courses'
+        case "teacherCourses":
+            return "courses as a teacher"
+        case "created" :
+            return "date when joined";
+        default:
+            return name;
+    }
+}
+

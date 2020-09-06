@@ -67,14 +67,14 @@ class EditUser extends Component {
         this.setState({loading: true})
         this.props.updateUser(
             {
-                // The photo file gets handled in the actions itself
                 ...this.props.newUserData,
                 hiddenFields: this.props.newHiddenFields
             }, this.props.user._id
         )
             .then(() => {
+                this.setState({loading: false})
                 if (!this.props.error){
-                    this.setState({redirect: true, loading: false})
+                    this.setState({redirect: true})
                     this.props.addToast(
                         (<div>User info updated successfully</div>),
                         {type: 'success'}

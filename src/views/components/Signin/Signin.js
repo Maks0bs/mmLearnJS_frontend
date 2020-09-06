@@ -18,12 +18,7 @@ class Signin extends Component {
     constructor(props){
         super(props);
 
-        this.state = {
-            email: '',
-            password: '',
-            reload: false
-        }
-
+        this.state = {email: '', password: '', reload: false}
     }
 
     handleChange = (name) => (e) => {
@@ -101,7 +96,6 @@ class Signin extends Component {
             if (this.props.shouldRedirect){
                 return (<Redirect to={`/classroom/dashboard`} />)
             }
-
             return (<Redirect to={this.props.location.pathname} />)
         }
         return (
@@ -129,9 +123,7 @@ class Signin extends Component {
                 </div>
                 <div className="p-3">
                     <p>
-                        <Link 
-                            to="/forgot-password" 
-                            className="text-danger"
+                        <Link to="/forgot-password" className="text-danger"
                             onClick={this.handleLeave}
                         >
                             Forgot Password
@@ -151,9 +143,6 @@ class Signin extends Component {
         )
     }
 }
-
-
-
 let mapStateToProps = (state) => ({
     ...state.views.components.signin
 })
@@ -164,7 +153,6 @@ let mapDispatchToProps = (dispatch) => ({
     getAuthenticatedUser: () => dispatch(getAuthenticatedUser()),
     hideModal: () => dispatch(hideModal())
 })
-
 Signin.propTypes = {
     /**
      * Set to true if the user should be redirected to `/classroom/dashboard`
@@ -177,7 +165,6 @@ Signin.propTypes = {
      */
     shouldCloseModal: PropTypes.bool
 }
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps

@@ -42,11 +42,6 @@ export let getUser = (userId) => (dispatch) => {
  */
 export let updateUser = (data, userId) => (dispatch) => {
     let form = new FormData();
-    // It's only possible to transport file here using getState
-    // Ref to file disappears, if we call updateUser
-    // from the react component
-
-    console.log('data', data);
 
     for (let key in data){
         if (data.hasOwnProperty(key)){
@@ -104,6 +99,7 @@ export let updateUser = (data, userId) => (dispatch) => {
  * See API docs for details. This object should contain one of the
  * user model attributes
  * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.userRouterActions
  */
 export let editUserData = (data) => dispatch => {
     return dispatch({

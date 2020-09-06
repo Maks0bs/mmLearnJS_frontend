@@ -95,7 +95,6 @@ export default function(state = initialState, action) {
                 }
             }
         case UPDATE_USER_DATA_LOCAL: {
-            console.log('data local', action.payload);
             return {
                 ...state,
                 newUserData: {

@@ -1,54 +1,49 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
-import { setHiddenFields } from "../../../services/actions";
-import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
-import { FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import { faAlignJustify } from "@fortawesome/free-solid-svg-icons";
-import { EDIT_FIELDS_DND_TYPE, USER_FIELDS } from "../../../services/helpers";
-import { reorderArray } from "../../../../../../../components/services/helpers";
-
+import { setHiddenFields } from "../../../../services/actions";
+import { EDIT_FIELDS_DND_TYPE, USER_FIELDS } from "../../../../services/helpers";
+import { reorderArray } from "../../../../../../../../components/services/helpers";
+import PropTypes from "prop-types";
+import AvailableFieldsDroppable from "./components/AvailableFieldsDroppable";
+import HiddenFieldsDroppable from "./components/HiddenFieldsDroppable";
+import {DragDropContext, Droppable} from "react-beautiful-dnd";
+/**
+ * Lets the user adjust what data they want to be publicly displayed
+ * on their profile page
+ * @memberOf components.views.classroom.user.EditUser
+ * @component
+ */
 class EditUserHiddenFields extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            hiddenFields: [],
-            availableFields: []
-        }
+        this.state = {hiddenFields: [], availableFields: []}
     }
 
     componentDidMount() {
-
-
         let availableFields = [];
         for (let f of USER_FIELDS){
-            if (f === 'teacherCourses' && this.props.user.role === 'student'){
-                continue;
-            }
-            if (!this.props.newHiddenFields.includes(f)){
+            if (!(f === 'teacherCourses' && this.props.user.role === 'student') &&
+                !this.props.newHiddenFields.includes(f)
+            ){
                 availableFields.push(f);
             }
         }
-
         this.setState({
             hiddenFields: this.props.newHiddenFields,
             availableFields: availableFields
         })
     }
 
-    handleLeave = () => {
-        this.props.onClose && this.props.onClose();
-    }
+    handleLeave = () => this.props.onClose && this.props.onClose();
 
-    componentWillUnmount(){
-        this.handleLeave();
-    }
+    componentWillUnmount(){this.handleLeave();}
 
     onDragEnd = (result) => {
         if (!result.destination) {
             return;
         }
-
-        let newHiddenFields = [...this.state.hiddenFields], newAvailableFields = [...this.state.availableFields]
+        let newHiddenFields = [...this.state.hiddenFields],
+            newAvailableFields = [...this.state.availableFields]
 
         if (result.type === EDIT_FIELDS_DND_TYPE) {
             if (result.source.droppableId === result.destination.droppableId){
@@ -66,6 +61,7 @@ class EditUserHiddenFields extends Component {
                     )
                 }
             } else {
+                // Remove field from one list and put it to another
                 let indexSource = result.source.index;
                 let indexDest = result.destination.index;
                 if (result.source.droppableId === 'droppableAvailableFields'){
@@ -78,7 +74,6 @@ class EditUserHiddenFields extends Component {
                     newAvailableFields.splice(indexDest, 0, element)
                 }
             }
-
             this.setState({
                 hiddenFields: newHiddenFields,
                 availableFields: newAvailableFields
@@ -93,186 +88,67 @@ class EditUserHiddenFields extends Component {
     }
 
     render() {
+
         let { hiddenFields, availableFields } = this.state;
+        let isMobileWidth = (window.innerWidth <= 1000);
         return (
-            <DragDropContext
-                onDragEnd={this.onDragEnd}
+            <div
+                className="container my-3"
+                style={{width: isMobileWidth ? '80%' : '50%'}}
             >
-                <Droppable droppableId="droppableAvailableFields" type={EDIT_FIELDS_DND_TYPE}>
-                    {(provided, snapshot) => (
-                        <div
-                            ref={provided.innerRef}
-                            style={{
-                                background: snapshot.isDraggingOver ? "lightblue" : ""
-                            }}
+                <DragDropContext onDragEnd={this.onDragEnd}>
+                    <Droppable droppableId="droppableAvailableFields" type={EDIT_FIELDS_DND_TYPE}>
+                        {(provided, snapshot) => (
+                            <AvailableFieldsDroppable
+                                availableFields={availableFields}
+                                provided={provided} snapshot={snapshot}
+                            />
+                        )}
+                    </Droppable>
+                    <hr />
+                    <Droppable droppableId="droppableHiddenFields" type={EDIT_FIELDS_DND_TYPE}>
+                        {(provided, snapshot) => (
+                            <HiddenFieldsDroppable
+                                hiddenFields={hiddenFields}
+                                provided={provided} snapshot={snapshot}
+                            />
+                        )}
+                    </Droppable>
+                    <div className="mt-4">
+                        <button
+                            className="btn btn-outline btn-raised"
+                            onClick={this.handleLeave}
+                            type="button"
                         >
-                            <h4 className="m-2"> Fields to display to other users: </h4>
-                            <div className="column" >
-                                {availableFields.map((field, i) => {
-                                    let fieldName;
-                                    switch(field){
-                                        case "enrolledCourses": {
-                                            fieldName = "enrolled courses"
-                                            break;
-                                        }
-                                        case "teacherCourses": {
-                                            fieldName = "courses as a teacher"
-                                            break;
-                                        }
-                                        case "created" : {
-                                            fieldName = "date when joined";
-                                            break;
-                                        }
-                                        default: {
-                                            fieldName = field;
-                                            break;
-                                        }
-                                    }
-                                    return (
-                                        <Draggable
-                                            key={`fieldAvailable${i}`}
-                                            draggableId={`fieldAvailable${i}`}
-                                            index={i}
-                                            isDragDisabled={field === 'name'}
-                                        >
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    style={{
-                                                        padding: '4px',
-                                                        userSelect: 'none',
-                                                        background: snapshot.isDragging ?
-                                                            'grey' : 'lightgrey',
-                                                        ...provided.draggableProps.style
-                                                    }}
-                                                >
-                                                    <div
-                                                        className="float-left mx-2"
-                                                        style={{
-                                                            display: (field === 'name') ? 'none' : ''
-                                                        }}
-                                                    >
-                                                        <Icon icon={faAlignJustify}/>
-                                                    </div>
-                                                    {fieldName}
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    )
-
-                                })}
-                                {provided.placeholder}
-                            </div>
-
-                        </div>
-                    )}
-                </Droppable>
-                <hr />
-                <Droppable droppableId="droppableHiddenFields" type={EDIT_FIELDS_DND_TYPE}>
-                    {(provided, snapshot) => (
-                        <div
-                            ref={provided.innerRef}
-                            style={{
-                                background: snapshot.isDraggingOver ? "lightblue" : ""
-                            }}
+                            Cancel
+                        </button>
+                        <button
+                            className="btn btn-outline btn-raised btn-success ml-3"
+                            type="button"
+                            onClick={this.onSave}
                         >
-                            <h4 className="m-2"> Fields to hide: </h4>
-                            <div className="column" >
-                                {hiddenFields.map((field, i) => {
-                                    let fieldName;
-                                    switch(field){
-                                        case "enrolledCourses": {
-                                            fieldName = "enrolled courses"
-                                            break;
-                                        }
-                                        case "teacherCourses": {
-                                            fieldName = "courses as a teacher"
-                                            break;
-                                        }
-                                        case "created" : {
-                                            fieldName = "date when joined";
-                                            break;
-                                        }
-                                        default: {
-                                            fieldName = field;
-                                            break;
-                                        }
-                                    }
-                                    return (
-                                        <Draggable
-                                            key={`fieldHidden${i}`}
-                                            draggableId={`fieldHidden${i}`}
-                                            index={i}
-                                        >
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    style={{
-                                                        padding: '4px',
-                                                        userSelect: 'none',
-                                                        background: snapshot.isDragging ?
-                                                            'grey' : 'lightgrey',
-                                                        ...provided.draggableProps.style,
-
-                                                    }}
-                                                >
-                                                    <div className="float-left mx-2">
-                                                        <Icon icon={faAlignJustify}/>
-                                                    </div>
-                                                    {fieldName}
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    )
-
-
-                                })}
-                                {provided.placeholder}
-                            </div>
-
-                        </div>
-                    )}
-                </Droppable>
-
-                <br />
-                <div className="mt-4">
-                    <button
-                        className="btn btn-outline btn-raised"
-                        onClick={this.handleLeave}
-                        type="button"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        className="btn btn-outline btn-raised btn-success ml-3"
-                        type="button"
-                        onClick={this.onSave}
-                    >
-                        Save
-                    </button>
-                </div>
-
-            </DragDropContext>
+                            Save
+                        </button>
+                    </div>
+                </DragDropContext>
+            </div>
         );
     }
 }
 
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.user
-    }
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.user
+})
+let mapDispatchToProps = (dispatch) => ({
+    setHiddenFields: (fields) => dispatch(setHiddenFields(fields)),
+})
+EditUserHiddenFields.propTypes = {
+    /**
+     * Action that should be performed when the dialog
+     * gets closed if it is inside a modal
+     */
+    onClose: PropTypes.func
 }
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-        setHiddenFields: (fields) => dispatch(setHiddenFields(fields)),
-    }
-}
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps

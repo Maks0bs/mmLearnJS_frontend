@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 
 /**
  * Lets the user delete their account. Shows a confirmation popup
- * @memberOf components.views.classroom.user.User
+ * @memberOf components.views.classroom.user.EditUser
  * @component
  */
 class DeleteUserDialog extends Component {

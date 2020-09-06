@@ -65,7 +65,7 @@ class EditUserBasicData extends Component {
                         <strong> Edit what others people see in your profile </strong>
                     </a>
                     <button
-                        className="btn btn-raised btn-danger mx-3"
+                        className="btn btn-raised btn-danger mx-3 my-2"
                         type="button"
                         onClick={onShowDeleteUser}
                     >
@@ -103,7 +103,7 @@ class EditUserBasicData extends Component {
                         Update
                     </button>
                     <button
-                        className="btn btn-raised btn-outline ml-2"
+                        className="btn btn-raised ml-2"
                         type="button"
                         onClick={onCancel}
                     >

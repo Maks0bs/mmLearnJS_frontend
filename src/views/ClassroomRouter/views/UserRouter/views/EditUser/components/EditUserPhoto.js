@@ -5,7 +5,6 @@ import { editUserData } from "../../../services/actions";
 import {connect} from "react-redux";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faUndoAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
-import SmallLoading from "../../../../../../../components/reusables/SmallLoading";
 
 /**
  * This component is responsible for handling the upload

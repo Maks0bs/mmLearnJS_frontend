@@ -46,8 +46,6 @@ class ActivationMessage extends Component {
 		) : null;
 	}
 }
-
-
 let mapStateToProps = (state) => ({
 	...state.services,
 	...state.views.components.activationMessage
