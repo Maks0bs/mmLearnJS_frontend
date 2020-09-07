@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { createCourse, clearMessages } from './services/actions'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import BigLoadingAbsolute from "../../../../components/reusables/BigLoadingAbsolute";
 
 /**
  * The component that allows a teacher to create a new course.
@@ -16,7 +17,7 @@ class CreateCourse extends Component {
 		this.state = {
 			name: '', about: '', type: 'open',
 			hasPassword: false, password: '',
-			redirectToCourse: false
+			redirectToCourse: false, loading: false
 		}
 	}
 
@@ -45,17 +46,18 @@ class CreateCourse extends Component {
 					this.setState({
 						name: '', about: '', type: '',
 						password: '', hasPassword: false,
-						redirectToCourse: true
+						redirectToCourse: true, loading: false
 					})
 				}
 			})
 	}
 
 	renderSignupForm = () => {
-		let { name, about, type, hasPassword, password } = this.state;
+		let { name, about, type, hasPassword, password, loading } = this.state;
 		let inlineStyle = {display: 'flex', alignItems: 'center'}
 		return (
 			<form onSubmit={this.onSubmit}>
+				{loading && (<BigLoadingAbsolute />)}
 				<div className="form-group" style={inlineStyle}>
 					<label className="text-muted my-0 mx-2">Name</label>
 					<input 
@@ -103,7 +105,6 @@ class CreateCourse extends Component {
 						<option value="hidden">Hidden [to be implemented]</option>
 					</select>
 				</div>
-
 				<button className="btn btn-raised btn-outline" type="submit">
 					Create
 				</button>

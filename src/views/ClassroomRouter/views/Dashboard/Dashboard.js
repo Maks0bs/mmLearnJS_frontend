@@ -7,11 +7,9 @@ import {DEFAULT_ON_LOAD_AMOUNT, getDateHtmlFormattedString} from "./services/hel
 import { addToast } from "../../../../components/ToastRoot/services/actions";
 import { showModal, hideModal} from "../../../../components/ModalRoot/services/actions";
 import ChooseDashboardFilterCourses from "./components/ChooseDashboardFilterCourses";
-import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
 import DashboardNewsFilter from "./components/DashboardFilter";
 import DashboardNews from "./components/DashboardNews";
 import {Link} from "react-router-dom";
-import BigLoadingAbsolute from "../../../../components/reusables/BigLoadingAbsolute";
 /**
  * This component is a dashboard with the news about
  * courses to which the user is subscribed
@@ -38,6 +36,7 @@ class Dashboard extends Component {
 		}
 		// pre-populate data
 		this.props.updateFilter({curDateFrom, curDateTo, chosenCourses})
+		this.setState({loadingNew: true});
 		this.onSubmit(
 			curDateFrom, curDateTo, chosenCourses,
 			0, DEFAULT_ON_LOAD_AMOUNT
@@ -109,7 +108,8 @@ class Dashboard extends Component {
 	}
 
 	render() {
-		if (!this.props.authenticatedUser){
+		let { updatesData, noMoreUpdates, authenticatedUser } = this.props;
+		if (!authenticatedUser){
 			return (
 				<h1 className="container my-4">
 					Please <Link to={"/signin"}>sign in</Link> to
@@ -117,11 +117,8 @@ class Dashboard extends Component {
 				</h1>
 			)
 		}
-		let { updatesData, noMoreUpdates } = this.props;
-		if (!updatesData){return (<BigLoadingCentered />)}
 		return (
 			<div className="container my-4">
-				{this.state.loadingNew && (<BigLoadingAbsolute/>)}
 				<h1>Feed</h1>
 				<DashboardNewsFilter
 					onShowChooseCourses={this.onShowChooseCourses}
@@ -133,6 +130,7 @@ class Dashboard extends Component {
 					updatesData={updatesData}
 					noMoreUpdates={noMoreUpdates}
 					loadingMore={this.state.loadingMore}
+					loadingNew={this.state.loadingNew}
 				/>
 			</div>
 		)

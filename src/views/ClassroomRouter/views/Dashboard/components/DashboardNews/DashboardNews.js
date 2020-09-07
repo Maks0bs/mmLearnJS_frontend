@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import DashboardNewsEntry from "./components/DashboardNewsEntry";
 import PropTypes from 'prop-types'
 import SmallLoading from "../../../../../../components/reusables/SmallLoading";
+import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
 /**
  * Displays the news about courses to which the user is subscribed
  * @memberOf components.views.classroom.Dashboard
@@ -15,7 +16,10 @@ class DashboardNews extends Component {
     }
 
     render() {
-        let { updatesData, noMoreUpdates, loadingMore } = this.props;
+        let { updatesData, noMoreUpdates, loadingMore, loadingNew } = this.props;
+        if (!updatesData || loadingNew){
+            return (<BigLoadingCentered />)
+        }
         return (
             <div>
                 {updatesData && updatesData.map((update, i) => {
@@ -89,6 +93,11 @@ DashboardNews.propTypes = {
      * True is async loading of more entries on demand
      * is running atm
      */
-    loadingMore: PropTypes.bool
+    loadingMore: PropTypes.bool,
+    /**
+     * True if new news with new filters is being loaded.
+     * In this case don't display previous data
+     */
+    loadingNew: PropTypes.bool
 }
 export default DashboardNews;

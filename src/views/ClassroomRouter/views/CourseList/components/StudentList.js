@@ -13,16 +13,20 @@ import CollapsibleCourseList from "./CollapsibleCourseList";
 class StudentList extends Component {
 
 	render() {
-		let { notViewedNotifications, enrolledCourses, authenticatedUser } = this.props;
+		let { notViewedNotifications,
+			enrolledCourses: courses,
+			authenticatedUser
+		} = this.props;
 		let subscribedSet = getUserSubscribedSet(authenticatedUser.subscribedCourses);
 		let notificationsCount = 0;
-		/*
-			Calculate the overall amount of notifications in the given list
-		 */
-		for (let c of enrolledCourses){
-			let curNotifications = notViewedNotifications[c._id];
-			notificationsCount += curNotifications ? curNotifications : 0
+		// Calculate the overall amount of notifications in the given list
+		if (Array.isArray(courses)){
+			for (let c of courses){
+				let curNotifications = notViewedNotifications[c._id];
+				notificationsCount += curNotifications ? curNotifications : 0
+			}
 		}
+
 
 		return (
 			<CollapsibleCourseList
@@ -39,8 +43,9 @@ class StudentList extends Component {
 						</mark>
 					</div>
 				)}
+				loading={this.props.loading.enrolled}
 			>
-				{enrolledCourses.map((course, i) => (
+				{courses ? courses.map((course, i) => (
 					<div key={i}>
 						<CourseListItem
 							course={course}
@@ -48,7 +53,7 @@ class StudentList extends Component {
 							subscribed={!!subscribedSet[course._id]}
 						/>
 					</div>
-				))}
+				)) : []}
 			</CollapsibleCourseList>
 		);
 	}

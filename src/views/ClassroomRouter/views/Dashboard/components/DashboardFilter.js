@@ -13,7 +13,6 @@ import PropTypes from 'prop-types'
 class DashboardFilter extends Component {
 
     handleChange = (name) => (event) => {
-        console.log(name, event.target.value);
         if (name === 'coursesFilterType' && event.target.value === 'all'){
             // if the user wants to view news on all courses
             // set the filter of chosen courses to the array

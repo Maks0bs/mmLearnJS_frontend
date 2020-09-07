@@ -33,9 +33,7 @@ class ForgotPassword extends Component {
 		this.setState({loading: true})
 		this.props.forgotPassword(this.state.email)
 			.then(() => {
-				this.setState({
-					loading: false
-				})
+				this.setState({loading: false})
 				if (!this.props.error || this.props.message){
 					this.props.addToast(
 						(<div>{this.props.message}</div>),

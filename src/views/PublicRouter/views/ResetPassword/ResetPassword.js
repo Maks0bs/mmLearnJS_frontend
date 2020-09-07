@@ -3,6 +3,7 @@ import { resetPassword } from './services/actions'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addToast } from "../../../../components/ToastRoot/services/actions";
+import BigLoadingAbsolute from "../../../../components/reusables/BigLoadingAbsolute";
 /**
  * This page lets the user reset their password.
  * The password should be put in twice.
@@ -48,12 +49,12 @@ class ResetPassword extends Component {
 				{type: 'error'}
 			)
 		}
+		this.setState({loading: true})
 		this.props.resetPassword(password1, this.props.match.params.token)
 			.then(() => {
+				this.setState({loading: false})
 				if (!this.props.error || this.props.message){
-					this.setState({
-						redirect: true
-					})
+					this.setState({redirect: true})
 					this.props.addToast(
 						(<div>{this.props.message}</div>),
 						{type: 'success'}
@@ -75,6 +76,7 @@ class ResetPassword extends Component {
 		let { password1, password2 } = this.state;
 		return (
 			<div className="container">
+				{this.state.loading && (<BigLoadingAbsolute />)}
 				<h2 className="mt-5 mb-5">Enter a new, safe password</h2>
 
 				<form onSubmit={this.onSubmit}>

@@ -20,6 +20,10 @@ export let getUserSubscribedSet = (courses) => {
     return result;
 }
 
+export let LIST_TYPES = [
+    'open', 'enrolled', 'teacher'
+]
+
 export let transitionStyles = {
     entering: {
         opacity: 0

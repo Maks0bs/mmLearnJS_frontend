@@ -4,6 +4,7 @@ import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
 import {Transition} from "react-transition-group";
 import {transitionStyles} from "../services/helpers";
 import PropTypes from 'prop-types'
+import SmallLoading from "../../../../../components/reusables/SmallLoading";
 
 /**
  * Allows to group courses into groups, normally the
@@ -29,6 +30,7 @@ class CollapsibleCourseList extends Component {
     }
 
     render() {
+        let {listHeading, loading, children } = this.props;
         return (
             <div>
                 <div style={{display: 'flex'}}>
@@ -47,7 +49,8 @@ class CollapsibleCourseList extends Component {
                             icon={this.state.showList ? faCaretDown : faCaretRight}
                             style={{float: 'left'}}
                         />
-                        <h1>{this.props.listHeading}</h1>
+                        <h1>{listHeading}</h1>
+                        {loading && (<SmallLoading />)}
                     </a>
                 </div>
 
@@ -59,8 +62,8 @@ class CollapsibleCourseList extends Component {
                 >
                     {state => (
                         <div style={{...transitionStyles[state]}}>
-                            {(this.props.children && this.props.children.length > 0) ? (
-                                this.props.children
+                            {(children && children.length > 0) ? (
+                                children
                             ) : (
                                 'No courses here'
                             )}
@@ -73,6 +76,7 @@ class CollapsibleCourseList extends Component {
     }
 }
 CollapsibleCourseList.propTypes = {
-    listHeading: PropTypes.node.isRequired
+    listHeading: PropTypes.node.isRequired,
+    loading: PropTypes.bool
 }
 export default CollapsibleCourseList;

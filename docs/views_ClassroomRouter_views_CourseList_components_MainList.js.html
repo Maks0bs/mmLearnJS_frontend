@@ -103,13 +103,17 @@ import CollapsibleCourseList from "./CollapsibleCourseList";
 class MainList extends Component {
 
 	render() {
+		let { openCourses: courses } = this.props;
 		return (
-			&lt;CollapsibleCourseList listHeading={"Open courses"}>
-				{this.props.openCourses.map((course, i) => (
+			&lt;CollapsibleCourseList
+				listHeading={"Open courses"}
+				loading={this.props.loading.open}
+			>
+				{courses ? courses.map((course, i) => (
 					&lt;div key={i}>
 						&lt;CourseListItem course={course}/>
 					&lt;/div>
-				))}
+				)) : []}
 			&lt;/CollapsibleCourseList>
 		);
 	}

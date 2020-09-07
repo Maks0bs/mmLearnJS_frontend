@@ -95,6 +95,7 @@ import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
 import {Transition} from "react-transition-group";
 import {transitionStyles} from "../services/helpers";
 import PropTypes from 'prop-types'
+import SmallLoading from "../../../../../components/reusables/SmallLoading";
 
 /**
  * Allows to group courses into groups, normally the
@@ -120,6 +121,7 @@ class CollapsibleCourseList extends Component {
     }
 
     render() {
+        let {listHeading, loading, children } = this.props;
         return (
             &lt;div>
                 &lt;div style={{display: 'flex'}}>
@@ -138,7 +140,8 @@ class CollapsibleCourseList extends Component {
                             icon={this.state.showList ? faCaretDown : faCaretRight}
                             style={{float: 'left'}}
                         />
-                        &lt;h1>{this.props.listHeading}&lt;/h1>
+                        &lt;h1>{listHeading}&lt;/h1>
+                        {loading &amp;&amp; (&lt;SmallLoading />)}
                     &lt;/a>
                 &lt;/div>
 
@@ -150,8 +153,8 @@ class CollapsibleCourseList extends Component {
                 >
                     {state => (
                         &lt;div style={{...transitionStyles[state]}}>
-                            {(this.props.children &amp;&amp; this.props.children.length > 0) ? (
-                                this.props.children
+                            {(children &amp;&amp; children.length > 0) ? (
+                                children
                             ) : (
                                 'No courses here'
                             )}
@@ -164,7 +167,8 @@ class CollapsibleCourseList extends Component {
     }
 }
 CollapsibleCourseList.propTypes = {
-    listHeading: PropTypes.node.isRequired
+    listHeading: PropTypes.node.isRequired,
+    loading: PropTypes.bool
 }
 export default CollapsibleCourseList;</code></pre>
         </article>

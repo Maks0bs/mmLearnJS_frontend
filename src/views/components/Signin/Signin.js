@@ -6,6 +6,7 @@ import { hideModal } from "../../../components/ModalRoot/services/actions";
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {getAuthenticatedUser} from "../../../services/main/actions";
+import SmallLoading from "../../../components/reusables/SmallLoading";
 
 /**
  * Used to display modals with any custom component inside
@@ -17,8 +18,7 @@ import {getAuthenticatedUser} from "../../../services/main/actions";
 class Signin extends Component {
     constructor(props){
         super(props);
-
-        this.state = {email: '', password: '', reload: false}
+        this.state = {email: '', password: '', reload: false, loading: false}
     }
 
     handleChange = (name) => (e) => {
@@ -39,13 +39,13 @@ class Signin extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.setState({loading: true})
         this.props.signin({...this.state})
             .then(() => this.props.getAuthenticatedUser())
             .then(() => {
+                this.setState({loading: false})
                 if (!this.props.error){
-                    this.setState({
-                        reload: true
-                    })
+                    this.setState({reload: true})
                     this.props.addToast(
                         (<div>You have signed in successfully</div>),
                         {type: 'success'}
@@ -76,7 +76,6 @@ class Signin extends Component {
                         value={password}
                     />
                 </div>
-
                 <button 
                     className="btn btn-outline btn-raised"
                     onClick={this.onSubmit}
@@ -88,7 +87,7 @@ class Signin extends Component {
     }
 
     render() {
-        let {email, password, reload} = this.state;
+        let {email, password, reload, loading} = this.state;
         let { error, message } = this.props;
         let isMobileWidth = (window.innerWidth <= 1000)
         if (reload){
@@ -104,6 +103,7 @@ class Signin extends Component {
                     className="container text-center my-3"
                     style={{width: isMobileWidth ? '90%' : '60%'}}
                 >
+                    {loading && (<SmallLoading/>)}
                     <h1>Sign in</h1>
                     <div
                         className="alert alert-danger"

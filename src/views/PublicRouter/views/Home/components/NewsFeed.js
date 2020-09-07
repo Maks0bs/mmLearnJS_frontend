@@ -3,6 +3,7 @@ import { fetchNews, cleanup } from '../services/actions'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import OptimizedComponent from "../../../../../components/performance/OptimizedComponent";
+import BigLoadingCentered from "../../../../../components/reusables/BigLoadingCentered";
 
 /**
  * This component fetches and displays the news of mmLearnJS on the home page
@@ -11,9 +12,15 @@ import OptimizedComponent from "../../../../../components/performance/OptimizedC
  * @component
  */
 class NewsFeed extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {loading: false}
+	}
 	
 	componentDidMount(){
+		this.setState({loading: true})
         this.props.fetchNews()
+			.then(() => this.setState({loading: false}))
     }
 
     componentWillUnmount() {
@@ -25,6 +32,7 @@ class NewsFeed extends Component {
 		return (
 			<div>
 				<h1>Welcome to mmLearnJS</h1>
+				{this.state.loading && (<BigLoadingCentered />)}
 				<ul>
 					{newsEntries && newsEntries.map((e, i) => (
 						<li key={i}>

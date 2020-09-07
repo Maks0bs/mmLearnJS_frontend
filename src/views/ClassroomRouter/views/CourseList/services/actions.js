@@ -1,12 +1,14 @@
 import types from './actionTypes'
 import { getCoursesFiltered } from '../../../../../services/actions'
 import {REACT_APP_API_URL} from "../../../../../constants";
+import {LIST_TYPES} from "./helpers";
 let {
 	API_GET_OPEN_COURSES,
 	API_GET_TEACHER_COURSES,
 	API_GET_ENROLLED_COURSES ,
 	API_GET_NOT_VIEWED_NOTIFICATIONS,
-	CLEANUP
+	CLEANUP,
+	SET_LOADING
 } = types;
 /**
  * @namespace storeState.views.classroom.courseListActions
@@ -58,7 +60,7 @@ export let getTeacherCourses = (userId) => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
 			teacher: userId,
-			select: ['_id', 'name', 'about', 'type', 'updates']
+			select: ['_id', 'name', 'about', 'type']
 		},
 		API_GET_TEACHER_COURSES
 	))
@@ -108,4 +110,21 @@ export let addNotViewedNotifications = (courses) => (dispatch) => {
 			})
 		})
 		.catch(err => console.log(err))
+}
+
+/**
+ * @function
+ * @param {string} listName - should be `"enrolled"`, `"teacher"` or `"open"`
+ * @param {boolean} value
+ * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.views.classroom.courseListActions
+ */
+export let setLoading = (listName, value) => (dispatch) => {
+	if (!LIST_TYPES.includes(listName)) return;
+
+	return dispatch({
+		type: SET_LOADING,
+		payload: {listName, value}
+	})
 }

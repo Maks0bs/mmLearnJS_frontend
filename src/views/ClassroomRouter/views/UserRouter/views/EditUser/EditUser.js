@@ -27,10 +27,6 @@ class EditUser extends Component {
         }
     }
 
-    componentWillUnmount() {
-        this.props.cleanup();
-    }
-
     componentDidMount() {
         let { authenticatedUser, user } = this.props;
         let preData = {};
@@ -99,6 +95,7 @@ class EditUser extends Component {
 
 
         if (redirect){
+            this.props.cleanup();
             return (<Redirect to={`/classroom/user/${this.props.user._id}`}/>)
         }
 

@@ -95,6 +95,7 @@ import {searchCourses, cleanup} from "./services/actions";
 import { addToast } from "../../../../components/ToastRoot/services/actions";
 import CourseSearchItem from "./components/CourseSearchItem";
 import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
+import SmallLoading from "../../../../components/reusables/SmallLoading";
 
 /**
  * Search for courses with the given query (in the URI params) and
@@ -103,6 +104,11 @@ import BigLoadingCentered from "../../../../components/reusables/BigLoadingCente
  * @component
  */
 class SearchCourses extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {loading: false}
+	}
+
 
 	componentWillUnmount() {
 		this.props.cleanup();
@@ -110,23 +116,39 @@ class SearchCourses extends Component {
 
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
 		if (nextProps.match.params.searchQuery !== this.props.match.params.searchQuery){
-			this.props.searchCourses(nextProps.match.params.searchQuery);
+			this.startSearch(nextProps.match.params.searchQuery)
 		}
 		return true;
 	}
 
+	startSearch = (query) => {
+		this.setState({loading: true});
+		this.props.searchCourses(query)
+			.then(() => {
+				this.setState({loading: false})
+			})
+	}
+
 	componentDidMount() {
-		this.props.searchCourses(this.props.match.params.searchQuery);
+		this.startSearch(this.props.match.params.searchQuery)
 	}
 
 	render() {
 		let { courses } = this.props;
-		if (!courses || !Array.isArray(courses)){
+		if (!Array.isArray(courses)){
 			return (&lt;BigLoadingCentered />)
+		}
+		if (this.state.loading){
+			return (
+				&lt;div className="container my-5">
+					&lt;SmallLoading />
+				&lt;/div>
+			)
 		}
 
 		return (
-			&lt;div className="container mt-3">
+			&lt;div className="container my-3">
+				&lt;h2>Search results&lt;/h2>
 				&lt;ul style={{listStyleType: 'square'}}>
 					{(courses.length === 0) &amp;&amp; (
 						&lt;h1>Nothing was found for given query&lt;/h1>

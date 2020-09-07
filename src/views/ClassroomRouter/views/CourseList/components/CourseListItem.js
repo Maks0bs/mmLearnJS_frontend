@@ -14,15 +14,11 @@ class CourseListItem extends Component {
     constructor(props) {
         super(props);
         this.aboutRef = React.createRef();
-        this.state = {
-            displayAbout: false
-        }
+        this.state = {displayAbout: false}
     }
 
     displayAbout = (e) => {
-        /*
-            Check if the event is the necessary mouse event
-         */
+        // Check if the event is the necessary mouse event
         if (this.aboutRef && this.aboutRef.current && this.aboutRef.current.contains(e.target)){
             return this.setState({
                 displayAbout: e
@@ -55,7 +51,7 @@ class CourseListItem extends Component {
                 <h5 style={{ float: 'left'}}>
                     <Link to={`/classroom/course/${course._id}`}>
                         {subscribed && (
-                            <mark style={{background: 'green'}}>
+                            <mark className="mr-2" style={{background: 'green'}}>
                                 [subscribed]
                             </mark>
                         )}
@@ -71,13 +67,13 @@ class CourseListItem extends Component {
                         <div
                             style={{
                                 position: 'absolute',
-                                left: displayAbout.layerX ? (displayAbout.layerX + 1) : 1,
-                                top: displayAbout.layerY ? (displayAbout.layerY + 1) : 1,
+                                left: displayAbout.layerX ? (displayAbout.layerX + 15) : 15,
+                                top: displayAbout.layerY ? (displayAbout.layerY + 15) : 15,
                                 MozUserSelect:'none',
                                 WebkitUserSelect:'none',
                                 msUserSelect: 'none',
                                 background: 'gray',
-                                color: '#A9A9A9',
+                                color: 'white',
                                 padding: '4px'
                             }}
                         >

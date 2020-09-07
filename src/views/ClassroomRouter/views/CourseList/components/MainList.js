@@ -12,13 +12,17 @@ import CollapsibleCourseList from "./CollapsibleCourseList";
 class MainList extends Component {
 
 	render() {
+		let { openCourses: courses } = this.props;
 		return (
-			<CollapsibleCourseList listHeading={"Open courses"}>
-				{this.props.openCourses.map((course, i) => (
+			<CollapsibleCourseList
+				listHeading={"Open courses"}
+				loading={this.props.loading.open}
+			>
+				{courses ? courses.map((course, i) => (
 					<div key={i}>
 						<CourseListItem course={course}/>
 					</div>
-				))}
+				)) : []}
 			</CollapsibleCourseList>
 		);
 	}
