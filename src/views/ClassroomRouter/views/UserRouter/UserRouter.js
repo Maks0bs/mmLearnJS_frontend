@@ -10,7 +10,6 @@ import BigLoadingCentered from "../../../../components/reusables/BigLoadingCente
 /**
  * @namespace components.views.classroom.user
  */
-
 /**
  * This router is responsible for routing to all links that are
  * used to display user profiles and perform actions with user data

@@ -84,7 +84,6 @@ class CreateCourse extends Component {
 						checked={hasPassword}
 					/>
 				</div>
-
 				<div
 					className="form-group"
 					style={hasPassword ? inlineStyle : {display: 'none'}}
@@ -130,7 +129,6 @@ class CreateCourse extends Component {
 				>
 					{error}
 				</div>
-
 				<div 
 					className="alert alert-info"
 					style={{display: message ? "" : "none"}}
@@ -143,7 +141,6 @@ class CreateCourse extends Component {
 		);
 	}
 }
-
 let mapStateToProps = (state) => ({
 	...state.views.classroom.createCourse
 })

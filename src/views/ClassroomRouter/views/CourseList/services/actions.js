@@ -6,7 +6,7 @@ let {
 	API_GET_TEACHER_COURSES,
 	API_GET_ENROLLED_COURSES ,
 	API_GET_NOT_VIEWED_NOTIFICATIONS,
-	CLEAR_NOTIFICATIONS
+	CLEANUP
 } = types;
 /**
  * @namespace storeState.views.classroom.courseListActions
@@ -70,9 +70,9 @@ export let getTeacherCourses = (userId) => (dispatch) => {
  *
  * @memberOf storeState.views.classroom.courseListActions
  */
-export let clearNotifications = () => (dispatch) => {
+export let cleanup = () => (dispatch) => {
 	return dispatch({
-		type: CLEAR_NOTIFICATIONS
+		type: CLEANUP
 	})
 }
 

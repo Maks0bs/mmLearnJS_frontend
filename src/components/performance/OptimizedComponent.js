@@ -27,8 +27,8 @@ class OptimizedComponent extends Component {
     upd = 0
     loading = false
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             loading: false
         }

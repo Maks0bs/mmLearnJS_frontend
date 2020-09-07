@@ -1,17 +1,18 @@
-/*
-    Returns the map
-    of courses, that the user is subscribed to.
-    The map is needed to check in O( log(n) ), if
-    a user is subscribed to a certain course
-    @prop
+/**
+ * Gets the map of courses, that the user is subscribed to.
+ * The map is necessary to check if a user is subscribed
+ * to a certain course in O( log(n) ) time
+ * @param {Object[]} courses - the list of courses that the
+ * user is subscribed to
+ * @return {Object}
  */
-export let getUserSubscribedSet = (user) => {
-    if (!user.subscribedCourses || !Array.isArray(user.subscribedCourses)){
+export let getUserSubscribedSet = (courses) => {
+    if (!courses || !Array.isArray(courses)){
         return {};
     }
     let result = {};
 
-    for (let c of user.subscribedCourses){
+    for (let c of courses){
         if (c.course && (typeof c.course._id === 'string') ) {
             result[c.course._id] = true;
         }

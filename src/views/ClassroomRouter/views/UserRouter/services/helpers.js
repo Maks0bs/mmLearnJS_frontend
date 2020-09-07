@@ -22,6 +22,12 @@ export let EDITABLE_USER_FIELDS = [
     "hiddenFields"
 ]
 
+/**
+ * Returns a beautified version of the given field name.
+ * @param {string} name - the field name in the 'raw' form from the,
+ * just like in the API database
+ * @return {string}
+ */
 export let getBeautifulFieldName = (name) => {
     switch(name){
         case "enrolledCourses":

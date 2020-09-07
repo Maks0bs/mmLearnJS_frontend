@@ -30,7 +30,7 @@ class TeacherList extends Component {
 			return (<Redirect to="/classroom/create-course" />)
 		}
 
-		let subscribedSet = getUserSubscribedSet(authenticatedUser);
+		let subscribedSet = getUserSubscribedSet(authenticatedUser.subscribedCourses);
 		let notificationsCount = 0;
 		/*
 			Calculate the overall amount of notifications in the given list

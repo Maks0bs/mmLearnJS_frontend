@@ -4,7 +4,7 @@ let {
 	API_GET_ENROLLED_COURSES,
 	API_GET_TEACHER_COURSES,
 	API_GET_NOT_VIEWED_NOTIFICATIONS,
-	CLEAR_NOTIFICATIONS
+	CLEANUP
 } = types;
 
 /**
@@ -43,7 +43,7 @@ let initialState = {
  */
 export default  function(state = initialState, action) {
 	switch(action.type){
-		case CLEAR_NOTIFICATIONS: {
+		case CLEANUP: {
 			return initialState;
 		}
 		case API_GET_NOT_VIEWED_NOTIFICATIONS: {

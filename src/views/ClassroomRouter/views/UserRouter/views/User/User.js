@@ -55,7 +55,7 @@ class User extends Component {
 			<div className="container my-5">
 				{!activated && (
 					<h1 className="alert alert-info">
-						User is not yet activated.
+						This user has not yet activated their account
 					</h1>
 				)}
 				<h1><strong>Profile</strong></h1>

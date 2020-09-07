@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import MainDashboard from './components/MainList'
 import StudentDashboard from './components/StudentList'
 import TeacherDashboard from './components/TeacherList'
-import {clearNotifications} from "./services/actions";
-import OptimizedPureComponent from '../../../../components/performance/OptimizedPureComponent'
+import {cleanup} from "./services/actions";
 import SmallLoading from "../../../../components/reusables/SmallLoading";
 
 /**
@@ -13,11 +12,9 @@ import SmallLoading from "../../../../components/reusables/SmallLoading";
  * @memberOf components.views.classroom
  * @component
  */
-class CourseList extends OptimizedPureComponent {
+class CourseList extends Component {
 
-	componentWillUnmount() {
-		this.props.clearNotifications();
-	}
+	componentWillUnmount() {this.props.cleanup();}
 
 	render() {
 		let { authenticatedUser: user } = this.props;
@@ -60,7 +57,7 @@ let mapStateToProps = (state) => ({
 	...state.services
 })
 let mapDispatchToProps = (dispatch) => ({
-	clearNotifications: () => dispatch(clearNotifications())
+	cleanup: () => dispatch(cleanup())
 })
 export default connect(
 	mapStateToProps,
