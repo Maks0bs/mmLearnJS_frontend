@@ -48,7 +48,7 @@ class PublicMenu extends Component {
 		return (
 			<nav 
 				className="navbar navbar-expand-lg navbar-light sticky-top"
-				style={{backgroundColor: '#64B5F6'}}
+				style={{backgroundColor: '#64B5F6', alignItems: 'center'}}
 			>
 				{/* This button is not shown on desktop,
 					but is very important for navigation on mobile

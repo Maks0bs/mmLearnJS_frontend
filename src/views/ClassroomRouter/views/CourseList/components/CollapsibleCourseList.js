@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
 import {Transition} from "react-transition-group";
-import {transitionStyles} from "../services/helpers";
 import PropTypes from 'prop-types'
 import SmallLoading from "../../../../../components/reusables/SmallLoading";
+import {transitionStyles} from "../../../../../services/helpers";
 
 /**
  * Allows to group courses into groups, normally the
@@ -61,7 +61,7 @@ class CollapsibleCourseList extends Component {
                     appear
                 >
                     {state => (
-                        <div style={{...transitionStyles[state]}}>
+                        <div style={{...transitionStyles.fade[state]}}>
                             {(children && children.length > 0) ? (
                                 children
                             ) : (

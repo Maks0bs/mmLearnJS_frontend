@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createCourse, clearMessages } from './services/actions'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import BigLoadingAbsolute from "../../../../components/reusables/BigLoadingAbsolute";
 
@@ -105,9 +105,12 @@ class CreateCourse extends Component {
 						<option value="hidden">Hidden [to be implemented]</option>
 					</select>
 				</div>
-				<button className="btn btn-raised btn-outline" type="submit">
+				<button className="btn btn-raised btn-info mx-2" type="submit">
 					Create
 				</button>
+				<Link className="btn btn-raised mx-2" to={"/classroom/courses"}>
+					Back to course list
+				</Link>
 			</form>
 		);
 	}

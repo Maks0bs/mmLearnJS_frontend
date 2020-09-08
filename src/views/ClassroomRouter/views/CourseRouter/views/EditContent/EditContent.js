@@ -62,7 +62,7 @@ class EditContent extends Component {
 let mapStateToProps = (state) => {
 	return {
 		...state.views.classroom.course.editContent,
-		authenticatedUser: state.services.authenticatedUser
+		...state.services
 	}
 }
 

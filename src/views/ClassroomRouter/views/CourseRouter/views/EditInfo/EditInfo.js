@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import { editCourse, getCourseById } from './services/actions'
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
 import { addNavItem, removeNavItem } from "../../../../../../services/routing/actions";
 
 class EditInfo extends Component {
-	constructor () {
-		super();
-
+	constructor (props) {
+		super(props);
 		this.state = {
-			name: '',
-			about: '',
-			redirectToCourse: false,
-			show: false
+			name: '', about: '',
+			redirectToCourse: false, show: false
 		}
 	}
 
@@ -26,17 +23,12 @@ class EditInfo extends Component {
 	onSubmit = (e) => {
 		e.preventDefault()
 		let {name, about } = this.state;
-		let data ={
-			name,
-			about
-		}
+		let data = { name, about }
 
 		this.props.editCourse(data, this.props.courseData._id)
 		.then(() => {
 			if (!this.props.error){
-				this.setState({
-					redirectToCourse: true
-				})
+				this.setState({redirectToCourse: true})
 			}
 		})
 	}
@@ -154,4 +146,4 @@ export default connect(
 	mapStateToProps,
 	mapDispatchToProps
 )
-(EditInfo);
+(withRouter(EditInfo));

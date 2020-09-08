@@ -12,6 +12,26 @@ let {
 } = types;
 
 /**
+ * @typedef UserData
+ * @type Object
+ * @description see API docs for details
+ * @property {string} _id
+ * @property {string} name
+ * @property {string} email
+ * @property {string} about
+ * @property {Object[]} notifications
+ * @property {boolean} activated
+ * @property {string} photo
+ * @property {string} role
+ * @property {string[]|CourseData[]} enrolledCourses
+ * @property {?string[]|CourseData[]} teacherCourses
+ * @property {Object} subscribedCourses
+ * @property {string|CourseData} subscribedCourses.course
+ * @property {string} subscribedCourses.lastVisited
+ * @property {string[]} hiddenFields
+ */
+
+/**
  * @typedef UserRouterState
  * @type Object
  * @property {Object} user - all relevant user data. See API docs for details

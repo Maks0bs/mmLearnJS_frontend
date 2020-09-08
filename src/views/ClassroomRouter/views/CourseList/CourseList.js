@@ -7,7 +7,6 @@ import {
 	addNotViewedNotifications, cleanup, setLoading,
 	getEnrolledCourses, getOpenCourses, getTeacherCourses
 } from "./services/actions";
-import SmallLoading from "../../../../components/reusables/SmallLoading";
 import {addToast} from "../../../../components/ToastRoot/services/actions";
 
 /**
@@ -41,8 +40,14 @@ class CourseList extends Component {
 			.catch(err => this.displayError(err.message))
 	}
 
-	componentDidMount() {
-		let { authenticatedUser: user } = this.props;
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (!this.props.authenticatedUser && nextProps.authenticatedUser) {
+			this.initData(nextProps.authenticatedUser);
+		}
+		return true;
+	}
+
+	initData = (user) => {
 		this.props.setLoading('open' , true);
 		this.props.getOpenCourses()
 
@@ -58,6 +63,10 @@ class CourseList extends Component {
 			}
 
 		}
+	}
+
+	componentDidMount() {
+		this.initData(this.props.authenticatedUser);
 	}
 
 	componentWillUnmount() {this.props.cleanup()}

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
 import { hideModal } from './services/actions'
+import {Transition} from "react-transition-group";
+import {transitionStyles} from "../../services/helpers";
 
 /*
 	Initial configuration.
@@ -57,38 +59,46 @@ class ModalRoot extends Component {
 		let { modalComponent } = this.props;
 		let isMobileWidth = (window.innerWidth <= 1000)
 		return (
-			<Modal
-				isOpen={!!modalComponent}
-				contentRef={node => (this.contentRef = node)}
-				style={{
-					overlay: {
-						position: 'fixed',
-						backgroundColor: 'rgba(0, 0, 0, 0.4)',
-						/*
-							Increase z-index, so that
-							the modal is shown above all other components
-						 */
-						zIndex: 10
-					},
-					content: {
-						padding: '0px',
-						left: isMobileWidth ? '15%' : '25%',
-						right: isMobileWidth ? '15%' : '25%'
-					}
-				}}
+			<Transition
+				in={!!modalComponent}
+				timeout={10}
+				unmountOnExit
+				appear
 			>
-				{/*
-					[X] button to close the modal on click
-				*/}
-				<button 
-                    onClick={() => this.props.hideModal()}
-                    className="float-right close m-2"
-                > 
-                    <span aria-hidden="true">&times;</span>
-                </button>
+				{state => (
+					<Modal
+						isOpen={!!modalComponent}
+						contentRef={node => (this.contentRef = node)}
+						style={{
+							overlay: {
+								...transitionStyles.fade[state],
+								position: 'fixed',
+								backgroundColor: 'rgba(0, 0, 0, 0.4)',
+								/*
+                                    Increase z-index, so that
+                                    the modal is shown above all other components
+                                 */
+								zIndex: 10
+							},
+							content: {
+								padding: '0px',
+								left: isMobileWidth ? '15%' : '25%',
+								right: isMobileWidth ? '15%' : '25%'
+							}
+						}}
+					>
+						{/*[X] button to close the modal on click*/}
+						<button
+							onClick={() => this.props.hideModal()}
+							className="float-right close m-2"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
 
-				{modalComponent}
-			</Modal>
+						{modalComponent}
+					</Modal>
+				)}
+			</Transition>
 		)
 	}
 }

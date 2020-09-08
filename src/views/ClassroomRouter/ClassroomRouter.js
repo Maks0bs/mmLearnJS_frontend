@@ -57,6 +57,7 @@ class ClassroomRouter extends Component {
 						component={CreateCourse}
 					/>
 					<Route
+						//TODO refactor this boi to route to all /course/:courseId
 						path={`${path}/course`}
 						component={CourseRouter}
 					/>

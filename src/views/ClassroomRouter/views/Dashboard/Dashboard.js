@@ -71,8 +71,9 @@ class Dashboard extends Component {
 						{type: 'error'}
 					)
 				} else {
-					// updates data is a guaranteed array at this point
-					this.props.updateStartingIndex(this.props.updatesData.length);
+					if (Array.isArray(this.props.updatesData)){
+						this.props.updateStartingIndex(this.props.updatesData.length);
+					}
 				}
 			})
 	}
@@ -137,7 +138,7 @@ class Dashboard extends Component {
 	}
 }
 let mapStateToProps = (state) => ({
-	authenticatedUser: state.services.authenticatedUser,
+	...state.services,
 	...state.views.classroom.dashboard
 })
 let mapDispatchToProps = (dispatch) => ({

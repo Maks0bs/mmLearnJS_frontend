@@ -17,8 +17,7 @@ export let editCourse = (courseData, id) => (dispatch) => {
 	let form = new FormData();
 	form.set('newCourseData', JSON.stringify(courseData));
 	return dispatch(updateCourse(
-		form,
-		id,
+		form, id,
 		API_UPDATE_COURSE_INFO
 	))
 }

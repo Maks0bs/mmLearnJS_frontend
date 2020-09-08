@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {transitionStyles} from "../../../services/helpers";
+import {Transition} from "react-transition-group";
 
 /**
  * Navigation element, which opens a dropdown list of inner components.
@@ -62,9 +64,7 @@ class NavDropdown extends React.Component {
     }
 
     render() {
-        /*
-            class name specifies the state - if dropdown inner elements should be displayed
-         */
+        // class name specifies the state - if dropdown inner elements should be displayed
         let classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
         return (
             <li
@@ -77,6 +77,7 @@ class NavDropdown extends React.Component {
                     style={{
                         cursor: 'pointer',
                         textTransform: 'none',
+                        alignItems: 'center'
                     }}
                     tabIndex={0}
                     onFocus={() => this.hasFocus = true}
@@ -85,18 +86,27 @@ class NavDropdown extends React.Component {
                     {this.props.name}
                     {this.props.displayComponent && this.props.displayComponent}
                 </a>
-                <ul
-                    className={`${classDropdownMenu} dropdown-menu-right`}
-                    style={{
-                        overflow: 'auto',
-                        /*
-                            Don't let the dropdown overflow the screen size
-                         */
-                        maxHeight: window.innerHeight / 2
-                    }}
+                <Transition
+                    in={this.state.isToggleOn}
+                    timeout={70}
+                    unmountOnExit
+                    appear
                 >
-                    {this.props.children}
-                </ul>
+                    {state => (
+                        <ul
+                            className={`dropdown-menu show dropdown-menu-right`}
+                            style={{
+                                ...transitionStyles.scaleDownBottom[state],
+                                overflow: 'auto',
+                                //Don't let the dropdown overflow the screen size
+                                maxHeight: window.innerHeight / 2
+                            }}
+                        >
+                            {this.props.children}
+                        </ul>
+                    )}
+                </Transition>
+
             </li>
 
         )
