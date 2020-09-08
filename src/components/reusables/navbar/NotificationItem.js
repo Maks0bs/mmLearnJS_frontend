@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 /**
  * Notification item for notifications in navigation bar
+ * @memberOf components.common
  * @component
  */
 class NotificationItem extends Component {
@@ -41,6 +42,7 @@ class NotificationItem extends Component {
                         background: '#ffffff'
                     })
                 }}
+                tabIndex={0}
             >
                 <strong>{title}</strong>
                 <hr />
@@ -66,10 +68,14 @@ class NotificationItem extends Component {
 
 NotificationItem.propTypes = {
     /**
-     * The date (and time), when the notification was created
+     * The date (and time), when the notification was created.
+     * Should be a formatted date string. Gets converted to {@link Date} in the
+     * component.
      */
     created: PropTypes.string,
+
     title: PropTypes.string.isRequired,
+
     /**
      * The main information of the notification
      */

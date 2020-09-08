@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
  *
  * Simple Navigation item for navigation bars
  * @return {JSX.Element}
+ *
+ * @memberOf components.common
  * @component
  */
 let NavItem = props => {
@@ -18,7 +20,9 @@ let NavItem = props => {
         )
     }
     return (
-        <li className={(props.path === props.pageURI) ? 'nav-item active' : 'nav-item'}>
+        <li
+            className={(props.path === props.pageURI) ? 'nav-item active' : 'nav-item'}
+        >
             <Link
                 to={props.path}
                 className={props.disabled ? 'nav-link disabled' : 'nav-link'}
@@ -54,10 +58,7 @@ NavItem.propTypes = {
     /**
      * The name that should primarily be displayed on the item
      */
-    name: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]).isRequired,
+    name: PropTypes.string.isRequired,
     /**
      * Set true to specify, that this NavItem should be displayed bigger
      * normally put to the left or to the right of the navigation bar
@@ -67,6 +68,13 @@ NavItem.propTypes = {
      * Set true if this NavItem isn't always present on the navigation bar
      */
     dynamic: PropTypes.bool
+}
+NavItem.defaultProps = {
+    path: '/',
+    pageURI: '/',
+    disabled: false,
+    brand: false,
+    dynamic: false
 }
 
 export default NavItem;

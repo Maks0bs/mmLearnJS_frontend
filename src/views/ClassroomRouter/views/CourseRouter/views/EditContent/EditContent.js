@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getCourseById } from './services/actions'
+import { withRouter } from 'react-router-dom'
 import EditPanel from './components/EditPanel'
 import EditActions from './components/EditActions'
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
@@ -62,7 +63,7 @@ class EditContent extends Component {
 let mapStateToProps = (state) => {
 	return {
 		...state.views.classroom.course.editContent,
-		authenticatedUser: state.services.authenticatedUser
+		...state.services
 	}
 }
 
@@ -77,4 +78,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(EditContent);
+)(withRouter(EditContent));

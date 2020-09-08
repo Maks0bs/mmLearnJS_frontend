@@ -1,52 +1,29 @@
 import React, { Component } from 'react';
 import NewsFeed from './components/NewsFeed'
-import { Link, Redirect } from 'react-router-dom'
 
+/**
+ * The home page of mmLearnJS. It is displayed to the user when
+ * they first enter the website through a direct link.
+ * Sometimes users might be redirected here (e. g. on log out)
+ *
+ * @memberOf components.views.public
+ * @component
+ */
 class Home extends Component {
 
     render() {
-    	//styling is important!!!
         return (
         	<div className="container my-3">
 	            <div className="row">
 		            <div className="col md-auto">
 		                <NewsFeed />
 		            </div>
-					{
-						/*<div className="col col-md-auto">
-							<Link
-								className="btn btn-outline my-sm-0"
-								to="/open-courses"
-							>
-								Open courses[To be implemented]
-							</Link>
-						</div>*/
-					}
 					<h1>
-						<span
-							style={{
-								color: 'red'
-							}}
-						>
-							mm
-						</span>
-						<span
-							style={{
-								color: 'green'
-							}}
-						>
-							Learn
-						</span>
-						<span
-							style={{
-								color: '#b0cf19'
-							}}
-						>
-							JS
-						</span>
+						<span style={{color: 'red'}}>mm</span>
+						<span style={{color: 'green'}}>Learn</span>
+						<span style={{color: '#b0cf19'}}>JS</span>
 					</h1>
 	            </div>
-
 	        </div>
         );
     }

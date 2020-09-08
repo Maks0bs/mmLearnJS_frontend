@@ -129,7 +129,7 @@ class Topic extends Component {
 								}}
 							>
 								<h5>
-									<UserPreview user={post.data.creator}/>
+									<UserPreview {...post.data.creator}/>
 								</h5>
 								<p>{post.data.content}</p>
 								

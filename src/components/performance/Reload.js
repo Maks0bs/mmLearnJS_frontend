@@ -5,15 +5,20 @@ import PropTypes from 'prop-types'
 
 /**
  * Reloads the page, specified under {@link props.location.pathname.page}
- * or under {@link props.link}
+ * or under {@link props.link}.
  * Unmounts the component on the current page, making the component call
  * {@link componentDidMount} when it gets loaded again
+ *
+ * @memberOf components.common
  * @component
  */
 class Reload extends Component {
+	constructor(props) {
+		super(props);
 
-	state = {
-		mounted: false
+		this.state = {
+			mounted: false
+		}
 	}
 
 	componentDidMount() {

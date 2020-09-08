@@ -133,6 +133,7 @@ export let saveChanges = (courseData) => (dispatch) => {
 	let form = new FormData();
 	let filePositions = [];
 	let { sections } = courseData;
+	console.log('cd', courseData)
 	let newSections = [];
 	for (let i = 0; i < sections.length; i++){
 		// TODO check if section is deleted!!!!
@@ -146,11 +147,18 @@ export let saveChanges = (courseData) => (dispatch) => {
 			if (entry.type === 'deleted'){
 				continue;
 			}
+
+			newSections[newSections.length - 1].entries.push(entry);
+		}
+	}
+
+	for (let i = 0; i < newSections.length; i++){
+		for (let j = 0; j < newSections[i].entries.length; j++){
+			let entry = newSections[i].entries[j];
 			if (entry.type === 'file' && !entry.content.id){
 				form.append('files', entry.content);
 				filePositions.push({ section: i, entry: j})
 			}
-			newSections[newSections.length - 1].entries.push(entry);
 		}
 	}
 

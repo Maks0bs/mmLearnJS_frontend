@@ -1,11 +1,22 @@
 import types from './actionTypes'
 import { getCoursesFiltered } from '../../../../../services/actions'
-import {REACT_APP_API_URL} from "../../../../../constants";
 let {
 	API_SEARCH_COURSES,
 	CLEANUP
 } = types;
 
+/**
+ * @namespace storeState.views.classroom.searchCoursesActions
+ */
+
+/**
+ * @async
+ * @function
+ * @param {string} key - the keyword of the query to filter the courses with
+ * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeState.views.classroom.searchCoursesActions
+ */
 export let searchCourses = (key) => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
@@ -16,6 +27,13 @@ export let searchCourses = (key) => (dispatch) => {
 	))
 }
 
+/**
+ * Cleans any error notifications/messages
+ * @function
+ * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.views.classroom.searchCoursesActions
+ */
 export let cleanup = () => (dispatch) => {
 	return dispatch({
 		type: CLEANUP

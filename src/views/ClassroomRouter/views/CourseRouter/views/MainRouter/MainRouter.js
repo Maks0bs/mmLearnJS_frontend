@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 import Info from './views/Info'
 import ForumRouter from './views/ForumRouter'
 import { connect } from 'react-redux'
@@ -19,7 +19,7 @@ class MainRouter extends OptimizedPureComponent {
 		this.props.removeNavItem('course link')
 	}
 
-	com
+
 
 	render() {
 
@@ -40,13 +40,11 @@ class MainRouter extends OptimizedPureComponent {
 			)
 		}
 
-		console.log('add nav', this.props.addNavItem({
+		this.props.addNavItem({
 			id: 'course link',
 			name: 'Course "' + this.props.courseData.name + '"',
 			path: `/classroom/course/${this.props.courseData._id}`
-		}))
-
-
+		})
 		let { path } = this.props.match;
 		return (
 			<div>
@@ -97,4 +95,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(MainRouter)
+)(withRouter(MainRouter))

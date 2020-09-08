@@ -5,6 +5,10 @@ let {
 } = types;
 
 /**
+ * @namespace storeState.routingActions
+ */
+
+/**
  * @typedef RouterNavItem
  * @type {Object}
  * @property {string} id
@@ -14,10 +18,12 @@ let {
  */
 
 /**
- *
+ * Adds the specified navigation item to the routing stack
  * @function
  * @param {RouterNavItem} item
  * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.routingActions
  */
 export let addNavItem = (item) => (dispatch) => {
 	return dispatch({
@@ -27,9 +33,12 @@ export let addNavItem = (item) => (dispatch) => {
 }
 
 /**
- *
+ * Removes the navigation item with the specified id from the routing stack
+ * @function
  * @param {string} id - the id of the navigation item you want to remove
  * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.routingActions
  */
 export let removeNavItem = (id) => (dispatch) => {
 	return dispatch({

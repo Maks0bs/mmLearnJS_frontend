@@ -22,7 +22,7 @@ class TopicListItem extends Component {
 					</h5>
 		    	</td>
 		    	<td>
-		      		<UserPreview user={creator}/>
+		      		<UserPreview {...creator}/>
 		    	</td>
 		    	<td>
 					On {date.toLocaleDateString()} at {date.toLocaleTimeString()}

@@ -2,58 +2,88 @@ import types from './actionTypes'
 import React from "react";
 import { getUserById } from '../../../../../services/actions'
 import {REACT_APP_API_URL} from "../../../../../constants";
-import toastTypes from "../../../../../components/ToastRoot/services/actionTypes";
+import { EDITABLE_USER_FIELDS } from "./helpers";
 
-let {
-    ADD_TOAST
-} = toastTypes
 let {
     API_GET_USER_BY_ID,
     API_UPDATE_USER,
     SET_HIDDEN_FIELDS,
     FILE_ERROR,
-    CLEAR_ERROR,
     API_SEND_ACTIVATION,
     API_DELETE_USER,
-    CLEANUP
+    CLEANUP,
+    UPDATE_USER_DATA_LOCAL,
+    FORBIDDEN_FIELD_ERROR
 } = types;
 
+/**
+ * @namespace storeState.views.classroom.userRouterActions
+ */
+
+/**
+ * @async
+ * @function
+ * @param {string} userId
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.userRouterActions
+ */
 export let getUser = (userId) => (dispatch) => {
     return dispatch(getUserById(userId, API_GET_USER_BY_ID));
 }
 
-export let updateUser = (data, id) => (dispatch) => {
+/**
+ * @async
+ * @function
+ * @param {string} userId
+ * @param {Object} data - the data to update the user with.
+ * See API docs for details
+ * @return {function(*): Promise<any|void>}
+ * @memberOf storeState.views.classroom.userRouterActions
+ */
+export let updateUser = (data, userId) => (dispatch) => {
     let form = new FormData();
 
-    if (data.fileSize > 10000000){
+    for (let key in data){
+        if (data.hasOwnProperty(key)){
+            if (!EDITABLE_USER_FIELDS.includes(key)){
+                dispatch({
+                    type: FORBIDDEN_FIELD_ERROR
+                });
+                // Mock async performance even if no request has been made
+                return new Promise((resolve) => {
+                    resolve(true);
+                })
+            }
+        }
+    }
+
+    if (data.photoSize > 10000000){
         dispatch({
             type: FILE_ERROR
         });
-
-        return new Promise((resolve, reject) => {
+        // Mock async performance even if no request has been made
+        return new Promise((resolve) => {
             resolve(true);
         })
     }
 
-    if (data.photo){
+    if (data.photo && data.photoSize > 0){
         form.append('files', data.photo);
-        data.fileSize = undefined;
-        data.photo = undefined;
+        // clear file data from json body part, it's already serialized in the form
+        data.fileSize = undefined
+        // Notify the API that there isa new uploaded profile photo
+        data.photo = 'new';
     }
-
-    console.log(data);
     form.set('newUserData', JSON.stringify(data));
 
-    return fetch(`${REACT_APP_API_URL}/users/${id}`, {
+    return fetch(`${REACT_APP_API_URL}/users/${userId}`, {
         method: "PUT",
-        headers: {
-        },
+        headers: {},
         credentials: 'include',
         body: form
     })
         .then(res => res.json())
         .then(data => {
-            console.log('received data', data);
             dispatch({
                 type: API_UPDATE_USER,
                 payload: data
@@ -62,6 +92,28 @@ export let updateUser = (data, id) => (dispatch) => {
         .catch(err => console.log(err))
 }
 
+/**
+ *
+ * @function
+ * @param {Object} data - new user data, that the user entered in the form
+ * See API docs for details. This object should contain one of the
+ * user model attributes
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.userRouterActions
+ */
+export let editUserData = (data) => dispatch => {
+    return dispatch({
+        type: UPDATE_USER_DATA_LOCAL,
+        payload: data
+    })
+}
+
+/**
+ * @function
+ * @param {string[]} newFields
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.userRouterActions
+ */
 export let setHiddenFields = (newFields) => (dispatch) => {
     return dispatch({
         type: SET_HIDDEN_FIELDS,
@@ -69,12 +121,12 @@ export let setHiddenFields = (newFields) => (dispatch) => {
     })
 }
 
-export let clearError = () => (dispatch) => {
-    return dispatch({
-        type: CLEAR_ERROR
-    })
-}
-
+/**
+ * @async
+ * @function
+ * @return {function(*): Promise<any|void>}
+ * @memberOf storeState.views.classroom.userRouterActions
+ */
 export let sendActivation = () => (dispatch) => {
     return fetch(`${REACT_APP_API_URL}/auth/send-activation`, {
         method: "POST",
@@ -92,6 +144,13 @@ export let sendActivation = () => (dispatch) => {
         .catch(err => console.log(err))
 }
 
+/**
+ * @async
+ * @function
+ * @param {string} userId
+ * @return {function(*): Promise<any|void>}
+ * @memberOf storeState.views.classroom.userRouterActions
+ */
 export let deleteUser = (userId) => (dispatch) => {
     return fetch(`${REACT_APP_API_URL}/users/${userId}`, {
         method: "DELETE",
@@ -109,6 +168,11 @@ export let deleteUser = (userId) => (dispatch) => {
         .catch(err => console.log(err))
 }
 
+/**
+ * @function
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.userRouterActions
+ */
 export let cleanup = () => (dispatch) => {
     return dispatch({
         type: CLEANUP

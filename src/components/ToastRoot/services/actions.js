@@ -8,12 +8,16 @@ import types from './actionTypes'
  * @param {?Object} options
  * @param {string} options.type the type of the toast
  * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.componentsActions
  */
 export let addToast = (component, options) => dispatch => {
 	return dispatch({
 		type: types.ADD_TOAST,
-		component: component,
-		options: options
+		payload: {
+			component,
+			options
+		}
 	})
 }
 
@@ -21,6 +25,8 @@ export let addToast = (component, options) => dispatch => {
  * removes the first toasts that has been displayed from the stack
  * @function
  * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.componentsActions
  */
 export let deleteFirstToast = () => dispatch => {
 	return dispatch({

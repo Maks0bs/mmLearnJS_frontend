@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { toggleActivationMessage, getActivationMessageStatus } from './services/actions'
-import PropTypes from "prop-types";
 
+/**
+ * The message that notifies the user, if their account is not activated.
+ * Displayed above the navigation bar at the top of the page
+ *
+ * @memberOf components.views.components
+ * @component
+ */
 class ActivationMessage extends Component {
 
 	componentDidMount(){
@@ -15,11 +21,18 @@ class ActivationMessage extends Component {
 			return null;
 		}
 		let user = this.props.authenticatedUser;
+		/*
+			Displayed only if the user is authenticated
+			and not activated
+		*/
 		return (user && user._id && !user.activated) ? (
-			<div className="alert alert-warning alert-dissmissible fade show mb-0 py-0 px-1 text-center">
+			<div className="alert alert-warning fade show mb-0 py-0 px-1 text-center">
 				Your account is not activated. 
 				Check your email or go to your <Link to={`/classroom/user/${user._id}`}>profile</Link>
 				{' '}to activate it.
+				{/*
+					[x] button to close the message
+				*/}
 				<button 
 					type="button" 
 					className="close" 
@@ -33,26 +46,14 @@ class ActivationMessage extends Component {
 		) : null;
 	}
 }
-
-
-let mapStateToProps = (state) => {
-	return {
-		...state.services,
-		show: state.views.components.activationMessage.show
-	}
-}
-
-ActivationMessage.propTypes = {
-	show: PropTypes.bool
-}
-
-let mapDispatchToProps = (dispatch) => {
-	return {
-		toggleActivationMessage: () => dispatch(toggleActivationMessage()),
-		getStatus: () => dispatch(getActivationMessageStatus())
-	}
-}
-
+let mapStateToProps = (state) => ({
+	...state.services,
+	...state.views.components.activationMessage
+})
+let mapDispatchToProps = (dispatch) => ({
+	toggleActivationMessage: () => dispatch(toggleActivationMessage()),
+	getStatus: () => dispatch(getActivationMessageStatus())
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

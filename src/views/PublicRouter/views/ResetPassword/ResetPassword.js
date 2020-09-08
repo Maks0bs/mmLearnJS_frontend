@@ -3,15 +3,33 @@ import { resetPassword } from './services/actions'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addToast } from "../../../../components/ToastRoot/services/actions";
-import PropTypes from "prop-types";
-
+import BigLoadingAbsolute from "../../../../components/reusables/BigLoadingAbsolute";
+/**
+ * This page lets the user reset their password.
+ * The password should be put in twice.
+ * After submitting the new password, user will receive a
+ * status notification
+ *
+ * @memberOf components.views.public
+ * @component
+ */
 class ResetPassword extends Component {
 	constructor(props){
 		super(props);
 
 		this.state = {
+			/*
+				New password the user wants to set
+			 */
 			password1: '',
+			/*
+				Copy of the new password
+			 */
 			password2: '',
+			/*
+			 * After successful password reset,
+			 * the user should be redirected to the home page
+			 */
 			redirect: false
 		}
 	}
@@ -22,68 +40,43 @@ class ResetPassword extends Component {
 		})
 	}
 
-
-
 	onSubmit = (event) => {
 		event.preventDefault()
 		let { password1, password2 } = this.state;
 		if (password1 !== password2){
 			return this.props.addToast(
-				(
-					<div>
-						Passwords do not match
-					</div>
-				),
-				{
-					type: 'error'
-				}
+				(<div>Passwords do not match</div>),
+				{type: 'error'}
 			)
 		}
-
+		this.setState({loading: true})
 		this.props.resetPassword(password1, this.props.match.params.token)
-			.then((data) => {
+			.then(() => {
+				this.setState({loading: false})
 				if (!this.props.error || this.props.message){
-					this.setState({
-						redirect: true
-					})
+					this.setState({redirect: true})
 					this.props.addToast(
-						(
-							<div>
-								{this.props.message}
-							</div>
-						),
-						{
-							type: 'success'
-						}
+						(<div>{this.props.message}</div>),
+						{type: 'success'}
 					)
 				} else {
 					this.props.addToast(
-						(
-							<div>
-								{this.props.error}
-							</div>
-						),
-						{
-							type: 'error'
-						}
+						(<div>{this.props.error}</div>),
+						{type: 'error'}
 					)
 				}
 			})
-		
-		
 	}
-
-
 
 	render(){
 		if (this.state.redirect){
-			return (
-				<Redirect to={'/'} />
-			)
+			return (<Redirect to={'/'} />)
 		}
+
 		let { password1, password2 } = this.state;
 		return (
 			<div className="container">
+				{this.state.loading && (<BigLoadingAbsolute />)}
 				<h2 className="mt-5 mb-5">Enter a new, safe password</h2>
 
 				<form onSubmit={this.onSubmit}>
@@ -115,26 +108,13 @@ class ResetPassword extends Component {
 	}
 }
 
-
-
-let mapStateToProps = (state) => {
-	return {
-		...state.views.public.resetPassword,
-	}
-}
-
-let mapDispatchToProps = (dispatch) => {
-	return {
-		resetPassword: (password, token) => dispatch(resetPassword(password, token)),
-		addToast: (component, options) => dispatch(addToast(component, options)),
-	}
-}
-
-ResetPassword.propTypes = {
-	message: PropTypes.string,
-	error: PropTypes.string
-}
-
+let mapStateToProps = (state) => ({
+	...state.views.public.resetPassword,
+})
+let mapDispatchToProps = (dispatch) => ({
+	resetPassword: (password, token) => dispatch(resetPassword(password, token)),
+	addToast: (component, options) => dispatch(addToast(component, options)),
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

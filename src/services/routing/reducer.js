@@ -5,7 +5,6 @@ let {
 	REMOVE_NAV_ITEM
 } = types;
 
-
 /**
  * @typedef RoutingState
  * @type Object
@@ -13,31 +12,32 @@ let {
  * are currently present in the path of the page
  */
 
-/**
- *
- * @type RoutingState
- */
 let initialState = {
 	navItems: []
 }
 
 /**
- *
+ * @function routingReducer
  * @param {RoutingState} state
  * @param {ReduxAction} action
  * @param {Object[]} state.navItems the list of navigation items, that
  * are currently present in the path of the page
  * @return {RoutingState}
+ *
+ * @memberOf storeState
  */
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case ADD_NAV_ITEM: {
-			/*
-				Don't add an item, that is already present
-			 */
-			for (let i of state.navItems){
-				if (action.payload.id === i.id){
-					return state;
+			//Don't add an item, that is already present
+			for (let i = 0; i < state.navItems.length; i++){
+				if (action.payload.id === state.navItems[i].id){
+					let newItems = cloneDeep(state.navItems);
+					newItems[i] = action.payload;
+					return {
+						...state,
+						navItems: newItems
+					}
 				}
 			}
 			return {

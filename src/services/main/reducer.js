@@ -12,21 +12,19 @@ let {
  * current authenticate user
  */
 
-/**
- *
- * @type ServicesBasicState
- */
 let initialState = {
     authenticatedUser: null
 }
 
 /**
- *
+ * @function servicesReducer
  * @param {ServicesBasicState} state
  * @param {ReduxAction} action
  * @param {Object} state.authenticatedUser whole data about the
  * current authenticate user
  * @return {ServicesBasicState}
+ *
+ * @memberOf storeState
  */
 export default function(state = initialState, action) {
     switch(action.type){

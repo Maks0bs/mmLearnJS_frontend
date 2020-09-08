@@ -1,0 +1,26 @@
+{
+  "tags": {
+    "allowUnknownTags": ["component", "category", "subcategory", "service"],
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "source": {
+    "include": ["src"],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": ""
+  },
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/better-docs/component",
+    "node_modules/better-docs/category"],
+  "templates": {
+    "better-docs": {
+      "name": "My React components"
+    }
+  },
+  "opts": {
+    "template": "node_modules/better-docs",
+    "destination": "docs",
+    "recurse": true,
+    "readme": "README.md"
+  }
+}

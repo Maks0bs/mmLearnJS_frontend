@@ -2,9 +2,21 @@ import types from './actionTypes'
 import { REACT_APP_API_URL } from '../../../../../constants'
 let { API_ACTIVATE_ACCOUNT, CLEAR_MESSAGES } = types;
 
-// all api requests related to Home view will be placed here
-// all nested components should only use these actions for backend requests
+/**
+ * @namespace storeState.views.public.activateAccountActions
+ */
 
+/**
+ * Sends the a request to the api to activate the account, which
+ * is encoded in the token.
+ * See API docs for details
+ * @async
+ * @function
+ * @param {Object} token - the token which contains the encoded user data
+ * @return {function(*): Promise<any | void>}
+ *
+ * @memberOf storeState.views.public.activateAccountActions
+ */
 export let activateAccount = (token) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/auth/activate`, {
 		method: "POST",
@@ -23,6 +35,11 @@ export let activateAccount = (token) => (dispatch) => {
 	.catch(err => console.log(err))
 }
 
+/**
+ * @function
+ * @return {function(*): Promise<any | void | Response>}
+ * @memberOf storeState.views.public.activateAccountActions
+ */
 export let clearMessages = () => (dispatch) => {
 	return dispatch({
 		type: CLEAR_MESSAGES

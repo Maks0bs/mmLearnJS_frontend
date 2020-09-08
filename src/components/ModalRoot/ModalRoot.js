@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
 import { hideModal } from './services/actions'
-import PropTypes from "prop-types";
+import {Transition} from "react-transition-group";
+import {transitionStyles} from "../../services/helpers";
 
 /*
 	Initial configuration.
@@ -13,6 +14,8 @@ Modal.setAppElement(document.getElementById('root'));
 /**
  * Used to display modals with any custom component inside
  * There should only be one ModalRoot per app
+ *
+ * @memberOf components.common
  * @component
  */
 class ModalRoot extends Component {
@@ -54,49 +57,59 @@ class ModalRoot extends Component {
 
 	render() {
 		let { modalComponent } = this.props;
-		if (!modalComponent) {
-			return null;
-		}
+		let isMobileWidth = (window.innerWidth <= 1000)
 		return (
-			<Modal
-				isOpen={true}
-				contentRef={node => (this.contentRef = node)}
-				style={{
-					overlay: {
-						position: 'fixed',
-						backgroundColor: 'rgba(0, 0, 0, 0.4)',
-						zIndex: 10
-					},
-					content: {
-						padding: '0px',
-						left: '15%',
-						right: '15%'
-					}
-				}}
+			<Transition
+				in={!!modalComponent}
+				timeout={10}
+				unmountOnExit
+				appear
 			>
-				{/*
-					[X] button to close the modal on click
-				*/}
-				<button 
-                    onClick={() => this.props.hideModal()}
-                    className="float-right close m-2"
-                > 
-                    <span aria-hidden="true">&times;</span>
-                </button>
-				{modalComponent}
-			</Modal>
+				{state => (
+					<Modal
+						isOpen={!!modalComponent}
+						contentRef={node => (this.contentRef = node)}
+						style={{
+							overlay: {
+								...transitionStyles.fade[state],
+								position: 'fixed',
+								backgroundColor: 'rgba(0, 0, 0, 0.4)',
+								/*
+                                    Increase z-index, so that
+                                    the modal is shown above all other components
+                                 */
+								zIndex: 10
+							},
+							content: {
+								padding: '0px',
+								left: isMobileWidth ? '15%' : '25%',
+								right: isMobileWidth ? '15%' : '25%'
+							}
+						}}
+					>
+						{/*[X] button to close the modal on click*/}
+						<button
+							onClick={() => this.props.hideModal()}
+							className="float-right close m-2"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+						{modalComponent}
+					</Modal>
+				)}
+			</Transition>
 		)
 	}
 }
 
-let mapStateToProps = (state) => {
-	let { modalComponent } = state.components.modalRoot;
-	return {
-		modalComponent
-	}
-}
-
+let mapStateToProps = (state) => ({
+	...state.components.modalRoot
+})
+let mapDispatchToProps = (dispatch) => ({
+	hideModal: () => dispatch(hideModal())
+})
 export default connect(
 	mapStateToProps,
-	{ hideModal }
+	mapDispatchToProps
 )(ModalRoot)

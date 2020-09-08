@@ -3,6 +3,8 @@ import Loading from '../../res/images/LoadingRingAnimated50px.svg'
 
 /**
  * Small loading indicator
+ *
+ * @memberOf components.common
  * @component
  */
 class SmallLoading extends Component {

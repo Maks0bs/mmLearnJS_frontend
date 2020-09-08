@@ -5,7 +5,16 @@ import PublicRouter from './views/PublicRouter'
 import ModalRoot from './components/ModalRoot'
 import Reload from './components/performance/Reload'
 import ToastRoot from './components/ToastRoot'
+import {getAuthenticatedUser} from "./services/main/actions";
+import {connect} from "react-redux";
 
+/**
+ * The main component, that gets rendered by the DOM.
+ * At the same time it is the main router for the whole app.
+ *
+ * @component
+ * @memberOf components
+ */
 class App extends Component {
     render() {
         return (
@@ -15,24 +24,35 @@ class App extends Component {
                     <ToastRoot />
 
                     <Switch>
-                        <Route 
+                        <Route
                             exact path="/reload"
                             component={Reload}
                         />
                         <Route
                             path="/classroom"
-                            component={ClassroomRouter}
+                            render={() => {
+                                this.props.getAuthenticatedUser();
+                                return (<ClassroomRouter />)
+                            }}
                         />
                         <Route
                             path="/"
-                            component={PublicRouter}
+                            render={() => {
+                                this.props.getAuthenticatedUser();
+                                return (<PublicRouter />)
+                            }}
                         />
                     </Switch>
-                    {/*TODO maybe add a common footer for all pages*/}
                 </Router>
             </div>
         );
     }
 }
 
-export default App
+let mapDispatchToProps = (dispatch) => ({
+    getAuthenticatedUser: () => dispatch(getAuthenticatedUser())
+})
+export default connect(
+    null,
+    mapDispatchToProps
+)(App);

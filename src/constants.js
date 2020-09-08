@@ -7,7 +7,10 @@ else{
 }
 
 export let REACT_APP_API_URL = reactAppApiUrl;
-// maybe retrieve this from backend
+/*
+	If there will be too many notification types,
+	retrieve these types from the API (make a correspondent route in the API beforehand)
+ */
 export let notifications = {
 	types: {
 		ACTIVATE_ACCOUNT: 'USER_NOTIFICATION_ACTIVATE_ACCOUNT',

@@ -1,9 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {transitionStyles} from "../../../services/helpers";
+import {Transition} from "react-transition-group";
 
 /**
  * Navigation element, which opens a dropdown list of inner components.
  * Displays `props.children` when open
+ *
+ * @memberOf components.common
  * @component
  */
 class NavDropdown extends React.Component {
@@ -13,8 +17,10 @@ class NavDropdown extends React.Component {
             isToggleOn: false
         };
     }
+    hasFocus = false;
+
     toggleDropdown(e) {
-        e.preventDefault();
+        e && e.preventDefault();
         this.setState({
             isToggleOn: !this.state.isToggleOn
         })
@@ -23,8 +29,10 @@ class NavDropdown extends React.Component {
     componentDidMount() {
         /*
             When user clicks outside of dropdown, close it
+            Also listener for enter press to open/close dropdown, when focused
          */
         document.addEventListener('mousedown', this.handleClick, false);
+        document.addEventListener('keypress', this.handleKeyPress, false);
     }
 
     componentWillUnmount() {
@@ -32,6 +40,13 @@ class NavDropdown extends React.Component {
             Cleanup to prevent memory leaks
          */
         document.removeEventListener('mousedown', this.handleClick, false);
+        document.removeEventListener('keypress', this.handleKeyPress, false);
+    }
+
+    handleKeyPress = (e) => {
+        if (e.key && e.key === 'Enter' && this.hasFocus){
+            this.toggleDropdown();
+        }
     }
 
     handleClick = (e) => {
@@ -49,12 +64,11 @@ class NavDropdown extends React.Component {
     }
 
     render() {
-        /*
-            class name specifies the state - if dropdown inner elements should be displayed
-         */
+        // class name specifies the state - if dropdown inner elements should be displayed
         let classDropdownMenu = 'dropdown-menu ' + (this.state.isToggleOn ? 'show' : '')
         return (
-            <li className="nav-item dropdown"
+            <li
+                className="nav-item dropdown"
                 ref={node => (this.innerContentRef = node)}
             >
                 <a
@@ -63,24 +77,36 @@ class NavDropdown extends React.Component {
                     style={{
                         cursor: 'pointer',
                         textTransform: 'none',
-
+                        alignItems: 'center'
                     }}
+                    tabIndex={0}
+                    onFocus={() => this.hasFocus = true}
+                    onBlur={() => this.hasFocus = false}
                 >
                     {this.props.name}
                     {this.props.displayComponent && this.props.displayComponent}
                 </a>
-                <ul
-                    className={`${classDropdownMenu} dropdown-menu-right`}
-                    style={{
-                        overflow: 'auto',
-                        /*
-                            Don't let the dropdown overflow the screen size
-                         */
-                        maxHeight: window.innerHeight / 2
-                    }}
+                <Transition
+                    in={this.state.isToggleOn}
+                    timeout={70}
+                    unmountOnExit
+                    appear
                 >
-                    {this.props.children}
-                </ul>
+                    {state => (
+                        <ul
+                            className={`dropdown-menu show dropdown-menu-right`}
+                            style={{
+                                ...transitionStyles.scaleDownBottom[state],
+                                overflow: 'auto',
+                                //Don't let the dropdown overflow the screen size
+                                maxHeight: window.innerHeight / 2
+                            }}
+                        >
+                            {this.props.children}
+                        </ul>
+                    )}
+                </Transition>
+
             </li>
 
         )

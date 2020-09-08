@@ -4,12 +4,16 @@ import courseReducer from '../views/CourseRouter/services/reducer'
 import dashboardReducer from '../views/Dashboard/services/reducer'
 import userReducer from '../views/UserRouter/services/reducer'
 import searchCoursesReducer from '../views/SearchCourses/services/reducer'
-
-// here we collect ALL reducers from views directory
+import createCourseReducer from '../views/CreateCourse/services/reducer'
+/**
+ * @namespace storeState.views.classroom
+ * @memberOf storeState.views
+ */
 export default combineReducers({
 	courseList: courseListReducer,
 	dashboard: dashboardReducer,
 	course: courseReducer,
 	user: userReducer,
-	searchCourses: searchCoursesReducer
+	searchCourses: searchCoursesReducer,
+	createCourse: createCourseReducer
 })

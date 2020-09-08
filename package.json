@@ -1,7 +1,7 @@
 {
   "name": "mmLearnJS_frontend",
   "version": "0.2.0",
-  "description": "frontend for mmlearnjs",
+  "description": "frontend for mmLearnJS",
   "main": "index.js",
   "private": true,
   "dependencies": {
@@ -43,7 +43,8 @@
     "test": "jest --config ./jest.config.json",
     "eject": "react-scripts eject",
     "start": "serve -s build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build && npm install -g serve"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build && npm install -g serve",
+    "docs": "jsdoc -c jsdoc.conf.json"
   },
   "repository": {
     "type": "git",
@@ -56,7 +57,11 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "chrome",
+      "edge",
+      "firefox",
+      "ie"
     ],
     "development": [
       "last 1 chrome version",

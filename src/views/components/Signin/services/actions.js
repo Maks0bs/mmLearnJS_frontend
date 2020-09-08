@@ -2,9 +2,18 @@ import types from './actionTypes'
 import { REACT_APP_API_URL } from '../../../../constants'
 let { API_SIGNIN, CLEAR_MESSAGES } = types;
 
-// all api requests related to Home view will be placed here
-// all nested components should only use these actions for backend requests
+/**
+ * @namespace storeState.views.components.signinActions
+ */
 
+/**
+ * @async
+ * @function
+ * @param {Object} user - the credentials of the user, that we want to authenticate
+ * @return {function(*): Promise<ReduxAction>}
+ *
+ * @memberOf storeState.views.components.signinActions
+ */
 export let signin = (user) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/auth/signin`, {
 		method: "POST",
@@ -23,6 +32,13 @@ export let signin = (user) => (dispatch) => {
 	.catch(err => console.log(err))
 }
 
+
+/**
+ * @function
+ * @return {function(*): ReduxAction}
+ *
+ * @memberOf storeState.views.components.signinActions
+ */
 export let clearMessages = () => (dispatch) => {
 	return dispatch({
 		type: CLEAR_MESSAGES

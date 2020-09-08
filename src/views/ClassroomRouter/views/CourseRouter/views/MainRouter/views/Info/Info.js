@@ -21,7 +21,6 @@ class Info extends Component {
 	componentDidMount() {
 		this.props.getFirstTimeStatus()
 			.then((v) => {
-				console.log(v);
 				if (this.props.firstTime){
 					this.props.showModal(
 						<FirstTimeInfo onClose={this.props.hideModal}/>
@@ -32,7 +31,6 @@ class Info extends Component {
 
 
 	render() {
-		console.log('render info', this.props);
 		if (this.props.redirectToDashboard){
 			this.props.clearMessages();
 			return (
