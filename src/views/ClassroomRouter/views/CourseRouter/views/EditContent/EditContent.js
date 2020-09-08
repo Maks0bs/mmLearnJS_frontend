@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getCourseById } from './services/actions'
+import { withRouter } from 'react-router-dom'
 import EditPanel from './components/EditPanel'
 import EditActions from './components/EditActions'
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
@@ -77,4 +78,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(EditContent);
+)(withRouter(EditContent));

@@ -6,6 +6,7 @@ import EditPanel from './components/EditPanel'
 import EditActions from "./components/EditActions";
 import { addToast } from "../../../../../../components/ToastRoot/services/actions";
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
+import { withRouter } from 'react-router-dom'
 
 class EditExercises extends Component {
     constructor() {
@@ -95,4 +96,4 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EditExercises);
+)(withRouter(EditExercises));
