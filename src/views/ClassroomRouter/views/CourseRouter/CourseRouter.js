@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, withRouter} from 'react-router-dom'
 import MainRouter from './views/MainRouter'
 import EditContent from './views/EditContent'
 import EditInfo from './views/EditInfo'
 import EditExercises from "./views/EditExercises";
 import {connect} from "react-redux";
-import { getCourseById } from "./services/actions";
 import { removeNavItem, addNavItem } from "../../../../services/routing/actions";
+import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
+import TeacherRoute from "./components/TeacherRoute";
 
 /**
  * @namespace components.views.classroom.course
@@ -25,55 +26,43 @@ class CourseRouter extends Component {
 	}
 
 	render() {
-		let { path } = this.props.match;
-		let { pathname } = this.props.location
-
+		let { path, url: prefixUrl } = this.props.match;
+		if (!this.props.course || !this.props.course._id){
+			return (<BigLoadingCentered />)
+		}
+		this.props.addNavItem({
+			id: 'course link',
+			name: 'Course "' + this.props.course.name + '"',
+			path: `/classroom/course/${this.props.course._id}`
+		})
 		return (
 			<div>
 				<Switch>
+					<TeacherRoute
+						coursePrefix={prefixUrl}
+						status={this.props.curUserCourseStatus}
+						exact path={`${path}/edit-info`}
+						component={EditInfo}
+					/>
 					<Route
-						exact path={`${path}/edit/:courseId`}
-						render={() => {
-							// extraction of id is only done in Route.render
-							// it is more efficient than doing on each router render
-							let courseId = pathname.split('/').pop();
-							this.props.getCourseById(courseId);
-
-							return (<EditContent />)
-						}}
+						exact path={`${path}/edit`}
+						component={EditContent}
 					/>
 
 					<Route
-						exact path={`${path}/edit-info/:courseId`}
-						render={() => {
-							let courseId = pathname.split('/').pop();
-							this.props.getCourseById(courseId);
-
-							return (<EditInfo />)
-						}}
+						exact path={`${path}/edit-info`}
+						component={EditInfo}
 					/>
 
 					<Route
-						exact path={`${path}/edit-exercises/:courseId`}
-						render={() => {
-							let courseId = pathname.split('/').pop();
-							this.props.getCourseById(courseId);
-
-							return (<EditExercises />)
-						}}
+						exact path={`${path}/edit-exercises`}
+						component={EditExercises}
 					/>
 
 					<Route
-						path={`${path}/:courseId`}
-						render={() => {
-							// might be more efficient (or not):
-							// [...pathname.matchAll(/\/[A-Za-z0-9-]+/g)]
-							let courseId = pathname.split('/')[3];
-							this.props.getCourseById(courseId);
-							return (<MainRouter />)
-						}}
+						path={`${path}`}
+						component={MainRouter}
 					/>
-					
 				</Switch>
 			</div>
 		);
@@ -81,14 +70,14 @@ class CourseRouter extends Component {
 }
 
 let mapStateToProps = (state) => ({
-	...state.services
+	course: state.views.classroom.course.services.course,
+	curUserCourseStatus: state.views.classroom.course.services.curUserCourseStatus
 })
 let mapDispatchToProps = (dispatch) => ({
-	getCourseById: (id) => dispatch(getCourseById(id)),
 	removeNavItem: (id) => dispatch(removeNavItem(id)),
 	addNavItem: (item) => dispatch(addNavItem(item))
 })
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CourseRouter);
+)(withRouter(CourseRouter));

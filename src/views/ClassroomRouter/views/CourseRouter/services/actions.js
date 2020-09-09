@@ -3,7 +3,8 @@ import {getCoursesFiltered} from "../../../../../services/actions";
 import types from './actionTypes'
 let {
 	API_GET_COURSE_BY_ID,
-	API_UPDATE_COURSE
+	API_UPDATE_COURSE,
+	API_UPDATE_COURSE_JSON_ONLY
 } = types;
 
 /**
@@ -19,13 +20,12 @@ let {
  * are a part of an entry then provide the entry and section numbers of the
  * correspondent file under the `"filesPositions"` key. See API docs for details
  * @param {string} id - the id of the course that is going to be updated
- * @param {?string} [returnDispatchType=] - the type of action to be dispatched after
+ * @param {?string} [returnDispatchType] - the type of action to be dispatched after
  * receiving confirmation (or error) of updating the course
  * @return {function(*): Promise<ReduxAction|any|Response>}
  * @memberOf storeState.views.classroom.course.courseServicesActions
  */
 export let updateCourse = (updateData, id, returnDispatchType) => (dispatch) => {
-	console.log(returnDispatchType);
 	return fetch(`${REACT_APP_API_URL}/courses/update/${id}`, {
 		method: "PUT",
 		headers: {},
@@ -43,18 +43,40 @@ export let updateCourse = (updateData, id, returnDispatchType) => (dispatch) => 
 }
 
 /**
+ * @description see {@link updateCourse}
+ * @async
+ * @function
+ * @param {Object} courseData - the object with new course data,
+ * should be a part of {@link CourseData}-Object. See {@link updateCourse}
+ * @param {string} id - the id of the course that is going to be updated
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.courseServicesActions
+ */
+export let updateCourseJSON = (courseData, id) => (dispatch) => {
+	let form = new FormData();
+	form.set('newCourseData', JSON.stringify(courseData));
+	return dispatch(updateCourse(
+		form, id,
+		API_UPDATE_COURSE_JSON_ONLY
+	))
+}
+
+/**
  * @async
  * @function
  * @param {string} courseId
+ * @param {?UserData} [user] - the context user to test some statements or
+ * perform certain actions with that user
  * @return {function(*): Promise<any|Response>}
  * @memberOf storeState.views.classroom.course.courseServicesActions
  */
-export let getCourseById = (courseId) => (dispatch) => {
+export let getCourseById = (courseId, user) => (dispatch) => {
 	return dispatch(getCoursesFiltered(
 		{
 			courseId: courseId,
 			viewCourses: true
 		},
-		API_GET_COURSE_BY_ID
+		API_GET_COURSE_BY_ID,
+		user
 	))
 }

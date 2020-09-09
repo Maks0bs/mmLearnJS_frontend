@@ -18,7 +18,9 @@ import {REACT_APP_API_URL} from '../constants'
  *
  * @memberOf storeStateActions
  */
-export let uploadFiles = (filesForm, returnDispatchType) => (dispatch) => {
+export let uploadFiles = (
+	filesForm, returnDispatchType
+) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/files/upload`, {
 		method: "POST",
 		headers: {
@@ -42,12 +44,16 @@ export let uploadFiles = (filesForm, returnDispatchType) => (dispatch) => {
  * @function
  * @param {Object} filter - specifies the way, how the API should filter result courses
  * @param {ReduxDispatchType} returnDispatchType - the type of action to dispatch in after
+ * @param {?UserData} [user] - the context user to test some statements or
+ * perform certain actions with that user
  * calling this function
  * @return {function(*): Promise<any | void>}
  *
  * @memberOf storeStateActions
  */
-export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
+export let getCoursesFiltered = (
+	filter, returnDispatchType, user
+) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/courses/filter`, {
 		method: "POST",
 		headers: {
@@ -60,7 +66,8 @@ export let getCoursesFiltered = (filter, returnDispatchType) => (dispatch) => {
 	.then(res => res.json())
 	.then(data => dispatch({
 		type: returnDispatchType,
-		payload: data
+		payload: data,
+		user: user || undefined
 	}))
 	.catch(err => console.log(err))
 }
@@ -154,7 +161,9 @@ export let streamFileById = (fileId,
  *
  * @memberOf storeStateActions
  */
-export let getUserById = (userId, returnDispatchType) => (dispatch) => {
+export let getUserById = (
+	userId, returnDispatchType
+) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/users/${userId}`, {
 		method: "GET",
 		headers: {

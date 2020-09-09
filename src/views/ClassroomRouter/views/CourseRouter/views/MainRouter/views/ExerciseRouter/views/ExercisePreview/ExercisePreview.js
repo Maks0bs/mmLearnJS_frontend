@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {getEnrollmentStatus} from "../../../../../../services/helpers";
+import {getCurUserCourseStatus} from "../../../../../../services/helpers";
 import {Redirect} from "react-router-dom";
 import StudentPreview from "./components/StudentPreview";
 import TeacherPreview from "./components/TeacherPreview";
@@ -10,7 +10,7 @@ class ExercisePreview extends Component {
     render() {
         let { exercise, courseData, authenticatedUser: user } = this.props;
         let { name } = exercise;
-        let status = getEnrollmentStatus(courseData, user);
+        let status = getCurUserCourseStatus(courseData, user);
         console.log(status);
         switch (status){
             case 'enrolled':

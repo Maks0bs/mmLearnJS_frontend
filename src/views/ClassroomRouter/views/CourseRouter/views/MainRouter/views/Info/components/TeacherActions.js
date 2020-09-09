@@ -18,17 +18,17 @@ class TeacherActions extends Component {
 		let { courseData } = this.props;
 		if (redirectToEdit){
 			return (
-				<Redirect to={`/classroom/course/edit/${courseData._id}`} />
+				<Redirect to={`/classroom/course/${courseData._id}/edit`} />
 			)
 		}
 		if (redirectToEditInfo) {
 			return (
-				<Redirect to={`/classroom/course/edit-info/${courseData._id}`} />
+				<Redirect to={`/classroom/course/${courseData._id}/edit-info`} />
 			)
 		}
 		if (redirectToEditTests) {
 			return (
-				<Redirect to={`/classroom/course/edit-exercises/${courseData._id}`} />
+				<Redirect to={`/classroom/course/${courseData._id}/edit-exercises`} />
 			)
 		}
 		return (

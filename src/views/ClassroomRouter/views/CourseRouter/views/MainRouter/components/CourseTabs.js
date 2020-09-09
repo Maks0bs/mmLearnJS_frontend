@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import { Redirect, withRouter } from 'react-router-dom'
-import {getEnrollmentStatus} from "../../../services/helpers";
+import {getCurUserCourseStatus} from "../../../services/helpers";
 
 class CourseTabs extends Component {
     constructor() {
@@ -42,7 +42,7 @@ class CourseTabs extends Component {
         let { status, location } = this.props;
         let { pathname } = location;
         if (!status){
-            status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
+            status = getCurUserCourseStatus(this.props.courseData, this.props.authenticatedUser);
         }
 
         let courseLink = `/classroom/course/${this.props.courseData._id}`;

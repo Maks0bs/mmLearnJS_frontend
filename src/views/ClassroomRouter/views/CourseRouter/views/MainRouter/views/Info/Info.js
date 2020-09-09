@@ -11,7 +11,7 @@ import TeacherActions from './components/TeacherActions'
 import CreatorActions from './components/CreatorActions'
 import CourseData from './components/CourseData'
 import InvitedTeacherInfo from './components/InvitedTeacherInfo'
-import { getEnrollmentStatus } from '../../../../services/helpers'
+import { getCurUserCourseStatus } from '../../../../services/helpers'
 import CourseTabs from "../../components/CourseTabs";
 import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
 import FirstTimeInfo from "./components/FirstTimeInfo";
@@ -42,7 +42,7 @@ class Info extends Component {
 				<BigLoadingCentered />
 			);
 		}
-		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
+		let status = getCurUserCourseStatus(this.props.courseData, this.props.authenticatedUser);
 		let course;
 		switch (status){
 			case 'not logged in':

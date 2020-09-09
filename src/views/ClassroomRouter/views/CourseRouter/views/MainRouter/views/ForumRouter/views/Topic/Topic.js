@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getTopicFromForum, formatTopicPosts } from '../../services/helpers'
-import { getEnrollmentStatus } from '../../../../../../services/helpers'
+import { getCurUserCourseStatus } from '../../../../../../services/helpers'
 import { connect } from 'react-redux'
 import { addNavItem, removeNavItem } from "../../../../../../../../../../services/routing/actions";
 import { Link, Redirect, withRouter } from 'react-router-dom'
@@ -81,7 +81,7 @@ class Topic extends Component {
 	}
 
 	render() {
-		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
+		let status = getCurUserCourseStatus(this.props.courseData, this.props.authenticatedUser);
 		let topic = getTopicFromForum(this.props.forumData.content, this.props.match.params.topicId);
 		if (this.state.reload){
 			this.setState({

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getEnrollmentStatus } from '../../../../../../services/helpers'
+import { getCurUserCourseStatus } from '../../../../../../services/helpers'
 import ForumActions from './components/ForumActions'
 import ForumTopics from './components/ForumTopics'
 import { getForumFromCourse } from '../../services/actions'
@@ -9,7 +9,7 @@ import { getForumFromCourse } from '../../services/actions'
 class Forum extends Component {
 
 	render(){
-		let status = getEnrollmentStatus(this.props.courseData, this.props.authenticatedUser);
+		let status = getCurUserCourseStatus(this.props.courseData, this.props.authenticatedUser);
 		
 		let forumName = this.props.forumData.name;
 		let forumContent = this.props.forumData.content;
