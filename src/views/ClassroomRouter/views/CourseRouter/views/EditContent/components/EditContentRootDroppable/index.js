@@ -1,2 +1,2 @@
-import EditCourseRootDroppable from "./EditCourseRootDroppable";
+import EditCourseRootDroppable from "./EditContentRootDroppable";
 export default EditCourseRootDroppable;

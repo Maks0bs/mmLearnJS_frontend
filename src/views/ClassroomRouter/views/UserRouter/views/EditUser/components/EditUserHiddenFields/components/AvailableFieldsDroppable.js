@@ -24,6 +24,7 @@ class AvailableFieldsDroppable extends Component {
                 <div className="column" >
                     {availableFields.map((field, i) => (
                         <FieldEntityDraggable
+                            key={i}
                             field={field}
                             num={i}
                             type={'fieldAvailable'}

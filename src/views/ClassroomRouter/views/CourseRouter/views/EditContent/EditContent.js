@@ -1,69 +1,86 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { v1 as uuidv1 } from 'uuid'
-import { updateSections } from '../../services/actions'
-import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
-import { hideModal, showModal } from '../../../../../../../../components/ModalRoot/services/actions';
-import Section from './components/Section'
-import AddSection from './components/AddSection'
-import _ from 'lodash'
-import { reorderArray } from "../../../../../../../../components/services/helpers";
-import { dndTypes, regExpressions } from '../../services/helpers'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faAlignJustify, faPlus } from '@fortawesome/free-solid-svg-icons'
-let { SECTIONS, ENTRIES } = dndTypes;
+import { updateSectionsLocal, copySectionsFromOldData } from './services/actions'
+import { Droppable, DragDropContext } from 'react-beautiful-dnd';
+import { hideModal, showModal } from '../../../../../../components/ModalRoot/services/actions';
+import { cloneDeep } from 'lodash'
+import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { reorderArray } from "../../../../../../components/services/helpers";
+import { dndTypes, regExpressions } from './services/helpers'
+import EditActions from "./components/EditActions";
+import EditCourseRootDroppable from "./components/EditContentRootDroppable";
+import EditContentHelp from "./components/EditContentHelp";
+let { SECTIONS } = dndTypes;
 
-class EditPanel extends Component {
+/**
+ * This page allows teachers to edit the their course:
+ * add, edit, delete sections and entries
+ * @memberOf components.views.classroom.course
+ * @component
+ */
+class EditContent extends Component {
 
-	showAddSectionModal = (e) => {
+	showHelp = (e) => {
 		e.preventDefault();
 		this.props.showModal(
-			<AddSection onClose={this.props.hideModal} />
+			<EditContentHelp
+				inModal={true}
+				onClose={this.props.hideModal}
+			/>
 		)
 	}
 
+	componentDidMount() {
+		this.props.initEditing();
+	}
+
+
 	onDragEnd = (result) => {
-		if (!result.destination) {//may need to be changed
+		if (!result.destination || !this.props.newSections) {
 			return;
 		}
-
 		if (result.type === SECTIONS) {
+			// replace a section
             let sections = reorderArray(
-                this.props.courseData.sections,
+                this.props.newSections,
                 result.source.index,
                 result.destination.index
             );
-
             this.props.updateSections(sections);
         } else {
         	if (result.source.droppableId === result.destination.droppableId){
+				// replace an entry, the section stays the same
 	        	let re = regExpressions.sectionDroppableId;
-	        	let id = parseInt(re.exec(result.source.droppableId)[1], 10);
+	        	let sectionId =
+					parseInt(re.exec(result.source.droppableId)[1], 10);
 
 	            let entries = reorderArray(
-	                this.props.courseData.sections[id].entries,
+	                this.props.newSections[sectionId].entries,
 	                result.source.index,
 	                result.destination.index
 	            );
 
-	            let sections = _.cloneDeep(this.props.courseData.sections);
-	            sections[id].entries = entries;
+	            let sections = cloneDeep(this.props.newSections);
+	            sections[sectionId].entries = entries;
 
 	            this.props.updateSections(sections);
 	        }
 	        else{
-	        	let re = regExpressions.sectionDroppableId;
-	        	let indexSource = result.source.index;
-	        	let indexDest = result.destination.index;
-	        	let idSource = parseInt(re.exec(result.source.droppableId)[1], 10);
-	        	let idDest = parseInt(re.exec(result.destination.droppableId)[1], 10);
-	        	let sections = _.cloneDeep(this.props.courseData.sections);
-	        	let entriesSource = _.cloneDeep(sections[idSource].entries);
-	        	let entriesDest = _.cloneDeep(sections[idDest].entries);
-	        	let element = _.cloneDeep(sections[idSource].entries[indexSource]);
+				// replace an entry to a different section
+	        	let re = regExpressions.sectionDroppableId,
+					indexSource = result.source.index,
+					indexDest = result.destination.index;
+	        	let idSource = parseInt(re.exec(result.source.droppableId)[1], 10),
+					idDest = parseInt(re.exec(result.destination.droppableId)[1], 10),
+					sections = cloneDeep(this.props.newSections);
+	        	let entriesSource = cloneDeep(sections[idSource].entries),
+					entriesDest = cloneDeep(sections[idDest].entries),
+					element = cloneDeep(sections[idSource].entries[indexSource]);
+
 				entriesSource.splice(indexSource, 1);
 				entriesDest.splice(indexDest, 0, element);
+
 				sections[idSource].entries = entriesSource;
 				sections[idDest].entries = entriesDest;
 
@@ -73,109 +90,58 @@ class EditPanel extends Component {
 	}
 
 	render() {
-		let { courseData } = this.props;
-		let { sections } = courseData;
-		if (!sections){
-			return null;
-		}
-
-		
+		console.log('ec', this.props);
+		let isMobileWidth = (window.innerWidth <= 1000);
 		return (
-			<DragDropContext
-				onDragEnd={this.onDragEnd}
+			<div
+				className="container my-5"
+				style={{width: isMobileWidth ? '90%' : '70%'}}
 			>
-				<p className="ml-3 mt-2"> <Icon icon={faAlignJustify} /> = Move around sections and entries </p>
+				<div
+					style={{
+						display: 'grid',
+						gridTemplateColumns: 'max(90%) minmax(auto, 10%)'
+					}}
+				>
+					<div>
+						<DragDropContext onDragEnd={this.onDragEnd}>
+							<Droppable
+								droppableId="droppableEditCourseRoot"
+								type={SECTIONS}
+							>
+								{(provided, snapshot) => (
+									<EditCourseRootDroppable
+										provided={provided}
+										snapshot={snapshot}
+									/>
+								)}
+							</Droppable>
+						</DragDropContext>
+					</div>
+					<div>
+						<a href="#void" onClick={this.showHelp}>
+							<Icon className="pr-1" icon={faQuestionCircle} />
+							Help
+						</a>
+					</div>
+				</div>
 				<hr />
-				<Droppable droppableId="droppableRoot" type={SECTIONS}>
-					{(provided, snapshot) => (
-						<div
-							ref={provided.innerRef}
-							style={{
-                                background: snapshot.isDraggingOver ? "lightblue" : "",
-                                padding: '10px 0px 10px 10px',
-                                display: 'inline-block'
-							}}
-						>
-							<div className="column" > 
-								{sections.map((section, i) => (
-									<Draggable
-										key={`section${i}`}
-										draggableId={`section${i}`}
-										index={i}
-									>
-										{(provided, snapshot) => (
-											<div
-												ref={provided.innerRef}
-												{...provided.draggableProps}
-												style={{
-													padding: '8px',
-													userSelect: 'none',
-													margin: '4px',
-													background: snapshot.isDragging ? 
-														'grey' : 'lightgrey',
-													...provided.draggableProps.style
-												}}
-											>
-												<span {...provided.dragHandleProps} >
-													<div className="float-left">
-														<Icon icon={faAlignJustify} />
-														
-													</div>
-													
-												</span>
-												<div className="pl-4">
-													
-													<Section
-														key={`section${i}`}
-														name={section.name}
-														description={section.description}
-														entries={section.entries}
-														sectionId={i}
-														courseId={courseData._id}
-														deleted={section.deleted}
-													/>
-												</div>
-
-											</div>
-										)}
-									</Draggable>
-
-								))}
-								{provided.placeholder}
-							</div>
-
-							<a href="#void" onClick={this.showAddSectionModal}>
-								<Icon
-									icon={faPlus}
-									className="pr-1"
-								/>
-								Add section
-							</a>
-						</div>
-					)}
-				</Droppable>
-
-				<hr />
-			</DragDropContext>
+				<EditActions />
+			</div>
 		)
 	}
 }
 
-let mapStateToProps = (state) => {
-	return {
-		...state.views.classroom.course.editContent
-	}
-}
-
-let mapDispatchToProps = (dispatch) => {
-	return {
-		updateSections: (sections) => dispatch(updateSections(sections)),
-		hideModal: () => dispatch(hideModal()),
-		showModal: (component) => dispatch(showModal(component))
-	}
-}
-
+let mapStateToProps = (state) => ({
+	...state.views.classroom.course.editContent
+})
+let mapDispatchToProps = (dispatch) => ({
+	updateSections: (sections) => dispatch(updateSectionsLocal(sections)),
+	hideModal: () => dispatch(hideModal()),
+	showModal: (component) => dispatch(showModal(component)),
+	initEditing: () => dispatch(copySectionsFromOldData())
+})
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(EditPanel);
+)(EditContent);

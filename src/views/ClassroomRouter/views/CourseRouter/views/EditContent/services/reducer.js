@@ -1,10 +1,7 @@
 import types from './actionTypes'
 import { cloneDeep, assign, extend } from 'lodash'
 import { v1 as uuidv1 } from 'uuid';
-let { 
-	API_EDIT_COURSE, 
-	CLEAR_MESSAGES, 
-	API_GET_COURSE_BY_ID,
+let {
 	UPDATE_SECTIONS,
 	ADD_SECTION,
 	ADD_ENTRY,
@@ -12,18 +9,17 @@ let {
 	DELETE_ENTRY,
 	EDIT_SECTION,
 	DELETE_SECTION,
-	API_GET_FILE_BY_ID,
 	PRE_DELETE_ENTRY,
 	PRE_DELETE_SECTION,
 	RESTORE_DELETED_ENTRY,
-	RESTORE_DELETED_SECTION
+	RESTORE_DELETED_SECTION,
+	COPY_SECTIONS_FROM_OLD_DATA
 } = types;
 
 let initialState = {
 	message: '',
 	error: '',
-	oldCourseData: {},
-	courseData: {},
+	newSections: null,
 	filesToDelete: [],
 	deletedSections: {},
 	deletedEntries: {}
@@ -31,6 +27,12 @@ let initialState = {
 
 export default function(state = initialState, action) {
 	switch(action.type){
+		case COPY_SECTIONS_FROM_OLD_DATA: {
+			return {
+				...state,
+				newSections: cloneDeep(action.payload)
+			}
+		}
 		case UPDATE_SECTIONS:
 			return {
 				...state,
@@ -39,13 +41,6 @@ export default function(state = initialState, action) {
 					sections: action.payload
 				}
 			}
-		case API_GET_COURSE_BY_ID: {
-			return {
-				...state,
-				oldCourseData: action.payload[0],
-				courseData: action.payload[0]
-			}
-		}
 		case ADD_SECTION:
 			return {
 				...state,
@@ -175,7 +170,7 @@ export default function(state = initialState, action) {
 			let curId = state.courseData.sections[sectionNum].entries[entryNum].deletedId;
 			let newSections = cloneDeep(state.courseData.sections);
 			newSections[sectionNum].entries[entryNum] = cloneDeep(state.deletedEntries[curId]);
-			console.log('new data', newSections[sectionNum].entries[entryNum]);
+
 			return {
 				...state,
 				courseData: {
@@ -198,16 +193,6 @@ export default function(state = initialState, action) {
 					...state.courseData,
 					sections: newSections
 				}
-			}
-		}
-		/*case CLEAR_MESSAGES:
-			return initialState*/
-		case API_EDIT_COURSE: {
-			//TODO remove unused refs
-			return {
-				...initialState,
-				oldCourseData: state.oldCourseData,
-				courseData: state.courseData
 			}
 		}
 		default:

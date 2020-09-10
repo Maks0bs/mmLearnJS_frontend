@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
-import { editEntry, preDeleteEntry } from '../../../../../services/actions'
+import { editEntry, preDeleteEntry } from '../../../../../../../services/actions'
 import { connect } from 'react-redux'
-import DownloadElement from '../../../../../../../../../../../components/reusables/DownloadElement'
+import DownloadElement from '../../../../../../../../../../../../../components/reusables/DownloadElement'
 import { extend } from 'lodash'
 
 

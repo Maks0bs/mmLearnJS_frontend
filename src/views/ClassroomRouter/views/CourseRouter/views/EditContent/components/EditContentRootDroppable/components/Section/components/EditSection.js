@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
-import { editSection, preDeleteSection } from '../../../services/actions'
+import { editSection, preDeleteSection } from '../../../../../services/actions'
 import { connect } from 'react-redux'
 
 

@@ -101,8 +101,12 @@ class CreateCourse extends Component {
 						onChange={this.handleChange("type")}
 					>
 						<option value="open">Open</option>
-						<option value="public">Public [to be implemented]</option>
-						<option value="hidden">Hidden [to be implemented]</option>
+						<option disabled value="public">
+							Public [to be implemented]
+						</option>
+						<option disabled value="hidden">
+							Hidden [to be implemented]
+						</option>
 					</select>
 				</div>
 				<button className="btn btn-raised btn-info mx-2" type="submit">
@@ -122,10 +126,7 @@ class CreateCourse extends Component {
 			return <Redirect to={`/classroom/course/${newCourseId}`} />
 		}
 		return (
-			<div
-				className="container"
-				style={{width: '65%'}}
-			>
+			<div className="container" style={{width: '65%'}}>
 				<h2 className="mt-5 mb-5">Create a new course</h2>
 				<div
 					className="alert alert-danger"

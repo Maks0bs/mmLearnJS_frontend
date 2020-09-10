@@ -20,7 +20,8 @@ let {
  * are a part of an entry then provide the entry and section numbers of the
  * correspondent file under the `"filesPositions"` key. See API docs for details
  * @param {string} id - the id of the course that is going to be updated
- * @param {?string} [returnDispatchType] - the type of action to be dispatched after
+ * @param {?string} [returnDispatchType=API_UPDATE_COURSE] - the type of
+ * action to be dispatched after
  * receiving confirmation (or error) of updating the course
  * @return {function(*): Promise<ReduxAction|any|Response>}
  * @memberOf storeState.views.classroom.course.courseServicesActions
@@ -62,6 +63,8 @@ export let updateCourseJSON = (courseData, id) => (dispatch) => {
 }
 
 /**
+ * @description puts the detailed (as fas as possible) course data
+ * into the {@link storeState.views.classroom.course.courseServicesReducer}-Reducer
  * @async
  * @function
  * @param {string} courseId

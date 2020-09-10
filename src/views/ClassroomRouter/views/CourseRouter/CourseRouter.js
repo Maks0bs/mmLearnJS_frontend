@@ -27,6 +27,7 @@ class CourseRouter extends Component {
 
 	render() {
 		let { path, url: prefixUrl } = this.props.match;
+		let { curUserCourseStatus: status } = this.props;
 		if (!this.props.course || !this.props.course._id){
 			return (<BigLoadingCentered />)
 		}
@@ -40,25 +41,22 @@ class CourseRouter extends Component {
 				<Switch>
 					<TeacherRoute
 						coursePrefix={prefixUrl}
-						status={this.props.curUserCourseStatus}
+						status={status}
 						exact path={`${path}/edit-info`}
 						component={EditInfo}
 					/>
-					<Route
+					<TeacherRoute
+						coursePrefix={prefixUrl}
+						status={status}
 						exact path={`${path}/edit`}
 						component={EditContent}
 					/>
-
-					<Route
-						exact path={`${path}/edit-info`}
-						component={EditInfo}
-					/>
-
-					<Route
-						exact path={`${path}/edit-exercises`}
+					<TeacherRoute
+						coursePrefix={prefixUrl}
+						status={status}
+						exact path={`${path}/edit`}
 						component={EditExercises}
 					/>
-
 					<Route
 						path={`${path}`}
 						component={MainRouter}

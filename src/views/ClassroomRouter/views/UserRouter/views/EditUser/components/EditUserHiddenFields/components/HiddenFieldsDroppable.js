@@ -24,6 +24,7 @@ class HiddenFieldsDroppable extends Component {
                 <div className="column" >
                     {hiddenFields.map((field, i) => (
                         <FieldEntityDraggable
+                            key={i}
                             field={field}
                             num={i}
                             type={'fieldHidden'}
