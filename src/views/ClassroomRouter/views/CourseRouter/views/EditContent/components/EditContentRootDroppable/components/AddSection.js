@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom'
-import { addSection } from '../../../services/actions'
+import { addSection } from '../services/actions'
 import { connect } from 'react-redux'
 
 

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { hideModal, showModal } from '../../../../../../../../../../../../components/ModalRoot/services/actions';
+import { hideModal, showModal } from '../../../../../../../../../../components/ModalRoot/services/actions';
 import { faAlignJustify, faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import EditEntry from './components/EditEntry'
-import DownloadElement from '../../../../../DownloadElement'
+import DownloadElement from '../../../../../../../../../../components/reusables/DownloadElement'
 import { Link } from 'react-router-dom'
-import { deleteEntry, restoreDeletedEntry } from '../../../../../../services/actions'
+import { deleteEntry, restoreDeletedEntry } from '../../../../services/actions'
 
 class Entry extends Component {
 
