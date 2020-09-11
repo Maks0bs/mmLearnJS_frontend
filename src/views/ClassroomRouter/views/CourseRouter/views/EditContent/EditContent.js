@@ -8,8 +8,8 @@ import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { reorderArray } from "../../../../../../components/services/helpers";
 import { dndTypes, regExpressions } from './services/helpers'
-import EditActions from "./components/EditActions";
-import EditCourseRootDroppable from "./components/EditContentRootDroppable";
+import EditActions from "./components/EditContentActions";
+import EditCourseRootDroppable from "./components/EditContentRoot";
 import EditContentHelp from "./components/EditContentHelp";
 let { SECTIONS } = dndTypes;
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import {faAlignJustify} from "@fortawesome/free-solid-svg-icons";
+import {faArrowsAlt, faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 
 /**
@@ -17,10 +17,15 @@ class EditContentHelp extends Component {
 
     render() {
         return (
-            <div className="container m-5">
+            <div className="container my-3 text-center">
+                <h1>Help</h1>
                 <p>
-                    <Icon icon={faAlignJustify} /> { }
+                    <Icon icon={faArrowsAlt} /> { }
                     = Move around sections and entries
+                </p>
+                <p>
+                    <Icon icon={faPencilAlt} /> { }
+                    = Edit section or entry
                 </p>
                 {this.props.inModal && (
                     <button

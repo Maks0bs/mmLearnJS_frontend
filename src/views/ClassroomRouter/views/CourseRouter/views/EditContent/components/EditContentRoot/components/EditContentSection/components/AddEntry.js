@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
-import { Link, Redirect, withRouter } from 'react-router-dom'
 import { addEntry } from '../../../../../services/actions'
 import { connect } from 'react-redux'
-
-
-// make controlled components
+import PropTypes from 'prop-types'
 
 class AddEntry extends Component {
     constructor(props){
         super(props);
-
         this.state = {
-            name: '',
-            type: '',
-            content: null,
+            name: '', content: null,
+            // Is relevant only for forum type
             teachersOnlyForum: false,
-            access: 'students'
+            type: '', access: 'students'
         }
-
     }
 
     handleTeachersOnlyForum = () => {
@@ -28,28 +22,22 @@ class AddEntry extends Component {
 
     handleChange = (name) => (event) => {
         if (name === 'type'){
-            this.setState({
-                content: null,
-                teachersOnlyForum: false
-            })
+            // cleanup of forum data if user changes the type of entry
+            this.setState({content: null, teachersOnlyForum: false})
         }
-
         this.setState({
             [name]: event.target.value
         })
     }
 
-    handleLeave = () => {
-        this.props.onClose && this.props.onClose();
-    }
+    handleLeave = () => this.props.onClose && this.props.onClose();
 
     onSubmit = (event) => {
         event.preventDefault();
         let { name, type, content, access } = this.state;
+        // Adjust the content to correspond to the according API model
         if (type === 'text'){
-            content = {
-                text: content
-            }
+            content = { text: content }
         }
         if (type === 'forum'){
             content = {
@@ -58,12 +46,7 @@ class AddEntry extends Component {
             }
         }
         this.props.addEntry(
-            {
-            	name, 
-            	type,
-                content,
-                access
-            },
+            {name, type, content, access},
             this.props.sectionNum
         )
         this.handleLeave();
@@ -79,15 +62,14 @@ class AddEntry extends Component {
         })
     }
 
-
     render() {
         let { name, type, content, teachersOnlyForum, access } = this.state;
-        console.log(access);
+        let inlineStyle = { display: 'flex', alignItems: 'center' }
         return (
-        	<div className="p-4">
+        	<div className="container my-5">
 	            <form onSubmit={this.onSubmit}>
-	                <div className="form-group">
-	                    <label className="text-muted">Name</label>
+	                <div className="form-group" style={inlineStyle}>
+	                    <label className="text-muted my-0 mx-2">Name</label>
 	                    <input
 	                        onChange={this.handleChange("name")}
 	                        type="text"
@@ -95,8 +77,7 @@ class AddEntry extends Component {
 	                        value={name}
 	                    />
 	                </div>
-
-	                <div className="form-group">
+	                <div className="form-group" style={inlineStyle}>
                         <select 
                             name="type"
                             value={type}
@@ -108,13 +89,12 @@ class AddEntry extends Component {
                             <option value="text">Text</option>
                         </select>
                     </div>
-
                     {(() => {
                         switch(type) {
                             case 'text':
                                 return(
-                                    <div className="form-group">
-                                        <label className="text-muted">Content</label>
+                                    <div className="form-group" style={inlineStyle}>
+                                        <label className="text-muted my-0 mx-2">Content</label>
                                         <input
                                             onChange={this.handleChange("content")}
                                             type="text"
@@ -125,18 +105,17 @@ class AddEntry extends Component {
                                 )
                             case 'file':
                                 return (
-                                    <div className="custom-file mb-3">
-                                        <input 
-                                            type="file"
-                                            onChange={this.handleFileChange}
-                                        />
+                                    <div className="custom-file mb-3" style={inlineStyle}>
+                                        <input type="file" onChange={this.handleFileChange}/>
                                     </div>
                                 )
                             case 'forum': {
                                 return (
                                     <div>
-                                        <div className="form-group">
-                                            <label className="text-muted">Description</label>
+                                        <div className="form-group" style={inlineStyle}>
+                                            <label className="text-muted my-0 mx-2">
+                                                Description
+                                            </label>
                                             <input
                                                 onChange={this.handleChange("content")}
                                                 type="text"
@@ -144,9 +123,15 @@ class AddEntry extends Component {
                                                 value={content || ''}
                                             />
                                         </div>
-                                        <div className="form-group">
-                                            <label className="text-muted">Only teachers can post</label>
+                                        <div className="form-group" style={inlineStyle}>
+                                            <label
+                                                className="text-muted my-0 mx-2"
+                                                htmlFor="addEntryTeachersOnlyForum"
+                                            >
+                                                Only teachers can post
+                                            </label>
                                             <input
+                                                id="addEntryTeachersOnlyForum"
                                                 type="checkbox"
                                                 onChange={this.handleTeachersOnlyForum}
                                                 className="ml-3"
@@ -158,9 +143,8 @@ class AddEntry extends Component {
                             }
                         }
                     })()}
-
-                    <div className="form-group">
-                        <label className="text-muted mr-2">Choose who has access:</label>
+                    <div className="form-group" style={inlineStyle}>
+                        <label className="text-muted my-0 mx-2">Choose who has access:</label>
                         <select 
                             name="access"
                             value={access}
@@ -170,8 +154,6 @@ class AddEntry extends Component {
                             <option value="teachers">Teachers</option>
                         </select>
                     </div>
-	  
-
 	                <button 
 	                    className="btn btn-outline btn-raised"
 	                    onClick={this.handleLeave}
@@ -179,39 +161,31 @@ class AddEntry extends Component {
 	                >
 	                    Cancel
 	                </button>
-                    {(() => {
-                        if (type && name && access){
-                            return (
-                                <button 
-                                    className="btn btn-outline btn-raised btn-success ml-3"
-                                    type="submit"
-                                >
-                                    Add
-                                </button>
-                            )
-                        }
-                    })()}
-
+                    {type && name && access && content && (
+                        <button className="btn btn-raised btn-success ml-3" type="submit">
+                            Add
+                        </button>
+                    )}
 	            </form>
 	        </div>
         );
     }
 }
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-        addEntry: (entry, sectionNum) => dispatch(addEntry(entry, sectionNum))
-    }
+let mapDispatchToProps = (dispatch) => ({
+    addEntry: (entry, sectionNum) => dispatch(addEntry(entry, sectionNum))
+})
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.course.editContent
+})
+AddEntry.propTypes = {
+    sectionNum: PropTypes.number.isRequired,
+    /**
+     * The action that should be performed if this component
+     * is inside a modal and it gets closed
+     */
+    onClose: PropTypes.func
 }
-
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.editContent
-    }
-}
-
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(AddEntry));
+)(AddEntry);

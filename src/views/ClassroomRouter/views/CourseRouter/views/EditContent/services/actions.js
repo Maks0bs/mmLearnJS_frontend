@@ -84,67 +84,29 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
 	return dispatch(updateCourse(form, id))
 }
 
-
+/**
+ * @function
+ * @param {CourseSection[]} sections
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
 export let updateSectionsLocal = (sections) => (dispatch) => {
-	dispatch({
+	return dispatch({
 		type:  UPDATE_SECTIONS,
 		payload: sections
 	})
 }
 
-export let addEntry = (entry, sectionNum) => dispatch => {
-	dispatch({
-		type: ADD_ENTRY,
-		payload: {
-			entry,
-			sectionNum
-		}
-	})
-}
-
-export let editEntry = (entry, sectionNum, entryNum) => dispatch => {
-	dispatch({
-		type: EDIT_ENTRY,
-		payload: {
-			entry,
-			sectionNum,
-			entryNum
-		}
-	})
-}
-
-export let preDeleteEntry = (sectionNum, entryNum) => dispatch => {
-	dispatch({
-		type: PRE_DELETE_ENTRY,
-		payload: {
-			sectionNum,
-			entryNum
-		}
-	})
-}
-
-export let restoreDeletedEntry = (sectionNum, entryNum) => dispatch => {
-	dispatch({
-		type: RESTORE_DELETED_ENTRY,
-		payload: {
-			sectionNum,
-			entryNum
-		}
-	})
-}
-
-export let deleteEntry = (sectionNum, entryNum) => dispatch => {
-	dispatch({
-		type: DELETE_ENTRY,
-		payload: {
-			sectionNum,
-			entryNum
-		}
-	})
-}
-
+/**
+ * @function
+ * @param {Object} section - the data of the new section
+ * @param {string} section.name
+ * @param {?string} [section.description]
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
 export let addSection = (section) => (dispatch) => {
-	dispatch({
+	return dispatch({
 		type: ADD_SECTION,
 		payload: {
 			...section,
@@ -153,39 +115,128 @@ export let addSection = (section) => (dispatch) => {
 	})
 }
 
-export let preDeleteSection = (sectionNum) => dispatch => {
-	dispatch({
-		type: PRE_DELETE_SECTION,
-		payload: {
-			sectionNum
-		}
-	})
-}
-
-export let restoreDeletedSection = (sectionNum) => dispatch => {
-	dispatch({
-		type: RESTORE_DELETED_SECTION,
-		payload: {
-			sectionNum
-		}
-	})
-}
-
-export let deleteSection = (sectionNum) => (dispatch) => {
-	dispatch({
-		type: DELETE_SECTION,
-		payload: {
-			sectionNum
-		}
-	})
-}
-
+/**
+ * @function
+ * @param {Object} section - the data of the new section
+ * @param {string} section.name
+ * @param {?string} [section.description]
+ * @param {number} sectionNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
 export let editSection = (section, sectionNum) => dispatch => {
-	dispatch({
+	return dispatch({
 		type: EDIT_SECTION,
-		payload: {
-			section,
-			sectionNum
-		}
+		payload: { section, sectionNum }
+	})
+}
+
+/**
+ * @function
+ * @param {number} sectionNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
+export let preDeleteSection = (sectionNum) => dispatch => {
+	return dispatch({
+		type: PRE_DELETE_SECTION,
+		payload: { sectionNum }
+	})
+}
+
+/**
+ * @function
+ * @param {number} sectionNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
+export let deleteSection = (sectionNum) => (dispatch) => {
+	return dispatch({
+		type: DELETE_SECTION,
+		payload: { sectionNum }
+	})
+}
+
+/**
+ * @function
+ * @param {number} sectionNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
+export let restoreDeletedSection = (sectionNum) => dispatch => {
+	return dispatch({
+		type: RESTORE_DELETED_SECTION,
+		payload: {sectionNum}
+	})
+}
+
+/**
+ * @function
+ * @param {CourseEntry} entry
+ * @param {number} sectionNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
+export let addEntry = (entry, sectionNum) => dispatch => {
+	return dispatch({
+		type: ADD_ENTRY,
+		payload: {entry, sectionNum}
+	})
+}
+
+/**
+ * @function
+ * @param {CourseEntry} entry
+ * @param {number} sectionNum
+ * @param {number} entryNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
+export let editEntry = (entry, sectionNum, entryNum) => dispatch => {
+	return dispatch({
+		type: EDIT_ENTRY,
+		payload: { entry, sectionNum, entryNum }
+	})
+}
+
+/**
+ * @function
+ * @param {number} sectionNum
+ * @param {number} entryNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
+export let preDeleteEntry = (sectionNum, entryNum) => dispatch => {
+	return dispatch({
+		type: PRE_DELETE_ENTRY,
+		payload: { sectionNum, entryNum }
+	})
+}
+
+/**
+ * @function
+ * @param {number} sectionNum
+ * @param {number} entryNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
+export let deleteEntry = (sectionNum, entryNum) => dispatch => {
+	return dispatch({
+		type: DELETE_ENTRY,
+		payload: { sectionNum, entryNum }
+	})
+}
+
+/**
+ * @function
+ * @param {number} sectionNum
+ * @param {number} entryNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContentActions
+ */
+export let restoreDeletedEntry = (sectionNum, entryNum) => dispatch => {
+	return dispatch({
+		type: RESTORE_DELETED_ENTRY,
+		payload: { sectionNum, entryNum }
 	})
 }

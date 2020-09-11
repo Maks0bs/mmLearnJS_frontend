@@ -69,9 +69,13 @@ class CreateCourse extends Component {
 				</div>
 				<div className="form-group" style={inlineStyle}>
 					<label className="text-muted my-0 mx-2">Info about course</label>
-					<input
+					<textarea
 						onChange={this.handleChange("about")}
-						type="textarea"
+						style={{
+							borderStyle: 'solid',
+							borderWidth: '1px',
+							borderColor: 'gray'
+						}}
 						className="form-control"
 						value={about}
 					/>
@@ -91,7 +95,9 @@ class CreateCourse extends Component {
 					style={hasPassword ? inlineStyle : {display: 'none'}}
 				>
 					<label className="text-muted my-0 mx-2">Course password</label>
-					<input type="text" className="form-control"
+					<input
+						type="text"
+						className="form-control"
 						onChange={this.handleChange("password")}
 						value={password}
 					/>
@@ -109,12 +115,12 @@ class CreateCourse extends Component {
 						</option>
 					</select>
 				</div>
-				<button className="btn btn-raised btn-info mx-2" type="submit">
-					Create
-				</button>
 				<Link className="btn btn-raised mx-2" to={"/classroom/courses"}>
 					Back to course list
 				</Link>
+				<button className="btn btn-raised btn-info mx-2" type="submit">
+					Create
+				</button>
 			</form>
 		);
 	}

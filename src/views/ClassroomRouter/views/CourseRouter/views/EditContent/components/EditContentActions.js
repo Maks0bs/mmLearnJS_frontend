@@ -10,7 +10,7 @@ import BigLoadingAbsolute from "../../../../../../../components/reusables/BigLoa
  * @memberOf components.views.classroom.course.EditContent
  * @component
  */
-class EditActions extends Component {
+class EditContentActions extends Component {
 	constructor(props){
 		super(props);
 		this.state = {redirectToMain: false, loading: false}
@@ -80,4 +80,4 @@ let mapDispatchToProps = (dispatch) => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(EditActions)
+)(EditContentActions)

@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import {faAlignJustify, faPlus} from "@fortawesome/free-solid-svg-icons";
-import Section from "./components/Section";
+import {faArrowsAlt, faPlus} from "@fortawesome/free-solid-svg-icons";
+import Section from "./components/EditContentSection";
 import {Draggable} from "react-beautiful-dnd";
 import PropTypes from 'prop-types'
-import {hideModal, showModal}
-from "../../../../../../../../components/ModalRoot/services/actions";
+import {
+    hideModal, showModal
+} from "../../../../../../../../components/ModalRoot/services/actions";
 import {connect} from "react-redux";
-import AddSection from "./components/AddSection";
+import SectionEditor from "../SectionEditor";
 
 /**
  * This droppable allows to change the position
@@ -16,20 +17,20 @@ import AddSection from "./components/AddSection";
  * @memberOf components.views.classroom.course.EditContent
  * @component
  */
-class EditContentRootDroppable extends Component {
+class EditContentRoot extends Component {
 
     showAddSectionModal = (e) => {
         e.preventDefault();
         this.props.showModal(
-            <AddSection onClose={this.props.hideModal} />
+            <SectionEditor onClose={this.props.hideModal} addNew/>
         )
     }
 
     render() {
-        let { newSections: sections, provided, snapshot, course } = this.props;
+        let { newSections: sections, provided, snapshot } = this.props;
         if (!sections){
             return (
-                <div className="alert alert-danger m-5">
+                <div className="alert alert-danger m-5" ref={provided.innerRef}>
                     Error loading course data. Please try reloading the page
                 </div>
             )
@@ -39,7 +40,8 @@ class EditContentRootDroppable extends Component {
                 ref={provided.innerRef}
                 style={{
                     background: snapshot.isDraggingOver ? "lightblue" : "",
-                    padding: '10px'
+                    padding: '10px',
+                    borderRadius: '5px'
                 }}
             >
                 <div className="column" >
@@ -54,11 +56,12 @@ class EditContentRootDroppable extends Component {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     style={{
-                                        padding: '8px',
+                                        padding: '10px',
                                         userSelect: 'none',
-                                        margin: '4px',
+                                        margin: '5px',
                                         background: snapshot.isDragging ?
-                                            'grey' : 'lightgrey',
+                                            '#bababa' : '#dbdbdb',
+                                        borderRadius: '5px',
                                         ...provided.draggableProps.style
                                     }}
                                 >
@@ -66,19 +69,10 @@ class EditContentRootDroppable extends Component {
                                         className="float-left"
                                         {...provided.dragHandleProps}
                                     >
-                                        <Icon icon={faAlignJustify} />
+                                        <Icon icon={faArrowsAlt} />
                                     </span>
-                                    <div className="pl-4">
-                                        <Section
-                                            key={`section${i}`}
-                                            name={section.name}
-                                            description={section.description}
-                                            entries={section.entries}
-                                            sectionId={i}
-                                            courseId={course._id}
-                                            deleted={section.deleted}
-                                        />
-                                    </div>
+
+                                    <Section key={`section${i}`} sectionNum={i}/>
                                 </div>
                             )}
                         </Draggable>
@@ -95,14 +89,13 @@ class EditContentRootDroppable extends Component {
 }
 
 let mapStateToProps = (state) => ({
-    ...state.views.classroom.course.services,
     ...state.views.classroom.course.editContent
 })
 let mapDispatchToProps = (dispatch) => ({
     hideModal: () => dispatch(hideModal()),
     showModal: (component) => dispatch(showModal(component))
 })
-EditContentRootDroppable.propTypes = {
+EditContentRoot.propTypes = {
     /**
      * See {@link Droppable}
      */
@@ -115,4 +108,4 @@ EditContentRootDroppable.propTypes = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EditContentRootDroppable);
+)(EditContentRoot);
