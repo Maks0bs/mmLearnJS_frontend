@@ -17,7 +17,7 @@ let {
 } = types;
 
 /**
- * @namespace storeState.views.classroom.course.editContentActions
+ * @namespace storeState.views.classroom.course.editContent.editContentServicesActions
  */
 
 /**
@@ -25,10 +25,10 @@ let {
  * course data in the
  * {@link storeState.views.classroom.course.courseServicesActions}-Reducer
  * and puts the sections data into the
- * {@link storeState.views.classroom.course.editContentActions}-Reducer
+ * {@link storeState.views.classroom.course.editContent.editContentServicesReducer}-Reducer
  * @function
  * @return {function(*): Promise<ReduxAction>|Object}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let copySectionsFromOldData = () => (dispatch, getState) => {
 	return dispatch({
@@ -45,7 +45,7 @@ export let copySectionsFromOldData = () => (dispatch, getState) => {
  * @param {CourseSection[]} sections
  * @param {string} id - the id of the course to update
  * @return {function(*): Promise<ReduxAction|Response|any>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let saveChangesSections = (sections, id) => (dispatch) => {
 	let form = new FormData();
@@ -88,7 +88,7 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
  * @function
  * @param {CourseSection[]} sections
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let updateSectionsLocal = (sections) => (dispatch) => {
 	return dispatch({
@@ -103,7 +103,7 @@ export let updateSectionsLocal = (sections) => (dispatch) => {
  * @param {string} section.name
  * @param {?string} [section.description]
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let addSection = (section) => (dispatch) => {
 	return dispatch({
@@ -122,7 +122,7 @@ export let addSection = (section) => (dispatch) => {
  * @param {?string} [section.description]
  * @param {number} sectionNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let editSection = (section, sectionNum) => dispatch => {
 	return dispatch({
@@ -135,7 +135,7 @@ export let editSection = (section, sectionNum) => dispatch => {
  * @function
  * @param {number} sectionNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let preDeleteSection = (sectionNum) => dispatch => {
 	return dispatch({
@@ -148,7 +148,7 @@ export let preDeleteSection = (sectionNum) => dispatch => {
  * @function
  * @param {number} sectionNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let deleteSection = (sectionNum) => (dispatch) => {
 	return dispatch({
@@ -161,7 +161,7 @@ export let deleteSection = (sectionNum) => (dispatch) => {
  * @function
  * @param {number} sectionNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let restoreDeletedSection = (sectionNum) => dispatch => {
 	return dispatch({
@@ -175,7 +175,7 @@ export let restoreDeletedSection = (sectionNum) => dispatch => {
  * @param {CourseEntry} entry
  * @param {number} sectionNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let addEntry = (entry, sectionNum) => dispatch => {
 	return dispatch({
@@ -190,7 +190,7 @@ export let addEntry = (entry, sectionNum) => dispatch => {
  * @param {number} sectionNum
  * @param {number} entryNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let editEntry = (entry, sectionNum, entryNum) => dispatch => {
 	return dispatch({
@@ -204,7 +204,7 @@ export let editEntry = (entry, sectionNum, entryNum) => dispatch => {
  * @param {number} sectionNum
  * @param {number} entryNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let preDeleteEntry = (sectionNum, entryNum) => dispatch => {
 	return dispatch({
@@ -218,7 +218,7 @@ export let preDeleteEntry = (sectionNum, entryNum) => dispatch => {
  * @param {number} sectionNum
  * @param {number} entryNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let deleteEntry = (sectionNum, entryNum) => dispatch => {
 	return dispatch({
@@ -232,7 +232,7 @@ export let deleteEntry = (sectionNum, entryNum) => dispatch => {
  * @param {number} sectionNum
  * @param {number} entryNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editContentActions
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
  */
 export let restoreDeletedEntry = (sectionNum, entryNum) => dispatch => {
 	return dispatch({

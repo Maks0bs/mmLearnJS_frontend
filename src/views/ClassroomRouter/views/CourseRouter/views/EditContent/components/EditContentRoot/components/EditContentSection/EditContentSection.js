@@ -18,7 +18,7 @@ let { ENTRIES } = dndTypes;
 /**
  * This is component displays all the data about the given section
  * and allows the teacher to edit the section and entries inside it
- * @memberOf components.views.classroom.course.EditContent
+ * @memberOf components.views.classroom.course.EditContent.EditContentRoot
  * @component
  */
 class EditContentSection extends Component {
@@ -123,7 +123,7 @@ class EditContentSection extends Component {
     }
 }
 let mapStateToProps = (state) => ({
-    ...state.views.classroom.course.editContent
+    ...state.views.classroom.course.editContent.services
 })
 let mapDispatchToProps = (dispatch) => ({
     hideModal: () => dispatch(hideModal()),

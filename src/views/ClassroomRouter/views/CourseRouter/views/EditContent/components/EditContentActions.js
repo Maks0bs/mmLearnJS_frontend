@@ -71,7 +71,7 @@ class EditContentActions extends Component {
 }
 let mapStateToProps = (state) => ({
 	course: state.views.classroom.course.services.course,
-	...state.views.classroom.course.editContent
+	...state.views.classroom.course.editContent.services
 })
 let mapDispatchToProps = (dispatch) => ({
 	saveChanges: (sections, id) => dispatch(saveChangesSections(sections, id)),

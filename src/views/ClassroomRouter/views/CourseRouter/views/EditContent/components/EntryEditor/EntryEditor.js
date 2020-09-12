@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Link, Redirect, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { editEntry, preDeleteEntry, addEntry } from "../../services/actions";
+import { editEntryBasicData, editEntryContent, copyDataFromServices } from "./services/actions";
 import { connect } from 'react-redux'
 import DownloadElement from "../../../../../../../../components/reusables/DownloadElement";
-import { extend } from 'lodash'
 import PropTypes from "prop-types";
 
 
@@ -14,11 +14,10 @@ class EditEntry extends Component {
         super(props);
 
         this.state = {
-            name: '',
-            content: null,
-            access: 'students',
+            name: '', content: null,
+            // Is relevant only for forum type
             teachersOnlyForum: false,
-            type: ''
+            type: '', access: 'students'
         }
 
     }
@@ -39,34 +38,30 @@ class EditEntry extends Component {
             in the onSubmit method the state gets packed back into
             the form that is suitable for the API
         */
-        let { sectionNum, entryNum } = this.props;
-        let entry = this.props.courseData.sections[sectionNum].entries[entryNum];
-        let entryContent = entry.content;
-        switch (entry.type){
-            case 'text': {
-                entryContent = entryContent.text;
-                break;
-            }
-            case 'forum': {
-                entryContent = entryContent.description
-                this.setState({
-                    teachersOnlyForum: entry.content.teachersOnly
-                })
-                break;
-            }
-            default:
-                entryContent = entry.content;
-                break;
-        }
-        this.setState({
-            name: entry.name,
-            content: entryContent,
-            access: entry.access
-        })
+        // let { sectionNum, entryNum } = this.props;
+        // let entry = this.props.newSections[sectionNum].entries[entryNum];
+        // let entryContent = entry.content;
+        // switch (entry.type){
+        //     case 'text': {
+        //         entryContent = entryContent.text;
+        //         break;
+        //     }
+        //     case 'forum': {
+        //         entryContent = entryContent.description;
+        //         this.setState({teachersOnlyForum: entry.content.teachersOnly})
+        //         break;
+        //     }
+        // }
+        // this.setState({
+        //     name: entry.name,
+        //     content: entryContent,
+        //     access: entry.access
+        // })
+        this.props.initData(this.props.sectionNum, this.props.entryNum);
     }
 
     handleChange = (name) => (event) => {
-        this.setState({
+        this.props.editBasicData({
             [name]: event.target.value
         })
     }
@@ -77,51 +72,41 @@ class EditEntry extends Component {
         })
     }
 
-    handleLeave = () => {
-        this.props.onClose && this.props.onClose();
-    }
+    handleLeave = () => this.props.onClose && this.props.onClose();
 
     onSubmit = (event) => {
+        // let oldEntry = this.props.courseData.sections[sectionNum].entries[entryNum];
+        // let { type } = oldEntry;
+        // let { name, content, access, teachersOnlyForum } = this.state;
+        // switch (type){
+        //     case 'text': {
+        //         content = {
+        //             text: content
+        //         }
+        //         break;
+        //     }
+        //     case 'forum': {
+        //         content = extend(oldEntry.content, {
+        //             teachersOnly: teachersOnlyForum,
+        //             description: content
+        //         });
+        //         break;
+        //     }
+        //     default:
+        //         break;
+        // }
         event.preventDefault();
-        let { sectionNum, entryNum } = this.props;
-        let oldEntry = this.props.courseData.sections[sectionNum].entries[entryNum];
-        let { type } = oldEntry;
-        let { name, content, access, teachersOnlyForum } = this.state;
-        switch (type){
-            case 'text': {
-                content = {
-                    text: content
-                }
-                break;
-            }
-            case 'forum': {
-                content = extend(oldEntry.content, {
-                    teachersOnly: teachersOnlyForum,
-                    description: content
-                });
-                break;
-            }
-            default:
-                break;
-        }
-        this.props.editEntry(
-            {
-                name,
-                content,
-                access
-            },
-            this.props.sectionNum,
-            this.props.entryNum
+        let { sectionNum, entryNum, name, content, access } = this.props;
+        this.props.updateEntryInServices(
+            { name, content, access },
+            sectionNum, entryNum
         )
         this.handleLeave();
     }
 
     onPreDelete = (event) => {
         event.preventDefault();
-        this.props.preDeleteEntry(
-            this.props.sectionNum,
-            this.props.entryNum
-        )
+        this.props.preDeleteEntry(this.props.sectionNum, this.props.entryNum)
         this.handleLeave();
     }
 
@@ -286,24 +271,30 @@ class EditEntry extends Component {
 }
 
 let mapStateToProps = (state) => ({
-    ...state.views.classroom.course.editContent
+    ...state.views.classroom.course.editContent.entryEditor
 })
 let mapDispatchToProps = (dispatch) => ({
-    editEntry: (entry, sectionNum, entryNum) =>
+    initData: (sectionNum, entryNum) => dispatch(copyDataFromServices(sectionNum, entryNum)),
+    updateEntryInServices: (entry, sectionNum, entryNum) =>
         dispatch(editEntry(entry, sectionNum, entryNum)),
-    preDeleteEntry: (sectionNum, entryNum, type, content) =>
-        dispatch(preDeleteEntry(sectionNum, entryNum, type, content))
+    preDeleteEntry: (sectionNum, entryNum) => dispatch(preDeleteEntry(sectionNum, entryNum)),
+    editBasicData: (data) => dispatch(editEntryBasicData(data)),
+    editEntryContent: (data) => dispatch(editEntryContent(data))
 })
-SectionEditor.propTypes = {
+EditEntry.propTypes = {
     /**
      * Action that should be performed if this component
      * is inside a modal and it gets closed
      */
     onClose: PropTypes.func,
     /**
-     * Should be provided if `newSection` props if falsy
+     * Should be provided if `addNew` props is falsy
      */
     sectionNum: PropTypes.number,
+    /**
+     * Should be provided if `addNew` props is falsy
+     */
+    entryNum: PropTypes.number,
     /**
      * Should be true if the editor should create a new section at the end of the list
      */
@@ -312,4 +303,4 @@ SectionEditor.propTypes = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(EditEntry));
+)(EditEntry);

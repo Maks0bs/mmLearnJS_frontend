@@ -21,6 +21,10 @@ let {
 /**
  * @typedef CourseEntry
  * @type Object
+ * @property {string} name
+ * @property {Object|any} content
+ * @property {string} type
+ * @property {string} access
  */
 /**
  * @typedef CourseSection

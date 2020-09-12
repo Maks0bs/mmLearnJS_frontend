@@ -89,7 +89,7 @@ class EditContentRoot extends Component {
 }
 
 let mapStateToProps = (state) => ({
-    ...state.views.classroom.course.editContent
+    ...state.views.classroom.course.editContent.services
 })
 let mapDispatchToProps = (dispatch) => ({
     hideModal: () => dispatch(hideModal()),

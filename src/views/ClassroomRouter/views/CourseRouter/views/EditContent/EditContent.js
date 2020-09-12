@@ -133,7 +133,7 @@ class EditContent extends Component {
 }
 
 let mapStateToProps = (state) => ({
-	...state.views.classroom.course.editContent
+	...state.views.classroom.course.editContent.services
 })
 let mapDispatchToProps = (dispatch) => ({
 	updateSections: (sections) => dispatch(updateSectionsLocal(sections)),

@@ -105,7 +105,7 @@ class SectionEditor extends Component {
     }
 }
 let mapStateToProps = (state) => ({
-    ...state.views.classroom.course.editContent
+    ...state.views.classroom.course.editContent.services
 })
 SectionEditor.propTypes = {
     /**
@@ -114,7 +114,7 @@ SectionEditor.propTypes = {
      */
     onClose: PropTypes.func,
     /**
-     * Should be provided if `newSection` props if falsy
+     * Should be provided if `addNew` prop is falsy
      */
     sectionNum: PropTypes.number,
     /**

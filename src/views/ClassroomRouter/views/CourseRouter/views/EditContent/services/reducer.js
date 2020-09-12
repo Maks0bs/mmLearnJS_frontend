@@ -1,6 +1,8 @@
 import types from './actionTypes'
 import { cloneDeep, assign } from 'lodash'
 import { v1 as uuidv1 } from 'uuid';
+import {combineReducers} from "redux";
+import entryEditorReducer from '../components/EntryEditor/services/reducer'
 let {
 	UPDATE_SECTIONS,
 	ADD_SECTION,
@@ -17,7 +19,11 @@ let {
 } = types;
 
 /**
- * @typedef EditContentState
+ * @namespace storeState.views.classroom.course.editContent
+ */
+
+/**
+ * @typedef EditContentServicesState
  * @type Object
  * @property {?Object|string} error
  * @property {CourseSection[]} newSections - the sections that are stored
@@ -34,11 +40,9 @@ let initialState = {
 	deletedSections: {},
 	deletedEntries: {}
 }
-
-
 /**
- * @function editContentReducer
- * @param {EditContentState} state
+ * @function editContentServicesReducer
+ * @param {EditContentServicesState} state
  * @param {?Object|string} state.error
  * @param {CourseSection[]} state.newSections - the sections that are stored
  * while the teacher is editing the course
@@ -47,11 +51,11 @@ let initialState = {
  * @param {Object.<string, CourseEntry>} state.deletedEntries - locally deleted
  * entries during the edit process. Can be restored
  * @param {ReduxAction} action
- * @return {EditContentState}
+ * @return {EditContentServicesState}
  *
- * @memberOf storeState.views.classroom.course
+ * @memberOf storeState.views.classroom.course.editContent
  */
-export default function(state = initialState, action) {
+let editContentServicesReducer = function(state = initialState, action) {
 	switch(action.type){
 		case UPDATE_SECTIONS:
 		case COPY_SECTIONS_FROM_OLD_DATA: {
@@ -186,3 +190,7 @@ export default function(state = initialState, action) {
 			return state;
 	}
 }
+export default combineReducers({
+	services: editContentServicesReducer,
+	entryEditor: entryEditorReducer
+})

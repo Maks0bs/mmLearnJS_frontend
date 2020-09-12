@@ -44,8 +44,7 @@ class TeacherList extends Component {
 		return (
 			<div className={this.props.className}>
 				<button
-					className="btn btn-outline-info mx-3 mb-3"
-					style={{color: 'black'}}
+					className="btn btn-raised btn-info mx-3 mb-3"
 					onClick={this.handleCreateCourse}
 				>
 					Create new course
