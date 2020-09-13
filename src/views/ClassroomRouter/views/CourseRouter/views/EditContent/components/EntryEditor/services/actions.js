@@ -5,7 +5,9 @@ let {
 	EDIT_ENTRY_BASIC_DATA,
 	EDIT_ENTRY_CONTENT,
 	COPY_DATA_FROM_SERVICES,
-	COPY_DATA_ERROR
+	COPY_DATA_ERROR,
+	CLEAR_ENTRY_CONTENT,
+	CLEAR_ENTRY
 } = types;
 
 /**
@@ -70,4 +72,22 @@ export let editEntryContent = (content) => (dispatch) => {
 		type:  EDIT_ENTRY_CONTENT,
 		payload: content
 	})
+}
+
+/**
+ * @function
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContent.editContentEntryEditorActions
+ */
+export let clearEntryContent = () => (dispatch) => {
+	return dispatch({ type:  CLEAR_ENTRY_CONTENT })
+}
+
+/**
+ * @function
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContent.editContentEntryEditorActions
+ */
+export let clearEntry = () => (dispatch) => {
+	return dispatch({ type:  CLEAR_ENTRY })
 }

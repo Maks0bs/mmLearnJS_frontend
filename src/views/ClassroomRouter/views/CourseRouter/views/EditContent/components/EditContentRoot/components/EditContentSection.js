@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import Entry from './components/EditContentEntry'
+import Entry from './EditContentEntry'
 import { connect } from 'react-redux'
-import { dndTypes } from '../../../../services/helpers'
+import { dndTypes } from '../../../services/helpers'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import {
     hideModal, showModal
-} from '../../../../../../../../../../components/ModalRoot/services/actions';
-import { deleteSection, restoreDeletedSection } from '../../../../services/actions'
+} from '../../../../../../../../../components/ModalRoot/services/actions';
+import { deleteSection, restoreDeletedSection } from '../../../services/actions'
 import { faArrowsAlt, faPlus } from '@fortawesome/free-solid-svg-icons'
-import AddEntry from './components/AddEntry'
 import PropTypes from 'prop-types'
-import EditSymbol from "../../../../../../../../../../components/reusables/EditSymbol";
-import SectionEditor from "../../../SectionEditor";
+import EditSymbol from "../../../../../../../../../components/reusables/EditSymbol";
+import SectionEditor from "../../SectionEditor";
+import EntryEditor from "../../EntryEditor/EntryEditor";
 let { ENTRIES } = dndTypes;
 
 /**
@@ -25,7 +25,10 @@ class EditContentSection extends Component {
     showAddEntryModal = (e) => {
         e.preventDefault();
         this.props.showModal(
-            <AddEntry onClose={this.props.hideModal} sectionNum={this.props.sectionNum}/>
+            <EntryEditor
+                onClose={this.props.hideModal}
+                addNew sectionNum={this.props.sectionNum}
+            />
         )
     }
 

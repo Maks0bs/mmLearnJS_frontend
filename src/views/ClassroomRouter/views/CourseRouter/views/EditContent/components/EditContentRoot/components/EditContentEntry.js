@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {
     hideModal, showModal
-} from '../../../../../../../../../../../../components/ModalRoot/services/actions';
-import EditEntry from './components/EditEntry'
-import DownloadElement from '../../../../../../../../../../../../components/reusables/DownloadElement'
+} from '../../../../../../../../../components/ModalRoot/services/actions';
+import DownloadElement from '../../../../../../../../../components/reusables/DownloadElement'
 import { Link } from 'react-router-dom'
-import { deleteEntry, restoreDeletedEntry } from '../../../../../../services/actions'
-import EditSymbol from "../../../../../../../../../../../../components/reusables/EditSymbol";
+import { deleteEntry, restoreDeletedEntry } from '../../../services/actions'
+import EditSymbol from "../../../../../../../../../components/reusables/EditSymbol";
 import PropTypes from "prop-types";
+import EntryEditor from "../../EntryEditor/EntryEditor";
 
 /**
  * This component displays the edited entry data
@@ -20,12 +20,10 @@ class EditContentEntry extends Component {
 
 	showEditEntryModal = () => {
         this.props.showModal(
-            <EditEntry 
-                onClose={this.props.hideModal} 
-                sectionNum={this.props.sectionId}
-                entryNum={this.props.entryId}
-                type={this.props.type}
-                content={this.props.content}
+            <EntryEditor
+                onClose={this.props.hideModal}
+                sectionNum={this.props.sectionNum}
+                entryNum={this.props.entryNum}
             />
         )
     }
@@ -43,12 +41,13 @@ class EditContentEntry extends Component {
 	render() {
 	    let { sectionNum, entryNum, newSections } = this.props;
 		let { name, type, content, _id } = newSections[sectionNum].entries[entryNum];
+		console.log('ece', this.props);
 		type = type.charAt(0).toUpperCase() + type.slice(1); // capitalize first letter of type
-		if (type === 'deleted'){
+		if (type === 'Deleted'){
             return (
                 <div className="pl-4">
                     <p> Deleted entry <strong> {name} </strong> </p>
-                    <a href="#void" style={{color: 'lightblue'}} onClick={this.onRestore}>
+                    <a href="#void" onClick={this.onRestore}>
                         Restore 
                     </a>
                     <a 
@@ -65,28 +64,34 @@ class EditContentEntry extends Component {
 		return (
 			<div className="pl-4">
                 <EditSymbol onClick={this.showEditEntryModal} className="float-right m-1"/>
-                <h4>{type} <strong>{name}</strong></h4>
-                {!_id && (<p style={{color: '#9759c9'}}> newly added </p>)}
+                <h4>
+                    {type}
+                    <strong> {name}</strong>
+                    {!_id && (<span style={{color: '#9759c9'}}> newly added </span>)}
+                </h4>
 				{(() => {
                     switch(type) {
                         case 'Text':
                             return(<div>{content.text}</div>)
                         case 'File':
-                            // File already on server
-                        	if (!content.id){
+                            // newly uploaded file (still local)
+                        	if (!content._id){
                         		return(
-	                        		<a href={URL.createObjectURL(content)} download={content.name}>
-										{content.name}
+	                        		<a
+                                        href={URL.createObjectURL(content.file)}
+                                        download={content.fileName}
+                                    >
+										{content.fileName}
 									</a>
 	                        	)
                         	}
-                        	// newly uploaded file
+                        	// file already on server
                         	else{
                         		return (
                                     <DownloadElement
-                                        id={content.id}
-                                        name={content.originalname}
-                                        linkText={`${content.originalname}`}
+                                        id={content.file}
+                                        name={content.fileName}
+                                        linkText={content.fileName}
                                     />
                                 )
                         	}
@@ -101,10 +106,6 @@ class EditContentEntry extends Component {
                                         {name}
                                     </Link>
                                 )
-                            }
-                            // newly created forum without _id
-                            else{
-                                return (<div>New forum (will be added) {name}</div>)
                             }
                     }
                 })()}

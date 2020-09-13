@@ -1,102 +1,46 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import { editEntry, preDeleteEntry, addEntry } from "../../services/actions";
-import { editEntryBasicData, editEntryContent, copyDataFromServices } from "./services/actions";
+import {editEntryBasicData, copyDataFromServices, clearEntry} from "./services/actions";
 import { connect } from 'react-redux'
-import DownloadElement from "../../../../../../../../components/reusables/DownloadElement";
 import PropTypes from "prop-types";
-
-
-// make controlled components
-
-class EditEntry extends Component {
-    constructor(props){
-        super(props);
-
-        this.state = {
-            name: '', content: null,
-            // Is relevant only for forum type
-            teachersOnlyForum: false,
-            type: '', access: 'students'
-        }
-
-    }
+import TextEntryEditor from "./components/TextEntryEditor";
+import ForumEntryEditor from "./components/ForumEntryEditor";
+import FileEntryEditor from "./components/FileEntryEditor";
+/**
+ * This component allows the teacher to edit the given entry
+ * (normally displayed inside a modal)
+ * @memberOf components.views.classroom.course.EditContent
+ * @component
+ */
+class EntryEditor extends Component {
 
     componentDidMount() {
-        /*
-            Here entries are handled differently depending on their type:
-            Forum:
-                state.content = content.description
-                separate variable for teachersOnly
-            Text:
-                state.content = content.text
-            File:
-                the file itself can only be re-uploaded, that's why
-                state.content = new file (if any)
-            Only one state variable for different types of content is used to keep
-            code more flexible (but, unfortunately it makes it less understandable)
-            in the onSubmit method the state gets packed back into
-            the form that is suitable for the API
-        */
-        // let { sectionNum, entryNum } = this.props;
-        // let entry = this.props.newSections[sectionNum].entries[entryNum];
-        // let entryContent = entry.content;
-        // switch (entry.type){
-        //     case 'text': {
-        //         entryContent = entryContent.text;
-        //         break;
-        //     }
-        //     case 'forum': {
-        //         entryContent = entryContent.description;
-        //         this.setState({teachersOnlyForum: entry.content.teachersOnly})
-        //         break;
-        //     }
-        // }
-        // this.setState({
-        //     name: entry.name,
-        //     content: entryContent,
-        //     access: entry.access
-        // })
-        this.props.initData(this.props.sectionNum, this.props.entryNum);
+        if (!this.props.addNew){
+            // pre-populate entry data if it is edited, not added
+            this.props.initData(this.props.sectionNum, this.props.entryNum);
+        }
     }
 
     handleChange = (name) => (event) => {
+        // we don't need to clear content data when the type is changed
+        // all types have different attributes in content
+        // not clearing content allows to persist its data even if type is changed
         this.props.editBasicData({
             [name]: event.target.value
-        })
-    }
-
-    handleTeachersOnlyForum = () => {
-        this.setState({
-            teachersOnlyForum: !this.state.teachersOnlyForum
         })
     }
 
     handleLeave = () => this.props.onClose && this.props.onClose();
 
     onSubmit = (event) => {
-        // let oldEntry = this.props.courseData.sections[sectionNum].entries[entryNum];
-        // let { type } = oldEntry;
-        // let { name, content, access, teachersOnlyForum } = this.state;
-        // switch (type){
-        //     case 'text': {
-        //         content = {
-        //             text: content
-        //         }
-        //         break;
-        //     }
-        //     case 'forum': {
-        //         content = extend(oldEntry.content, {
-        //             teachersOnly: teachersOnlyForum,
-        //             description: content
-        //         });
-        //         break;
-        //     }
-        //     default:
-        //         break;
-        // }
         event.preventDefault();
-        let { sectionNum, entryNum, name, content, access } = this.props;
+        let { sectionNum, entryNum, name, content, access, addNew, type } = this.props;
+        if (addNew){
+            this.props.addEntry(
+                {name, content, access, type},
+                sectionNum
+            )
+        }
         this.props.updateEntryInServices(
             { name, content, access },
             sectionNum, entryNum
@@ -110,166 +54,99 @@ class EditEntry extends Component {
         this.handleLeave();
     }
 
-    handleFileChange = (e) => {
-        this.setState({
-            content: e.target.files[0]
-        })
-    }
-
     componentWillUnmount(){
+        this.props.clearEntry();
         this.handleLeave();
     }
 
-
     render() {
-        let { name, content, access, teachersOnlyForum } = this.state;
-        /*if (!name){
-            return null;
-        }*/
-        let { sectionNum, entryNum } = this.props;
-        let { type, content: oldContent } = this.props.courseData.sections[sectionNum].entries[entryNum];
+        let { name, access, type, addNew, error } = this.props;
+        let inlineStyle = { display: 'flex', alignItems: 'center'}
         return (
-            <div className="container">
-                <form  onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label className="text-muted">Name</label>
-                        <input
-                            onChange={this.handleChange("name")}
-                            type="text"
-                            className="form-control"
-                            value={name}
-                        />
+            <div className="container my-3">
+                {error && (
+                    <div className="alert alert-danger">
+                        Error loading entry data. Please try again
                     </div>
-
+                )}
+                <h1 className="mb-3">{addNew ? 'Add ' : 'Edit '} Entry</h1>
+                <form onSubmit={this.onSubmit}>
+                    <div className="form-group" style={{...inlineStyle, flexFlow: 'row wrap'}}>
+                        {addNew && (
+                            <select
+                                name="type"
+                                style={{padding: '5px'}}
+                                value={type}
+                                onChange={this.handleChange("type")}
+                            >
+                                <option value="">Choose entry type</option>
+                                <option value="file">File</option>
+                                <option value="forum">Forum</option>
+                                <option value="text">Text</option>
+                            </select>
+                        )}
+                        <div style={inlineStyle}>
+                            <label className="text-muted my-0 mx-2">Name</label>
+                            <input
+                                onChange={this.handleChange("name")}
+                                type="text"
+                                className="form-control"
+                                value={name}
+                            />
+                        </div>
+                    </div>
                     {(() => {
-                        switch(type) {
+                        switch (type){
                             case 'text':
-                                return(
-                                    <div className="form-group">
-                                        <label className="text-muted">Text</label>
-                                        <input
-                                            onChange={this.handleChange("content")}
-                                            type="text"
-                                            className="form-control"
-                                            value={content}
-                                        />
-                                    </div>
-                                )
+                                return (<TextEntryEditor addNew={addNew}/>)
                             case 'file':
-                                return (
-                                    <div>
-                                        {!oldContent.id ? (
-                                            <a
-                                                href={URL.createObjectURL(oldContent)}
-                                                download={oldContent.name}
-
-                                            >
-                                                {oldContent.name}
-                                            </a>
-                                        ) : (
-                                            <div>
-                                                <label className="text-muted mr-1">Old file:</label>
-                                                <DownloadElement
-                                                    id={oldContent.id}
-                                                    name={oldContent.originalname}
-                                                />
-                                            </div>
-                                        )}
-                                        <div className="custom-file mb-2 mt-2">
-                                            <label className="text-muted mr-1">Change file:</label>
-
-                                            <input
-                                                type="file"
-                                                onChange={this.handleFileChange}
-                                            />
-                                        </div>
-                                    </div>
-                                )
+                                return (<FileEntryEditor addNew={addNew}/> )
                             case 'forum':
-                                return (
-                                    <div>
-                                        <div className="form-group">
-                                            <label className="text-muted">Description</label>
-                                            <input
-                                                onChange={this.handleChange("content")}
-                                                type="text"
-                                                className="form-control"
-                                                value={content || ''}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="text-muted">Only teachers can post</label>
-                                            <input
-                                                type="checkbox"
-                                                onChange={this.handleTeachersOnlyForum}
-                                                className="ml-3"
-                                                checked={teachersOnlyForum}
-                                            />
-                                        </div>
-                                        <p>
-                                            Please go to the { }
-                                            <Link
-                                                to={`/classroom/course/${this.props.courseData._id}/forum/` +
-                                                `${this.props.courseData.sections[sectionNum].entries[entryNum]._id}
-                                                `}
-                                                target="_blank"
-                                            >
-                                                forum page
-                                            </Link>
-                                            { } to edit forum content as a teacher there
-                                        </p>
-                                    </div>
-                                )
+                                return (<ForumEntryEditor addNew={addNew}/>)
+                            default:
+                                return null
                         }
                     })()}
-
-                    <div className="form-group">
-                        <label className="text-muted mr-2">Choose who has access:</label>
+                    <div className="form-group" style={{...inlineStyle, flexFlow: 'row wrap'}}>
+                        <label className="text-muted my-2 mx-2">Choose who has access:</label>
                         <select
                             name="access"
                             value={access}
+                            style={{padding: '5px'}}
                             onChange={this.handleChange("access")}
                         >
                             <option value="students">Students and teachers</option>
                             <option value="teachers">Teachers</option>
                         </select>
                     </div>
-
-
+                    <hr />
                     <button
-                        className="btn btn-outline btn-raised"
+                        className="btn btn-raised ml-3"
                         onClick={this.handleLeave}
                         type="button"
                     >
                         Cancel
                     </button>
                     <button
-                        className="btn btn-outline btn-raised btn-danger ml-3"
+                        className="btn btn-raised btn-danger ml-3"
                         onClick={this.onPreDelete}
                         type="button"
                     >
                         Delete
                     </button>
-
-                    {(() => {
-                        if (type && name){
-                            return (
-                                <button
-                                    className="btn btn-outline btn-raised btn-success ml-3"
-                                    type="submit"
-                                >
-                                    Save
-                                </button>
-                            )
-                        }
-                    })()}
-
+                    {type && name && access && (
+                        <button
+                            className="btn btn-raised btn-success ml-3"
+                            type="submit"
+                        >
+                            Save
+                        </button>
+                    )}
                 </form>
             </div>
         );
     }
 }
-
 let mapStateToProps = (state) => ({
     ...state.views.classroom.course.editContent.entryEditor
 })
@@ -279,28 +156,26 @@ let mapDispatchToProps = (dispatch) => ({
         dispatch(editEntry(entry, sectionNum, entryNum)),
     preDeleteEntry: (sectionNum, entryNum) => dispatch(preDeleteEntry(sectionNum, entryNum)),
     editBasicData: (data) => dispatch(editEntryBasicData(data)),
-    editEntryContent: (data) => dispatch(editEntryContent(data))
+    addEntry: (data, sectionNum) => dispatch(addEntry(data, sectionNum)),
+    clearEntry: () => dispatch(clearEntry())
 })
-EditEntry.propTypes = {
+EntryEditor.propTypes = {
     /**
      * Action that should be performed if this component
      * is inside a modal and it gets closed
      */
     onClose: PropTypes.func,
-    /**
-     * Should be provided if `addNew` props is falsy
-     */
-    sectionNum: PropTypes.number,
+    sectionNum: PropTypes.number.isRequired,
     /**
      * Should be provided if `addNew` props is falsy
      */
     entryNum: PropTypes.number,
     /**
-     * Should be true if the editor should create a new section at the end of the list
+     * Should be true if the editor should create a new entry at the end of the given section
      */
     addNew: PropTypes.bool
 }
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EditEntry);
+)(EntryEditor);

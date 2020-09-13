@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { updateSectionsLocal, copySectionsFromOldData } from './services/actions'
+import { updateSectionsLocal, copySectionsFromOldData, cleanup } from './services/actions'
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
 import { hideModal, showModal } from '../../../../../../components/ModalRoot/services/actions';
 import { cloneDeep } from 'lodash'
@@ -33,6 +33,10 @@ class EditContent extends Component {
 
 	componentDidMount() {
 		this.props.initEditing();
+	}
+
+	componentWillUnmount() {
+		this.props.cleanup();
 	}
 
 
@@ -90,7 +94,6 @@ class EditContent extends Component {
 	}
 
 	render() {
-		console.log('ec', this.props);
 		let isMobileWidth = (window.innerWidth <= 1000);
 		return (
 			<div
@@ -139,7 +142,8 @@ let mapDispatchToProps = (dispatch) => ({
 	updateSections: (sections) => dispatch(updateSectionsLocal(sections)),
 	hideModal: () => dispatch(hideModal()),
 	showModal: (component) => dispatch(showModal(component)),
-	initEditing: () => dispatch(copySectionsFromOldData())
+	initEditing: () => dispatch(copySectionsFromOldData()),
+	cleanup: () => dispatch(cleanup())
 })
 export default connect(
 	mapStateToProps,

@@ -13,7 +13,9 @@ let {
 	PRE_DELETE_ENTRY,
 	PRE_DELETE_SECTION,
 	RESTORE_DELETED_ENTRY,
-	RESTORE_DELETED_SECTION
+	RESTORE_DELETED_SECTION,
+	CLEANUP,
+	ADD_ERROR
 } = types;
 
 /**
@@ -51,12 +53,23 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
 	let form = new FormData();
 	let filePositions = [];
 	let newSections = [];
+	// Remove sections that have been marked as to be deleted
 	for (let i = 0; i < sections.length; i++){
 		if (sections[i].deleted){
 			continue;
 		}
 		newSections.push(cloneDeep(sections[i]));
 		newSections[newSections.length - 1].entries = [];
+		if (!Array.isArray(sections[i].entries)){
+			dispatch({
+				type: ADD_ERROR,
+				payload: 'One section does not have entries'
+			})
+			// Mock async performance even if no request has been made
+			return new Promise((resolve) => {
+				resolve(true);
+			})
+		}
 		for (let j = 0; j < sections[i].entries.length; j++){
 			let entry = sections[i].entries[j];
 			if (entry.type === 'deleted'){
@@ -70,8 +83,14 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
 	for (let i = 0; i < newSections.length; i++){
 		for (let j = 0; j < newSections[i].entries.length; j++){
 			let entry = newSections[i].entries[j];
-			if (entry.type === 'file' && !entry.content.id){
-				form.append('files', entry.content);
+			// file is newly added or the file in the entry has been changed
+			let fileIsUpdated = !entry.content._id || !((typeof entry.content.file) === 'string')
+			if (entry.type === 'file' && fileIsUpdated){
+				// append newly added files to the form
+				// to upload the to the server
+				// see API docs for details
+				form.append('files', entry.content.file);
+				entry.content.file = undefined;
 				filePositions.push({ section: i, entry: j})
 			}
 		}
@@ -239,4 +258,13 @@ export let restoreDeletedEntry = (sectionNum, entryNum) => dispatch => {
 		type: RESTORE_DELETED_ENTRY,
 		payload: { sectionNum, entryNum }
 	})
+}
+
+/**
+ * @function
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
+ */
+export let cleanup = () => dispatch => {
+	return dispatch({type: CLEANUP})
 }

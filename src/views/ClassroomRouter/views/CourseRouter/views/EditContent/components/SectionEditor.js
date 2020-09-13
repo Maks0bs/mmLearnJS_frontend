@@ -53,9 +53,11 @@ class SectionEditor extends Component {
 
     render() {
         let { name, description } = this.state;
+        let { addNew } = this.props;
         let inlineStyle = { display: 'flex', alignItems: 'center' }
         return (
-            <div className="container my-5">
+            <div className="container my-3">
+                <h1>{addNew ? 'Add ' : 'Edit '} Section</h1>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group" style={inlineStyle}>
                         <label className="text-muted my-0 mx-2">Name</label>
@@ -75,6 +77,7 @@ class SectionEditor extends Component {
                             value={description}
                         />
                     </div>
+                    <hr />
                     <button
                         className="btn btn-raised ml-3"
                         onClick={this.handleLeave}

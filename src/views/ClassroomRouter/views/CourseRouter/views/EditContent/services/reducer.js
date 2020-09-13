@@ -5,17 +5,19 @@ import {combineReducers} from "redux";
 import entryEditorReducer from '../components/EntryEditor/services/reducer'
 let {
 	UPDATE_SECTIONS,
-	ADD_SECTION,
+	CLEANUP,
+	ADD_ERROR,
 	ADD_ENTRY,
 	EDIT_ENTRY,
 	DELETE_ENTRY,
+	ADD_SECTION,
 	EDIT_SECTION,
 	DELETE_SECTION,
 	PRE_DELETE_ENTRY,
 	PRE_DELETE_SECTION,
 	RESTORE_DELETED_ENTRY,
 	RESTORE_DELETED_SECTION,
-	COPY_SECTIONS_FROM_OLD_DATA
+	COPY_SECTIONS_FROM_OLD_DATA,
 } = types;
 
 /**
@@ -185,6 +187,15 @@ let editContentServicesReducer = function(state = initialState, action) {
 				...state,
 				newSections: newSections
 			}
+		}
+		case ADD_ERROR: {
+			return {
+				...state,
+				error: action.payload
+			}
+		}
+		case CLEANUP: {
+			return initialState;
 		}
 		default:
 			return state;

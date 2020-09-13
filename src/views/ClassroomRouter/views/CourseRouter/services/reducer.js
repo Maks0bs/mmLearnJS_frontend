@@ -25,6 +25,7 @@ let {
  * @property {Object|any} content
  * @property {string} type
  * @property {string} access
+ * @property {?string} [deletedId] - the id of the deleted entry while editing
  */
 /**
  * @typedef CourseSection
@@ -32,6 +33,7 @@ let {
  * @property {string} name
  * @property {string} description
  * @property {CourseEntry[]} entries
+ * @property {?string} [deletedId] - the id of the deleted section while editing
  */
 /**
  * @typedef CourseUpdate

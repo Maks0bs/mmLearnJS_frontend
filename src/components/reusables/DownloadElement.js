@@ -15,6 +15,7 @@ class DownloadElement extends Component {
             <a
                 href={link}
                 download={name}
+                target="_blank"
             >
                 {linkText}
             </a>
@@ -34,6 +35,6 @@ DownloadElement.propTypes = {
     /**
      * The text that should be displayed on the link
      */
-    linkText: PropTypes.string
+    linkText: PropTypes.string,
 }
 export default DownloadElement;
