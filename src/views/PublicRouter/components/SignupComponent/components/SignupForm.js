@@ -131,7 +131,7 @@ class SignupForm extends Component {
                                         className="form-group"
                                         style={{display: teacherChecked ? "flex" : "none"}}
                                     >
-                                        <label className="text-muted m-2">
+                                        <label className="text-muted m-2" title="testpass">
                                             Password for signing up as a teacher
                                         </label>
                                         <input

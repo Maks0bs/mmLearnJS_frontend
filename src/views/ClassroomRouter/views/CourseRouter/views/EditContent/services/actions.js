@@ -83,14 +83,14 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
 	for (let i = 0; i < newSections.length; i++){
 		for (let j = 0; j < newSections[i].entries.length; j++){
 			let entry = newSections[i].entries[j];
-			// file is newly added or the file in the entry has been changed
-			let fileIsUpdated = !entry.content._id || !((typeof entry.content.file) === 'string')
+			let fileIsUpdated = !entry.content._id || entry.content.fileIsNew;
 			if (entry.type === 'file' && fileIsUpdated){
 				// append newly added files to the form
 				// to upload the to the server
 				// see API docs for details
 				form.append('files', entry.content.file);
 				entry.content.file = undefined;
+				entry.content.fileIsNew = undefined;
 				filePositions.push({ section: i, entry: j})
 			}
 		}

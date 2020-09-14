@@ -7,7 +7,7 @@ import { toggleActivationMessage, getActivationMessageStatus } from './services/
  * The message that notifies the user, if their account is not activated.
  * Displayed above the navigation bar at the top of the page
  *
- * @memberOf components.views.components
+ * @memberOf components.views.serviceComponents
  * @component
  */
 class ActivationMessage extends Component {

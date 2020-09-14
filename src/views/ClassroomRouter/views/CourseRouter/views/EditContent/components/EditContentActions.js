@@ -70,7 +70,7 @@ class EditContentActions extends Component {
 	}
 }
 let mapStateToProps = (state) => ({
-	course: state.views.classroom.course.services.course,
+	...state.views.classroom.course.services,
 	...state.views.classroom.course.editContent.services
 })
 let mapDispatchToProps = (dispatch) => ({

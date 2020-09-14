@@ -12,7 +12,7 @@ import SmallLoading from "../../../components/reusables/SmallLoading";
  * Used to display modals with any custom component inside
  * There should only be one ModalRoot per app
  *
- * @memberOf components.views.components
+ * @memberOf components.views.serviceComponents
  * @component
  */
 class Signin extends Component {
@@ -144,7 +144,7 @@ class Signin extends Component {
     }
 }
 let mapStateToProps = (state) => ({
-    ...state.views.components.signin
+    ...state.views.serviceComponents.signin
 })
 let mapDispatchToProps = (dispatch) => ({
     clearMessages: () => dispatch(clearMessages()),

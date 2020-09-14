@@ -16,22 +16,22 @@ class FileEntryEditor extends Component {
         }
         this.props.editEntryContent({
             fileName: e.target.files[0].name,
-            file: e.target.files[0]
+            file: e.target.files[0],
+            fileIsNew: true
         })
     }
 
     render() {
         let { addNew } = this.props;
-        let { file, _id, fileName } = this.props.content;
+        let { file, _id, fileName, fileIsNew } = this.props.content;
         let inlineStyle = { display: 'flex', alignItems: 'center', flexFlow: 'row wrap'}
-        // file is newly added or the file in the entry has been changed
-        let fileIsUpdated = !_id || !((typeof file) === 'string')
+        let fileIsUpdated = fileIsNew || !_id
         return (
             <div>
-                {!addNew && (
+                {file && fileName && (
                     <div>
                         <label className="text-muted mx-2">File:</label>
-                        {fileIsUpdated ? (
+                        {fileIsNew ? (
                             <a href={URL.createObjectURL(file)} download={fileName}>
                                 {fileName}
                             </a>
@@ -42,7 +42,7 @@ class FileEntryEditor extends Component {
                 )}
                 <div className="custom-file my-2" style={inlineStyle}>
                     <label className="text-muted my-2 mx-2">
-                        {addNew ? 'Add ' : 'Replace '} file:
+                        {(addNew && !fileIsNew) ? 'Add ' : 'Replace '} file:
                     </label>
                     <input type="file" onChange={this.handleFileChange}/>
                 </div>

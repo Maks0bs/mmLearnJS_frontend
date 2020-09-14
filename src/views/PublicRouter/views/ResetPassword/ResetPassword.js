@@ -75,7 +75,10 @@ class ResetPassword extends Component {
 
 		let { password1, password2 } = this.state;
 		return (
-			<div className="container">
+			<div
+				className="container text-center"
+				style={{width: '60%'}}
+			>
 				{this.state.loading && (<BigLoadingAbsolute />)}
 				<h2 className="mt-5 mb-5">Enter a new, safe password</h2>
 

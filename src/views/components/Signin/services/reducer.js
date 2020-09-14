@@ -21,7 +21,7 @@ let initialState = {
  * @param {ReduxAction} action
  * @return {SigninState}
  *
- * @memberOf storeState.views.components
+ * @memberOf storeState.views.serviceComponents
  */
 export default function(state = initialState, action) {
 	switch(action.type){

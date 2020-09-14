@@ -27,7 +27,7 @@ let {
 /**
  * @typedef EditContentServicesState
  * @type Object
- * @property {?Object|string} error
+ * @property {?Object|string} editorError
  * @property {CourseSection[]} newSections - the sections that are stored
  * while the teacher is editing the course
  * @property {Object.<string, CourseSection>} deletedSections - locally deleted
@@ -37,7 +37,7 @@ let {
  */
 
 let initialState = {
-	error: '',
+	editorError: '',
 	newSections: null,
 	deletedSections: {},
 	deletedEntries: {}
@@ -45,7 +45,7 @@ let initialState = {
 /**
  * @function editContentServicesReducer
  * @param {EditContentServicesState} state
- * @param {?Object|string} state.error
+ * @param {?Object|string} state.editorError
  * @param {CourseSection[]} state.newSections - the sections that are stored
  * while the teacher is editing the course
  * @param {Object.<string, CourseSection>} state.deletedSections - locally deleted
@@ -191,7 +191,7 @@ let editContentServicesReducer = function(state = initialState, action) {
 		case ADD_ERROR: {
 			return {
 				...state,
-				error: action.payload
+				editorError: action.payload
 			}
 		}
 		case CLEANUP: {

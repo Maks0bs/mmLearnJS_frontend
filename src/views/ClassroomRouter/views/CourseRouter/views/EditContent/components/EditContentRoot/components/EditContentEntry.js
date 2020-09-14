@@ -75,7 +75,7 @@ class EditContentEntry extends Component {
                             return(<div>{content.text}</div>)
                         case 'File':
                             // newly uploaded file (still local)
-                        	if (!content._id){
+                        	if (!content._id || content.fileIsNew){
                         		return(
 	                        		<a
                                         href={URL.createObjectURL(content.file)}

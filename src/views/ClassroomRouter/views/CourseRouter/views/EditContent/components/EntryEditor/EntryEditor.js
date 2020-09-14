@@ -60,7 +60,7 @@ class EntryEditor extends Component {
     }
 
     render() {
-        let { name, access, type, addNew, error } = this.props;
+        let { name, access, type, addNew, editorError: error } = this.props;
         let inlineStyle = { display: 'flex', alignItems: 'center'}
         return (
             <div className="container my-3">
