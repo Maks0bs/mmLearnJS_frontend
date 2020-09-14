@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { preDeleteExercise, editExercise  } from "../../../../services/actions";
+import { preDeleteExercise, editExercise  } from "../../services/actions";
 import { initTasksEditor, cleanup } from "./services/actions";
 import TasksEditor from "./components/TasksEditor/TasksEditor";
 

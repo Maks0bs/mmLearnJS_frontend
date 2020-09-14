@@ -1,99 +1,115 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { getCourseById } from './services/actions'
-import { addNavItem, removeNavItem } from "../../../../../../services/routing/actions";
-import EditPanel from './components/EditPanel'
-import EditActions from "./components/EditActions";
-import { addToast } from "../../../../../../components/ToastRoot/services/actions";
-import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
-import { withRouter } from 'react-router-dom'
+import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
+import { reorderArray } from "../../../../../../components/services/helpers";
+import { dndTypes } from './services/helpers'
+import { updateExercises, addExercise } from "./services/actions";
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+import { faAlignJustify, faList } from '@fortawesome/free-solid-svg-icons'
+import Exercise from "./components/Exercise";
+let { EXERCISES } = dndTypes;
 
 class EditExercises extends Component {
-    constructor() {
-        super();
 
-        this.state = {
-            showEditPanel: false
+    onDragEnd = (result) => {
+        if (!result.destination) {
+            return;
         }
-    }
-
-    componentWillUnmount() {
-        this.props.removeNavItem('course link');
-    }
-
-    componentDidMount(){
-        let courseId = this.props.match.params.courseId;
-        this.props.getCourseById(courseId)
-            .then(() => {
-                if (!this.props.error){
-                    this.props.addNavItem({
-                        id: 'course link',
-                        name: 'Course "' + this.props.courseData.name + '"',
-                        path: `/classroom/course/${this.props.courseData._id}`
-                    })
-                    this.setState({
-                        showEditPanel: true
-                    })
-                } else {
-                    this.props.addToast(
-                        (
-                            <div>
-                                {`Problem with loading course exercises. Please reload page`}
-                            </div>
-                        ),
-                        {
-                            type: 'error'
-                        }
-                    )
-                }
-
-            })
+        if (result.type === EXERCISES) {
+            let exercises = reorderArray(
+                this.props.courseData.exercises,
+                result.source.index,
+                result.destination.index
+            );
+            this.props.updateExercises(exercises);
+        }
     }
 
     render() {
-        let { authenticatedUser: user } = this.props;
-        if (!(user && user._id && user.role === 'teacher')){
-            return (
-                <div>
-                    you are not a teacher, no access to editing tests
-                </div>
-            )
-        }
-        if (this.state.showEditPanel){
-            return (
-                <div className="container">
-                    <EditPanel />
-                    <div className="mt-2">
-                        <EditActions />
-                    </div>
-                </div>
-            );
-        }
-        else{
-            return (
-                <BigLoadingCentered />
-            )
-        }
+        let { course } = this.props;
+        let { exercises } = course;
+        return (
+            <DragDropContext onDragEnd={this.onDragEnd}>
+                <p className="ml-3 mt-2"> <Icon icon={faAlignJustify} /> = Move around exercises </p>
+                <hr />
+                <Droppable droppableId="droppableExercises" type={EXERCISES}>
+                    {(provided, snapshot) => (
+                        <div
+                            ref={provided.innerRef}
+                            style={{
+                                background: snapshot.isDraggingOver ? "lightblue" : "",
+                                padding: '10px 0px 10px 10px',
+                                display: 'inline-block'
+                            }}
+                        >
+                            <div className="column" >
+                                {exercises.map((section, i) => (
+                                    <Draggable
+                                        key={`exercise${i}`}
+                                        draggableId={`exercise${i}`}
+                                        index={i}
+                                    >
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                style={{
+                                                    padding: '8px',
+                                                    userSelect: 'none',
+                                                    margin: '4px',
+                                                    background: snapshot.isDragging ?
+                                                        'grey' : 'lightgrey',
+                                                    ...provided.draggableProps.style
+                                                }}
+                                            >
+												<span {...provided.dragHandleProps} >
+													<div className="float-left">
+														<Icon icon={faAlignJustify} />
+
+													</div>
+
+												</span>
+                                                <div className="pl-4">
+                                                    <Exercise
+                                                        num={i}
+                                                    />
+                                                </div>
+
+                                            </div>
+                                        )}
+                                    </Draggable>
+
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                            <a href="#void" onClick={(e) => {
+                                e.preventDefault();
+                                this.props.addExercise()
+                            }}>
+                                <Icon
+                                    icon={faList}
+                                    className="pr-1"
+                                />
+                                Add test / exercise
+                            </a>
+                        </div>
+                    )}
+                </Droppable>
+                <hr />
+
+
+            </DragDropContext>
+        )
     }
 }
-
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.editExercises.services,
-        authenticatedUser: state.services.authenticatedUser
-    }
-}
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-        getCourseById: (courseId) => dispatch(getCourseById(courseId)),
-        addToast: (component, options) => dispatch(addToast(component, options)),
-        addNavItem: (item) => dispatch(addNavItem(item)),
-        removeNavItem: (id) => dispatch(removeNavItem(id))
-    }
-}
-
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.course.services
+})
+let mapDispatchToProps = (dispatch) => ({
+    updateExercises: (exercises) => dispatch(updateExercises(exercises)),
+    addExercise: () => dispatch(addExercise())
+})
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(EditExercises));
+)(EditExercises);

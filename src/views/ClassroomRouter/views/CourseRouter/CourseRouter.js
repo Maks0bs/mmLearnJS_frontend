@@ -54,7 +54,7 @@ class CourseRouter extends Component {
 					<TeacherRoute
 						coursePrefix={prefixUrl}
 						status={status}
-						exact path={`${path}/edit`}
+						exact path={`${path}/edit-exercises`}
 						component={EditExercises}
 					/>
 					<Route

@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { editTask, initTasksEditor, toggleTaskExpand } from "../../../services/actions";
 import {connect} from "react-redux";
-import {reorderArray} from "../../../../../../../../../../../../../components/services/helpers";
+import {reorderArray} from "../../../../../../../../../../../components/services/helpers";
 import { cloneDeep } from 'lodash'
 
 class TaskListItem extends Component {

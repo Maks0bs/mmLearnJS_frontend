@@ -91,9 +91,10 @@ export let saveChanges = (exercises) => (dispatch, getState) => {
         }
     }
 
-    courseData.exercises = newExercises;
+    let newCourseData = {exercises: newExercises}
 
-    form.set('newCourseData', JSON.stringify(courseData));
+
+    form.set('newCourseData', JSON.stringify(newCourseData));
     //form.set('filesPositions', JSON.stringify(filePositions));
 
 

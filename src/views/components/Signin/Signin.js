@@ -144,7 +144,7 @@ class Signin extends Component {
     }
 }
 let mapStateToProps = (state) => ({
-    ...state.views.serviceComponents.signin
+    ...state.views.components.signin
 })
 let mapDispatchToProps = (dispatch) => ({
     clearMessages: () => dispatch(clearMessages()),

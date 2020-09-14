@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { hideModal, showModal } from '../../../../../../../../../components/ModalRoot/services/actions';
+import { hideModal, showModal } from '../../../../../../../components/ModalRoot/services/actions';
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import EditExercise from "./EditExercise/";
-import { preDeleteExercise, deleteExercise, restoreDeletedExercise} from "../../../services/actions";
+import EditExercise from "./EditExercise";
+import { preDeleteExercise, deleteExercise, restoreDeletedExercise} from "../services/actions";
 
 class Exercise extends Component {
 

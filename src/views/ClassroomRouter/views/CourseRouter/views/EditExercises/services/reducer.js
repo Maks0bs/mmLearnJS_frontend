@@ -2,7 +2,7 @@ import types from './actionTypes'
 import { cloneDeep, assign } from 'lodash'
 import { v1 as uuidv1 } from 'uuid';
 import { combineReducers } from "redux";
-import editorReducer from '../components/EditPanel/components/EditExercise/services/reducer'
+import editorReducer from '../components/EditExercise/services/reducer'
 let { 
 	API_GET_COURSE_BY_ID,
 	UPDATE_EXERCISES,
