@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { hideModal, showModal } from '../../../../../../../components/ModalRoot/services/actions';
-import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import EditExercise from "./EditExercise";
 import { preDeleteExercise, deleteExercise, restoreDeletedExercise} from "../services/actions";
+import EditSymbol from "../../../../../../../components/reusables/EditSymbol";
+import PropTypes from "prop-types";
 
+/**
+ * This component allows the teacher to view and edit one exercise
+ * @memberOf components.views.classroom.course.EditExercises
+ * @component
+ */
 class Exercise extends Component {
 
-    //this.props.num is required to work!!!!!!!
-
-    showEditExerciseModal = (e) => {
-        e.preventDefault();
+    showEditExerciseModal = () => {
         this.props.showModal(
-            <EditExercise
-                onClose={this.props.hideModal}
-                num={this.props.num}
-            />
+            <EditExercise onClose={this.props.hideModal} num={this.props.num}/>
         )
     }
 
@@ -30,30 +29,22 @@ class Exercise extends Component {
         this.props.restoreDeletedExercise(this.props.num);
     }
 
-    onPreDelete = (e) => {
-        e.preventDefault();
+    onPreDelete = () => {
         this.props.preDeleteExercise(this.props.num);
     }
 
     render() {
-        let exercise = this.props.courseData.exercises[this.props.num];
-        //switch type
-        if (exercise.deleted){
+        let { name, deleted, _id} = this.props.newExercises[this.props.num];
+        if (deleted){
             return (
-                <div>
-                    <p> Deleted exercise <strong> {exercise.name} </strong> </p>
-                    <a
-                        href="#void"
-                        style={{color: 'blue'}}
-                        onClick={this.onRestore}
-                    >
+                <div className="pl-4">
+                    <p> Deleted exercise <strong> {name} </strong> </p>
+                    <a href="#void" style={{color: 'blue'}} onClick={this.onRestore}>
                         Restore
                     </a>
-                    <a
-                        href="#void"
-                        className="ml-2"
-                        style={{color: 'brown'}}
-                        onClick={this.onDelete}
+                    <a href="#void" className="ml-2"
+                       style={{color: 'brown'}}
+                       onClick={this.onDelete}
                     >
                         Do not show anymore
                     </a>
@@ -61,52 +52,36 @@ class Exercise extends Component {
             )
         }
         return (
-            <div>
-                <Icon
-                    icon={faPencilAlt}
+            <div className="pl-4">
+                <EditSymbol
                     onClick={this.showEditExerciseModal}
                     className="float-right m-1"
-                    style={{
-                        cursor: 'pointer'
-                    }}
-                    color="blue"
                 />
-                <Icon
-                    icon={faTrashAlt}
-                    onClick={this.onPreDelete}
+                <EditSymbol
+                    del onClick={this.onPreDelete}
                     className="float-right m-1"
-                    style={{
-                        cursor: 'pointer'
-                    }}
-                    color="red"
                 />
-                <h4>{exercise.name}</h4>
-                {(() => {
-                    if (!exercise._id){
-                        return <p style={{color: 'green'}}> new </p>
-                    } else return null
-                })()}
+                <h4>
+                    {name}
+                    {!_id && (<span style={{color: 'purple'}}> newly added </span>)}
+                </h4>
             </div>
         );
     }
 }
-
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.editExercises.services
-    }
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.course.editExercises.services
+})
+let mapDispatchToProps = (dispatch) => ({
+    hideModal: () => dispatch(hideModal()),
+    showModal: (component) => dispatch(showModal(component)),
+    preDeleteExercise: (num) => dispatch(preDeleteExercise(num)),
+    deleteExercise: (num) => dispatch(deleteExercise(num)),
+    restoreDeletedExercise: (num) => dispatch(restoreDeletedExercise(num))
+})
+Exercise.propTypes = {
+    num: PropTypes.number.isRequired
 }
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-        hideModal: () => dispatch(hideModal()),
-        showModal: (component) => dispatch(showModal(component)),
-        preDeleteExercise: (num) => dispatch(preDeleteExercise(num)),
-        deleteExercise: (num) => dispatch(deleteExercise(num)),
-        restoreDeletedExercise: (num) => dispatch(restoreDeletedExercise(num))
-    }
-}
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps

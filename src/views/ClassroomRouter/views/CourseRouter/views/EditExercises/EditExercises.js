@@ -3,13 +3,38 @@ import { connect } from 'react-redux'
 import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
 import { reorderArray } from "../../../../../../components/services/helpers";
 import { dndTypes } from './services/helpers'
-import { updateExercises, addExercise } from "./services/actions";
+import { showModal, hideModal} from "../../../../../../components/ModalRoot/services/actions";
+import { updateExercises, addExercise, copyExercisesFromOldData } from "./services/actions";
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faAlignJustify, faList } from '@fortawesome/free-solid-svg-icons'
+import {faArrowsAlt, faList, faQuestionCircle} from '@fortawesome/free-solid-svg-icons'
 import Exercise from "./components/Exercise";
+import EditActions from "./components/EditExercisesActions";
+import EditorHelp from "../../components/EditorHelp";
 let { EXERCISES } = dndTypes;
 
+/**
+ * This page allows teachers to edit exercises / tests in their course:
+ * add, edit, delete exercises and tasks inside them
+ * @memberOf components.views.classroom.course
+ * @component
+ */
 class EditExercises extends Component {
+
+    componentDidMount() {
+        this.props.initData();
+    }
+
+    showHelp = (e) => {
+        e.preventDefault();
+        this.props.showModal(
+            <EditorHelp inModal={true} onClose={this.props.hideModal}/>
+        )
+    }
+
+    onAddExercise = (e) => {
+        e.preventDefault();
+        this.props.addExercise();
+    }
 
     onDragEnd = (result) => {
         if (!result.destination) {
@@ -17,7 +42,7 @@ class EditExercises extends Component {
         }
         if (result.type === EXERCISES) {
             let exercises = reorderArray(
-                this.props.courseData.exercises,
+                this.props.newExercises,
                 result.source.index,
                 result.destination.index
             );
@@ -26,88 +51,104 @@ class EditExercises extends Component {
     }
 
     render() {
-        let { course } = this.props;
-        let { exercises } = course;
+        let { newExercises: exercises } = this.props;
+        let isMobileWidth = (window.innerWidth <= 1000);
+        if (!exercises){
+            return (
+                <div className="alert alert-danger m-5">
+                    Error loading course data. Please try reloading the page
+                </div>
+            )
+        }
         return (
-            <DragDropContext onDragEnd={this.onDragEnd}>
-                <p className="ml-3 mt-2"> <Icon icon={faAlignJustify} /> = Move around exercises </p>
-                <hr />
-                <Droppable droppableId="droppableExercises" type={EXERCISES}>
-                    {(provided, snapshot) => (
-                        <div
-                            ref={provided.innerRef}
-                            style={{
-                                background: snapshot.isDraggingOver ? "lightblue" : "",
-                                padding: '10px 0px 10px 10px',
-                                display: 'inline-block'
-                            }}
-                        >
-                            <div className="column" >
-                                {exercises.map((section, i) => (
-                                    <Draggable
-                                        key={`exercise${i}`}
-                                        draggableId={`exercise${i}`}
-                                        index={i}
+            <div
+                className="container my-5"
+                style={{width: isMobileWidth ? '90%' : '70%'}}
+            >
+                <div
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'max(90%) minmax(auto, 10%)'
+                    }}
+                >
+                    <div>
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            <Droppable droppableId="droppableExercises" type={EXERCISES}>
+                                {(provided, snapshot) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        style={{
+                                            background: snapshot.isDraggingOver ? "lightblue" : "",
+                                            padding: '10px',
+                                            borderRadius: '5px'
+                                        }}
                                     >
-                                        {(provided, snapshot) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                style={{
-                                                    padding: '8px',
-                                                    userSelect: 'none',
-                                                    margin: '4px',
-                                                    background: snapshot.isDragging ?
-                                                        'grey' : 'lightgrey',
-                                                    ...provided.draggableProps.style
-                                                }}
-                                            >
-												<span {...provided.dragHandleProps} >
-													<div className="float-left">
-														<Icon icon={faAlignJustify} />
+                                        <div className="column">
+                                            {exercises && exercises.map((section, i) => (
+                                                <Draggable
+                                                    key={`exercise${i}`}
+                                                    draggableId={`exercise${i}`}
+                                                    index={i}
+                                                >
+                                                    {(provided, snapshot) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            style={{
+                                                                padding: '10px',
+                                                                userSelect: 'none',
+                                                                margin: '5px',
+                                                                borderRadius: '5px',
+                                                                background: snapshot.isDragging ?
+                                                                    'grey' : 'lightgrey',
+                                                                ...provided.draggableProps.style
+                                                            }}
+                                                        >
+                                                            <span {...provided.dragHandleProps} >
+                                                                <div className="float-left m-1">
+                                                                    <Icon icon={faArrowsAlt} />
+                                                                </div>
+                                                            </span>
 
-													</div>
-
-												</span>
-                                                <div className="pl-4">
-                                                    <Exercise
-                                                        num={i}
-                                                    />
-                                                </div>
-
-                                            </div>
-                                        )}
-                                    </Draggable>
-
-                                ))}
-                                {provided.placeholder}
-                            </div>
-                            <a href="#void" onClick={(e) => {
-                                e.preventDefault();
-                                this.props.addExercise()
-                            }}>
-                                <Icon
-                                    icon={faList}
-                                    className="pr-1"
-                                />
-                                Add test / exercise
-                            </a>
-                        </div>
-                    )}
-                </Droppable>
+                                                            <Exercise num={i}/>
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
+                                        <a href="#void" onClick={this.onAddExercise}>
+                                            <Icon icon={faList} className="pr-1"/>
+                                            Add test / exercise
+                                        </a>
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
+                    </div>
+                    <div>
+                        <a href="#void" onClick={this.showHelp}>
+                            <Icon className="pr-1" icon={faQuestionCircle} />
+                            Help
+                        </a>
+                    </div>
+                </div>
                 <hr />
-
-
-            </DragDropContext>
+                <EditActions />
+            </div>
         )
     }
 }
 let mapStateToProps = (state) => ({
-    ...state.views.classroom.course.services
+    ...state.views.classroom.course.services,
+    ...state.views.classroom.course.editExercises.services
 })
 let mapDispatchToProps = (dispatch) => ({
     updateExercises: (exercises) => dispatch(updateExercises(exercises)),
-    addExercise: () => dispatch(addExercise())
+    addExercise: () => dispatch(addExercise()),
+    initData: () => dispatch(copyExercisesFromOldData()),
+    showModal: (component) => dispatch(showModal(component)),
+    hideModal: () => dispatch(hideModal())
 })
 export default connect(
     mapStateToProps,

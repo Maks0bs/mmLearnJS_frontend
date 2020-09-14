@@ -31,7 +31,7 @@ class FileEntryEditor extends Component {
                 {file && fileName && (
                     <div>
                         <label className="text-muted mx-2">File:</label>
-                        {fileIsNew ? (
+                        {fileIsUpdated ? (
                             <a href={URL.createObjectURL(file)} download={fileName}>
                                 {fileName}
                             </a>
@@ -42,7 +42,7 @@ class FileEntryEditor extends Component {
                 )}
                 <div className="custom-file my-2" style={inlineStyle}>
                     <label className="text-muted my-2 mx-2">
-                        {(addNew && !fileIsNew) ? 'Add ' : 'Replace '} file:
+                        {((addNew && !fileIsNew) || !file) ? 'Add ' : 'Replace '} file:
                     </label>
                     <input type="file" onChange={this.handleFileChange}/>
                 </div>

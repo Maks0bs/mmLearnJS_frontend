@@ -26,7 +26,7 @@ class EditExercise extends Component {
 
     componentDidMount() {
         let { num } = this.props;
-        let exercise = this.props.courseData.exercises[num];
+        let exercise = this.props.newExercises[num];
         this.props.initTasksEditor(exercise.tasks);
         this.setState({
             name: exercise.name,

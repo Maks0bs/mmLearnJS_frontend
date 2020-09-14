@@ -4,11 +4,11 @@ import {faArrowsAlt, faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 
 /**
- * Shows help about how to use the course content editor
- * @memberOf components.views.classroom.course.EditContent
+ * Shows help about how to use the course editors
+ * @memberOf components.views.classroom.course
  * @component
  */
-class EditContentHelp extends Component {
+class EditorHelp extends Component {
 
     onClose = (e) => {
         e.preventDefault();
@@ -40,7 +40,7 @@ class EditContentHelp extends Component {
     }
 }
 
-EditContentHelp.propTypes = {
+EditorHelp.propTypes = {
     /**
      * True if this component is inside a modal. In this
      * case also provide the `onClose` prop as well
@@ -53,4 +53,4 @@ EditContentHelp.propTypes = {
      */
     onClose: PropTypes.func
 }
-export default EditContentHelp;
+export default EditorHelp;

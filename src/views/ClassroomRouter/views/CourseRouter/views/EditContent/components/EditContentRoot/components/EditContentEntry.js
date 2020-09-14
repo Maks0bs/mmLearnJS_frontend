@@ -74,6 +74,7 @@ class EditContentEntry extends Component {
                         case 'Text':
                             return(<div>{content.text}</div>)
                         case 'File':
+                            if (!content.file) return null;
                             // newly uploaded file (still local)
                         	if (!content._id || content.fileIsNew){
                         		return(

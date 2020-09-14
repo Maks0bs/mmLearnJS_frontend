@@ -86,7 +86,6 @@ export default function(state = initialState, action) {
 			}
 		}
 		case TOGGLE_TASK_EXPAND: {
-			console.log(state);
 			return {
 				...state,
 				expandedTasks: {

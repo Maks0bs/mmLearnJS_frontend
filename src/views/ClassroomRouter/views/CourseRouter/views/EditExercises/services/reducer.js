@@ -3,42 +3,58 @@ import { cloneDeep, assign } from 'lodash'
 import { v1 as uuidv1 } from 'uuid';
 import { combineReducers } from "redux";
 import editorReducer from '../components/EditExercise/services/reducer'
-let { 
-	API_GET_COURSE_BY_ID,
+let {
 	UPDATE_EXERCISES,
 	ADD_EXERCISE,
 	EDIT_EXERCISE,
 	DELETE_EXERCISE,
 	RESTORE_DELETED_EXERCISE,
 	PRE_DELETE_EXERCISE,
-	API_UPDATE_EXERCISES,
-	CLEAR_MESSAGES,
+	COPY_EXERCISES_FROM_OLD_DATA
 } = types;
 
+/**
+ * @namespace storeState.views.classroom.course.editExercises
+ */
+
+/**
+ * @typedef EditExercisesServicesState
+ * @type Object
+ * @property {?Object|string} editorError
+ * @property {CourseExercise[]} newExercises - the exercises that are stored
+ * while the teacher is editing the course
+ * @property {Object.<string, CourseExercise>} deletedExercises - locally deleted
+ * sections during the edit process. Can be restored.
+ */
+
 let initialState = {
-	oldCourseData: {},
-	courseData: {},
+	newExercises: null,
 	deletedExercises: {},
-	error: ''
+	editorError: ''
 }
 
+/**
+ * @function editExercisesServicesReducer
+ * @param {EditExercisesServicesState} state
+ * @param {ReduxAction} action
+ * @param {?Object|string} state.editorError
+ * @param {CourseExercise[]} state.newExercises - the exercises that are stored
+ * while the teacher is editing the course
+ * @param {Object.<string, CourseExercise>} state.deletedExercises - locally deleted
+ * sections during the edit process. Can be restored.
+ * @return {EditExercisesServicesState}
+ *
+ * @memberOf storeState.views.classroom.course.editExercises
+ */
 let servicesReducer = function(state = initialState, action) {
 	switch(action.type){
-		case API_GET_COURSE_BY_ID: {
+		case UPDATE_EXERCISES:
+		case COPY_EXERCISES_FROM_OLD_DATA: {
 			return {
 				...state,
-				oldCourseData: action.payload[0],
-				courseData: action.payload[0]
+				newExercises: cloneDeep(action.payload)
 			}
 		}
-		case UPDATE_EXERCISES:
-			return {
-				...state,
-				courseData: {
-					...state.courseData,
-					exercises: action.payload
-				}
-			}
 		case ADD_EXERCISE: {
 			let newExercise = {
 				name: 'New exercise',
@@ -49,52 +65,38 @@ let servicesReducer = function(state = initialState, action) {
 			}
 			return {
 				...state,
-				courseData: {
-					...state.courseData,
-					exercises: [...state.courseData.exercises, newExercise]
-				}
+				newExercises: [...state.newExercises, newExercise]
 			}
 		}
 		case EDIT_EXERCISE: {
-			let newExercises = cloneDeep(state.courseData.exercises);
+			let newExercises = cloneDeep(state.newExercises);
 			assign(newExercises[action.payload.num], action.payload.exercise);
 			return {
 				...state,
-				courseData: {
-					...state.courseData,
-					exercises: newExercises
-				}
+				newExercises: newExercises
 			}
 		}
 		case DELETE_EXERCISE: {
-			let newExercises = cloneDeep(state.courseData.exercises);
+			let newExercises = cloneDeep(state.newExercises);
 			newExercises.splice(action.payload.num, 1);
 			return {
 				...state,
-				courseData: {
-					...state.courseData,
-					exercises: newExercises
-				}
+				newExercises: newExercises
 			}
 		}
 		case PRE_DELETE_EXERCISE: {
 			let { num } = action.payload;
-			// TODO get rid of deep cloning
-			let newExercises = cloneDeep(state.courseData.exercises);
+			let newExercises = cloneDeep(state.newExercises);
 			let curId = uuidv1();
 			let deletedExercise = cloneDeep(newExercises[num]);
-			let deletedName = newExercises[num].name;
 			newExercises[num] = {
 				deletedId: curId,
 				deleted: true,
-				name: deletedName
+				name: newExercises[num].name
 			}
 			return {
 				...state,
-				courseData: {
-					...state.courseData,
-					exercises: newExercises
-				},
+				newExercises: newExercises,
 				deletedExercises: {
 					...state.deletedExercises,
 					[curId]: deletedExercise
@@ -103,38 +105,16 @@ let servicesReducer = function(state = initialState, action) {
 		}
 		case RESTORE_DELETED_EXERCISE: {
 			let { num } = action.payload;
-			let curId = state.courseData.exercises[num].deletedId;
-			let newExercises = cloneDeep(state.courseData.exercises);
+			let curId = state.newExercises[num].deletedId;
+			let newExercises = cloneDeep(state.newExercises);
 			newExercises[num] = cloneDeep(state.deletedExercises[curId]);
 			return {
 				...state,
-				courseData: {
-					...state.courseData,
-					exercises: newExercises
-				},
+				newExercises: newExercises,
 				deletedExercises: {
 					...state.deletedExercises,
 					[curId]: undefined
 				}
-			}
-		}
-		case API_UPDATE_EXERCISES: {
-			if (action.payload.error){
-				return {
-					...state,
-					error: action.payload.error.message || action.payload.error
-				}
-			}
-			return {
-				...initialState,
-				oldCourseData: state.oldCourseData,
-				courseData: state.courseData
-			}
-		}
-		case CLEAR_MESSAGES: {
-			return {
-				...state,
-				error: ''
 			}
 		}
 		default:

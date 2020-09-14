@@ -10,7 +10,7 @@ import { reorderArray } from "../../../../../../components/services/helpers";
 import { dndTypes, regExpressions } from './services/helpers'
 import EditActions from "./components/EditContentActions";
 import EditCourseRootDroppable from "./components/EditContentRoot";
-import EditContentHelp from "./components/EditContentHelp";
+import EditorHelp from "../../components/EditorHelp";
 let { SECTIONS } = dndTypes;
 
 /**
@@ -24,10 +24,7 @@ class EditContent extends Component {
 	showHelp = (e) => {
 		e.preventDefault();
 		this.props.showModal(
-			<EditContentHelp
-				inModal={true}
-				onClose={this.props.hideModal}
-			/>
+			<EditorHelp inModal={true} onClose={this.props.hideModal}/>
 		)
 	}
 

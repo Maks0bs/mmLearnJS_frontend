@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+import {faPencilAlt, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import PropTypes from 'prop-types'
 
@@ -20,13 +20,22 @@ class EditSymbol extends Component {
     }
 
     render() {
+        let { del } = this.props;
         return (
             <Icon
                 {...this.props}
-                icon={faPencilAlt}
+                icon={this.props.del ? faTrashAlt : faPencilAlt}
                 onClick={this.onClick}
-                style={{ cursor: 'pointer', color: this.state.editSymbolColor}}
-                onMouseEnter={() => this.setState({editSymbolColor: 'blue'})}
+                style={{
+                    ...this.props.style,
+                    cursor: 'pointer',
+                    color: this.state.editSymbolColor
+                }}
+                onMouseEnter={() =>
+                    this.setState({
+                        editSymbolColor: del ? 'red' : 'blue'
+                    })
+                }
                 onMouseLeave={() => this.setState({editSymbolColor: ''})}
             />
         );
@@ -34,6 +43,11 @@ class EditSymbol extends Component {
 }
 
 EditSymbol.propTypes = {
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    /**
+     * Should be true if activation of this symbol
+     * causes deletion of some kind
+     */
+    del: PropTypes.bool
 }
 export default EditSymbol;

@@ -15,8 +15,25 @@ let {
  */
 
 /**
+ * @typedef CourseTask
+ * @type Object
+ */
+
+/**
+ * @typedef CourseTaskAttempt
+ * @type Object
+ */
+
+/**
  * @typedef CourseExercise
  * @type Object
+ * @property {string} name
+ * @property {?boolean} [available]
+ * @property {number} weight
+ * @property {CourseTask[]} tasks
+ * @property {Object[]} participants
+ * @property {?UserData|string} [participants.user]
+ * @property {?CourseTaskAttempt[]} [participants.attempts]
  */
 /**
  * @typedef CourseEntry
