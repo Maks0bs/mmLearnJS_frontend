@@ -3,6 +3,7 @@ import { cloneDeep, assign } from 'lodash'
 import { v1 as uuidv1 } from 'uuid';
 import {combineReducers} from "redux";
 import entryEditorReducer from '../components/EntryEditor/services/reducer'
+import { removeItemShallow} from "../../../../../../../services/helpers";
 let {
 	UPDATE_SECTIONS,
 	CLEANUP,
@@ -59,11 +60,16 @@ let initialState = {
  */
 let editContentServicesReducer = function(state = initialState, action) {
 	switch(action.type){
-		case UPDATE_SECTIONS:
 		case COPY_SECTIONS_FROM_OLD_DATA: {
 			return {
 				...state,
 				newSections: cloneDeep(action.payload)
+			}
+		}
+		case UPDATE_SECTIONS: {
+			return {
+				...state,
+				newSections: [...action.payload]
 			}
 		}
 		case ADD_SECTION:
@@ -72,7 +78,7 @@ let editContentServicesReducer = function(state = initialState, action) {
 				newSections: [...state.newSections, action.payload]
 			}
 		case EDIT_SECTION: {
-			let newSections = cloneDeep(state.newSections);
+			let newSections = [...state.newSections]
 			assign(newSections[action.payload.sectionNum], action.payload.section);
 			return {
 				...state,
@@ -81,16 +87,16 @@ let editContentServicesReducer = function(state = initialState, action) {
 		}
 		case PRE_DELETE_SECTION: {
 			let { sectionNum } = action.payload;
-			let newSections = cloneDeep(state.newSections);
+			let newSections = [...state.newSections]
 			// Using uuid instead of API IDs here,
 			// because newly created sections don't have an id yet
 			// but still have to be uniquely addressed somehow
 			let curId = uuidv1();
-			let deletedSection = cloneDeep(newSections[sectionNum]);
+			let deletedSection = {...newSections[sectionNum]}
 			newSections[sectionNum] = {
 				deletedId: curId,
 				deleted: true,
-				name: newSections[sectionNum].name
+				name: deletedSection.name
 			}
 			return {
 				...state,
@@ -102,18 +108,18 @@ let editContentServicesReducer = function(state = initialState, action) {
 			}
 		}
 		case DELETE_SECTION: {
-			let newSections = cloneDeep(state.newSections);
-			newSections.splice(action.payload.sectionNum, 1);
 			return {
 				...state,
-				newSections: newSections
+				newSections: removeItemShallow(
+					state.newSections, action.payload.sectionNum
+				)
 			}
 		}
 		case RESTORE_DELETED_SECTION: {
 			let { sectionNum } = action.payload;
-			let newSections = cloneDeep(state.newSections);
-			let curId = state.newSections[sectionNum].deletedId;
-			newSections[sectionNum] = cloneDeep(state.deletedSections[curId]);
+			let newSections = [...state.newSections];
+			let curId = newSections[sectionNum].deletedId;
+			newSections[sectionNum] = {...state.deletedSections[curId]}
 			return {
 				...state,
 				newSections: newSections,
@@ -124,8 +130,10 @@ let editContentServicesReducer = function(state = initialState, action) {
 			}
 		}
 		case ADD_ENTRY: {
-			let newSections = cloneDeep(state.newSections);
-			newSections[action.payload.sectionNum].entries.push(action.payload.entry);
+			let { sectionNum, entry} = action.payload;
+			let newSections = [...state.newSections];
+			newSections[sectionNum].entries =
+				[...newSections[sectionNum].entries, entry];
 			return {
 				...state,
 				newSections: newSections
@@ -133,28 +141,30 @@ let editContentServicesReducer = function(state = initialState, action) {
 		}
 		case EDIT_ENTRY: {
 			let { entry, sectionNum, entryNum } = action.payload;
-			let newSections = cloneDeep(state.newSections);
-			newSections[sectionNum].entries[entryNum] =
-				assign(newSections[sectionNum].entries[entryNum], entry);
+			let newSections = [...state.newSections];
+			let newEntries = [...newSections[sectionNum].entries];
+			newEntries[entryNum] = assign(newEntries[entryNum], entry);
+			newSections[sectionNum].entries = newEntries;
 			return {
 				...state,
-				newSections
+				newSections: newSections
 			}
 		}
 		case PRE_DELETE_ENTRY: {
 			let { sectionNum, entryNum } = action.payload;
-			let newSections = cloneDeep(state.newSections);
+			let newSections = [...state.newSections];
+			let newEntries = [...newSections[sectionNum].entries];
 			// Using uuid instead of API IDs here,
 			// because newly created entries don't have an id yet
 			// but still have to be uniquely addressed somehow
 			let curId = uuidv1();
-			let deletedEntry = cloneDeep(newSections[sectionNum].entries[entryNum]);
-			let deletedName = newSections[sectionNum].entries[entryNum].name;
-			newSections[sectionNum].entries[entryNum] = {
+			let deletedEntry = {...newEntries[entryNum]}
+			newEntries[entryNum] = {
 				deletedId: curId,
 				type: 'deleted',
-				name: deletedName
+				name: deletedEntry.name
 			}
+			newSections[sectionNum].entries = newEntries;
 			return {
 				...state,
 				newSections: newSections,
@@ -166,10 +176,11 @@ let editContentServicesReducer = function(state = initialState, action) {
 		}
 		case RESTORE_DELETED_ENTRY: {
 			let { sectionNum, entryNum } = action.payload;
-			let curId = state.newSections[sectionNum].entries[entryNum].deletedId;
-			let newSections = cloneDeep(state.newSections);
-			newSections[sectionNum].entries[entryNum] =
-				cloneDeep(state.deletedEntries[curId]);
+			let newSections = [...state.newSections];
+			let newEntries = [...newSections[sectionNum].entries];
+			let curId = newEntries[entryNum].deletedId;
+			newEntries[entryNum] = {...state.deletedEntries[curId]}
+			newSections[sectionNum].entries = newEntries;
 			return {
 				...state,
 				newSections: newSections,
@@ -181,8 +192,10 @@ let editContentServicesReducer = function(state = initialState, action) {
 		}
 		case DELETE_ENTRY: {
 			let { sectionNum, entryNum } = action.payload;
-			let newSections = cloneDeep(state.newSections);
-			newSections[sectionNum].entries.splice(entryNum, 1);
+			let newSections = [...state.newSections];
+			newSections[sectionNum].entries = removeItemShallow(
+				newSections[sectionNum].entries, entryNum
+			)
 			return {
 				...state,
 				newSections: newSections

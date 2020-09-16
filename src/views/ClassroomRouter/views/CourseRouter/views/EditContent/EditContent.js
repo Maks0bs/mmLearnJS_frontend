@@ -3,14 +3,13 @@ import { connect } from 'react-redux'
 import { updateSectionsLocal, copySectionsFromOldData, cleanup } from './services/actions'
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
 import { hideModal, showModal } from '../../../../../../components/ModalRoot/services/actions';
-import { cloneDeep } from 'lodash'
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
-import { reorderArray } from "../../../../../../components/services/helpers";
 import { dndTypes, regExpressions } from './services/helpers'
 import EditActions from "./components/EditContentActions";
 import EditCourseRootDroppable from "./components/EditContentRoot";
 import EditorHelp from "../../components/EditorHelp";
+import {reorderArrayShallow} from "../../../../../../services/helpers";
 let { SECTIONS } = dndTypes;
 
 /**
@@ -24,7 +23,7 @@ class EditContent extends Component {
 	showHelp = (e) => {
 		e.preventDefault();
 		this.props.showModal(
-			<EditorHelp inModal={true} onClose={this.props.hideModal}/>
+			<EditorHelp inModal={true} onClose={this.props.hideModal} type="content"/>
 		)
 	}
 
@@ -42,42 +41,36 @@ class EditContent extends Component {
 			return;
 		}
 		if (result.type === SECTIONS) {
-			// replace a section
-            let sections = reorderArray(
-                this.props.newSections,
-                result.source.index,
-                result.destination.index
-            );
-            this.props.updateSections(sections);
+			// reorder sections a section
+            this.props.updateSections(reorderArrayShallow(
+				this.props.newSections,
+				result.source.index,
+				result.destination.index
+			));
         } else {
         	if (result.source.droppableId === result.destination.droppableId){
-				// replace an entry, the section stays the same
+				// reorder entries in the same section
 	        	let re = regExpressions.sectionDroppableId;
-	        	let sectionId =
-					parseInt(re.exec(result.source.droppableId)[1], 10);
-
-	            let entries = reorderArray(
-	                this.props.newSections[sectionId].entries,
-	                result.source.index,
-	                result.destination.index
-	            );
-
-	            let sections = cloneDeep(this.props.newSections);
-	            sections[sectionId].entries = entries;
-
+	        	let sectionId = parseInt(re.exec(result.source.droppableId)[1], 10);
+	        	let sections = [...this.props.newSections];
+	            sections[sectionId].entries = reorderArrayShallow(
+					sections[sectionId].entries,
+					result.source.index,
+					result.destination.index
+				);
 	            this.props.updateSections(sections);
 	        }
 	        else{
-				// replace an entry to a different section
+				// reorder entries from different sections
 	        	let re = regExpressions.sectionDroppableId,
 					indexSource = result.source.index,
 					indexDest = result.destination.index;
 	        	let idSource = parseInt(re.exec(result.source.droppableId)[1], 10),
 					idDest = parseInt(re.exec(result.destination.droppableId)[1], 10),
-					sections = cloneDeep(this.props.newSections);
-	        	let entriesSource = cloneDeep(sections[idSource].entries),
-					entriesDest = cloneDeep(sections[idDest].entries),
-					element = cloneDeep(sections[idSource].entries[indexSource]);
+					sections = [...this.props.newSections]
+	        	let entriesSource = [...sections[idSource].entries],
+					entriesDest = [...sections[idDest].entries],
+					element = {...entriesSource[indexSource]}
 
 				entriesSource.splice(indexSource, 1);
 				entriesDest.splice(indexDest, 0, element);

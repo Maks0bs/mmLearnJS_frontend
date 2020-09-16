@@ -55,10 +55,9 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
 	let newSections = [];
 	// Remove sections that have been marked as to be deleted
 	for (let i = 0; i < sections.length; i++){
-		if (sections[i].deleted){
-			continue;
-		}
-		newSections.push(cloneDeep(sections[i]));
+		if (sections[i].deleted) continue;
+
+		newSections.push({...sections[i]});
 		newSections[newSections.length - 1].entries = [];
 		if (!Array.isArray(sections[i].entries)){
 			dispatch({
@@ -72,9 +71,7 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
 		}
 		for (let j = 0; j < sections[i].entries.length; j++){
 			let entry = sections[i].entries[j];
-			if (entry.type === 'deleted'){
-				continue;
-			}
+			if (entry.type === 'deleted') continue;
 
 			newSections[newSections.length - 1].entries.push(entry);
 		}
@@ -89,8 +86,8 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
 				// to upload the to the server
 				// see API docs for details
 				form.append('files', entry.content.file);
-				entry.content.file = undefined;
-				entry.content.fileIsNew = undefined;
+				delete entry.content.file;
+				delete entry.content.fileIsNew;
 				filePositions.push({ section: i, entry: j})
 			}
 		}

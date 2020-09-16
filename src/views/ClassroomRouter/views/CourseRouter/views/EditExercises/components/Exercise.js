@@ -56,10 +56,12 @@ class Exercise extends Component {
                 <EditSymbol
                     onClick={this.showEditExerciseModal}
                     className="float-right m-1"
+                    type="edit"
                 />
                 <EditSymbol
-                    del onClick={this.onPreDelete}
+                    onClick={this.onPreDelete}
                     className="float-right m-1"
+                    type="delete"
                 />
                 <h4>
                     {name}

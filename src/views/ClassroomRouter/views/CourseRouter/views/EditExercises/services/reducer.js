@@ -3,6 +3,8 @@ import { cloneDeep, assign } from 'lodash'
 import { v1 as uuidv1 } from 'uuid';
 import { combineReducers } from "redux";
 import editorReducer from '../components/EditExercise/services/reducer'
+import {newTaskByType} from "./helpers";
+import {removeItemShallow} from "../../../../../../../services/helpers";
 let {
 	UPDATE_EXERCISES,
 	ADD_EXERCISE,
@@ -10,7 +12,11 @@ let {
 	DELETE_EXERCISE,
 	RESTORE_DELETED_EXERCISE,
 	PRE_DELETE_EXERCISE,
-	COPY_EXERCISES_FROM_OLD_DATA
+	COPY_EXERCISES_FROM_OLD_DATA,
+	ADD_ERROR,
+	ADD_NEW_TASK,
+	CLEANUP,
+	EDIT_TASK
 } = types;
 
 /**
@@ -48,11 +54,16 @@ let initialState = {
  */
 let servicesReducer = function(state = initialState, action) {
 	switch(action.type){
-		case UPDATE_EXERCISES:
 		case COPY_EXERCISES_FROM_OLD_DATA: {
 			return {
 				...state,
 				newExercises: cloneDeep(action.payload)
+			}
+		}
+		case UPDATE_EXERCISES: {
+			return {
+				...state,
+				newExercises: [...action.payload]
 			}
 		}
 		case ADD_EXERCISE: {
@@ -61,7 +72,7 @@ let servicesReducer = function(state = initialState, action) {
 				participants: [],
 				tasks: [],
 				available: true,
-				weight: '1'
+				weight: 1
 			}
 			return {
 				...state,
@@ -69,16 +80,8 @@ let servicesReducer = function(state = initialState, action) {
 			}
 		}
 		case EDIT_EXERCISE: {
-			let newExercises = cloneDeep(state.newExercises);
+			let newExercises = [...state.newExercises];
 			assign(newExercises[action.payload.num], action.payload.exercise);
-			return {
-				...state,
-				newExercises: newExercises
-			}
-		}
-		case DELETE_EXERCISE: {
-			let newExercises = cloneDeep(state.newExercises);
-			newExercises.splice(action.payload.num, 1);
 			return {
 				...state,
 				newExercises: newExercises
@@ -86,13 +89,13 @@ let servicesReducer = function(state = initialState, action) {
 		}
 		case PRE_DELETE_EXERCISE: {
 			let { num } = action.payload;
-			let newExercises = cloneDeep(state.newExercises);
+			let newExercises = [...state.newExercises]
 			let curId = uuidv1();
-			let deletedExercise = cloneDeep(newExercises[num]);
+			let deletedExercise = {...newExercises[num]}
 			newExercises[num] = {
 				deletedId: curId,
 				deleted: true,
-				name: newExercises[num].name
+				name: deletedExercise.name
 			}
 			return {
 				...state,
@@ -103,11 +106,19 @@ let servicesReducer = function(state = initialState, action) {
 				}
 			}
 		}
+		case DELETE_EXERCISE: {
+			return {
+				...state,
+				newExercises: removeItemShallow(
+					state.newExercises, action.payload.num
+				)
+			}
+		}
 		case RESTORE_DELETED_EXERCISE: {
 			let { num } = action.payload;
-			let curId = state.newExercises[num].deletedId;
-			let newExercises = cloneDeep(state.newExercises);
-			newExercises[num] = cloneDeep(state.deletedExercises[curId]);
+			let newExercises = [...state.newExercises]
+			let curId = newExercises[num].deletedId;
+			newExercises[num] = {...state.deletedExercises[curId]}
 			return {
 				...state,
 				newExercises: newExercises,
@@ -116,6 +127,37 @@ let servicesReducer = function(state = initialState, action) {
 					[curId]: undefined
 				}
 			}
+		}
+		case ADD_NEW_TASK: {
+			let { exerciseNum, type } = action.payload;
+			let newTask = newTaskByType(type)
+			let newExercises = [...state.newExercises];
+			newExercises[exerciseNum].tasks =
+				[...newExercises[exerciseNum].tasks, newTask]
+			return {
+				...state,
+				newExercises: newExercises
+			}
+		}
+		case EDIT_TASK: {
+			let { task, exerciseNum, taskNum } = action.payload;
+			let newExercises = [...state.newExercises]
+			let newTasks = [...newExercises[exerciseNum].tasks]
+			newTasks[taskNum] = assign(newTasks[taskNum], task);
+			newExercises[exerciseNum].tasks = newTasks;
+			return {
+				...state,
+				newExercises: newExercises
+			}
+		}
+		case ADD_ERROR: {
+			return {
+				...state,
+				error: action.payload
+			}
+		}
+		case CLEANUP: {
+			return initialState;
 		}
 		default:
 			return state;

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
-import { reorderArray } from "../../../../../../components/services/helpers";
 import { dndTypes } from './services/helpers'
 import { showModal, hideModal} from "../../../../../../components/ModalRoot/services/actions";
-import { updateExercises, addExercise, copyExercisesFromOldData } from "./services/actions";
+import { updateExercises, addExercise, copyExercisesFromOldData, cleanup } from "./services/actions";
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import {faArrowsAlt, faList, faQuestionCircle} from '@fortawesome/free-solid-svg-icons'
 import Exercise from "./components/Exercise";
 import EditActions from "./components/EditExercisesActions";
 import EditorHelp from "../../components/EditorHelp";
+import {reorderArrayShallow} from "../../../../../../services/helpers";
 let { EXERCISES } = dndTypes;
 
 /**
@@ -27,7 +27,7 @@ class EditExercises extends Component {
     showHelp = (e) => {
         e.preventDefault();
         this.props.showModal(
-            <EditorHelp inModal={true} onClose={this.props.hideModal}/>
+            <EditorHelp inModal={true} onClose={this.props.hideModal} type="exercises"/>
         )
     }
 
@@ -41,7 +41,7 @@ class EditExercises extends Component {
             return;
         }
         if (result.type === EXERCISES) {
-            let exercises = reorderArray(
+            let exercises = reorderArrayShallow(
                 this.props.newExercises,
                 result.source.index,
                 result.destination.index
@@ -111,6 +111,7 @@ class EditExercises extends Component {
                                                             </span>
 
                                                             <Exercise num={i}/>
+
                                                         </div>
                                                     )}
                                                 </Draggable>
@@ -148,7 +149,8 @@ let mapDispatchToProps = (dispatch) => ({
     addExercise: () => dispatch(addExercise()),
     initData: () => dispatch(copyExercisesFromOldData()),
     showModal: (component) => dispatch(showModal(component)),
-    hideModal: () => dispatch(hideModal())
+    hideModal: () => dispatch(hideModal()),
+    cleanup: () => dispatch(cleanup())
 })
 export default connect(
     mapStateToProps,

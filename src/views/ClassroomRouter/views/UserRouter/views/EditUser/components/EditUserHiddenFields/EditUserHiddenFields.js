@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { setHiddenFields } from "../../../../services/actions";
 import { EDIT_FIELDS_DND_TYPE, USER_FIELDS } from "../../../../services/helpers";
-import { reorderArray } from "../../../../../../../../components/services/helpers";
 import PropTypes from "prop-types";
 import AvailableFieldsDroppable from "./components/AvailableFieldsDroppable";
 import HiddenFieldsDroppable from "./components/HiddenFieldsDroppable";
 import {DragDropContext, Droppable} from "react-beautiful-dnd";
+import {reorderArrayShallow} from "../../../../../../../../services/helpers";
 /**
  * Lets the user adjust what data they want to be publicly displayed
  * on their profile page
@@ -48,13 +48,13 @@ class EditUserHiddenFields extends Component {
         if (result.type === EDIT_FIELDS_DND_TYPE) {
             if (result.source.droppableId === result.destination.droppableId){
                 if (result.source.droppableId === 'droppableAvailableFields'){
-                    newAvailableFields = reorderArray(
+                    newAvailableFields = reorderArrayShallow(
                         this.state.availableFields,
                         result.source.index,
                         result.destination.index
                     )
                 } else if (result.source.droppableId === 'droppableHiddenFields'){
-                    newHiddenFields = reorderArray(
+                    newHiddenFields = reorderArrayShallow(
                         this.state.hiddenFields,
                         result.source.index,
                         result.destination.index

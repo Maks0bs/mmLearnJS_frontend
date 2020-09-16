@@ -1,17 +1,13 @@
 import React, {Component} from 'react';
-import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import {faTrashAlt, faPencilAlt, faCheck} from "@fortawesome/free-solid-svg-icons";
-
-//TODO add docs / explanations for all props needed in this component
+import EditSymbol from "../../../../../../../../../../../components/reusables/EditSymbol";
+import PropTypes from "prop-types";
 
 class ChoiceOption extends Component {
     constructor(props){
         super(props);
-
         this.state = {
-            editing: false,
+            editing: false, editText: '',
             backgroundColor: '#dedede',
-            editText: ''
         }
     }
 
@@ -19,15 +15,11 @@ class ChoiceOption extends Component {
         if (this.props.keepEdit){
             this.textArea.focus();
         }
-        this.setState({
-            backgroundColor: this.props.correct ? '#2c8f31' : '#dedede'
-        })
+        this.setState({ backgroundColor: this.props.correct ? '#2c8f31' : '#dedede'})
     }
 
     handleChange = (name) => (event) => {
-        this.setState({
-            [name]: event.target.value
-        })
+        this.setState({ [name]: event.target.value })
     }
 
     toggleCorrect = (e) => {
@@ -36,29 +28,12 @@ class ChoiceOption extends Component {
     }
 
     onEditSubmit = (e) => {
-        e.preventDefault();
+        e && e.preventDefault();
         this.props.onEditSubmit(this.state.editText);
-        this.setState({
-            editing: false
-        })
+        this.setState({ editing: false })
     }
 
-    handleMouseEnter = (e) => {
-        e.preventDefault();
-        this.setState({
-            backgroundColor: this.props.correct ? '#1ad924' : '#919191'
-        })
-    }
-
-    handleMouseLeave = (e) => {
-        e.preventDefault();
-        this.setState({
-            backgroundColor: this.props.correct ? '#2c8f31' : '#dedede'
-        })
-    }
-
-    onDelete = (e) => {
-        e.preventDefault();
+    onDelete = () => {
         this.props.onDelete();
     }
 
@@ -81,78 +56,55 @@ class ChoiceOption extends Component {
         let { editing, backgroundColor, editText } = this.state;
         return (
             <p
-                onMouseEnter={this.handleMouseEnter}
-                onMouseLeave={this.handleMouseLeave}
+                onMouseEnter={() => this.setState({
+                    backgroundColor: this.props.correct ? '#1ad924' : '#919191'
+                })}
+                onMouseLeave={() => this.setState({
+                    backgroundColor: this.props.correct ? '#2c8f31' : '#dedede'
+                })}
                 style={{
                     background: backgroundColor,
                     alignItems: 'center',
                     display: 'inline-block',
                     borderRadius: '5px',
-                    padding: '3px',
-                    margin: '2px',
+                    padding: '5px',
+                    margin: '5px',
                 }}
             >
                 {editing || keepEdit ? (
-                    <span>
-                        <span
-                            onSubmit={this.onEditSubmit}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                margin: 0
-                            }}
-                        >
-                            <textarea
-                                value={editText}
-                                onKeyPress={this.onInputEnterHandle}
-                                onChange={this.handleChange("editText")}
-                                ref={(ta) => this.textArea = ta }
-                            />
-                            <Icon
-                                className="mx-1"
-                                onClick={this.onEditSubmit}
-                                icon={ faCheck }
-                                style={{
-                                    float: 'right',
-                                    cursor: 'pointer',
-                                    color: 'green'
-                                }}
-                            />
-
-                        </span>
+                    <span
+                        onSubmit={this.onEditSubmit}
+                        style={{ display: 'flex',  alignItems: 'center',  margin: 0 }}
+                    >
+                        <textarea
+                            value={editText}
+                            onKeyPress={this.onInputEnterHandle}
+                            onChange={this.handleChange("editText")}
+                            ref={(ta) => this.textArea = ta }
+                        />
+                        <EditSymbol 
+                            className="mx-1 float-right"
+                            type="save"
+                            onClick={this.onEditSubmit}
+                        />
                     </span>
                 ) : (
-                    <span
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}
-                    >
+                    <span style={{ display: 'flex',  alignItems: 'center'}}>
                         <span
                             onClick={this.toggleCorrect}
                             className="mx-1"
-                            style={{
-                                cursor: 'pointer'
-                            }}
+                            style={{ cursor: 'pointer' }}
                         >
                             {option.text || option}
                         </span>
-                        <Icon
-                            className="mx-1"
-                            icon={faTrashAlt}
-                            style={{
-                                float: 'right',
-                                cursor: 'pointer'
-                            }}
+                        <EditSymbol
+                            className="mx-1 float-right"
+                            type="delete"
                             onClick={this.onDelete}
                         />
-                        <Icon
-                            className="mx-1"
-                            icon={faPencilAlt}
-                            style={{
-                                float: 'right',
-                                cursor: 'pointer'
-                            }}
+                        <EditSymbol
+                            className="mx-1 float-right"
+                            type="edit"
                             onClick={this.onToggleEdit}
                         />
                     </span>
@@ -161,5 +113,25 @@ class ChoiceOption extends Component {
         );
     }
 }
-
+ChoiceOption.propTypes = {
+    /**
+     * Set to true if this component should be in editable state
+     * right after mounting
+     */
+    keepEdit: PropTypes.bool,
+    /**
+     * Should be true if the option in this component is correct for given task
+     */
+    correct: PropTypes.bool,
+    /**
+     * Action that should be performed when the option inside
+     * this component is chosen to be correct for given task
+     */
+    onToggleCorrect: PropTypes.func,
+    /**
+     * Action that should be performed when the text on the option
+     * inside this component is changed
+     */
+    onEditSubmit: PropTypes.func
+}
 export default ChoiceOption

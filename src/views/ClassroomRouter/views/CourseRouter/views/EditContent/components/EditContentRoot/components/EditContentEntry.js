@@ -41,8 +41,8 @@ class EditContentEntry extends Component {
 	render() {
 	    let { sectionNum, entryNum, newSections } = this.props;
 		let { name, type, content, _id } = newSections[sectionNum].entries[entryNum];
-		console.log('ece', this.props);
-		type = type.charAt(0).toUpperCase() + type.slice(1); // capitalize first letter of type
+        // capitalize first letter of type
+		type = type.charAt(0).toUpperCase() + type.slice(1);
 		if (type === 'Deleted'){
             return (
                 <div className="pl-4">
@@ -63,7 +63,11 @@ class EditContentEntry extends Component {
         }
 		return (
 			<div className="pl-4">
-                <EditSymbol onClick={this.showEditEntryModal} className="float-right m-1"/>
+                <EditSymbol
+                    onClick={this.showEditEntryModal}
+                    className="float-right m-1"
+                    type="edit"
+                />
                 <h4>
                     {type}
                     <strong> {name}</strong>
@@ -81,6 +85,7 @@ class EditContentEntry extends Component {
 	                        		<a
                                         href={URL.createObjectURL(content.file)}
                                         download={content.fileName}
+
                                     >
 										{content.fileName}
 									</a>

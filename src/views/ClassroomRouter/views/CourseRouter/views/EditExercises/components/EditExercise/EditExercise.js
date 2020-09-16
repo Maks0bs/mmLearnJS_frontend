@@ -7,16 +7,8 @@ import TasksEditor from "./components/TasksEditor/TasksEditor";
 class EditExercise extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            name: '',
-            weight: '1',
-            available: true
-        }
+        this.state = { name: '',  weight: '1', available: true}
     }
-
-
-    //this.props.num is required to work!!!!!!!
 
     onPreDelete = (e) => {
         e.preventDefault();
@@ -50,7 +42,6 @@ class EditExercise extends Component {
         this.handleLeave();
     }
 
-
     handleLeave = () => {
         this.props.cleanup();
         this.props.onClose && this.props.onClose();
@@ -58,17 +49,16 @@ class EditExercise extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-
-
-        this.props.editExercise( {
-            ...this.state,
-            tasks: this.props.tasks
-        }, this.props.num)
+        this.props.editExercise(
+            {...this.state, tasks: this.props.tasks },
+            this.props.num
+        )
         this.handleLeave();
     }
 
     render() {
         let { name, available, weight } = this.state;
+        let { num } = this.props;
         return (
             <div className="container">
                 <form onSubmit={this.onSubmit}>
@@ -81,10 +71,15 @@ class EditExercise extends Component {
                             value={name}
                         />
                     </div>
-
                     <div className="form-group">
-                        <label className="text-muted">Available to students</label>
+                        <label
+                            className="text-muted"
+                            htmlFor={`exercise${num} studentAvailability`}
+                        >
+                            to students
+                        </label>
                         <input
+                            id={`exercise${num} studentAvailability`}
                             type="checkbox"
                             onChange={this.handleChange("available")}
                             className="ml-3"
@@ -104,26 +99,24 @@ class EditExercise extends Component {
                         />
                     </div>
 
-                    <div className="my-3">
-                        <TasksEditor />
-                    </div>
+                    <TasksEditor />
 
                     <button
-                        className="btn btn-outline btn-raised"
+                        className="btn btn-raised"
                         onClick={this.handleLeave}
                         type="button"
                     >
                         Cancel
                     </button>
                     <button
-                        className="btn btn-outline btn-raised btn-danger ml-3"
+                        className="btn btn-raised btn-danger ml-3"
                         onClick={this.onPreDelete}
                         type="button"
                     >
                         Delete
                     </button>
                     <button
-                        className="btn btn-outline btn-raised btn-success ml-3"
+                        className="btn btn-raised btn-success ml-3"
                         type="submit"
                     >
                         Save
@@ -133,23 +126,16 @@ class EditExercise extends Component {
         );
     }
 }
-
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.editExercises.services,
-        ...state.views.classroom.course.editExercises.editor
-    }
-}
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-        preDeleteExercise: (num) => dispatch(preDeleteExercise(num)),
-        editExercise: (exercise, num) => dispatch(editExercise(exercise, num)),
-        initTasksEditor: (tasks) => dispatch(initTasksEditor(tasks)),
-        cleanup: () => dispatch(cleanup())
-    }
-}
-
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.course.editExercises.services,
+    ...state.views.classroom.course.editExercises.editor
+})
+let mapDispatchToProps = (dispatch) => ({
+    preDeleteExercise: (num) => dispatch(preDeleteExercise(num)),
+    editExercise: (exercise, num) => dispatch(editExercise(exercise, num)),
+    initTasksEditor: (tasks) => dispatch(initTasksEditor(tasks)),
+    cleanup: () => dispatch(cleanup())
+})
 export default connect(
     mapStateToProps,
     mapDispatchToProps

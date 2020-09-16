@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { editTask } from "../../../../../services/actions";
 import {connect} from "react-redux";
 import ChoiceOption from "../../ChoiceOption";
-import { cloneDeep} from "lodash";
+import {removeItemShallow} from "../../../../../../../../../../../../../services/helpers";
 
 class MultipleChoiceOption extends Component {
 
@@ -13,45 +13,31 @@ class MultipleChoiceOption extends Component {
         return (
             <ChoiceOption
                 onToggleCorrect={() => {
-                    let correctPos = -1;
-                    for (let i = 0; i < correctAnswers.length; i++){
-                        if (option.key === correctAnswers[i]){
-                            correctPos = i;
-                            break;
-                        }
-                    }
-
-                    let newCorrectAnswers = cloneDeep(correctAnswers);
+                    let correctPos = correctAnswers.indexOf(option.key), newCorrectAnswers;
                     if (correctPos < 0){
-                        newCorrectAnswers.push(option.key);
+                        // add a correct option
+                        newCorrectAnswers = [...correctAnswers, option.key]
                     } else {
-                        newCorrectAnswers.splice(correctPos, 1);
+                        // remove a correct option
+                        newCorrectAnswers = removeItemShallow(correctAnswers, correctPos);
                     }
-
-                    this.props.editTask({
-                        correctAnswers: newCorrectAnswers
-                    }, taskNum);
+                    this.props.editTask(
+                        {correctAnswers: newCorrectAnswers},
+                        taskNum
+                    );
                 }}
                 onEditSubmit={(newText) => {
-                    let newOptions = options;
+                    let newOptions = [...options];
                     newOptions[optionNum].text = newText;
-                    this.props.editTask({
-                        options: newOptions,
-                        keepEditLast: false
-                    }, taskNum);
+                    this.props.editTask(
+                        { options: newOptions, keepEditLast: false},
+                        taskNum
+                    );
                 }}
                 onDelete={() => {
-                    let newOptions = cloneDeep(options);
-                    newOptions.splice(optionNum, 1);
-                    let newCorrectAnswers = cloneDeep(correctAnswers);
-                    let pos = newCorrectAnswers.indexOf(option.key);
-                    if (pos >= 0){
-                        newCorrectAnswers.splice(pos, 1);
-                    }
-
                     this.props.editTask({
-                        options: newOptions,
-                        correctAnswers: newCorrectAnswers
+                        options: removeItemShallow(options, optionNum),
+                        correctAnswers: correctAnswers.filter(a => a !== option.key)
                     }, taskNum);
                 }}
                 option={option}
@@ -61,19 +47,12 @@ class MultipleChoiceOption extends Component {
         )
     }
 }
-
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.editExercises.editor
-    }
-}
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-        editTask: (task, num) => dispatch(editTask(task, num))
-    }
-}
-
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.course.editExercises.editor
+})
+let mapDispatchToProps = (dispatch) => ({
+    editTask: (task, num) => dispatch(editTask(task, num))
+})
 export default connect(
     mapStateToProps,
     mapDispatchToProps

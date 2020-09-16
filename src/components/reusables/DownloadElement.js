@@ -36,5 +36,17 @@ DownloadElement.propTypes = {
      * The text that should be displayed on the link
      */
     linkText: PropTypes.string,
+    /**
+     * Should be true if the download element should
+     * download a locally uploaded file. Please
+     * provide the `file` props in this case as well
+     */
+    local: PropTypes.bool,
+    /**
+     * If you want the DownloadElement to download
+     * a locally uploaded file,
+     * provide binary data in this prop
+     */
+    file: PropTypes.object
 }
 export default DownloadElement;

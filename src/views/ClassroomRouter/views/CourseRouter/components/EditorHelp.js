@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import {faArrowsAlt, faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+import {faArrowsAlt, faPencilAlt, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 
 /**
@@ -16,17 +16,37 @@ class EditorHelp extends Component {
     }
 
     render() {
+        let { type } = this.props;
         return (
             <div className="container my-3 text-center">
                 <h1>Help</h1>
-                <p>
-                    <Icon icon={faArrowsAlt} /> { }
-                    = Move around sections and entries
-                </p>
-                <p>
-                    <Icon icon={faPencilAlt} /> { }
-                    = Edit section or entry
-                </p>
+                {type === 'content' ? (
+                    <div>
+                        <p>
+                            <Icon icon={faArrowsAlt} /> { }
+                            = Move around sections and entries
+                        </p>
+                        <p>
+                            <Icon icon={faPencilAlt} /> { }
+                            = Edit section or entry
+                        </p>
+                        <p>
+                            Entries can be moved inside the section
+                            and from one section to another.
+                        </p>
+                    </div>
+                ) : (
+                    <div>
+                        <p>
+                            <Icon icon={faArrowsAlt} /> { }
+                            = Move around exercises
+                        </p>
+                        <p>
+                            <Icon icon={faTrashAlt} /> { }
+                            = Delete exercise
+                        </p>
+                    </div>
+                )}
                 {this.props.inModal && (
                     <button
                         className="btn btn-raised m-3"
@@ -51,6 +71,7 @@ EditorHelp.propTypes = {
      * when the user wants to close the modal
      * which contains this component.
      */
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    type: PropTypes.string.isRequired
 }
 export default EditorHelp;

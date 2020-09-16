@@ -71,7 +71,11 @@ class EditContentSection extends Component {
         }
         return (
             <div className="pl-4">
-                <EditSymbol onClick={this.showEditSectionModal} className="float-right m-1"/>
+                <EditSymbol
+                    onClick={this.showEditSectionModal}
+                    className="float-right m-1"
+                    type="edit"
+                />
                 <h3>{name}</h3>
                 <p>{description}</p>
                 <Droppable droppableId={`section${sectionNum}`} type={ENTRIES}>
@@ -84,34 +88,38 @@ class EditContentSection extends Component {
                             }}
                         >
                             {Array.isArray(entries) && entries.map((entry, i) => (
-                                <Draggable
-                                    key={`section${sectionNum}entry${i}`}
-                                    draggableId={`section${sectionNum}entry${i}`}
-                                    index={i}
-                                >
-                                    {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            style={{
-                                                userSelect: 'none', borderRadius: '5px',
-                                                padding: '5px', margin: '5px',
-                                                background: snapshot.isDragging ?
-                                                    '#878787' : '#bababa',
-                                                ...provided.draggableProps.style
-                                            }}
-                                        >
-                                            <span
-                                                className="float-left m-1"
-                                                {...provided.dragHandleProps}
+                                <div>
+                                    <Draggable
+                                        key={`section${sectionNum}entry${i}`}
+                                        draggableId={`section${sectionNum}entry${i}`}
+                                        index={i}
+                                    >
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                style={{
+                                                    userSelect: 'none', borderRadius: '5px',
+                                                    padding: '5px', margin: '5px',
+                                                    display: 'inline-block',
+                                                    background: snapshot.isDragging ?
+                                                        '#878787' : '#bababa',
+                                                    ...provided.draggableProps.style
+                                                }}
                                             >
-                                                <Icon icon={faArrowsAlt}/>
-                                            </span>
+                                                <span
+                                                    className="float-left m-1"
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    <Icon icon={faArrowsAlt}/>
+                                                </span>
 
-                                            <Entry sectionNum={sectionNum} entryNum={i}/>
-                                        </div>
-                                    )}
-                                </Draggable>
+                                                <Entry sectionNum={sectionNum} entryNum={i}/>
+
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                </div>
                             ))}
                             {provided.placeholder}
                         </div>

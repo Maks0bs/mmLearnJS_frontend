@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> EditExercises</title>
+  <title> views/ClassroomRouter/views/CourseRouter/views/EditExercises/services/helpers.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -81,173 +83,84 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Components</p>
-                    <h1>EditExercises</h1>
+                    <p>Source</p>
+                    <h1>views/ClassroomRouter/views/CourseRouter/views/EditExercises/services/helpers.js</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-            &ltEditExercises  /&gt
-        </h2>
-        
-            <div class="class-description"><p>This page allows teachers to edit exercises / tests in their course:
-add, edit, delete exercises and tasks inside them</p></div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class='vertical-section'>
-                <div class="members">
-                    <div class="member">
-                        <div class=name>
-                            <span class="tag">Constructor</span>
-                        </div>
-                        
-
-
-    
-    <h4 class="name" id="EditExercises">
-        <a class="href-link" href="#EditExercises">#</a>
-        
-        <span class="code-name">
-            
-                &ltEditExercises  /&gt
-            
-        </span>
-    </h4>
-    
-
-    
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="views_ClassroomRouter_views_CourseRouter_views_EditExercises_EditExercises.js.html" class="button">View Source</a>
-            <span>
-                <a href="views_ClassroomRouter_views_CourseRouter_views_EditExercises_EditExercises.js.html">views/ClassroomRouter/views/CourseRouter/views/EditExercises/EditExercises.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_EditExercises_EditExercises.js.html#line21">line 21</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    </div>
-                </div>
-            </div>
-        
-    
-    </div>
-    
-        
-    
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="components.views.classroom.course.EditExercises.EditExercisesActions.html">EditExercisesActions</a></dt>
-            <dd></dd>
-        
-            <dt><a href="components.views.classroom.course.EditExercises.Exercise.html">Exercise</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {v1 as uuidv1} from "uuid";
+
+export let dndTypes = {
+	EXERCISES: 'DND_TYPES_EXERCISES',
+}
+
+export let regExpressions = {
+	exerciseDroppableId: /(?:exercise(\d+))$/
+}
+
+/**
+ * @description returns a new semi-pre-configured new task of given type
+ * @param {string} type
+ * @return CourseTask
+ */
+export let newTaskByType = (type) => {
+	let newTask;
+	switch(type){
+		case 'OneChoice': {
+			newTask = {
+				description: 'Describe the one-choice task',
+				score: 1,
+				kind: 'OneChoiceTask',
+				options: [
+					{
+						text: 'Option 1',
+						key: uuidv1()
+					}
+				]
+			}
+			break;
+		}
+		case 'MultipleChoice': {
+			newTask = {
+				description: 'Describe the multiple-choice task',
+				score: 1,
+				kind: 'MultipleChoiceExercise',
+				options: [
+					{
+						text: 'Option 1',
+						key: uuidv1()
+					}
+				],
+				correctAnswers: [],
+				onlyFull: false
+			}
+			break;
+		}
+		case 'Text': {
+			newTask = {
+				description: 'Describe the task with open text answer',
+				score: 1,
+				kind: 'TextExercise',
+				interpretMath: false,
+				correctAnswers: [
+					'Sample answer'
+				]
+			}
+			break;
+		}
+		default: {
+			newTask = {}
+		}
+	}
+	return newTask;
+}</code></pre>
+        </article>
+    </section>
 
 
 

@@ -34,6 +34,7 @@ let {
  * @property {Object[]} participants
  * @property {?UserData|string} [participants.user]
  * @property {?CourseTaskAttempt[]} [participants.attempts]
+ * @property {?boolean} expanded
  */
 /**
  * @typedef CourseEntry

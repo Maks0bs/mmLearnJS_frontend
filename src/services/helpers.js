@@ -1,5 +1,54 @@
 import PropTypes from "prop-types";
 
+/**
+ * @description <b>Shallowly</b> put one element at `startIndex` to the
+ * `endIndex` position, shifting all other elements. Imagine it
+ * like grabbing element at `startIndex` and dropping it off
+ * at the position `endIndex`
+ * @function
+ * @param {any[]} arr array to reorder
+ * @param {number} startIndex the index of the element
+ * to remove from the list and put to another position
+ * @param {number} endIndex the position we want to insert the new element into
+ * @returns {any[]} deep copy of the reordered given array
+ */
+export let reorderArrayShallow = (arr, startIndex, endIndex) => {
+    let result = [...arr]
+    let [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+};
+
+/**
+ * @description <b>Shallowly</b> remove element from given array
+ * @function
+ * @param {any[]} arr
+ * @param {number} index
+ * @returns {any[]} deep copy of the reordered given array
+ */
+export let removeItemShallow = (arr, index) => {
+    return [
+        ...arr.slice(0, index),
+        ...arr.slice(index + 1)
+    ]
+};
+
+/**
+ * @description <b>Shallowly</b> add element to given array
+ * @function
+ * @param {any[]} arr array to reorder
+ * @param {number} index
+ * @param {any} element
+ * @returns {any[]} deep copy of the reordered given array
+ */
+export let addItemShallow = (arr, index, element) => {
+    return [
+        ...arr.slice(0, index),
+        element,
+        ...arr.slice(index)
+    ]
+};
+
 export let customPropTypes = {
     component: PropTypes.oneOfType([
         PropTypes.node,

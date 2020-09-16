@@ -1,6 +1,11 @@
 import types from './actionTypes'
 import {updateCourse} from "../../../services/actions";
+import { cloneDeep } from 'lodash';
 let {
+    CLEANUP,
+    ADD_NEW_TASK,
+    EDIT_TASK,
+    ADD_ERROR,
     UPDATE_EXERCISES,
     ADD_EXERCISE,
     EDIT_EXERCISE,
@@ -45,9 +50,32 @@ export let saveChangesExercises = (exercises, id) => (dispatch) => {
     let form = new FormData();
     let newExercises = [];
 
-    for (let i of exercises){
-        if (!i.deleted){
-            newExercises.push(i);
+    for (let i = 0; i < exercises.length; i++){
+        if (exercises[i].deleted){
+            continue;
+        }
+        newExercises.push(cloneDeep(exercises[i]))
+        newExercises[newExercises.length - 1].tasks = [];
+        // expanded property is not a part of the API
+        delete newExercises[newExercises.length - 1].expanded;
+        if (Array.isArray(exercises[i].tasks)){
+            dispatch({
+                type: ADD_ERROR,
+                payload: 'One exercise does not have tasks'
+            })
+            // Mock async performance even if no request has been made
+            return new Promise((resolve) => {
+                resolve(true);
+            })
+        }
+        for (let j = 0; j < exercises[i].tasks.length; j++){
+            let task = exercises[i].tasks[j];
+            if (task.deleted){
+                continue;
+            }
+            // expanded property is not a part of the API
+            delete task.expanded;
+            newExercises[newExercises.length - 1].tasks.push(task);
         }
     }
     let newCourseData = {exercises: newExercises}
@@ -79,7 +107,7 @@ export let addExercise = () => (dispatch) => {
 
 /**
  * @function
- * @param {?CourseExercise} exercise
+ * @param {?CourseExercise|Object} exercise
  * @param {number} num
  * @return {function(*): Promise<ReduxAction>}
  * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
@@ -128,4 +156,63 @@ export let restoreDeletedExercise = (num) => dispatch => {
         type: RESTORE_DELETED_EXERCISE,
         payload: { num }
     })
+}
+
+/**
+ * @function
+ * @param {string} type
+ * @param {number} exerciseNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ */
+export let addNewTask = (type, exerciseNum) => dispatch => {
+    return dispatch({
+        type: ADD_NEW_TASK,
+        payload: { type, exerciseNum }
+    })
+}
+
+/**
+ * @function
+ * @param {CourseTask} task
+ * @param {number} exerciseNum
+ * @param {number} taskNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ */
+export let editTask = (task, exerciseNum, taskNum) => dispatch => {
+    return dispatch({
+        type: EDIT_TASK,
+        payload: { task, exerciseNum, taskNum}
+    })
+}
+
+/**
+ * @function
+ * @param {number} exerciseNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ */
+export let toggleExpandExercise = (exerciseNum) => dispatch => {
+    return dispatch(editExercise({ expanded: true}, exerciseNum))
+}
+
+/**
+ * @function
+ * @param {number} exerciseNum
+ * @param {number} taskNum
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ */
+export let toggleExpandTask = (exerciseNum, taskNum) => dispatch => {
+    return dispatch(editTask( { expanded: true }, exerciseNum, taskNum));
+}
+
+/**
+ * @function
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ */
+export let cleanup = () => dispatch => {
+    return dispatch({ type: CLEANUP })
 }

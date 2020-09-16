@@ -73,6 +73,7 @@ class EditContentRoot extends Component {
                                     </span>
 
                                     <Section key={`section${i}`} sectionNum={i}/>
+
                                 </div>
                             )}
                         </Draggable>
