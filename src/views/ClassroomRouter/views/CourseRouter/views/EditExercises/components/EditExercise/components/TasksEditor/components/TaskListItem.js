@@ -13,8 +13,7 @@ class TaskListItem extends Component {
         this.state = { backgroundColor: '#dedede'}
     }
 
-    onMove = (type) => (e) => {
-        e.preventDefault();
+    onMove = (type) => () => {
         let { num, tasks } = this.props;
         let newNum = -100;
         if (type === 'up' && num > 0){
@@ -46,7 +45,6 @@ class TaskListItem extends Component {
     }
 
     onDelete = (e) => {
-        e.preventDefault();
         let { num, tasks, expandedTasks } = this.props;
         let newTasks = [...tasks];
         newTasks.splice(num, 1);

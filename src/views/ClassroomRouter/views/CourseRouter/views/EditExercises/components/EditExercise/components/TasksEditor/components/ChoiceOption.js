@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import EditSymbol from "../../../../../../../../../../../components/reusables/EditSymbol";
 import PropTypes from "prop-types";
+import { v1 as uuidv1} from 'uuid'
 
 class ChoiceOption extends Component {
     constructor(props){
@@ -29,6 +30,10 @@ class ChoiceOption extends Component {
 
     onEditSubmit = (e) => {
         e && e.preventDefault();
+        let { editText } = this.state;
+        if (!editText) {
+            return this.onDelete();
+        }
         this.props.onEditSubmit(this.state.editText);
         this.setState({ editing: false })
     }
@@ -44,16 +49,16 @@ class ChoiceOption extends Component {
     }
 
     onToggleEdit = (e) => {
-        e.preventDefault();
         this.setState({
             editing: true,
-            editText: this.props.option.text || this.props.option
+            editText: this.props.option.text
         })
     }
 
     render() {
         let { option, keepEdit } = this.props;
         let { editing, backgroundColor, editText } = this.state;
+        console.log(this.state);
         return (
             <p
                 onMouseEnter={() => this.setState({
@@ -82,7 +87,8 @@ class ChoiceOption extends Component {
                             onChange={this.handleChange("editText")}
                             ref={(ta) => this.textArea = ta }
                         />
-                        <EditSymbol 
+                        <EditSymbol
+                            key={uuidv1()}
                             className="mx-1 float-right"
                             type="save"
                             onClick={this.onEditSubmit}
@@ -95,7 +101,7 @@ class ChoiceOption extends Component {
                             className="mx-1"
                             style={{ cursor: 'pointer' }}
                         >
-                            {option.text || option}
+                            {option.text}
                         </span>
                         <EditSymbol
                             className="mx-1 float-right"

@@ -24,7 +24,8 @@ class EditExercisesActions extends Component {
         e.preventDefault();
         this.props.saveChanges(this.props.newExercises, this.props.course._id)
             .then(() => {
-                if (!this.props.error) {
+                let { error, editorError } = this.props;
+                if (!error && !editorError) {
                     this.handleLeave();
                     this.props.addToast(
                         (<div>Course data has been changed</div>),
@@ -32,7 +33,7 @@ class EditExercisesActions extends Component {
                     )
                 } else {
                     this.props.addToast(
-                        (<div>{this.props.error}</div>),
+                        (<div>{editorError || error}</div>),
                         {type: 'error'}
                     )
                 }

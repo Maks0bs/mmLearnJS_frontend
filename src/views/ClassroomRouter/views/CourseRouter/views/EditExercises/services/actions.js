@@ -58,7 +58,7 @@ export let saveChangesExercises = (exercises, id) => (dispatch) => {
         newExercises[newExercises.length - 1].tasks = [];
         // expanded property is not a part of the API
         delete newExercises[newExercises.length - 1].expanded;
-        if (Array.isArray(exercises[i].tasks)){
+        if (!Array.isArray(exercises[i].tasks)){
             dispatch({
                 type: ADD_ERROR,
                 payload: 'One exercise does not have tasks'

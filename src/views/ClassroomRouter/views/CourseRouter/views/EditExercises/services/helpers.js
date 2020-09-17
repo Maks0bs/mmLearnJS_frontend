@@ -34,7 +34,7 @@ export let newTaskByType = (type) => {
 			newTask = {
 				description: 'Describe the multiple-choice task',
 				score: 1,
-				kind: 'MultipleChoiceExercise',
+				kind: 'MultipleChoiceTask',
 				options: [
 					{
 						text: 'Option 1',
@@ -50,7 +50,7 @@ export let newTaskByType = (type) => {
 			newTask = {
 				description: 'Describe the task with open text answer',
 				score: 1,
-				kind: 'TextExercise',
+				kind: 'TextTask',
 				interpretMath: false,
 				correctAnswers: [
 					'Sample answer'

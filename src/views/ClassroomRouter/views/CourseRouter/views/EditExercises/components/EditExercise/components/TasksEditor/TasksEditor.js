@@ -21,11 +21,11 @@ class TasksEditor extends Component {
                 <div>
                     {tasks &&   tasks.map((task, i) => {
                         switch(task.kind){
-                            case 'OneChoiceExercise':
+                            case 'OneChoiceTask':
                                 return (<OneChoiceTask num={i} key={i}/>)
-                            case 'MultipleChoiceExercise':
+                            case 'MultipleChoiceTask':
                                 return (<MultipleChoiceTask num={i} key={i}/>)
-                            case 'TextExercise':
+                            case 'TextTask':
                                 return (<TextTask num={i} key={i}/>)
                             default:
                                 return (<div key={i}>unknown task</div>)

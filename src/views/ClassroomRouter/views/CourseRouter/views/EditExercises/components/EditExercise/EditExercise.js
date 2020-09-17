@@ -76,7 +76,7 @@ class EditExercise extends Component {
                             className="text-muted"
                             htmlFor={`exercise${num} studentAvailability`}
                         >
-                            to students
+                            Available to students
                         </label>
                         <input
                             id={`exercise${num} studentAvailability`}

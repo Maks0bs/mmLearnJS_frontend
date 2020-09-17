@@ -19,12 +19,13 @@ export default function(state = initialState, action) {
 	switch(action.type){
 		case ADD_NEW_TASK: {
 			let newTask;
+			console.log(action.payload.type);
 			switch(action.payload.type){
 				case 'OneChoice': {
 					newTask = {
 						description: 'Describe the one-choice task',
 						score: 1,
-						kind: 'OneChoiceExercise',
+						kind: 'OneChoiceTask',
 						options: [
 							{
 								text: 'Option 1',
@@ -38,7 +39,7 @@ export default function(state = initialState, action) {
 					newTask = {
 						description: 'Describe the multiple-choice task',
 						score: 1,
-						kind: 'MultipleChoiceExercise',
+						kind: 'MultipleChoiceTask',
 						options: [
 							{
 								text: 'Option 1',
@@ -54,7 +55,7 @@ export default function(state = initialState, action) {
 					newTask = {
 						description: 'Describe the task with open text answer',
 						score: 1,
-						kind: 'TextExercise',
+						kind: 'TextTask',
 						interpretMath: false,
 						correctAnswers: [
 							'Sample answer'

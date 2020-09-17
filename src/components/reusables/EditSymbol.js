@@ -17,6 +17,7 @@ class EditSymbol extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.type);
         // get color that should be displayed on hover / focus depending on type
         switch(this.props.type){
             case 'edit': {
