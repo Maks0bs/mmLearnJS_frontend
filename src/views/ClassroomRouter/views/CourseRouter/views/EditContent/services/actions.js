@@ -1,6 +1,5 @@
 import types from './actionTypes'
-import { updateCourse } from '../../../services/actions'
-import { cloneDeep } from 'lodash'
+import {clearError, updateCourse} from '../../../services/actions'
 let {
 	COPY_SECTIONS_FROM_OLD_DATA,
 	UPDATE_SECTIONS,
@@ -53,6 +52,7 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
 	let form = new FormData();
 	let filePositions = [];
 	let newSections = [];
+	dispatch(clearError());
 	// Remove sections that have been marked as to be deleted
 	for (let i = 0; i < sections.length; i++){
 		if (sections[i].deleted) continue;

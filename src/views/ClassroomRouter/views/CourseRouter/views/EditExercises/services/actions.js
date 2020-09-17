@@ -1,10 +1,11 @@
 import types from './actionTypes'
-import {updateCourse} from "../../../services/actions";
+import {updateCourse, clearError} from "../../../services/actions";
 import { cloneDeep } from 'lodash';
 let {
     CLEANUP,
     ADD_NEW_TASK,
     EDIT_TASK,
+    DELETE_TASK,
     ADD_ERROR,
     UPDATE_EXERCISES,
     ADD_EXERCISE,
@@ -16,7 +17,7 @@ let {
 } = types;
 
 /**
- * @namespace storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @namespace storeState.views.classroom.course.editExercisesActions
  */
 
 /**
@@ -24,10 +25,10 @@ let {
  * course data in the
  * {@link storeState.views.classroom.course.courseServicesActions}-Reducer
  * and puts the exercises data into the
- * {@link storeState.views.classroom.course.editExercises.editExercisesServicesReducer}-Reducer
+ * {@link storeState.views.classroom.course.editExercisesReducer}-Reducer
  * @function
  * @return {function(*): Promise<ReduxAction>|Object}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let copyExercisesFromOldData = () => (dispatch, getState) => {
     return dispatch({
@@ -44,11 +45,12 @@ export let copyExercisesFromOldData = () => (dispatch, getState) => {
  * @param {CourseExercise[]} exercises
  * @param {string} id - the id of the course to update
  * @return {function(*): Promise<ReduxAction|Response|any>}
- * @memberOf storeState.views.classroom.course.editContent.editContentServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let saveChangesExercises = (exercises, id) => (dispatch) => {
     let form = new FormData();
     let newExercises = [];
+    dispatch(clearError());
 
     for (let i = 0; i < exercises.length; i++){
         if (exercises[i].deleted){
@@ -69,7 +71,7 @@ export let saveChangesExercises = (exercises, id) => (dispatch) => {
             })
         }
         for (let j = 0; j < exercises[i].tasks.length; j++){
-            let task = exercises[i].tasks[j];
+            let task = {...exercises[i].tasks[j]};
             if (task.deleted){
                 continue;
             }
@@ -87,7 +89,7 @@ export let saveChangesExercises = (exercises, id) => (dispatch) => {
  * @function
  * @param {CourseExercise[]} exercises
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let updateExercises = (exercises) => (dispatch) => {
     return dispatch({
@@ -99,7 +101,7 @@ export let updateExercises = (exercises) => (dispatch) => {
 /**
  * @function
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let addExercise = () => (dispatch) => {
     return dispatch({ type: ADD_EXERCISE })
@@ -110,7 +112,7 @@ export let addExercise = () => (dispatch) => {
  * @param {?CourseExercise|Object} exercise
  * @param {number} num
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let editExercise = (exercise, num) => dispatch => {
     return dispatch({
@@ -123,7 +125,7 @@ export let editExercise = (exercise, num) => dispatch => {
  * @function
  * @param {number} num
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let preDeleteExercise = (num) => (dispatch) => {
     return dispatch({
@@ -136,7 +138,7 @@ export let preDeleteExercise = (num) => (dispatch) => {
  * @function
  * @param {number} num
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let deleteExercise = (num) => (dispatch) => {
     return dispatch({
@@ -149,7 +151,7 @@ export let deleteExercise = (num) => (dispatch) => {
  * @function
  * @param {number} num
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let restoreDeletedExercise = (num) => dispatch => {
     return dispatch({
@@ -163,7 +165,7 @@ export let restoreDeletedExercise = (num) => dispatch => {
  * @param {string} type
  * @param {number} exerciseNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let addNewTask = (type, exerciseNum) => dispatch => {
     return dispatch({
@@ -178,7 +180,7 @@ export let addNewTask = (type, exerciseNum) => dispatch => {
  * @param {number} exerciseNum
  * @param {number} taskNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let editTask = (task, exerciseNum, taskNum) => dispatch => {
     return dispatch({
@@ -190,28 +192,44 @@ export let editTask = (task, exerciseNum, taskNum) => dispatch => {
 /**
  * @function
  * @param {number} exerciseNum
+ * @param {number} taskNum
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
-export let toggleExpandExercise = (exerciseNum) => dispatch => {
-    return dispatch(editExercise({ expanded: true}, exerciseNum))
+export let deleteTask = (exerciseNum, taskNum) => dispatch => {
+    return dispatch({
+        type: DELETE_TASK,
+        payload: { exerciseNum, taskNum}
+    })
+}
+
+/**
+ * @function
+ * @param {number} exerciseNum
+ * @param {boolean} value
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.editExercisesActions
+ */
+export let toggleExpandExercise = (exerciseNum, value) => dispatch => {
+    return dispatch(editExercise({ expanded: value}, exerciseNum))
 }
 
 /**
  * @function
  * @param {number} exerciseNum
  * @param {number} taskNum
+ * @param {boolean} value
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
-export let toggleExpandTask = (exerciseNum, taskNum) => dispatch => {
-    return dispatch(editTask( { expanded: true }, exerciseNum, taskNum));
+export let toggleExpandTask = (exerciseNum, taskNum, value) => dispatch => {
+    return dispatch(editTask( { expanded: value }, exerciseNum, taskNum));
 }
 
 /**
  * @function
  * @return {function(*): Promise<ReduxAction>}
- * @memberOf storeState.views.classroom.course.editExercises.editExercisesServicesActions
+ * @memberOf storeState.views.classroom.course.editExercisesActions
  */
 export let cleanup = () => dispatch => {
     return dispatch({ type: CLEANUP })

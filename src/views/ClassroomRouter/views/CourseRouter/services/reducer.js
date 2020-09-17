@@ -7,7 +7,8 @@ import types from './actionTypes'
 let {
 	API_GET_COURSE_BY_ID,
 	API_UPDATE_COURSE,
-	API_UPDATE_COURSE_JSON_ONLY
+	API_UPDATE_COURSE_JSON_ONLY,
+	CLEAR_ERROR
 } = types;
 
 /**
@@ -127,6 +128,12 @@ let courseServicesReducer = function(state = initialState, action) {
 				}
 			}
 			return state;
+		}
+		case CLEAR_ERROR: {
+			return {
+				...state,
+				error: ''
+			}
 		}
 		default: {
 			return state

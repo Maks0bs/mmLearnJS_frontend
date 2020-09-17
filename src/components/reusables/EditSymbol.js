@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    faPencilAlt, faTrashAlt, faArrowCircleDown, faArrowCircleUp, faTimes, faCheck
+    faPencilAlt, faTrashAlt, faArrowCircleDown, faArrowCircleUp, faTimes, faCheck, faWindowMinimize
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import PropTypes from 'prop-types'
@@ -16,10 +16,9 @@ class EditSymbol extends Component {
         this.state = { editSymbolColor: '', icon: faTimes}
     }
 
-    componentDidMount() {
-        console.log(this.props.type);
+    init = (type) => {
         // get color that should be displayed on hover / focus depending on type
-        switch(this.props.type){
+        switch(type){
             case 'edit': {
                 this.activeColor = 'blue';
                 this.setState({icon: faPencilAlt});
@@ -45,7 +44,23 @@ class EditSymbol extends Component {
                 this.setState({icon: faCheck});
                 break;
             }
+            case 'minimize': {
+                this.activeColor = 'brown';
+                this.setState({icon: faWindowMinimize});
+                break;
+            }
         }
+    }
+
+    componentDidMount() {
+        this.init(this.props.type);
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (this.props.type !== nextProps.type){
+            this.init(nextProps.type);
+        }
+        return true;
     }
 
 

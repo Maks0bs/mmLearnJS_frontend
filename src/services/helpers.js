@@ -107,6 +107,23 @@ export let transitionStyles = {
         exited: {
             opacity: 0
         },
-
-    }
+    },
+    scaleTop: {
+        entering: {
+            opacity: 1,
+            transform: 'scaleY(0.4)',
+            transformOrigin: '100% 0%',
+            transitionDuration: '50ms'
+        },
+        entered: {
+            opacity: 1,
+            transform: 'scaleY(1)',
+            transformOrigin: '100% 0%',
+            transitionDuration: '50ms'
+        },
+        exiting: {
+        },
+        exited: {
+        }
+    },
 };

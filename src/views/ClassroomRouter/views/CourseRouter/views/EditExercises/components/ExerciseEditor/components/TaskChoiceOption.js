@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
-import EditSymbol from "../../../../../../../../../../../components/reusables/EditSymbol";
+import EditSymbol from "../../../../../../../../../components/reusables/EditSymbol";
 import PropTypes from "prop-types";
 import { v1 as uuidv1} from 'uuid'
 
-class ChoiceOption extends Component {
+/**
+ * A general component for displaying correct answers / choice options in tasks
+ * @memberOf components.views.classroom.course.EditExercises.ExerciseContainer.ExerciseEditor
+ * @component
+ */
+class TaskChoiceOption extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -13,8 +18,9 @@ class ChoiceOption extends Component {
     }
 
     componentDidMount() {
+        this.textAreaId = uuidv1();
         if (this.props.keepEdit){
-            this.textArea.focus();
+            this.textArea && this.textArea.focus && this.textArea.focus();
         }
         this.setState({ backgroundColor: this.props.correct ? '#2c8f31' : '#dedede'})
     }
@@ -30,10 +36,6 @@ class ChoiceOption extends Component {
 
     onEditSubmit = (e) => {
         e && e.preventDefault();
-        let { editText } = this.state;
-        if (!editText) {
-            return this.onDelete();
-        }
         this.props.onEditSubmit(this.state.editText);
         this.setState({ editing: false })
     }
@@ -42,23 +44,18 @@ class ChoiceOption extends Component {
         this.props.onDelete();
     }
 
-    onInputEnterHandle = (e) => {
-        if (e.key === 'Enter'){
-            this.onEditSubmit(e);
-        }
-    }
-
     onToggleEdit = (e) => {
+        let element = document.getElementById(this.textAreaId)
+        element && element.focus && element.focus();
         this.setState({
             editing: true,
-            editText: this.props.option.text
+            editText: this.props.useTextProp ? this.props.option.text : this.props.option
         })
     }
 
     render() {
-        let { option, keepEdit } = this.props;
+        let { option, keepEdit, useTextProp } = this.props;
         let { editing, backgroundColor, editText } = this.state;
-        console.log(this.state);
         return (
             <p
                 onMouseEnter={() => this.setState({
@@ -72,18 +69,21 @@ class ChoiceOption extends Component {
                     alignItems: 'center',
                     display: 'inline-block',
                     borderRadius: '5px',
+                    borderStyle: 'solid',
                     padding: '5px',
                     margin: '5px',
                 }}
             >
                 {editing || keepEdit ? (
-                    <span
+                    <form
                         onSubmit={this.onEditSubmit}
                         style={{ display: 'flex',  alignItems: 'center',  margin: 0 }}
                     >
-                        <textarea
+                        <input
+                            autoFocus
+                            id={this.textAreaId}
                             value={editText}
-                            onKeyPress={this.onInputEnterHandle}
+                            type="text"
                             onChange={this.handleChange("editText")}
                             ref={(ta) => this.textArea = ta }
                         />
@@ -93,7 +93,7 @@ class ChoiceOption extends Component {
                             type="save"
                             onClick={this.onEditSubmit}
                         />
-                    </span>
+                    </form>
                 ) : (
                     <span style={{ display: 'flex',  alignItems: 'center'}}>
                         <span
@@ -101,7 +101,7 @@ class ChoiceOption extends Component {
                             className="mx-1"
                             style={{ cursor: 'pointer' }}
                         >
-                            {option.text}
+                            {useTextProp ? option.text : option}
                         </span>
                         <EditSymbol
                             className="mx-1 float-right"
@@ -119,7 +119,7 @@ class ChoiceOption extends Component {
         );
     }
 }
-ChoiceOption.propTypes = {
+TaskChoiceOption.propTypes = {
     /**
      * Set to true if this component should be in editable state
      * right after mounting
@@ -138,6 +138,23 @@ ChoiceOption.propTypes = {
      * Action that should be performed when the text on the option
      * inside this component is changed
      */
-    onEditSubmit: PropTypes.func
+    onEditSubmit: PropTypes.func,
+    /**
+     * Action that should be performed when the given option gets deleted
+     */
+    onDelete: PropTypes.func,
+    /**
+     * The data about the option. Should at least contain the text
+     * that should be displayed on this option
+     */
+    option: PropTypes.oneOfType([
+        PropTypes.shape({text: PropTypes.string}),
+        PropTypes.string
+    ]),
+    /**
+     * Should be true if the displayed text should be `option.text`
+     * and not `option`
+     */
+    useTextProp: PropTypes.bool
 }
-export default ChoiceOption
+export default TaskChoiceOption

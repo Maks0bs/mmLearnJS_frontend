@@ -6,7 +6,7 @@ import { showModal, hideModal} from "../../../../../../components/ModalRoot/serv
 import { updateExercises, addExercise, copyExercisesFromOldData, cleanup } from "./services/actions";
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import {faArrowsAlt, faList, faQuestionCircle} from '@fortawesome/free-solid-svg-icons'
-import Exercise from "./components/Exercise";
+import Exercise from "./components/ExerciseContainer";
 import EditActions from "./components/EditExercisesActions";
 import EditorHelp from "../../components/EditorHelp";
 import {reorderArrayShallow} from "../../../../../../services/helpers";
@@ -63,7 +63,7 @@ class EditExercises extends Component {
         return (
             <div
                 className="container my-5"
-                style={{width: isMobileWidth ? '90%' : '70%'}}
+                style={{width: isMobileWidth ? '95%' : '70%'}}
             >
                 <div
                     style={{
@@ -100,7 +100,7 @@ class EditExercises extends Component {
                                                                 margin: '5px',
                                                                 borderRadius: '5px',
                                                                 background: snapshot.isDragging ?
-                                                                    'grey' : 'lightgrey',
+                                                                    '#e0e0e0' : '#f0f0f0',
                                                                 ...provided.draggableProps.style
                                                             }}
                                                         >
@@ -142,7 +142,7 @@ class EditExercises extends Component {
 }
 let mapStateToProps = (state) => ({
     ...state.views.classroom.course.services,
-    ...state.views.classroom.course.editExercises.services
+    ...state.views.classroom.course.editExercises
 })
 let mapDispatchToProps = (dispatch) => ({
     updateExercises: (exercises) => dispatch(updateExercises(exercises)),

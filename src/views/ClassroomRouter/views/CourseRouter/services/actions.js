@@ -4,7 +4,8 @@ import types from './actionTypes'
 let {
 	API_GET_COURSE_BY_ID,
 	API_UPDATE_COURSE,
-	API_UPDATE_COURSE_JSON_ONLY
+	API_UPDATE_COURSE_JSON_ONLY,
+	CLEAR_ERROR
 } = types;
 
 /**
@@ -82,4 +83,14 @@ export let getCourseById = (courseId, user) => (dispatch) => {
 		API_GET_COURSE_BY_ID,
 		user
 	))
+}
+
+/**
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.courseServicesActions
+ */
+export let clearError = () => dispatch => {
+	return dispatch({
+		type: CLEAR_ERROR
+	})
 }

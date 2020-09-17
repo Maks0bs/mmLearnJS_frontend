@@ -88,7 +88,7 @@ class EditContentSection extends Component {
                             }}
                         >
                             {Array.isArray(entries) && entries.map((entry, i) => (
-                                <div>
+                                <div key={i}>
                                     <Draggable
                                         key={`section${sectionNum}entry${i}`}
                                         draggableId={`section${sectionNum}entry${i}`}

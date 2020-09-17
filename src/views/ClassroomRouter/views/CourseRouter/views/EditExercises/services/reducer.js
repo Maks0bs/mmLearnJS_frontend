@@ -2,7 +2,6 @@ import types from './actionTypes'
 import { cloneDeep, assign } from 'lodash'
 import { v1 as uuidv1 } from 'uuid';
 import { combineReducers } from "redux";
-import editorReducer from '../components/EditExercise/services/reducer'
 import {newTaskByType} from "./helpers";
 import {removeItemShallow} from "../../../../../../../services/helpers";
 let {
@@ -16,15 +15,16 @@ let {
 	ADD_ERROR,
 	ADD_NEW_TASK,
 	CLEANUP,
-	EDIT_TASK
+	EDIT_TASK,
+	DELETE_TASK
 } = types;
 
 /**
- * @namespace storeState.views.classroom.course.editExercises
+ * @namespace storeState.views.classroom.course
  */
 
 /**
- * @typedef EditExercisesServicesState
+ * @typedef EditExercisesState
  * @type Object
  * @property {?Object|string} editorError
  * @property {CourseExercise[]} newExercises - the exercises that are stored
@@ -39,20 +39,32 @@ let initialState = {
 	editorError: ''
 }
 
+/*
+	Serious performance issues are possible at 1000+ exercises (I've tested this).
+	This is due to a lot of shallow copies happening
+	on every edit. I know how to fix this:
+	don't use dispatching to props and thus dispatching to redux state,
+	use local component state for forms editing and periodically dispatch edit actions
+	(e. g. 3 seconds after user stopped typing or when exercise gets minimized).
+	In such a way, shallow copies, that are happening in the reducers
+	aren't going to affect the performance because there will be less
+	unnecessary actions. Might fix this in the future.
+ */
+
 /**
- * @function editExercisesServicesReducer
- * @param {EditExercisesServicesState} state
+ * @function editExercisesReducer
+ * @param {EditExercisesState} state
  * @param {ReduxAction} action
  * @param {?Object|string} state.editorError
  * @param {CourseExercise[]} state.newExercises - the exercises that are stored
  * while the teacher is editing the course
  * @param {Object.<string, CourseExercise>} state.deletedExercises - locally deleted
  * sections during the edit process. Can be restored.
- * @return {EditExercisesServicesState}
+ * @return {EditExercisesState}
  *
- * @memberOf storeState.views.classroom.course.editExercises
+ * @memberOf storeState.views.classroom.course
  */
-let servicesReducer = function(state = initialState, action) {
+export default function(state = initialState, action) {
 	switch(action.type){
 		case COPY_EXERCISES_FROM_OLD_DATA: {
 			return {
@@ -91,7 +103,7 @@ let servicesReducer = function(state = initialState, action) {
 			let { num } = action.payload;
 			let newExercises = [...state.newExercises]
 			let curId = uuidv1();
-			let deletedExercise = {...newExercises[num]}
+			let deletedExercise = {...newExercises[num], expanded: false}
 			newExercises[num] = {
 				deletedId: curId,
 				deleted: true,
@@ -150,6 +162,17 @@ let servicesReducer = function(state = initialState, action) {
 				newExercises: newExercises
 			}
 		}
+		case DELETE_TASK: {
+			let { exerciseNum, taskNum } = action.payload;
+			let newExercises = [...state.newExercises];
+			newExercises[exerciseNum].tasks = removeItemShallow(
+				newExercises[exerciseNum].tasks, taskNum
+			)
+			return {
+				...state,
+				newExercises: newExercises
+			}
+		}
 		case ADD_ERROR: {
 			return {
 				...state,
@@ -163,8 +186,3 @@ let servicesReducer = function(state = initialState, action) {
 			return state;
 	}
 }
-
-export default combineReducers({
-	services: servicesReducer,
-	editor: editorReducer
-})
