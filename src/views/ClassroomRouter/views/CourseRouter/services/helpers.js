@@ -48,7 +48,7 @@ export let getCurUserCourseStatus = (course, user) => {
 	return NOT_ENROLLED
 }
 
-// "Status" is a plural of status, pronounced [statoos]
+// "Status" is a plural of "status", pronounced [statoos]
 export let COURSE_USER_STATUS = {
 	NOT_ENROLLED: 'not enrolled',
 	ENROLLED: 'enrolled',

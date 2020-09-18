@@ -32,7 +32,10 @@ class PublicMenu extends Component {
 
 	showSigninModal = () => {
 		this.props.showModal(
-			<Signin shouldRedirect shouldCloseModal/>
+			<Signin
+				redirectToAfterSignin={`/classroom/dashboard`}
+				shouldCloseModal
+			/>
 		)
 	}
 

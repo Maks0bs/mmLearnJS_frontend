@@ -12,7 +12,7 @@ import SearchCourses from "./views/SearchCourses/SearchCourses";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 import { getUser } from "./views/UserRouter/services/actions";
 import CreateCourse from "./views/CreateCourse";
-import {getCourseById} from "./views/CourseRouter/services/actions";
+import {getCourseById, getFirstTimeStatus} from "./views/CourseRouter/services/actions";
 
 /**
  * @namespace components.views.classroom
@@ -66,6 +66,7 @@ class ClassroomRouter extends Component {
 								this.props.location.pathname
 							);
 							this.props.getCourseById(courseId, user);
+							this.props.getFirstTimeStatus();
 							return (<CourseRouter />)
 						}}
 					/>
@@ -91,6 +92,7 @@ let mapStateToProps = (state) => ({
 let mapDispatchToProps = (dispatch) => ({
 	getUser: (userId) => dispatch(getUser(userId)),
 	getCourseById: (id, user) => dispatch(getCourseById(id, user)),
+	getFirstTimeStatus: () => dispatch(getFirstTimeStatus())
 })
 export default connect(
 	mapStateToProps,

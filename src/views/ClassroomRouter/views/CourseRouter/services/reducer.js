@@ -1,14 +1,20 @@
 import { combineReducers } from 'redux'
-import mainReducer from '../views/MainRouter/services/reducer'
 import editContentReducer from '../views/EditContent/services/reducer'
 import editExercisesReducer from '../views/EditExercises/services/reducer'
 import { getCurUserCourseStatus, COURSE_USER_STATUS } from "./helpers";
 import types from './actionTypes'
+import mainReducer from "../views/CourseMain/services/reducer";
+import forumReducer from "../views/ForumRouter/services/reducer";
+import exerciseReducer from "../views/ExerciseRouter/services/reducer";
+import gradesReducer from "../views/GradesRouter/services/reducer";
 let {
 	API_GET_COURSE_BY_ID,
 	API_UPDATE_COURSE,
 	API_UPDATE_COURSE_JSON_ONLY,
-	CLEAR_ERROR
+	CLEAR_ERROR,
+	API_VIEW_COURSE,
+	CLEANUP,
+	GET_FIRST_TIME_STATUS
 } = types;
 
 /**
@@ -81,18 +87,27 @@ let {
  * @type Object
  * @property {?CourseData} course
  * @property {Object|string} error
+ * @property {string} curUserCourseStatus - the status of the user in relation
+ * to the course (enrolled, teacher, not enrolled, invited teacher, etc)
+ * @property {boolean} firstTime - specifies if the user
+ * is visiting the course router for the first time in the browser
  */
 
 let initialState = {
 	course: null,
 	curUserCourseStatus: COURSE_USER_STATUS.NOT_AUTHENTICATED,
-	error: ''
+	error: '',
+	firstTime: false
 }
 /**
  * @function courseServicesReducer
  * @param {CourseRouterState} state
  * @param {?CourseData} state.course
  * @param {Object|string} state.error
+ * @param {string} state.curUserCourseStatus - the status of the user in relation
+ * to the course (enrolled, teacher, not enrolled, invited teacher, etc)
+ * @param {boolean} state.firstTime - specifies if the user
+ * is visiting the course router for the first time in the browser
  * @param {ReduxAction} action
  * @return {CourseRouterState}
  *
@@ -119,6 +134,7 @@ let courseServicesReducer = function(state = initialState, action) {
 			}
 			return newState;
 		}
+		case API_VIEW_COURSE:
 		case API_UPDATE_COURSE:
 		case API_UPDATE_COURSE_JSON_ONLY: {
 			if (action.payload.error){
@@ -129,11 +145,25 @@ let courseServicesReducer = function(state = initialState, action) {
 			}
 			return state;
 		}
+		case GET_FIRST_TIME_STATUS: {
+			// avoid unnecessary updates
+			if (state.firstTime === action.payload){
+				return state;
+			} else {
+				return {
+					...state,
+					firstTime: action.payload
+				}
+			}
+		}
 		case CLEAR_ERROR: {
 			return {
 				...state,
 				error: ''
 			}
+		}
+		case CLEANUP: {
+			return initialState;
 		}
 		default: {
 			return state
@@ -143,7 +173,10 @@ let courseServicesReducer = function(state = initialState, action) {
 
 export default combineReducers({
 	services: courseServicesReducer,
-	main: mainReducer,
 	editContent: editContentReducer,
-	editExercises: editExercisesReducer
+	editExercises: editExercisesReducer,
+	main: mainReducer,
+	forumReducer: forumReducer,
+	exercise: exerciseReducer,
+	grades: gradesReducer,
 })

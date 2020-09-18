@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import {Switch, Route, withRouter} from 'react-router-dom'
-import MainRouter from './views/MainRouter'
 import EditContent from './views/EditContent'
 import EditInfo from './views/EditInfo'
 import EditExercises from "./views/EditExercises";
 import {connect} from "react-redux";
+import { showModal, hideModal } from "../../../../components/ModalRoot/services/actions";
+import { cleanup, viewCourse } from "./services/actions";
 import { removeNavItem, addNavItem } from "../../../../services/routing/actions";
+import ExerciseRouter from "./views/ExerciseRouter";
+import Info from "./views/CourseMain";
 import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
 import TeacherRoute from "./components/TeacherRoute";
+import EnrolledRoute from "./components/EnrolledRoute";
+import ForumRouter from "./views/ForumRouter";
+import GradesRouter from "./views/GradesRouter";
+import CourseTabs from "./components/CourseTabs";
+import FirstTimeInfo from "./components/FirstTimeInfo";
 
 /**
  * @namespace components.views.classroom.course
@@ -23,21 +31,26 @@ class CourseRouter extends Component {
 
 	componentWillUnmount() {
 		this.props.removeNavItem('course link');
+		this.props.cleanup();
 	}
 
 	render() {
 		let { path, url: prefixUrl } = this.props.match;
-		let { curUserCourseStatus: status } = this.props;
-		if (!this.props.course || !this.props.course._id){
+		let { curUserCourseStatus: status, course, firstTime } = this.props;
+		if (!course || !course._id){
 			return (<BigLoadingCentered />)
+		}
+		if (firstTime){
+			this.props.showModal(<FirstTimeInfo />);
 		}
 		this.props.addNavItem({
 			id: 'course link',
-			name: 'Course "' + this.props.course.name + '"',
-			path: `/classroom/course/${this.props.course._id}`
+			name: 'Course "' + course.name + '"',
+			path: `/classroom/course/${course._id}`
 		})
 		return (
 			<div>
+				<CourseTabs status={status}/>
 				<Switch>
 					<TeacherRoute
 						coursePrefix={prefixUrl}
@@ -58,22 +71,45 @@ class CourseRouter extends Component {
 						component={EditExercises}
 					/>
 					<Route
-						path={`${path}`}
-						component={MainRouter}
+						exact path={`${path}/`}
+						render={() => {
+							this.props.viewCourse(course._id);
+							return <Info />;
+						}}
+					/>
+					<EnrolledRoute
+						coursePrefix={prefixUrl}
+						status={status}
+						path={`${path}/forum/:forumId`}
+						component={ForumRouter}
+					/>
+					<EnrolledRoute
+						coursePrefix={prefixUrl}
+						status={status}
+						path={`${path}/exercise/:exerciseId`}
+						component={ExerciseRouter}
+					/>
+					<EnrolledRoute
+						coursePrefix={prefixUrl}
+						status={status}
+						path={`${path}/grades/:gradeFilter`}
+						component={GradesRouter}
 					/>
 				</Switch>
 			</div>
 		);
 	}
 }
-
 let mapStateToProps = (state) => ({
-	course: state.views.classroom.course.services.course,
-	curUserCourseStatus: state.views.classroom.course.services.curUserCourseStatus
+	...state.views.classroom.course.services
 })
 let mapDispatchToProps = (dispatch) => ({
 	removeNavItem: (id) => dispatch(removeNavItem(id)),
-	addNavItem: (item) => dispatch(addNavItem(item))
+	addNavItem: (item) => dispatch(addNavItem(item)),
+	cleanup: () => dispatch(cleanup()),
+	viewCourse: (id) => dispatch(viewCourse(id)),
+	showModal: (component) => dispatch(showModal(component)),
+	hideModal: () => dispatch(hideModal())
 })
 export default connect(
 	mapStateToProps,

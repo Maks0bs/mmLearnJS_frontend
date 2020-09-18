@@ -35,6 +35,14 @@ TeacherRoute.propTypes = {
      * other additions
      */
     coursePrefix: PropTypes.string.isRequired,
+    /** See {@link Route} */
+    path: PropTypes.string.isRequired,
+    /** See {@link Route} */
+    component: PropTypes.element,
+    /** See {@link Route} */
+    exact: PropTypes.bool,
+    /** See {@link Route} */
+    render: PropTypes.func,
     ...Route.props
 }
 export default TeacherRoute;

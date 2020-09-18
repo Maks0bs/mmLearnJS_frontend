@@ -5,7 +5,10 @@ let {
 	API_GET_COURSE_BY_ID,
 	API_UPDATE_COURSE,
 	API_UPDATE_COURSE_JSON_ONLY,
-	CLEAR_ERROR
+	CLEAR_ERROR,
+	GET_FIRST_TIME_STATUS,
+	API_VIEW_COURSE,
+	CLEANUP
 } = types;
 
 /**
@@ -66,6 +69,7 @@ export let updateCourseJSON = (courseData, id) => (dispatch) => {
 /**
  * @description puts the detailed (as fas as possible) course data
  * into the {@link storeState.views.classroom.course.courseServicesReducer}-Reducer
+ * as well as the status of the current user (if given) in relation to the course
  * @async
  * @function
  * @param {string} courseId
@@ -86,11 +90,74 @@ export let getCourseById = (courseId, user) => (dispatch) => {
 }
 
 /**
+ * @description updates the last time the current authenticated user
+ * "viewed" the given course which means the they have seen latest new course data
+ * @async
+ * @function
+ * @param {string} courseId
+ * @return {function(*): Promise<any|Response>}
+ * @memberOf storeState.views.classroom.course.courseServicesActions
+ */
+export let viewCourse = (courseId) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/courses/view/${courseId}`, {
+		method: "POST",
+		headers: {},
+		credentials: 'include'
+	})
+		.then(res => res.json())
+		.then(data => {
+			dispatch({
+				type: API_VIEW_COURSE,
+				payload: data
+			})
+		})
+		.catch(err => console.log(err))
+}
+
+/**
+ * @description updates the reducer to specify if the given browser
+ * visits the courseRouter for the first time
+ * @async
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.courseServicesActions
+ */
+export let getFirstTimeStatus = () => (dispatch) => {
+
+	// Reading from local storage might be async in some cases, return promise
+	// using localStorage instead of cookies to try smth different this time
+	return new Promise((resolve => {
+		let value = true;
+		if (window && localStorage.getItem(GET_FIRST_TIME_STATUS)){
+			value = JSON.parse(localStorage.getItem(GET_FIRST_TIME_STATUS));
+		} else {
+			localStorage.setItem(GET_FIRST_TIME_STATUS, 'false');
+		}
+		resolve(value);
+	}))
+		.then((v) => {
+			return dispatch({
+				type: GET_FIRST_TIME_STATUS,
+				payload: v
+			})
+		})
+}
+
+/**
  * @return {function(*): Promise<ReduxAction>}
  * @memberOf storeState.views.classroom.course.courseServicesActions
  */
 export let clearError = () => dispatch => {
 	return dispatch({
 		type: CLEAR_ERROR
+	})
+}
+
+/**
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.courseServicesActions
+ */
+export let cleanup = () => (dispatch) => {
+	return dispatch({
+		type: CLEANUP
 	})
 }

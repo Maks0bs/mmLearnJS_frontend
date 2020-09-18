@@ -87,13 +87,16 @@ class Signin extends Component {
     }
 
     render() {
+        console.log(this.props);
         let {email, password, reload, loading} = this.state;
-        let { error, message } = this.props;
+        let { error, message, redirectToAfterSignin, location } = this.props;
         let isMobileWidth = (window.innerWidth <= 1000)
         if (reload){
+            let redirectTo = (location && location.state && location.state.redirectTo)
+                || redirectToAfterSignin;
             this.handleLeave();
-            if (this.props.shouldRedirect){
-                return (<Redirect to={`/classroom/dashboard`} />)
+            if (redirectTo){
+                return (<Redirect to={redirectTo} />)
             }
             return (<Redirect to={this.props.location.pathname} />)
         }
@@ -155,10 +158,9 @@ let mapDispatchToProps = (dispatch) => ({
 })
 Signin.propTypes = {
     /**
-     * Set to true if the user should be redirected to `/classroom/dashboard`
-     * after successfully singing in
+     * Provide a link where the user should be redirected after they signed in
      */
-    shouldRedirect: PropTypes.bool,
+    redirectToAfterSignin: PropTypes.string,
     /**
      * True if the modal in {@link ModalRoot} should be closed
      * after successful sign in

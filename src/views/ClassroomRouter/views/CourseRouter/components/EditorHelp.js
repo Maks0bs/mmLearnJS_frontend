@@ -42,8 +42,15 @@ class EditorHelp extends Component {
                             = Move around exercises
                         </p>
                         <p>
+                            <Icon icon={faPencilAlt} /> { }
+                            = Expand exercise to edit it
+                        </p>
+                        <p>
                             <Icon icon={faTrashAlt} /> { }
                             = Delete exercise
+                        </p>
+                        <p>
+                            Use the buttons on tasks to move them inside an exercise
                         </p>
                     </div>
                 )}
