@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { getCurUserCourseStatus } from '../../../../services/helpers'
 import ForumActions from './components/ForumActions'
 import ForumTopics from './components/ForumTopics'
-import { getForumFromCourse } from '../../services/actions'
 
 class Forum extends Component {
 
@@ -52,11 +51,6 @@ class Forum extends Component {
 	}
 }
 
-let mapDispatchToProps = (dispatch) => {
-	return {
-		getForumFromCourse: (courseData, forumId) => dispatch(getForumFromCourse(courseData, forumId))
-	}
-}
 
 let mapStateToProps = (state) => {
 	return {
@@ -67,6 +61,5 @@ let mapStateToProps = (state) => {
 }
 
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+	mapStateToProps
 )(Forum);

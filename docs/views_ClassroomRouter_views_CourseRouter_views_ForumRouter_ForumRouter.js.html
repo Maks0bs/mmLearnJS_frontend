@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> views/ClassroomRouter/views/CourseRouter/views/EditExercises/components/EditExercisesActions.js</title>
+  <title> views/ClassroomRouter/views/CourseRouter/views/ForumRouter/ForumRouter.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -84,7 +84,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>views/ClassroomRouter/views/CourseRouter/views/EditExercises/components/EditExercisesActions.js</h1>
+                    <h1>views/ClassroomRouter/views/CourseRouter/views/ForumRouter/ForumRouter.js</h1>
                 </header>
                 
 
@@ -94,86 +94,71 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom'
+import Topic from './views/Topic'
+import Forum from './views/Forum'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { saveChangesExercises } from "../services/actions";
-import { addToast } from '../../../../../../../components/ToastRoot/services/actions'
-import BigLoadingAbsolute from "../../../../../../../components/reusables/BigLoadingAbsolute";
+import { cleanup } from './services/actions'
+import { addNavItem, removeNavItem} from "../../../../../../services/routing/actions";
+import BigLoadingAbsolute from "../../../../../../components/reusables/BigLoadingAbsolute";
 
 /**
- * These buttons allow the user to save progress in the
- * exercise editor or to cancel the changes
- * @memberOf components.views.classroom.course.EditExercises
+ * @namespace components.views.classroom.course.forum
+ */
+
+/**
+ * This router is responsible for all pages
+ * that contain forum data with the given id
+ * @memberOf components.views.classroom.course.forum
  * @component
  */
-class EditExercisesActions extends Component {
-    constructor(props){
-        super(props);
-        this.state = { redirectToMain: false, loading: false }
-    }
+class ForumRouter extends Component {
+	componentWillUnmount() {
+		this.props.removeNavItem('forum link')
+		this.props.cleanup();
+	}
 
-    handleLeave = () => {
-        this.setState({ redirectToMain: true })
-    }
-
-    handleSaveChanges = (e) => {
-        e.preventDefault();
-        this.setState({loading: true});
-        this.props.saveChanges(this.props.newExercises, this.props.course._id)
-            .then(() => {
-                this.setState({loading: false});
-                let { error, editorError } = this.props;
-                if (!error &amp;&amp; !editorError) {
-                    this.handleLeave();
-                    this.props.addToast(
-                        (&lt;div>Course data has been changed&lt;/div>),
-                        {type: 'success'}
-                    )
-                } else {
-                    this.props.addToast(
-                        (&lt;div>{editorError || error}&lt;/div>),
-                        {type: 'error'}
-                    )
-                }
-            })
-    }
-
-    render() {
-        if (this.state.redirectToMain){
-            return &lt;Redirect to={`/classroom/course/${this.props.course._id}`} />
-        }
-        return (
-            &lt;div>
-                {this.state.loading &amp;&amp; (&lt;BigLoadingAbsolute />)}
-                &lt;button
-                    className="btn btn-raised btn-danger ml-3"
-                    onClick={this.handleLeave}
-                >
-                    Cancel changes
-                &lt;/button>
-                &lt;button
-                    className="btn btn-raised btn-success ml-3"
-                    onClick={this.handleSaveChanges}
-                >
-                    Save changes
-                &lt;/button>
-            &lt;/div>
-        );
-    }
+	render() {
+		let { course, forum } = this.props;
+		if (course &amp;&amp; course._id &amp;&amp; forum &amp;&amp; forum._id){
+			this.props.addNavItem({
+				id: 'forum link',
+				name: 'Forum "' + forum.name + '"',
+				path: `/classroom/course/${course._id}/forum/${forum._id}`
+			})
+		}
+		let { path } = this.props.match;
+		return (
+			&lt;div>
+				{!this.props.forum &amp;&amp; (&lt;BigLoadingAbsolute/>)}
+				&lt;Switch>
+					&lt;Route
+						exact path={`${path}`}
+						component={Forum}
+					/>
+					&lt;Route
+						exact path={`${path}/topic/:topicId`}
+						component={Topic}
+					/>
+				&lt;/Switch>
+			&lt;/div>
+		);
+	}
 }
 
 let mapStateToProps = (state) => ({
-    ...state.views.classroom.course.editExercises,
-    ...state.views.classroom.course.services
+	...state.views.classroom.course.forum,
+	course: state.views.classroom.course.services.course
 })
 let mapDispatchToProps = (dispatch) => ({
-    addToast: (component, options) => dispatch(addToast(component, options)),
-    saveChanges: (exercises, id) => dispatch(saveChangesExercises(exercises, id))
+	addNavItem: (item) => dispatch(addNavItem(item)),
+	removeNavItem: (id) => dispatch(removeNavItem(id)),
+	cleanup: () => dispatch(cleanup())
 })
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EditExercisesActions)</code></pre>
+	mapStateToProps,
+	mapDispatchToProps
+)(withRouter(ForumRouter))</code></pre>
         </article>
     </section>
 

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> views/ClassroomRouter/views/CourseRouter/views/EditExercises/components/EditExercisesActions.js</title>
+  <title> ForumRouter</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -83,99 +81,163 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Source</p>
-                    <h1>views/ClassroomRouter/views/CourseRouter/views/EditExercises/components/EditExercisesActions.js</h1>
+                    <p>Components</p>
+                    <h1>ForumRouter</h1>
                 </header>
                 
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { saveChangesExercises } from "../services/actions";
-import { addToast } from '../../../../../../../components/ToastRoot/services/actions'
-import BigLoadingAbsolute from "../../../../../../../components/reusables/BigLoadingAbsolute";
+        <h2>
+            &ltForumRouter  /&gt
+        </h2>
+        
+            <div class="class-description"><p>This router is responsible for all pages
+that contain forum data with the given id</p></div>
+        
+    
+</header>
 
-/**
- * These buttons allow the user to save progress in the
- * exercise editor or to cancel the changes
- * @memberOf components.views.classroom.course.EditExercises
- * @component
- */
-class EditExercisesActions extends Component {
-    constructor(props){
-        super(props);
-        this.state = { redirectToMain: false, loading: false }
-    }
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <div class="members">
+                    <div class="member">
+                        <div class=name>
+                            <span class="tag">Constructor</span>
+                        </div>
+                        
 
-    handleLeave = () => {
-        this.setState({ redirectToMain: true })
-    }
 
-    handleSaveChanges = (e) => {
-        e.preventDefault();
-        this.setState({loading: true});
-        this.props.saveChanges(this.props.newExercises, this.props.course._id)
-            .then(() => {
-                this.setState({loading: false});
-                let { error, editorError } = this.props;
-                if (!error &amp;&amp; !editorError) {
-                    this.handleLeave();
-                    this.props.addToast(
-                        (&lt;div>Course data has been changed&lt;/div>),
-                        {type: 'success'}
-                    )
-                } else {
-                    this.props.addToast(
-                        (&lt;div>{editorError || error}&lt;/div>),
-                        {type: 'error'}
-                    )
-                }
-            })
-    }
+    
+    <h4 class="name" id="ForumRouter">
+        <a class="href-link" href="#ForumRouter">#</a>
+        
+        <span class="code-name">
+            
+                &ltForumRouter  /&gt
+            
+        </span>
+    </h4>
+    
 
-    render() {
-        if (this.state.redirectToMain){
-            return &lt;Redirect to={`/classroom/course/${this.props.course._id}`} />
-        }
-        return (
-            &lt;div>
-                {this.state.loading &amp;&amp; (&lt;BigLoadingAbsolute />)}
-                &lt;button
-                    className="btn btn-raised btn-danger ml-3"
-                    onClick={this.handleLeave}
-                >
-                    Cancel changes
-                &lt;/button>
-                &lt;button
-                    className="btn btn-raised btn-success ml-3"
-                    onClick={this.handleSaveChanges}
-                >
-                    Save changes
-                &lt;/button>
-            &lt;/div>
-        );
-    }
-}
+    
+    
 
-let mapStateToProps = (state) => ({
-    ...state.views.classroom.course.editExercises,
-    ...state.views.classroom.course.services
-})
-let mapDispatchToProps = (dispatch) => ({
-    addToast: (component, options) => dispatch(addToast(component, options)),
-    saveChanges: (exercises, id) => dispatch(saveChangesExercises(exercises, id))
-})
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EditExercisesActions)</code></pre>
-        </article>
-    </section>
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_ForumRouter.js.html" class="button">View Source</a>
+            <span>
+                <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_ForumRouter.js.html">views/ClassroomRouter/views/CourseRouter/views/ForumRouter/ForumRouter.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_ForumRouter.js.html#line20">line 20</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+        
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

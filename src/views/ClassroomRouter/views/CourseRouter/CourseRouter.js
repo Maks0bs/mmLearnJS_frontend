@@ -6,6 +6,7 @@ import EditExercises from "./views/EditExercises";
 import {connect} from "react-redux";
 import { showModal, hideModal } from "../../../../components/ModalRoot/services/actions";
 import { cleanup, viewCourse } from "./services/actions";
+import { getForumById } from "./views/ForumRouter/services/actions";
 import { removeNavItem, addNavItem } from "../../../../services/routing/actions";
 import ExerciseRouter from "./views/ExerciseRouter";
 import Info from "./views/CourseMain";
@@ -81,7 +82,14 @@ class CourseRouter extends Component {
 						coursePrefix={prefixUrl}
 						status={status}
 						path={`${path}/forum/:forumId`}
-						component={ForumRouter}
+						render={() => {
+							let [, courseId, forumId] =
+								/^\/classroom\/course\/([A-Za-z0-9]+)\/forum\/([A-Za-z0-9]+)/
+									.exec(this.props.location.pathname);
+							this.props.getForumById(courseId, forumId);
+
+							return (<ForumRouter />)
+						}}
 					/>
 					<EnrolledRoute
 						coursePrefix={prefixUrl}
@@ -109,7 +117,8 @@ let mapDispatchToProps = (dispatch) => ({
 	cleanup: () => dispatch(cleanup()),
 	viewCourse: (id) => dispatch(viewCourse(id)),
 	showModal: (component) => dispatch(showModal(component)),
-	hideModal: () => dispatch(hideModal())
+	hideModal: () => dispatch(hideModal()),
+	getForumById: (courseId, forumId) => dispatch(getForumById(courseId, forumId))
 })
 export default connect(
 	mapStateToProps,

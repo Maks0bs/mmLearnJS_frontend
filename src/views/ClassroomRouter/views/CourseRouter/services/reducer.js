@@ -176,7 +176,7 @@ export default combineReducers({
 	editContent: editContentReducer,
 	editExercises: editExercisesReducer,
 	main: mainReducer,
-	forumReducer: forumReducer,
+	forum: forumReducer,
 	exercise: exerciseReducer,
 	grades: gradesReducer,
 })
