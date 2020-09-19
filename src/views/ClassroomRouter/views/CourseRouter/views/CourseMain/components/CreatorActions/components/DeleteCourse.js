@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { deleteCourse } from '../../../services/actions'
 import {addToast} from "../../../../../../../../../components/ToastRoot/services/actions";
+import { Redirect } from "react-router-dom";
+import PropTypes from 'prop-types';
 
+/**
+ * The component that allows the creator to delete their course
+ * @memberOf components.views.classroom.course.CourseMain.CreatorActions
+ * @component
+ */
 class DeleteCourse extends Component {
 	constructor(props) {
 		super(props);
@@ -19,6 +26,7 @@ class DeleteCourse extends Component {
 					(<div>Course deleted successfully</div>),
 					{type: 'info'}
 				)
+				this.setState({ redirectToCourseList: true})
 				this.props.onClose();
 			}
 			else{
@@ -31,11 +39,14 @@ class DeleteCourse extends Component {
 	}
 
 	render() {
+		if (this.state.redirectToCourseList){
+			return <Redirect to={`/classroom/courses`}/>
+		}
 		return (
-			<div>
+			<div className="container my-3">
 				<h1>Are you sure you want to delete this course?</h1>
 				<button 
-					className="btn btn-raised btn-outline ml-3"
+					className="btn btn-raised btn-success ml-3"
 					type="button"
 					onClick={this.props.onClose}
 				>
@@ -52,20 +63,21 @@ class DeleteCourse extends Component {
 		);
 	}
 }
-
 let mapStateToProps = (state) => ({
 		...state.views.classroom.course.services
 })
-
-let mapDispatchToProps = (dispatch) => {
-	return {
-		deleteCourse: (courseId) => dispatch(deleteCourse(courseId)),
-		addToast: (component, options) => dispatch(addToast(component, options))
-	}
+let mapDispatchToProps = (dispatch) => ({
+	deleteCourse: (courseId) => dispatch(deleteCourse(courseId)),
+	addToast: (component, options) => dispatch(addToast(component, options))
+})
+DeleteCourse.propTypes = {
+	/**
+	 * Action that should be performed if this component is in a modal
+	 * and this modal gets closed
+	 */
+	onClose: PropTypes.func
 }
-
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)
-(DeleteCourse);
+)(DeleteCourse);

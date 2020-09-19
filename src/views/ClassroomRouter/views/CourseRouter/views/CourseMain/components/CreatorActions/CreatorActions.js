@@ -3,45 +3,48 @@ import { hideModal, showModal } from '../../../../../../../../components/ModalRo
 import { connect } from 'react-redux'
 import DeleteCourse from './components/DeleteCourse'
 import AddTeachers from './components/AddTeachers'
+import {deleteCourse, sendTeacherInvite} from "../../services/actions";
+import {addToast} from "../../../../../../../../components/ToastRoot/services/actions";
 
+/**
+ * Some actions that are only displayed to the creator of the course
+ * @memberOf components.views.classroom.course.CourseMain
+ * @component
+ */
 class CreatorActions extends Component {
 
-	//add delete action here!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-	onDeleteCourse = (e) => {
+	onShowDeleteModal = (e) => {
 		e.preventDefault();
 		this.props.showModal(
-			<DeleteCourse
-                onClose={this.props.hideModal} 
-			/>
+			<DeleteCourse onClose={this.props.hideModal} />
 		)
 	}
 
 	showAddTeachersModal = (e) => {
 		e.preventDefault();
 		this.props.showModal(
-			<AddTeachers
-                onClose={this.props.hideModal} 
-			/>
+			<AddTeachers onClose={this.props.hideModal}/>
 		)
 	}
 
 	render() {
 		return (
-			<div>
-				<h1>Creator actions:</h1>
+			<div
+				className="container my-3"
+				style={{display: 'flex', alignItems: 'center', flexFlow: 'row wrap'}}
+			>
+				<h1 className="mx-2">Creator actions:</h1>
 				<button 
-					className="btn btn-raised btn-outline btn-info ml-3"
+					className="btn btn-raised btn-outline btn-info m-2"
 					type="button"
 					onClick={this.showAddTeachersModal}
 				>
 					Add teachers
 				</button>
-
 				<button 
-					className="btn btn-raised btn-outline btn-danger ml-3"
+					className="btn btn-raised btn-outline btn-danger m-2"
 					type="button"
-					onClick={this.onDeleteCourse}
+					onClick={this.onShowDeleteModal}
 				>
 					Delete course
 				</button>
@@ -49,16 +52,18 @@ class CreatorActions extends Component {
 		);
 	}
 }
-
-let mapDispatchToProps = (dispatch) => {
-	return {
-		hideModal: () => dispatch(hideModal()),
-		showModal: (component) => dispatch(showModal(component))
-	}
-}
-
+let mapStateToProps = (state) => ({
+	...state.views.classroom.course.services,
+	...state.views.classroom.course.main
+})
+let mapDispatchToProps = (dispatch) => ({
+	hideModal: () => dispatch(hideModal()),
+	showModal: (component) => dispatch(showModal(component)),
+	sendTeacherInvite: (email, courseId) => dispatch(sendTeacherInvite(email, courseId)),
+	addToast: (component, options) => dispatch(addToast(component, options)),
+	deleteCourse: (courseId) => dispatch(deleteCourse(courseId))
+})
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
-)
-(CreatorActions);
+)(CreatorActions);

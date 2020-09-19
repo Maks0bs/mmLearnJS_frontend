@@ -5,7 +5,7 @@ import { clearMessages } from './services/actions'
 import OpenCourseInfo from './components/OpenCourseInfo'
 import CourseEnrollForm from './components/CourseEnrollForm'
 import CreatorActions from './components/CreatorActions'
-import CourseData from './components/CourseData'
+import CourseData from './components/CourseMainData'
 import InvitedTeacherInfo from './components/InvitedTeacherInfo'
 import { COURSE_USER_STATUS } from "../../services/helpers";
 
@@ -80,7 +80,7 @@ class CourseMain extends Component {
 						case CREATOR: return (
 							<div>
 								<CourseData />
-								<hr/>
+								<hr style={{borderWidth: '5px'}}/>
 								<CreatorActions />
 							</div>
 						)
@@ -100,8 +100,7 @@ class CourseMain extends Component {
 }
 let mapStateToProps = (state) => ({
 	...state.views.classroom.course.main,
-	...state.views.classroom.course.services,
-	...state.services
+	...state.views.classroom.course.services
 })
 let mapDispatchToProps = (dispatch) => ({
 	clearMessages: () => dispatch(clearMessages()),

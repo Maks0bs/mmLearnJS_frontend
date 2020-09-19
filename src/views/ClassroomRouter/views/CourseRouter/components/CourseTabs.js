@@ -37,7 +37,7 @@ class CourseTabs extends Component {
         let ulStyle = {
             overflowX: 'auto',
             whiteSpace: 'nowrap',
-            display: 'inline-block', width: '100%',
+            display: 'inline-block', width: '100%'
         }
         return (
             <div className="my-2 mx-3">
