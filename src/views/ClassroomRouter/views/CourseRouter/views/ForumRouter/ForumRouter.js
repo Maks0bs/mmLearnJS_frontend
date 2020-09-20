@@ -5,7 +5,7 @@ import Forum from './views/Forum'
 import { connect } from 'react-redux'
 import { cleanup } from './services/actions'
 import { addNavItem, removeNavItem} from "../../../../../../services/routing/actions";
-import BigLoadingAbsolute from "../../../../../../components/reusables/BigLoadingAbsolute";
+import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
 
 /**
  * @namespace components.views.classroom.course.forum
@@ -24,7 +24,10 @@ class ForumRouter extends Component {
 	}
 
 	render() {
-		let { course, forum } = this.props;
+		let { course, forum, location, match } = this.props;
+		if (!forum || !forum._id){
+			return (<BigLoadingCentered />)
+		}
 		if (course && course._id && forum && forum._id){
 			this.props.addNavItem({
 				id: 'forum link',
@@ -32,10 +35,9 @@ class ForumRouter extends Component {
 				path: `/classroom/course/${course._id}/forum/${forum._id}`
 			})
 		}
-		let { path } = this.props.match;
+		let { path } = match;
 		return (
 			<div>
-				{!this.props.forum && (<BigLoadingAbsolute/>)}
 				<Switch>
 					<Route
 						exact path={`${path}`}
@@ -43,14 +45,16 @@ class ForumRouter extends Component {
 					/>
 					<Route
 						exact path={`${path}/topic/:topicId`}
-						component={Topic}
+						render={() => {
+							let [,,,,,,,topicId] = location.pathname.split('/');
+							return (<Topic topicId={topicId}/>)
+						}}
 					/>
 				</Switch>
 			</div>
 		);
 	}
 }
-
 let mapStateToProps = (state) => ({
 	...state.views.classroom.course.forum,
 	course: state.views.classroom.course.services.course

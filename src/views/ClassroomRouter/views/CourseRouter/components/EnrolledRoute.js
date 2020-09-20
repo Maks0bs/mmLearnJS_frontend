@@ -38,7 +38,10 @@ EnrolledRoute.propTypes = {
     /** See {@link Route} */
     path: PropTypes.string.isRequired,
     /** See {@link Route} */
-    component: PropTypes.element,
+    component: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.object
+    ]),
     /** See {@link Route} */
     exact: PropTypes.bool,
     /** See {@link Route} */

@@ -7,11 +7,57 @@ let {
 	CLEANUP
 } = types;
 
+/**
+ * @typedef ForumTopicPost
+ * @type Object
+ * @property {string} _id
+ * @property {string} name
+ * @property {?string|UserData} creator
+ * @property {?string|Date} created
+ * @property {?string|Date} updated
+ * @property {string} content
+ * @property {?string|ForumTopicPost[]} [answers]
+ */
+
+/**
+ * @typedef ForumTopic
+ * @type Object
+ * @property {string} _id
+ * @property {string} name
+ * @property {?string|UserData} creator
+ * @property {?string|Date} created
+ * @property {ForumTopicPost[]} posts
+ */
+/**
+ * @typedef ForumData
+ * @type Object
+ * @property {string} _id
+ * @property {string} description
+ * @property {boolean} teachersOnly - true if only teachers can post at this forum
+ * @property {ForumTopic[]} topics
+ */
+/**
+ * @typedef ForumState
+ * @type Object
+ * @property {?Object|string} error
+ * @property {?ForumData} forum
+ */
+
 let initialState = {
 	forum: null,
 	error: ''
 }
 
+/**
+ * @function forumReducer
+ * @param {ForumState} state
+ * @property {?Object|string} error
+ * @property {?ForumData} forum
+ * @param {ReduxAction} action
+ * @return {ForumState}
+ *
+ * @memberOf storeState.views.classroom.course
+ */
 export default function(state = initialState, action) {
 	switch(action.type){
 		case API_ANSWER_TOPIC_POST:
@@ -31,7 +77,8 @@ export default function(state = initialState, action) {
 			}
 			return {
 				...state,
-				forum: action.payload
+				forum: action.payload,
+				error: ''
 			}
 		}
 		case CLEANUP: {

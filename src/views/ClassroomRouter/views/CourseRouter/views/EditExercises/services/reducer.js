@@ -54,12 +54,12 @@ let initialState = {
 /**
  * @function editExercisesReducer
  * @param {EditExercisesState} state
- * @param {ReduxAction} action
  * @param {?Object|string} state.editorError
  * @param {CourseExercise[]} state.newExercises - the exercises that are stored
  * while the teacher is editing the course
  * @param {Object.<string, CourseExercise>} state.deletedExercises - locally deleted
  * sections during the edit process. Can be restored.
+ *  @param {ReduxAction} action
  * @return {EditExercisesState}
  *
  * @memberOf storeState.views.classroom.course

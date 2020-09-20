@@ -21,6 +21,7 @@ let {
  */
 
 /**
+ * @function
  * @description copies the exercises from already existing
  * course data in the
  * {@link storeState.views.classroom.course.courseServicesActions}-Reducer
