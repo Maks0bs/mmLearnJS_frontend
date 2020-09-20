@@ -8,6 +8,7 @@ import { showModal, hideModal } from "../../../../components/ModalRoot/services/
 import { cleanup, viewCourse } from "./services/actions";
 import { getForumById } from "./views/ForumRouter/services/actions";
 import { removeNavItem, addNavItem } from "../../../../services/routing/actions";
+import { getExerciseById } from "./views/ExerciseRouter/services/actions";
 import ExerciseRouter from "./views/ExerciseRouter";
 import Info from "./views/CourseMain";
 import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
@@ -95,7 +96,14 @@ class CourseRouter extends Component {
 						coursePrefix={prefixUrl}
 						status={status}
 						path={`${path}/exercise/:exerciseId`}
-						component={ExerciseRouter}
+						render={() => {
+							let [, courseId, exerciseId] =
+								/^\/classroom\/course\/([A-Za-z0-9]+)\/exercise\/([A-Za-z0-9]+)/
+									.exec(this.props.location.pathname);
+							this.props.getExerciseById(courseId, exerciseId);
+
+							return (<ExerciseRouter />)
+						}}
 					/>
 					<EnrolledRoute
 						coursePrefix={prefixUrl}
@@ -118,7 +126,9 @@ let mapDispatchToProps = (dispatch) => ({
 	viewCourse: (id) => dispatch(viewCourse(id)),
 	showModal: (component) => dispatch(showModal(component)),
 	hideModal: () => dispatch(hideModal()),
-	getForumById: (courseId, forumId) => dispatch(getForumById(courseId, forumId))
+	getForumById: (courseId, forumId) => dispatch(getForumById(courseId, forumId)),
+	getExerciseById: (courseId, exerciseId) =>
+		dispatch(getExerciseById(courseId, exerciseId))
 })
 export default connect(
 	mapStateToProps,

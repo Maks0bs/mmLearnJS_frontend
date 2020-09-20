@@ -10,7 +10,7 @@ class ExercisePreview extends Component {
 
 
     componentDidMount() {
-        this.props.getAttempts(this.props.courseData._id, this.props.exercise._id)
+        this.props.getAttempts(this.props.course._id, this.props.exercise._id)
             .then(() => {
                 if (this.props.error){
                     this.props.addToast(
@@ -33,7 +33,7 @@ class ExercisePreview extends Component {
 
     onExerciseStart = (e) => {
         e.preventDefault();
-        this.props.newAttempt(this.props.courseData._id, this.props.exercise._id)
+        this.props.newAttempt(this.props.course._id, this.props.exercise._id)
             .then(() => {
                 if (this.props.error){
                     this.props.addToast(
@@ -51,13 +51,13 @@ class ExercisePreview extends Component {
     }
 
     render() {
-        let { exercise, attempts, loading, courseData, newAttemptId } = this.props;
+        let { exercise, attempts, loading, course, newAttemptId } = this.props;
         let { name } = exercise;
 
         if (newAttemptId){
             this.props.cleanup();
             return (
-                <Redirect to={`/classroom/course/${courseData._id}/exercise/${exercise._id}/attempt/${newAttemptId}`} />
+                <Redirect to={`/classroom/course/${course._id}/exercise/${exercise._id}/attempt/${newAttemptId}`} />
             )
         }
 
@@ -70,13 +70,8 @@ class ExercisePreview extends Component {
 
                 <div>
                     <div>
-                        <table
-                            className="table"
-                            style={{
-                                background: '#eeeeee'
-                            }}
-                        >
-                            <thead>
+                        <table className="table table-hover">
+                            <thead style={{background: '#dedede'}}>
                                 <tr>
                                     <th scope="col">Attempt</th>
                                     <th scope="col">Status</th>
@@ -88,7 +83,7 @@ class ExercisePreview extends Component {
                                 {!attempts && (
                                     <SmallLoading />
                                 )}
-                                {attempts && attempts.map((a, i) => (
+                                {Array.isArray(attempts) && attempts.map((a, i) => (
                                     <tr key={i}>
                                         <td>
                                             {i + 1}
@@ -115,7 +110,7 @@ class ExercisePreview extends Component {
                                             )}
                                         </td>
                                         <td>
-                                            <Link to={`/classroom/course/${courseData._id}/exercise/${exercise._id}/attempt/${a._id}`}>
+                                            <Link to={`/classroom/course/${course._id}/exercise/${exercise._id}/attempt/${a._id}`}>
                                                 {a.endTime ? 'Review' : 'Continue attempt'}
                                             </Link>
                                         </td>
@@ -147,8 +142,8 @@ class ExercisePreview extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        ...state.views.classroom.course.main.exercise.services,
-        ...state.views.classroom.course.main.services,
+        ...state.views.classroom.course.exercise.services,
+        ...state.views.classroom.course.services,
         ...state.services
     }
 }

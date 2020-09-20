@@ -8,15 +8,40 @@ let {
 	CLEANUP
 } = types;
 
+/**
+ * @namespace storeState.views.classroom.course.exercise
+ */
+
+/**
+ * @typedef ExerciseServicesState
+ * @type Object
+ * @property {?CourseExercise} exercise
+ * @property {?CourseExerciseAttempt[]} attempts - the attempts that user created
+ * why participating in the given exercise. They are sorted by time,
+ * the first one is always the latest one, may not yet be a finished attempt
+ * @property {?Object|string} error
+ * @property {?string} newAttemptId - the id of the attempt that is created
+ * if user decides to try the exercise
+ */
+
 let initialState = {
 	exercise: null,
-	attempts: null,//they are sorted by time, the first one is always the latest one, may not be finished
-	error: '',
-	newAttemptId: null
+	attempts: null,
+	newAttemptId: null,
+	error: ''
 }
 
+/**
+ * @function exerciseServicesReducer
+ * @param {ExerciseServicesState} state
+ * @property {?Object|string} error
+ * @property {?ForumData} forum
+ * @param {ReduxAction} action
+ * @return {ExerciseServicesState}
+ *
+ * @memberOf storeState.views.classroom.exercise
+ */
 let servicesReducer =  function(state = initialState, action) {
-
 	switch(action.type){
 		case GET_STUDENT_ATTEMPTS: {
 			if (action.payload.error){
@@ -25,8 +50,6 @@ let servicesReducer =  function(state = initialState, action) {
 					error: action.payload.error.message || action.payload.error
 				}
 			}
-
-
 			return {
 				...state,
 				attempts: action.payload.attempts

@@ -52,9 +52,9 @@ class FinishedAttempt extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        ...state.views.classroom.course.main.exercise.services,
-        ...state.views.classroom.course.main.exercise.attempt,
-        ...state.views.classroom.course.main.services,
+        ...state.views.classroom.course.exercise.services,
+        ...state.views.classroom.course.exercise.attempt,
+        ...state.views.classroom.course.services,
         authenticatedUser: state.services.authenticatedUser
     }
 }

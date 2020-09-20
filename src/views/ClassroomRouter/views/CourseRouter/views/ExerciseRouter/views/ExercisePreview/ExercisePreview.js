@@ -1,51 +1,50 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {getCurUserCourseStatus} from "../../../../services/helpers";
-import {Redirect} from "react-router-dom";
 import StudentPreview from "./components/StudentPreview";
-import TeacherPreview from "./components/TeacherPreview";
+import { COURSE_USER_STATUS } from "../../../../services/helpers";
+import {Link} from "react-router-dom";
+import StudentAttempt from "./components/StudentAttempt";
 
+/**
+ * This component displays information about the given exercise
+ * depending on the user status in relation to the course
+ * @memberOf components.views.classroom.course.exercise
+ * @component
+ */
 class ExercisePreview extends Component {
 
     render() {
-        let { exercise, courseData, authenticatedUser: user } = this.props;
-        let { name } = exercise;
-        let status = getCurUserCourseStatus(courseData, user);
-        console.log(status);
-        switch (status){
-            case 'enrolled':
-            case 'invited teacher enrolled':
-                return (
-                    <StudentPreview />
-                )
-            case 'teacher':
-            case 'creator':
-                return (
-                    <TeacherPreview />
-                )
-            default:
-                return (
-                    <Redirect to={`/classroom/course/${courseData._id}`} />
-                )
+        let { TEACHER, CREATOR } = COURSE_USER_STATUS;
+        let { curUserCourseStatus: status, exercise, course } = this.props;
+        console.log('pppp',this.props);
+        let { name, participants } = exercise;
+        let isTeacher = ((status === TEACHER) || (status === CREATOR));
+        if (!isTeacher){
+            return (<StudentPreview/>)
+        } else {
+            return (
+                <div className="container my-3">
+                    <h1>Exercise <strong>{name}</strong> </h1>
+                    <p>To edit the this exercise, please go to the { }
+                        <Link to={`/classroom/course/edit-exercises/${course._id}`}>
+                            exercises editor
+                        </Link>
+                    </p>
+                    <h2>Students' stats:</h2>
+                    <ul>
+                        {Array.isArray(participants) && participants.map((p, i) => (
+                            <StudentAttempt num={i} key={i}/>
+                        ))}
+                    </ul>
+                </div>
+            )
         }
-
     }
 }
-
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.main.exercise.services,
-        ...state.views.classroom.course.main.services,
-        authenticatedUser: state.services.authenticatedUser
-    }
-}
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-    }
-}
-
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.course.services,
+    ...state.views.classroom.course.exercise.services
+})
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(ExercisePreview)

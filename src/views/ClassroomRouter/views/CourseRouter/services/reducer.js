@@ -27,20 +27,21 @@ let {
  */
 
 /**
- * @typedef CourseTaskAttempt
+ * @typedef CourseExerciseAttempt
  * @type Object
  */
 
 /**
  * @typedef CourseExercise
  * @type Object
+ * @property {string} _id
  * @property {string} name
  * @property {?boolean} [available]
  * @property {number} weight
  * @property {CourseTask[]} tasks
  * @property {Object[]} participants
  * @property {?UserData|string} [participants.user]
- * @property {?CourseTaskAttempt[]} [participants.attempts]
+ * @property {?CourseExerciseAttempt[]} [participants.attempts]
  * @property {?boolean} expanded
  */
 /**

@@ -7,7 +7,18 @@ let {
 	CLEANUP
 } = types;
 
+/**
+ * @namespace storeState.views.classroom.course.exercise.exerciseServicesActions
+ */
 
+/**
+ * @function
+ * @async
+ * @param {string} courseId
+ * @param {string} exerciseId
+ * @return {function(*): Promise<any|Response>}
+ * @memberOf storeState.views.classroom.course.exercise.exerciseServicesActions
+ */
 export let getExerciseById = (courseId, exerciseId) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}`, {
 		method: "GET",
@@ -26,6 +37,14 @@ export let getExerciseById = (courseId, exerciseId) => (dispatch) => {
 
 }
 
+/**
+ * @function
+ * @async
+ * @param {string} courseId
+ * @param {string} exerciseId
+ * @return {function(*): Promise<any|Response>}
+ * @memberOf storeState.views.classroom.course.exercise.exerciseServicesActions
+ */
 export let getCurUserAttempts = (courseId, exerciseId) => dispatch => {
 	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/user-attempts`, {
 		method: "GET",
@@ -49,6 +68,14 @@ export let getCurUserAttempts = (courseId, exerciseId) => dispatch => {
 		.catch(err => console.log(err))
 }
 
+/**
+ * @function
+ * @async
+ * @param {string} courseId
+ * @param {string} exerciseId
+ * @return {function(*): Promise<any|Response>}
+ * @memberOf storeState.views.classroom.course.exercise.exerciseServicesActions
+ */
 export let newAttempt = (courseId, exerciseId) => dispatch => {
 	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/new-attempt`, {
 		method: "POST",
@@ -66,8 +93,11 @@ export let newAttempt = (courseId, exerciseId) => dispatch => {
 		.catch(err => console.log(err))
 }
 
+/**
+ * @function
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.exercise.exerciseServicesActions
+ */
 export let cleanup = () => dispatch => {
-	return dispatch({
-		type: CLEANUP
-	})
+	return dispatch({ type: CLEANUP })
 }
