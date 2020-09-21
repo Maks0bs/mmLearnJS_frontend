@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {reorderArrayShallow} from "../../../../../../../../../services/helpers";
 import EditSymbol from "../../../../../../../../../components/reusables/EditSymbol";
 import PropTypes from 'prop-types'
+import {Collapse} from "@material-ui/core";
 
 /**
  * This is a general component for any task which displays complete task data
@@ -107,11 +108,13 @@ class TaskListItem extends Component {
                             />
                         </div>
                     </div>
-                    <div
-                        className="p-2"
-                        style={{display: expanded ? '' : 'none'}}
+                    <Collapse
+                        in={expanded}
+                        unmountOnExit
+                        appear
+                        timeout={200}
                     >
-                        <div className="form-group">
+                        <div className="form-group my-2">
                                 <textarea
                                     value={description}
                                     onChange={this.handleChange("description")}
@@ -135,7 +138,7 @@ class TaskListItem extends Component {
                         </div>
 
                         {this.props.children}
-                    </div>
+                    </Collapse>
                 </div>
             </div>
         );

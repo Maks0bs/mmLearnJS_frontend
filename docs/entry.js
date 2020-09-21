@@ -187,155 +187,161 @@ reactComponents['EnrolledRoute'] = Component53;
 import Component54 from '../src/views/ClassroomRouter/views/CourseRouter/views/ExerciseRouter/views/ExercisePreview/ExercisePreview.js';
 reactComponents['ExercisePreview'] = Component54;
 
-import Component55 from '../src/views/ClassroomRouter/views/CourseRouter/views/ExerciseRouter/views/ExercisePreview/components/StudentAttempt.js';
-reactComponents['StudentAttempt'] = Component55;
+import Component55 from '../src/views/ClassroomRouter/views/CourseRouter/views/ExerciseRouter/views/ExercisePreview/components/AttemptTableRow.js';
+reactComponents['AttemptTableRow'] = Component55;
 
-import Component56 from '../src/views/ClassroomRouter/views/CourseRouter/views/ExerciseRouter/ExerciseRouter.js';
-reactComponents['ExerciseRouter'] = Component56;
+import Component56 from '../src/views/ClassroomRouter/views/CourseRouter/views/ExerciseRouter/views/ExercisePreview/components/StudentAttempt.js';
+reactComponents['StudentAttempt'] = Component56;
 
-import Component57 from '../src/views/ClassroomRouter/views/CourseRouter/components/FirstTimeInfo.js';
-reactComponents['FirstTimeInfo'] = Component57;
+import Component57 from '../src/views/ClassroomRouter/views/CourseRouter/views/ExerciseRouter/views/ExercisePreview/components/StudentPreview.js';
+reactComponents['StudentPreview'] = Component57;
 
-import Component58 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Forum/Forum.js';
-reactComponents['Forum'] = Component58;
+import Component58 from '../src/views/ClassroomRouter/views/CourseRouter/views/ExerciseRouter/ExerciseRouter.js';
+reactComponents['ExerciseRouter'] = Component58;
 
-import Component59 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Forum/components/NewTopic.js';
-reactComponents['NewTopic'] = Component59;
+import Component59 from '../src/views/ClassroomRouter/views/CourseRouter/components/FirstTimeInfo.js';
+reactComponents['FirstTimeInfo'] = Component59;
 
-import Component60 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Forum/components/TopicListItem.js';
-reactComponents['TopicListItem'] = Component60;
+import Component60 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Forum/Forum.js';
+reactComponents['Forum'] = Component60;
 
-import Component61 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/ForumRouter.js';
-reactComponents['ForumRouter'] = Component61;
+import Component61 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Forum/components/NewTopic.js';
+reactComponents['NewTopic'] = Component61;
 
-import Component62 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Topic/Topic.js';
-reactComponents['Topic'] = Component62;
+import Component62 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Forum/components/TopicListItem.js';
+reactComponents['TopicListItem'] = Component62;
 
-import Component63 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Topic/components/TopicPost.js';
-reactComponents['TopicPost'] = Component63;
+import Component63 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/ForumRouter.js';
+reactComponents['ForumRouter'] = Component63;
 
-import Component64 from '../src/views/ClassroomRouter/views/CourseRouter/components/TeacherRoute.js';
-reactComponents['TeacherRoute'] = Component64;
+import Component64 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Topic/Topic.js';
+reactComponents['Topic'] = Component64;
 
-import Component65 from '../src/views/ClassroomRouter/views/CourseList/CourseList.js';
-reactComponents['CourseList'] = Component65;
+import Component65 from '../src/views/ClassroomRouter/views/CourseRouter/views/ForumRouter/views/Topic/components/TopicPost.js';
+reactComponents['TopicPost'] = Component65;
 
-import Component66 from '../src/views/ClassroomRouter/views/CourseList/components/CollapsibleCourseList.js';
-reactComponents['CollapsibleCourseList'] = Component66;
+import Component66 from '../src/views/ClassroomRouter/views/CourseRouter/components/TeacherRoute.js';
+reactComponents['TeacherRoute'] = Component66;
 
-import Component67 from '../src/views/ClassroomRouter/views/CourseList/components/CourseListItem.js';
-reactComponents['CourseListItem'] = Component67;
+import Component67 from '../src/views/ClassroomRouter/views/CourseList/CourseList.js';
+reactComponents['CourseList'] = Component67;
 
-import Component68 from '../src/views/ClassroomRouter/views/CourseList/components/MainList.js';
-reactComponents['MainList'] = Component68;
+import Component68 from '../src/views/ClassroomRouter/views/CourseList/components/CollapsibleCourseList.js';
+reactComponents['CollapsibleCourseList'] = Component68;
 
-import Component69 from '../src/views/ClassroomRouter/views/CourseList/components/StudentList.js';
-reactComponents['StudentList'] = Component69;
+import Component69 from '../src/views/ClassroomRouter/views/CourseList/components/CourseListItem.js';
+reactComponents['CourseListItem'] = Component69;
 
-import Component70 from '../src/views/ClassroomRouter/views/CourseList/components/TeacherList.js';
-reactComponents['TeacherList'] = Component70;
+import Component70 from '../src/views/ClassroomRouter/views/CourseList/components/MainList.js';
+reactComponents['MainList'] = Component70;
 
-import Component71 from '../src/views/ClassroomRouter/views/CreateCourse/CreateCourse.js';
-reactComponents['CreateCourse'] = Component71;
+import Component71 from '../src/views/ClassroomRouter/views/CourseList/components/StudentList.js';
+reactComponents['StudentList'] = Component71;
 
-import Component72 from '../src/views/ClassroomRouter/views/Dashboard/Dashboard.js';
-reactComponents['Dashboard'] = Component72;
+import Component72 from '../src/views/ClassroomRouter/views/CourseList/components/TeacherList.js';
+reactComponents['TeacherList'] = Component72;
 
-import Component73 from '../src/views/ClassroomRouter/views/Dashboard/components/ChooseDashboardFilterCourses.js';
-reactComponents['ChooseDashboardFilterCourses'] = Component73;
+import Component73 from '../src/views/ClassroomRouter/views/CreateCourse/CreateCourse.js';
+reactComponents['CreateCourse'] = Component73;
 
-import Component74 from '../src/views/ClassroomRouter/views/Dashboard/components/DashboardFilter.js';
-reactComponents['DashboardFilter'] = Component74;
+import Component74 from '../src/views/ClassroomRouter/views/Dashboard/Dashboard.js';
+reactComponents['Dashboard'] = Component74;
 
-import Component75 from '../src/views/ClassroomRouter/views/Dashboard/components/DashboardNews/DashboardNews.js';
-reactComponents['DashboardNews'] = Component75;
+import Component75 from '../src/views/ClassroomRouter/views/Dashboard/components/ChooseDashboardFilterCourses.js';
+reactComponents['ChooseDashboardFilterCourses'] = Component75;
 
-import Component76 from '../src/views/ClassroomRouter/views/Dashboard/components/DashboardNews/components/DashboardNewsEntry.js';
-reactComponents['DashboardNewsEntry'] = Component76;
+import Component76 from '../src/views/ClassroomRouter/views/Dashboard/components/DashboardFilter.js';
+reactComponents['DashboardFilter'] = Component76;
 
-import Component77 from '../src/views/ClassroomRouter/views/MainClassroom.js';
-reactComponents['MainClassroom'] = Component77;
+import Component77 from '../src/views/ClassroomRouter/views/Dashboard/components/DashboardNews/DashboardNews.js';
+reactComponents['DashboardNews'] = Component77;
 
-import Component78 from '../src/views/ClassroomRouter/views/SearchCourses/SearchCourses.js';
-reactComponents['SearchCourses'] = Component78;
+import Component78 from '../src/views/ClassroomRouter/views/Dashboard/components/DashboardNews/components/DashboardNewsEntry.js';
+reactComponents['DashboardNewsEntry'] = Component78;
 
-import Component79 from '../src/views/ClassroomRouter/views/SearchCourses/components/CourseSearchItem.js';
-reactComponents['CourseSearchItem'] = Component79;
+import Component79 from '../src/views/ClassroomRouter/views/MainClassroom.js';
+reactComponents['MainClassroom'] = Component79;
 
-import Component80 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/EditUser.js';
-reactComponents['EditUser'] = Component80;
+import Component80 from '../src/views/ClassroomRouter/views/SearchCourses/SearchCourses.js';
+reactComponents['SearchCourses'] = Component80;
 
-import Component81 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/DeleteUserDialog.js';
-reactComponents['DeleteUserDialog'] = Component81;
+import Component81 from '../src/views/ClassroomRouter/views/SearchCourses/components/CourseSearchItem.js';
+reactComponents['CourseSearchItem'] = Component81;
 
-import Component82 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserBasicData.js';
-reactComponents['EditUserBasicData'] = Component82;
+import Component82 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/EditUser.js';
+reactComponents['EditUser'] = Component82;
 
-import Component83 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserHiddenFields/EditUserHiddenFields.js';
-reactComponents['EditUserHiddenFields'] = Component83;
+import Component83 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/DeleteUserDialog.js';
+reactComponents['DeleteUserDialog'] = Component83;
 
-import Component84 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserHiddenFields/components/AvailableFieldsDroppable.js';
-reactComponents['AvailableFieldsDroppable'] = Component84;
+import Component84 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserBasicData.js';
+reactComponents['EditUserBasicData'] = Component84;
 
-import Component85 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserHiddenFields/components/FieldEntityDraggable.js';
-reactComponents['FieldEntityDraggable'] = Component85;
+import Component85 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserHiddenFields/EditUserHiddenFields.js';
+reactComponents['EditUserHiddenFields'] = Component85;
 
-import Component86 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserHiddenFields/components/HiddenFieldsDroppable.js';
-reactComponents['HiddenFieldsDroppable'] = Component86;
+import Component86 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserHiddenFields/components/AvailableFieldsDroppable.js';
+reactComponents['AvailableFieldsDroppable'] = Component86;
 
-import Component87 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserPhoto.js';
-reactComponents['EditUserPhoto'] = Component87;
+import Component87 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserHiddenFields/components/FieldEntityDraggable.js';
+reactComponents['FieldEntityDraggable'] = Component87;
 
-import Component88 from '../src/views/ClassroomRouter/views/UserRouter/views/User/User.js';
-reactComponents['User'] = Component88;
+import Component88 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserHiddenFields/components/HiddenFieldsDroppable.js';
+reactComponents['HiddenFieldsDroppable'] = Component88;
 
-import Component89 from '../src/views/ClassroomRouter/views/UserRouter/views/User/components/UserBasicInfoAndActions.js';
-reactComponents['UserBasicInfoAndActions'] = Component89;
+import Component89 from '../src/views/ClassroomRouter/views/UserRouter/views/EditUser/components/EditUserPhoto.js';
+reactComponents['EditUserPhoto'] = Component89;
 
-import Component90 from '../src/views/ClassroomRouter/views/UserRouter/views/User/components/UserClassroomContent.js';
-reactComponents['UserClassroomContent'] = Component90;
+import Component90 from '../src/views/ClassroomRouter/views/UserRouter/views/User/User.js';
+reactComponents['User'] = Component90;
 
-import Component91 from '../src/views/ClassroomRouter/views/UserRouter/UserRouter.js';
-reactComponents['UserRouter'] = Component91;
+import Component91 from '../src/views/ClassroomRouter/views/UserRouter/views/User/components/UserBasicInfoAndActions.js';
+reactComponents['UserBasicInfoAndActions'] = Component91;
 
-import Component92 from '../src/views/PublicRouter/views/ActivateAccount/ActivateAccount.js';
-reactComponents['ActivateAccount'] = Component92;
+import Component92 from '../src/views/ClassroomRouter/views/UserRouter/views/User/components/UserClassroomContent.js';
+reactComponents['UserClassroomContent'] = Component92;
 
-import Component93 from '../src/views/PublicRouter/views/ForgotPassword/ForgotPassword.js';
-reactComponents['ForgotPassword'] = Component93;
+import Component93 from '../src/views/ClassroomRouter/views/UserRouter/UserRouter.js';
+reactComponents['UserRouter'] = Component93;
 
-import Component94 from '../src/views/PublicRouter/views/Home/Home.js';
-reactComponents['Home'] = Component94;
+import Component94 from '../src/views/PublicRouter/views/ActivateAccount/ActivateAccount.js';
+reactComponents['ActivateAccount'] = Component94;
 
-import Component95 from '../src/views/PublicRouter/views/Home/components/NewsFeed.js';
-reactComponents['NewsFeed'] = Component95;
+import Component95 from '../src/views/PublicRouter/views/ForgotPassword/ForgotPassword.js';
+reactComponents['ForgotPassword'] = Component95;
 
-import Component96 from '../src/views/PublicRouter/views/InviteSignup.js';
-reactComponents['InviteSignup'] = Component96;
+import Component96 from '../src/views/PublicRouter/views/Home/Home.js';
+reactComponents['Home'] = Component96;
 
-import Component97 from '../src/views/PublicRouter/components/PublicMenu.js';
-reactComponents['PublicMenu'] = Component97;
+import Component97 from '../src/views/PublicRouter/views/Home/components/NewsFeed.js';
+reactComponents['NewsFeed'] = Component97;
 
-import Component98 from '../src/views/PublicRouter/PublicRouter.js';
-reactComponents['PublicRouter'] = Component98;
+import Component98 from '../src/views/PublicRouter/views/InviteSignup.js';
+reactComponents['InviteSignup'] = Component98;
 
-import Component99 from '../src/views/PublicRouter/views/ResetPassword/ResetPassword.js';
-reactComponents['ResetPassword'] = Component99;
+import Component99 from '../src/views/PublicRouter/components/PublicMenu.js';
+reactComponents['PublicMenu'] = Component99;
 
-import Component100 from '../src/views/PublicRouter/views/Signin.js';
-reactComponents['Signin'] = Component100;
+import Component100 from '../src/views/PublicRouter/PublicRouter.js';
+reactComponents['PublicRouter'] = Component100;
 
-import Component101 from '../src/views/PublicRouter/views/Signup.js';
-reactComponents['Signup'] = Component101;
+import Component101 from '../src/views/PublicRouter/views/ResetPassword/ResetPassword.js';
+reactComponents['ResetPassword'] = Component101;
 
-import Component102 from '../src/views/PublicRouter/components/SignupComponent/SignupComponent.js';
-reactComponents['SignupComponent'] = Component102;
+import Component102 from '../src/views/PublicRouter/views/Signin.js';
+reactComponents['Signin'] = Component102;
 
-import Component103 from '../src/views/PublicRouter/components/SignupComponent/components/SignupForm.js';
-reactComponents['SignupForm'] = Component103;
+import Component103 from '../src/views/PublicRouter/views/Signup.js';
+reactComponents['Signup'] = Component103;
 
-import Component104 from '../src/views/components/ActivationMessage/ActivationMessage.js';
-reactComponents['ActivationMessage'] = Component104;
+import Component104 from '../src/views/PublicRouter/components/SignupComponent/SignupComponent.js';
+reactComponents['SignupComponent'] = Component104;
 
-import Component105 from '../src/views/components/Signin/Signin.js';
-reactComponents['Signin'] = Component105;
+import Component105 from '../src/views/PublicRouter/components/SignupComponent/components/SignupForm.js';
+reactComponents['SignupForm'] = Component105;
+
+import Component106 from '../src/views/components/ActivationMessage/ActivationMessage.js';
+reactComponents['ActivationMessage'] = Component106;
+
+import Component107 from '../src/views/components/Signin/Signin.js';
+reactComponents['Signin'] = Component107;

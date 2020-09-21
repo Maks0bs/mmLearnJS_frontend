@@ -126,4 +126,20 @@ export let transitionStyles = {
         exited: {
         }
     },
+    heightExpand: {
+        entering: {
+        },
+        entered: {
+            height: 'auto',
+            overflow: 'visible'
+        },
+        exiting: {
+            opacity: 0,
+            transition: 'height 2s'
+        },
+        exited: {
+            transition: 'height 2s',
+            height: 0,
+        }
+    }
 };

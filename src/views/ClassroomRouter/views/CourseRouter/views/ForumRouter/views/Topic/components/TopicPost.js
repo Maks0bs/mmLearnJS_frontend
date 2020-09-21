@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import UserPreview from "../../../../../../../../../components/reusables/UserPreview";
 import PropTypes from "prop-types";
+import {Collapse} from "@material-ui/core";
 
 /**
  * This component displays one forum post and possible action for this post
@@ -86,39 +87,43 @@ class TopicPost extends Component {
                             )}
                         </div>
                     </div>
-                </div>
-                {replying && (
-                    <form
-                        style={{
-                            marginLeft: `${30 * depth + 15}px`,
-                            marginTop: '5px', marginBottom: '5px',
-                            padding: '10px',
-                            borderColor: 'blue',
-                            borderStyle: 'solid', borderRadius: '5px'
-                        }}
-                        onSubmit={this.onSubmitAnswer}
+                    <Collapse
+                        in={replying}
+                        timeout={150}
+                        unmountOnExit
+                        appear
                     >
-                        <div className="form-group">
-                            <label className="text-muted">Response</label>
-                            <textarea
-                                onChange={this.handleChange("replyText")}
-                                className="form-control"
-                                style={{
-                                    borderStyle: 'solid',
-                                    borderWidth: '1px',
-                                    borderColor: 'gray'
-                                }}
-                                value={this.state.replyText}
-                            />
-                        </div>
-                        <button
-                            className="btn btn-raised btn-outline"
-                            type="submit"
+                        <form
+                            style={{
+                                margin: '5px',
+                                padding: '10px',
+                                borderColor: 'blue',
+                                borderStyle: 'solid', borderRadius: '5px'
+                            }}
+                            onSubmit={this.onSubmitAnswer}
                         >
-                            Submit
-                        </button>
-                    </form>
-                )}
+                            <div className="form-group">
+                                <label className="text-muted">Response</label>
+                                <textarea
+                                    onChange={this.handleChange("replyText")}
+                                    className="form-control"
+                                    style={{
+                                        borderStyle: 'solid',
+                                        borderWidth: '1px',
+                                        borderColor: 'gray'
+                                    }}
+                                    value={this.state.replyText}
+                                />
+                            </div>
+                            <button
+                                className="btn btn-raised btn-outline"
+                                type="submit"
+                            >
+                                Submit
+                            </button>
+                        </form>
+                    </Collapse>
+                </div>
             </div>
         );
     }

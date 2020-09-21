@@ -43,7 +43,7 @@ class CourseRouter extends Component {
 			return (<BigLoadingCentered />)
 		}
 		if (firstTime){
-			this.props.showModal(<FirstTimeInfo />);
+			this.props.showModal(<FirstTimeInfo onClose={this.props.hideModal}/>);
 		}
 		this.props.addNavItem({
 			id: 'course link',

@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import {Transition} from "react-transition-group";
 import PropTypes from 'prop-types'
 import SmallLoading from "../../../../../components/reusables/SmallLoading";
-import {transitionStyles} from "../../../../../services/helpers";
+import {Collapse} from "@material-ui/core";
 
 /**
  * Allows to group courses into groups, normally the
@@ -54,22 +53,20 @@ class CollapsibleCourseList extends Component {
                     </a>
                 </div>
 
-                <Transition
+                <Collapse
                     in={this.state.showList}
-                    timeout={100}
+                    timeout={150}
                     unmountOnExit
                     appear
                 >
-                    {state => (
-                        <div style={{...transitionStyles.fade[state]}}>
-                            {(children && children.length > 0) ? (
-                                children
-                            ) : (
-                                'No courses here'
-                            )}
-                        </div>
-                    )}
-                </Transition>
+                    <div>
+                        {(children && children.length > 0) ? (
+                            children
+                        ) : (
+                            'No courses here'
+                        )}
+                    </div>
+                </Collapse>
 
             </div>
         );

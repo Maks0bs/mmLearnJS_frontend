@@ -4,8 +4,7 @@ import EditExercise from "./ExerciseEditor";
 import {deleteExercise, restoreDeletedExercise, toggleExpandExercise} from "../services/actions";
 import EditSymbol from "../../../../../../../components/reusables/EditSymbol";
 import PropTypes from "prop-types";
-import {transitionStyles} from "../../../../../../../services/helpers";
-import {Transition} from "react-transition-group";
+import { Collapse} from "@material-ui/core";
 
 /**
  * This component allows the teacher to expand / minimize exercise data
@@ -63,23 +62,21 @@ class ExerciseContainer extends Component {
                         </h4>
                     </div>
                 ) }
-                <Transition
+                <Collapse
                     in={expanded}
                     unmountOnExit
                     appear
-                    timeout={5}
+                    timeout={200}
                 >
-                    {state => (
-                        <div style={{...transitionStyles.scaleTop[state]}}>
-                            <EditSymbol
-                                onClick={this.onToggleExercise}
-                                className="float-right m-1"
-                                type="minimize"
-                            />
-                            <EditExercise onClose={this.props.hideModal} num={this.props.num}/>
-                        </div>
-                    )}
-                </Transition>
+                    <div>
+                        <EditSymbol
+                            onClick={this.onToggleExercise}
+                            className="float-right m-1"
+                            type="minimize"
+                        />
+                        <EditExercise onClose={this.props.hideModal} num={this.props.num}/>
+                    </div>
+                </Collapse>
             </div>
         );
     }

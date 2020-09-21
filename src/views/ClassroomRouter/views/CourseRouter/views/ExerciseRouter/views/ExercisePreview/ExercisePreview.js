@@ -16,7 +16,6 @@ class ExercisePreview extends Component {
     render() {
         let { TEACHER, CREATOR } = COURSE_USER_STATUS;
         let { curUserCourseStatus: status, exercise, course } = this.props;
-        console.log('pppp',this.props);
         let { name, participants } = exercise;
         let isTeacher = ((status === TEACHER) || (status === CREATOR));
         if (!isTeacher){
@@ -26,7 +25,7 @@ class ExercisePreview extends Component {
                 <div className="container my-3">
                     <h1>Exercise <strong>{name}</strong> </h1>
                     <p>To edit the this exercise, please go to the { }
-                        <Link to={`/classroom/course/edit-exercises/${course._id}`}>
+                        <Link to={`/classroom/course/${course._id}/edit-exercises`}>
                             exercises editor
                         </Link>
                     </p>

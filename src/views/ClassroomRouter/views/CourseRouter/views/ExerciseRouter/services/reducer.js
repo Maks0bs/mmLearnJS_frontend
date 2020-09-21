@@ -34,12 +34,17 @@ let initialState = {
 /**
  * @function exerciseServicesReducer
  * @param {ExerciseServicesState} state
- * @property {?Object|string} error
- * @property {?ForumData} forum
+ * @param {?CourseExercise} state.exercise
+ * @param {?CourseExerciseAttempt[]} state.attempts - the attempts that user created
+ * why participating in the given exercise. They are sorted by time,
+ * the first one is always the latest one, may not yet be a finished attempt
+ * @param {?Object|string} state.error
+ * @param {?string} state.newAttemptId - the id of the attempt that is created
+ * if user decides to try the exercise
  * @param {ReduxAction} action
  * @return {ExerciseServicesState}
  *
- * @memberOf storeState.views.classroom.exercise
+ * @memberOf storeState.views.classroom.course.exercise
  */
 let servicesReducer =  function(state = initialState, action) {
 	switch(action.type){
