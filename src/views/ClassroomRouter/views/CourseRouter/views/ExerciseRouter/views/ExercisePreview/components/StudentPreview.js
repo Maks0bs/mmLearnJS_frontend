@@ -76,7 +76,7 @@ class StudentPreview extends Component {
                                     <th scope="col">Attempt</th>
                                     <th scope="col">Score</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Review</th>
+                                    <th scope="col">Details</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -87,7 +87,6 @@ class Signin extends Component {
     }
 
     render() {
-        console.log(this.props);
         let {email, password, reload, loading} = this.state;
         let { error, message, redirectToAfterSignin, location } = this.props;
         let isMobileWidth = (window.innerWidth <= 1000)

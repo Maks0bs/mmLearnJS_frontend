@@ -24,26 +24,22 @@ export default function(state = initialState, action) {
 					error: action.payload.error.message || action.payload.error
 				}
 			}
-
 			return {
 				...state,
-				attempt: action.payload.attempt,
-				oldAttempt: action.payload.attempt
+				attempt: action.payload.attempt
 			}
 		}
 		case GET_ATTEMPT_BY_ID: {
-			console.log('get attempt');
 			if (action.payload.error){
 				return {
 					...state,
 					error: action.payload.error.message || action.payload.error
 				}
 			}
-
 			return {
 				...state,
 				attempt: action.payload.attempt,
-				oldAttempt: action.payload.attempt
+				oldAttempt: cloneDeep(action.payload.attempt)
 			}
 		}
 		case TOGGLE_ATTEMPT_ANSWER: {
@@ -51,7 +47,7 @@ export default function(state = initialState, action) {
 			let answer = cloneDeep(state.attempt.answers[num]);
 
 			switch (answer.kind){
-				case 'MultipleAttemptAnswer': {
+				case 'MultipleChoiceTaskAttempt': {
 					let pos = answer.values.indexOf(value)
 
 					if (pos >= 0){
@@ -61,7 +57,8 @@ export default function(state = initialState, action) {
 					}
 					break;
 				}
-				case 'OneAttemptAnswer': {
+				case 'TextTaskAttempt':
+				case 'OneChoiceTaskAttempt': {
 					answer.value = value;
 					break;
 				}
