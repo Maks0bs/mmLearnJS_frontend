@@ -65,6 +65,7 @@ class ClassroomRouter extends Component {
 							let [, courseId] = /^\/classroom\/course\/([A-Za-z0-9]+)/.exec(
 								this.props.location.pathname
 							);
+							console.log('render cr');
 							this.props.getCourseById(courseId, user);
 							this.props.getFirstTimeStatus();
 							return (<CourseRouter />)

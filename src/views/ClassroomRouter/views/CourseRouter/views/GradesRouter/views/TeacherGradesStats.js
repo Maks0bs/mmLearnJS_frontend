@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
-import {getExerciseSummaries} from "../services/actions";
 import {connect} from "react-redux";
-import StatsEntry from "../components/StatsEntry/StatsEntry";
+import StatsEntryRow from "../components/GradesStatsEntryRow";
 
-class TeacherStats extends Component {
+/**
+ * This component displays a table which assigns a student to the exercise
+ * and displays the summary of this student's attempts in this exercise
+ * @memberOf components.views.classroom.course.grades
+ * @component
+ */
+class TeacherGradesStats extends Component {
     render() {
-        let {summaries} = this.props;
-        let {exercises} = this.props.courseData;
+        let {summaries, course} = this.props;
+        let {exercises} = course;
         return (
             <div
                 className="container my-4"
@@ -19,7 +24,7 @@ class TeacherStats extends Component {
                     <thead>
                         <tr key={-1}>
                             <td />
-                            {exercises && exercises.map((e, i) => (
+                            {Array.isArray(exercises) && exercises.map((e, i) => (
                                 <th
                                     key={i}
                                     scope="col"
@@ -34,13 +39,13 @@ class TeacherStats extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {summaries.map((s, i) => (
-                            <StatsEntry
+                        {Array.isArray(summaries) && summaries.map((s, i) => (
+                            <StatsEntryRow
                                 key={i}
-                                userId={s.id}
+                                userId={s.userId}
+                                userName={s.userName}
                                 userNum={i}
                             />
-
                         ))}
                     </tbody>
                 </table>
@@ -48,15 +53,10 @@ class TeacherStats extends Component {
         );
     }
 }
-
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.main.grades,
-        ...state.views.classroom.course.main.services
-    }
-}
-
-
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.course.grades,
+    ...state.views.classroom.course.services
+})
 export default connect(
     mapStateToProps
-)(TeacherStats)
+)(TeacherGradesStats)

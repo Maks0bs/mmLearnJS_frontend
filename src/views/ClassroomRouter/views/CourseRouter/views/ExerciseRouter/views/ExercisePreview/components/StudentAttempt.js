@@ -26,8 +26,12 @@ class StudentAttempt extends Component {
         let { showAttempts } = this.state, maxScore = 0;
         let { user, attempts } = this.props.exercise.participants[this.props.num];
         if (Array.isArray(attempts)){
-            maxScore = attempts.reduce((mx, a) =>
-                (parseFloat(a.score) && Math.max(parseFloat(a.score), mx)) || mx, -1
+            maxScore = attempts.reduce((mx, a) => (
+                (
+                    parseFloat(a.score) &&
+                    Math.max(parseFloat(a.score), mx)
+                ) || mx),
+                -1
             )
         }
         let inlineStyle = {

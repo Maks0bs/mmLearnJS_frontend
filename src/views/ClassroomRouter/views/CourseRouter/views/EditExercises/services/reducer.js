@@ -1,7 +1,6 @@
 import types from './actionTypes'
 import { cloneDeep, assign } from 'lodash'
 import { v1 as uuidv1 } from 'uuid';
-import { combineReducers } from "redux";
 import {newTaskByType} from "./helpers";
 import {removeItemShallow} from "../../../../../../../services/helpers";
 let {
@@ -19,9 +18,6 @@ let {
 	DELETE_TASK
 } = types;
 
-/**
- * @namespace storeState.views.classroom.course
- */
 
 /**
  * @typedef EditExercisesState

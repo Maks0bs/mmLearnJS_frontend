@@ -1,82 +1,54 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import TeacherStats from "./TeacherStats";
-import StudentStats from "./StudentStats";
-import OptimizedPureComponent from "../../../../../../components/performance/OptimizedPureComponent";
-import CourseTabs from "../../components/CourseTabs";
-import {removeLastUrlParam} from "../../services/helpers";
-import { getExerciseSummaries } from "./services/actions";
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
+import TeacherRoute from "../../components/TeacherRoute";
+import TeacherStats from "./views/TeacherGradesStats";
+import StudentStats from "./views/StudentGradesStats";
 
+/**
+ * @namespace components.views.classroom.course.grades
+ */
 
-class GradesRouter extends OptimizedPureComponent {
-
-    mounted = false;
-
-    componentDidMount() {
-        this.mounted = true;
-        console.log('mounted');
-    }
-
+/**
+ * This router is responsible for all pages
+ * that contain summaries of student grades on all exercises.
+ * Teachers can view summaries of all exercises for each student
+ * @memberOf components.views.classroom.course.grades
+ * @component
+ */
+class GradesRouter extends Component {
 
     render() {
-        return null;
-        super.render();
-        if (!this.props.authenticatedUser){
-            return <Redirect to={`/classroom/course/${this.props.courseData._id}`} />
+        let { summaries, match, curUserCourseStatus: status, course } = this.props;
+        if (!Array.isArray(summaries)){
+            return ( <BigLoadingCentered/>)
         }
-        if (this.canCallOptimally()){
-            let filter = this.props.match.params.gradeFilter;
-            this.startLoading();
-            this.props.getExerciseSummaries(this.props.courseData._id,
-                (filter === 'teacher') ? 'all' : filter
-            )
-                .then(() => {
-                    this.stopLoading();
-                })
-        }
-        if (!this.props.summaries){
-            return (
-                <BigLoadingCentered/>
-            )
-        }
-        let path = removeLastUrlParam(this.props.match.path);
+        // remove last param (:gradeFilter), because this router
+        // routes further depending on this param, it should be considered
+        let pathNoLastParam = match.path.split('/').slice(0, -1).join('/');
         return (
-            <div className="container mt-3">
-                <CourseTabs />
+            <div>
                 <Switch>
-                    <Route
-                        exact path={`${path}/teacher`}
+                    <TeacherRoute
+                        status={status}
+                        coursePrefix={`/classroom/course/${course._id}`}
+                        exact path={`${pathNoLastParam}/teacher`}
                         component={TeacherStats}
                     />
-
                     <Route
-                        exact path={`${path}/:userId`}
+                        exact path={`${pathNoLastParam}/:userId`}
                         component={StudentStats}
                     />
-
                 </Switch>
             </div>
         );
     }
 }
-
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.main.services,
-        ...state.views.classroom.course.main.grades,
-        ...state.services
-    }
-}
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-        getExerciseSummaries: (courseId, param) => dispatch(getExerciseSummaries(courseId, param))
-    }
-}
-
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.course.services,
+    ...state.views.classroom.course.grades
+})
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(GradesRouter)
+    mapStateToProps
+)(withRouter(GradesRouter))

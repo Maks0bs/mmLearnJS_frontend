@@ -5,11 +5,23 @@ let {
 	GET_ATTEMPT_BY_ID,
 	TOGGLE_ATTEMPT_ANSWER,
 	API_UPDATE_ATTEMPT,
-	API_FINISH_ATTEMPT
+	API_FINISH_ATTEMPT,
+	CLEANUP
 } = types;
 
+/**
+ * @namespace storeState.views.classroom.course.exercise.exerciseAttemptActions
+ */
 
-
+/**
+ * @function
+ * @async
+ * @param {string} courseId
+ * @param {string} exerciseId
+ * @param {string} attemptId
+ * @return {function(*): Promise<any|Response>}
+ * @memberOf storeState.views.classroom.course.exercise.exerciseAttemptActions
+ */
 export let getAttemptById = (courseId, exerciseId, attemptId) => dispatch => {
 	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/attempt/${attemptId}`, {
 		method: "GET",
@@ -27,16 +39,30 @@ export let getAttemptById = (courseId, exerciseId, attemptId) => dispatch => {
 		.catch(err => console.log(err))
 }
 
+/**
+ * @function
+ * @param {number} taskNum
+ * @param {string} value
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.exercise.exerciseAttemptActions
+ */
 export let toggleAttemptValue = (taskNum, value) => (dispatch) => {
 	return dispatch({
 		type: TOGGLE_ATTEMPT_ANSWER,
-		payload: {
-			taskNum,
-			value
-		}
+		payload: { taskNum,  value}
 	})
 }
 
+/**
+ * @function
+ * @async
+ * @param {string} courseId
+ * @param {string} exerciseId
+ * @param {string} attemptId
+ * @param {CourseExerciseAttempt} attempt
+ * @return {function(*): Promise<any|Response>}
+ * @memberOf storeState.views.classroom.course.exercise.exerciseAttemptActions
+ */
 export let updateAttempt = (courseId, exerciseId, attemptId, attempt) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/attempt/${attemptId}`, {
 		method: "PUT",
@@ -55,6 +81,15 @@ export let updateAttempt = (courseId, exerciseId, attemptId, attempt) => (dispat
 		.catch(err => console.log(err))
 }
 
+/**
+ * @function
+ * @async
+ * @param {string} courseId
+ * @param {string} exerciseId
+ * @param {string} attemptId
+ * @return {function(*): Promise<any|Response>}
+ * @memberOf storeState.views.classroom.course.exercise.exerciseAttemptActions
+ */
 export let finishAttempt = (courseId, exerciseId, attemptId) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/attempt/${attemptId}/finish`, {
 		method: "POST",
@@ -70,4 +105,13 @@ export let finishAttempt = (courseId, exerciseId, attemptId) => (dispatch) => {
 			payload: data
 		}))
 		.catch(err => console.log(err))
+}
+
+/**
+ * @function
+ * @return {function(*): Promise<ReduxAction>}
+ * @memberOf storeState.views.classroom.course.exercise.exerciseAttemptActions
+ */
+export let cleanup = () => dispatch => {
+	return dispatch({ type: CLEANUP });
 }

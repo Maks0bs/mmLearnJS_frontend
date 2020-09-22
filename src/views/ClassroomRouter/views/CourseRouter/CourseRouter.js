@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, PureComponent} from 'react';
 import {Switch, Route, withRouter} from 'react-router-dom'
 import EditContent from './views/EditContent'
 import EditInfo from './views/EditInfo'
@@ -9,6 +9,7 @@ import { cleanup, viewCourse } from "./services/actions";
 import { getForumById } from "./views/ForumRouter/services/actions";
 import { removeNavItem, addNavItem } from "../../../../services/routing/actions";
 import { getExerciseById } from "./views/ExerciseRouter/services/actions";
+import { getExerciseSummaries } from "./views/GradesRouter/services/actions";
 import ExerciseRouter from "./views/ExerciseRouter";
 import Info from "./views/CourseMain";
 import BigLoadingCentered from "../../../../components/reusables/BigLoadingCentered";
@@ -29,7 +30,7 @@ import FirstTimeInfo from "./components/FirstTimeInfo";
  * @memberOf components.views.classroom.course
  * @component
  */
-class CourseRouter extends Component {
+class CourseRouter extends PureComponent {
 
 	componentWillUnmount() {
 		this.props.removeNavItem('course link');
@@ -75,7 +76,9 @@ class CourseRouter extends Component {
 					<Route
 						exact path={`${path}/`}
 						render={() => {
-							this.props.viewCourse(course._id);
+							!this.loading && this.props.viewCourse(course._id)
+								.then(() => this.loading = false)
+							this.loading = true;
 							return <Info />;
 						}}
 					/>
@@ -87,7 +90,9 @@ class CourseRouter extends Component {
 							let [, courseId, forumId] =
 								/^\/classroom\/course\/([A-Za-z0-9]+)\/forum\/([A-Za-z0-9]+)/
 									.exec(this.props.location.pathname);
-							this.props.getForumById(courseId, forumId);
+							!this.loading && this.props.getForumById(courseId, forumId)
+								.then(() => this.loading = false)
+							this.loading = true;
 
 							return (<ForumRouter />)
 						}}
@@ -100,7 +105,9 @@ class CourseRouter extends Component {
 							let [, courseId, exerciseId] =
 								/^\/classroom\/course\/([A-Za-z0-9]+)\/exercise\/([A-Za-z0-9]+)/
 									.exec(this.props.location.pathname);
-							this.props.getExerciseById(courseId, exerciseId);
+							!this.loading && this.props.getExerciseById(courseId, exerciseId)
+								.then(() => this.loading = false)
+							this.loading = true;
 
 							return (<ExerciseRouter />)
 						}}
@@ -109,7 +116,17 @@ class CourseRouter extends Component {
 						coursePrefix={prefixUrl}
 						status={status}
 						path={`${path}/grades/:gradeFilter`}
-						component={GradesRouter}
+						render={() => {
+							let [, courseId, gradeFilter] =
+								/^\/classroom\/course\/([A-Za-z0-9]+)\/grades\/([A-Za-z0-9]+)/
+									.exec(this.props.location.pathname);
+							!this.loading && this.props.getExerciseSummaries(courseId,
+								(gradeFilter === 'teacher') ? 'all' : gradeFilter
+							)
+								.then(() => this.loading = false)
+							this.loading = true;
+							return (<GradesRouter />)
+						}}
 					/>
 				</Switch>
 			</div>
@@ -128,7 +145,9 @@ let mapDispatchToProps = (dispatch) => ({
 	hideModal: () => dispatch(hideModal()),
 	getForumById: (courseId, forumId) => dispatch(getForumById(courseId, forumId)),
 	getExerciseById: (courseId, exerciseId) =>
-		dispatch(getExerciseById(courseId, exerciseId))
+		dispatch(getExerciseById(courseId, exerciseId)),
+	getExerciseSummaries: (courseId, param) =>
+		dispatch(getExerciseSummaries(courseId, param))
 })
 export default connect(
 	mapStateToProps,

@@ -3,12 +3,67 @@ let {
 	API_GET_SUMMARIES
 } = types;
 
+/**
+ * @typedef ExerciseQuickSummary
+ * @type Object
+ * @property {number} index - the position of this exercise in the original API ordered list
+ * @property {number} maxScore - max score that the given user has achieved among all attempts
+ * @property {number} attemptsAmount - the overall amount of attempts that the user took
+ * to solve the exercise
+ */
+
+/**
+ * @typedef UserExerciseSummary
+ * @type Object
+ * @property {string} id - the id of the exercise in which the user has participated
+ * @property {string} name the name of the exercise in which the user has participated
+ * @property {CourseExerciseAttempt[]} attempts - the list of attempts
+ * which the user took to solve the exercise
+ */
+
+/**
+ * @typedef GradeSummary
+ * @type Object
+ * @property {string} userId
+ * @property {string} userName
+ * @property {UserExerciseSummary[]} exercises
+ */
+
+/**
+ * @typedef GradesState
+ * @type Object
+ * @property {?Object|string} error
+ * @property {GradeSummary[]} summaries - list of summaries for each user
+ * that includes the scores which the users have achieved while participating in exercises
+ * and info about their attempts in these exercises
+ * @property {Object.<string, Object.<string, ExerciseQuickSummary > >} userToExerciseDict -
+ * the dictionary that assign a user ID to the dictionary of exercise summaries
+ * for all exercises in which the user has participated. These summaries are assigned
+ * to the exercise id in the object. Quite complicated, but efficient!
+ */
+
 let initialState = {
 	summaries: null,
 	userToExerciseDict: {},
 	error: ''
 }
 
+/**
+ * @function gradesReducer
+ * @param {GradesState} state
+ * @param {?Object|string} state.error
+ * @param {GradeSummary[]} state.summaries - list of summaries for each user
+ * that includes the scores which the users have achieved while participating in exercises
+ * and info about their attempts in these exercises
+ * @param {Object.<string, Object.<string, ExerciseQuickSummary > >} state.userToExerciseDict -
+ * the dictionary that assign a user ID to the dictionary of exercise summaries
+ * for all exercises in which the user has participated. These summaries are assigned
+ * to the exercise id in the object. Quite complicated, but efficient!
+ * @param {ReduxAction} action
+ * @return {GradesState}
+ *
+ * @memberOf storeState.views.classroom.course
+ */
 export default function(state = initialState, action) {
 
 	switch(action.type){
@@ -19,31 +74,30 @@ export default function(state = initialState, action) {
 					error: action.payload.error.message || action.payload.error
 				}
 			}
-
 			let summaries = action.payload, dict = {}
 
 			for (let s of summaries){
-				for (let e = 0; e < s.exercises.length; e++){
-					let ex = s.exercises[e];
-					let maxScore = -1;
-					for (let a of ex.attempts){
-						if (a.score && a.score > maxScore){
-							maxScore = a.score;
-						}
+				let index = -1;
+				for (let e of s.exercises){
+					index++;
+					let maxScore = e.attempts.reduce((mx, a) => (
+						(
+							parseFloat(a.score) &&
+							Math.max(parseFloat(a.score), mx)
+						) || mx),
+						-1
+					)
+					if (!dict[s.userId]){
+						dict[s.userId] = {}
 					}
-					if (!dict[s.id]){
-						dict[s.id] = {}
-					}
-					dict[s.id][ex.id] = {
-						index: e,
+					dict[s.userId][e.id] = {
+						index: index,
+						exerciseName: e.name,
 						maxScore: maxScore,
-						attemptsAmount: ex.attempts.length
+						attempts: e.attempts || []
 					};
 				}
 			}
-
-			console.log('reduce', summaries)
-
 			return {
 				...state,
 				summaries: summaries,

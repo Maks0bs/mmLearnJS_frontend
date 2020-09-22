@@ -10,8 +10,17 @@ import { COURSE_USER_STATUS } from "../services/helpers";
  * @component
  */
 class TeacherRoute extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { mounted: false }
+    }
+
+    componentDidMount() {
+        this.setState({mounted: true})
+    }
 
     render() {
+        if (!this.state.mounted) return null;
         let { coursePrefix, status } = this.props;
         let { NOT_AUTHENTICATED, TEACHER, CREATOR } = COURSE_USER_STATUS
         if (!status){

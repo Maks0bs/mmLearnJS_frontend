@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import { getAttemptById } from "./services/actions";
+import { getAttemptById, cleanup } from "./services/actions";
 import { addToast } from "../../../../../../../../components/ToastRoot/services/actions";
 import ActiveAttempt from "./components/ActiveAttempt/ActiveAttempt";
 import BigLoadingCentered from "../../../../../../../../components/reusables/BigLoadingCentered";
@@ -31,6 +31,10 @@ class Attempt extends Component {
                     this.displayError('Problem loading attempt')
                 }
             })
+    }
+
+    componentWillUnmount() {
+        this.props.cleanup();
     }
 
     render() {
@@ -94,12 +98,13 @@ class Attempt extends Component {
 let mapStateToProps = (state) => ({
     ...state.views.classroom.course.exercise.services,
     ...state.views.classroom.course.exercise.attempt,
-    ...state.views.classroom.course.services,
+    course: state.views.classroom.course.services.course,
 })
 let mapDispatchToProps = (dispatch) => ({
     getAttemptById: (courseId, exerciseId, attemptId) =>
         dispatch(getAttemptById(courseId, exerciseId, attemptId)),
-    addToast: (component, options) => dispatch(addToast(component, options))
+    addToast: (component, options) => dispatch(addToast(component, options)),
+    cleanup: () => dispatch(cleanup())
 })
 export default connect(
     mapStateToProps,

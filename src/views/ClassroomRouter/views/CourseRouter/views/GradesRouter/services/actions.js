@@ -4,7 +4,19 @@ let {
 	API_GET_SUMMARIES
 } = types;
 
+/**
+ * @namespace storeState.views.classroom.course.gradesActions
+ */
 
+/**
+ * @function
+ * @async
+ * @param {string} courseId
+ * @param {string} param - specifies what set of summaries should be received.
+ * See API docs for details.
+ * @return {function(*): Promise<any|Response>}
+ * @memberOf storeState.views.classroom.course.gradesActions
+ */
 export let getExerciseSummaries = (courseId, param) => (dispatch) => {
 	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise-summary/${param}`, {
 		method: "GET",
@@ -20,6 +32,4 @@ export let getExerciseSummaries = (courseId, param) => (dispatch) => {
 			payload: data
 		}))
 		.catch(err => console.log(err))
-
 }
-

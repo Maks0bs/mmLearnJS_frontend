@@ -81,6 +81,7 @@ let {
  * @property {?CourseUpdate[]} updates
  * @property {CourseSection[]} sections
  * @property {CourseExercise[]} exercises
+ * @property {number} __v - version of the course (how many updates have occured)
  */
 
 /**
@@ -123,12 +124,15 @@ let courseServicesReducer = function(state = initialState, action) {
 					error: action.payload.error.message || action.payload.error
 				}
 			}
-			let newState = {
-				...state,
-				course: action.payload[0]
+			let newState = {};
+			if (!state.course || (state.course.__v !== action.payload.__v)){
+				newState = {
+					...state,
+					course: action.payload[0]
+				}
 			}
-			if (action.user){
 
+			if (action.user){
 				newState.curUserCourseStatus = getCurUserCourseStatus(
 					action.payload[0], action.user
 				)
