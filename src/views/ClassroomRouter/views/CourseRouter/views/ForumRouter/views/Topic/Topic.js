@@ -90,6 +90,7 @@ class Topic extends Component {
 		})
 		let posts = formatTopicPosts(topic.posts);
 		let isTeacher = (status === TEACHER || status === CREATOR);
+		let hasTeachersOnly = forum.content && forum.content.teachersOnly;
 
 		return (
 			<div className="m-3">
@@ -112,7 +113,7 @@ class Topic extends Component {
 							postNum={i}
 							canDelete={canDelete}
 							hasAnswers={!postHasNoAnswers}
-							canReply={isTeacher || !forum.teachersOnly}
+							canReply={isTeacher || !hasTeachersOnly}
 							replying={this.state.replyTo === i}
 							onSubmitAnswer={this.onSubmitAnswer}
 							onDeletePost={this.onDeletePost}

@@ -29,7 +29,7 @@ class Forum extends Component {
 			<div className="container my-3">
 				<h1>Forum <strong>{name}</strong> </h1>
 				<p>{description}</p>
-				{!teachersOnly || isTeacher && (
+				{(!teachersOnly || isTeacher) && (
 					<button
 						className="btn btn-outline btn-raised m-3"
 						onClick={this.showAddTopicModal}
