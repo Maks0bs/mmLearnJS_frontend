@@ -35,7 +35,7 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				message: action.payload.message ? action.payload.message : '',
-				error: action.payload.error ? (
+				error: action.payload.error ? JSON.stringify(
 					action.payload.error.message || action.payload.error
 				) : ''
 			}

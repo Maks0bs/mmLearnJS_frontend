@@ -15,6 +15,7 @@ let { API_SIGNIN, CLEAR_MESSAGES } = types;
  * @memberOf storeState.views.components.signinActions
  */
 export let signin = (user) => (dispatch) => {
+	dispatch({type: CLEAR_MESSAGES});
 	return fetch(`${REACT_APP_API_URL}/auth/signin`, {
 		method: "POST",
 		headers: {

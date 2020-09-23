@@ -119,6 +119,14 @@ let initialState = {
 export default function(state = initialState, action) {
 	switch(action.type){
 		case API_FETCH_NEWS:
+			if (action.payload.error){
+				return {
+					...state,
+					error: JSON.stringify(
+						action.payload.error.message || action.payload.error
+					)
+				}
+			}
 			return {
 				...state,
 				newsEntries: [...action.payload]

@@ -82,9 +82,12 @@ export default function(state = initialState, action) {
 		case API_GET_UPDATES_BY_DATE: {
 
 			if (action.payload.data.error){
+				let { error } = action.payload.data;
 				return {
 					...state,
-					error: action.payload.data.error.message,
+					error: JSON.stringify(
+						error.message || error
+					),
 					updatesData: null
 				}
 			} else {

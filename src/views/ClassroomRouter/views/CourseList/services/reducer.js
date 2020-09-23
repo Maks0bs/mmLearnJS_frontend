@@ -69,7 +69,9 @@ export default  function(state = initialState, action) {
 			if (action.payload.error){
 				return {
 					...state,
-					error: action.payload.error.message || action.payload.error
+					error: JSON.stringify(
+						action.payload.error.message || action.payload.error
+					)
 				}
 			}
 			return {
@@ -84,7 +86,9 @@ export default  function(state = initialState, action) {
 			if (action.payload.error){
 				return {
 					...state,
-					error: action.payload.error.message || action.payload.error,
+					error: JSON.stringify(
+						action.payload.error.message || action.payload.error
+					),
 					loading: {
 						...state.loading,
 						open: false
@@ -104,7 +108,9 @@ export default  function(state = initialState, action) {
 			if (action.payload.error){
 				return {
 					...state,
-					error: action.payload.error.message || action.payload.error,
+					error: JSON.stringify(
+						action.payload.error.message || action.payload.error
+					),
 					loading: {
 						...state.loading,
 						enrolled: false
@@ -124,7 +130,9 @@ export default  function(state = initialState, action) {
 			if (action.payload.error){
 				return {
 					...state,
-					error: action.payload.error.message || action.payload.error,
+					error: JSON.stringify(
+						action.payload.error.message || action.payload.error
+					),
 					loading: {
 						...state.loading,
 						teacher: false

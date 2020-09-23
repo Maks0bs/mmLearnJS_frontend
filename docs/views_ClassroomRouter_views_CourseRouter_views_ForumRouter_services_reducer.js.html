@@ -160,14 +160,18 @@ export default function(state = initialState, action) {
 		case API_CREATE_TOPIC: {
 			return {
 				...state,
-				error: action.payload.error &amp;&amp; action.payload.error.message
+				error: action.payload.error &amp;&amp; JSON.stringify(
+					action.payload.error.message || action.payload.error
+				)
 			}
 		}
 		case API_GET_FORUM_BY_ID: {
 			if (action.payload.error){
 				return {
 					...state,
-					error: action.payload.error &amp;&amp; action.payload.error.message
+					error: JSON.stringify(
+						action.payload.error.message || action.payload.error
+					)
 				}
 			}
 			return {
