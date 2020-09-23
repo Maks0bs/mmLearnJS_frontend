@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import { fetchNews, cleanup } from '../services/actions'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import OptimizedComponent from "../../../../../components/performance/OptimizedComponent";
 import BigLoadingCentered from "../../../../../components/reusables/BigLoadingCentered";
 
 /**

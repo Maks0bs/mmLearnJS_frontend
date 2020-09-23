@@ -36,7 +36,7 @@ class UserPreview extends Component {
                             (i.target.src=`${DefaultUserAvatar}`)
                         }
                     />
-                    <p style={{whiteSpace: 'nowrap'}}>
+                    <p style={{display: 'flex'}}>
                         {name}
                     </p>
                 </Link>

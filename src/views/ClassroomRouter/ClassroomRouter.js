@@ -12,6 +12,7 @@ import SearchCourses from "./views/SearchCourses/SearchCourses";
 import BigLoadingCentered from "../../components/reusables/BigLoadingCentered";
 import { getUser } from "./views/UserRouter/services/actions";
 import CreateCourse from "./views/CreateCourse";
+import {getCourseById, getFirstTimeStatus} from "./views/CourseRouter/services/actions";
 
 /**
  * @namespace components.views.classroom
@@ -28,7 +29,9 @@ class ClassroomRouter extends Component {
 
 	render() {
 		let { authenticatedUser: user } = this.props;
-		if (user === null){ return (<BigLoadingCentered />)}
+		if (user === null){
+			return (<BigLoadingCentered />)
+		}
 
 		let { path } = this.props.match;
 		return (
@@ -57,9 +60,16 @@ class ClassroomRouter extends Component {
 						component={CreateCourse}
 					/>
 					<Route
-						//TODO refactor this boi to route to all /course/:courseId
-						path={`${path}/course`}
-						component={CourseRouter}
+						path={`${path}/course/:courseId`}
+						render={() => {
+							let [, courseId] = /^\/classroom\/course\/([A-Za-z0-9]+)/.exec(
+								this.props.location.pathname
+							);
+							console.log('render cr');
+							this.props.getCourseById(courseId, user);
+							this.props.getFirstTimeStatus();
+							return (<CourseRouter />)
+						}}
 					/>
 					<Route
 						path={`${path}/user/:userId`}
@@ -77,9 +87,13 @@ class ClassroomRouter extends Component {
 	}
 }
 
-let mapStateToProps = (state) => ({...state.services})
+let mapStateToProps = (state) => ({
+	...state.services
+})
 let mapDispatchToProps = (dispatch) => ({
-	getUser: (userId) => dispatch(getUser(userId))
+	getUser: (userId) => dispatch(getUser(userId)),
+	getCourseById: (id, user) => dispatch(getCourseById(id, user)),
+	getFirstTimeStatus: () => dispatch(getFirstTimeStatus())
 })
 export default connect(
 	mapStateToProps,

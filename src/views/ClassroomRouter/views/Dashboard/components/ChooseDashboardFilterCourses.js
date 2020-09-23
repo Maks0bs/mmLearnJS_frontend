@@ -89,14 +89,14 @@ class ChooseDashboardFilterCourses extends Component {
                     </tbody>
                 </table>
                 <button
-                    className="btn btn-outline btn-raised"
+                    className="btn btn-raised btn-raised"
                     onClick={this.handleLeave}
                     type="button"
                 >
                     Cancel
                 </button>
                 <button
-                    className="btn btn-outline btn-raised btn-success ml-3"
+                    className="btn btn-raised btn-success ml-3"
                     type="button"
                     onClick={this.handleSave}
                 >

@@ -32,7 +32,7 @@ class Dashboard extends Component {
 		let chosenCourses = [];
 		if (Array.isArray(subscribedCourses)){
 			// extract ids from subscribed courses
-			chosenCourses = subscribedCourses.map(c => c.course._id)
+			chosenCourses = subscribedCourses.map(c => c && c.course && c.course._id)
 		}
 		// pre-populate data
 		this.props.updateFilter({curDateFrom, curDateTo, chosenCourses})

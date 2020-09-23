@@ -15,7 +15,7 @@ class Signin extends Component {
 			<div className="container w-100">
 				<SigninComponent
 					className="row w-50 justify-content-center"
-					shouldRedirect
+					redirectToAfterSignin={`/classroom/dashboard`}
 				/>
 			</div>
 		);

@@ -1,99 +1,158 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { getCourseById } from './services/actions'
-import { addNavItem, removeNavItem } from "../../../../../../services/routing/actions";
-import EditPanel from './components/EditPanel'
-import EditActions from "./components/EditActions";
-import { addToast } from "../../../../../../components/ToastRoot/services/actions";
-import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
-import { withRouter } from 'react-router-dom'
+import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
+import { dndTypes } from './services/helpers'
+import { showModal, hideModal} from "../../../../../../components/ModalRoot/services/actions";
+import { updateExercises, addExercise, copyExercisesFromOldData, cleanup } from "./services/actions";
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+import {faArrowsAlt, faList, faQuestionCircle} from '@fortawesome/free-solid-svg-icons'
+import Exercise from "./components/ExerciseContainer";
+import EditActions from "./components/EditExercisesActions";
+import EditorHelp from "../../components/EditorHelp";
+import {reorderArrayShallow} from "../../../../../../services/helpers";
+let { EXERCISES } = dndTypes;
 
+/**
+ * This page allows teachers to edit exercises / tests in their course:
+ * add, edit, delete exercises and tasks inside them
+ * @memberOf components.views.classroom.course
+ * @component
+ */
 class EditExercises extends Component {
-    constructor() {
-        super();
 
-        this.state = {
-            showEditPanel: false
+    componentDidMount() {
+        this.props.initData();
+    }
+
+    showHelp = (e) => {
+        e.preventDefault();
+        this.props.showModal(
+            <EditorHelp inModal={true} onClose={this.props.hideModal} type="exercises"/>
+        )
+    }
+
+    onAddExercise = (e) => {
+        e.preventDefault();
+        this.props.addExercise();
+    }
+
+    onDragEnd = (result) => {
+        if (!result.destination) {
+            return;
         }
-    }
-
-    componentWillUnmount() {
-        this.props.removeNavItem('course link');
-    }
-
-    componentDidMount(){
-        let courseId = this.props.match.params.courseId;
-        this.props.getCourseById(courseId)
-            .then(() => {
-                if (!this.props.error){
-                    this.props.addNavItem({
-                        id: 'course link',
-                        name: 'Course "' + this.props.courseData.name + '"',
-                        path: `/classroom/course/${this.props.courseData._id}`
-                    })
-                    this.setState({
-                        showEditPanel: true
-                    })
-                } else {
-                    this.props.addToast(
-                        (
-                            <div>
-                                {`Problem with loading course exercises. Please reload page`}
-                            </div>
-                        ),
-                        {
-                            type: 'error'
-                        }
-                    )
-                }
-
-            })
+        if (result.type === EXERCISES) {
+            let exercises = reorderArrayShallow(
+                this.props.newExercises,
+                result.source.index,
+                result.destination.index
+            );
+            this.props.updateExercises(exercises);
+        }
     }
 
     render() {
-        let { authenticatedUser: user } = this.props;
-        if (!(user && user._id && user.role === 'teacher')){
+        let { newExercises: exercises } = this.props;
+        let isMobileWidth = (window.innerWidth <= 1000);
+        if (!exercises){
             return (
-                <div>
-                    you are not a teacher, no access to editing tests
+                <div className="alert alert-danger m-5">
+                    Error loading course data. Please try reloading the page
                 </div>
             )
         }
-        if (this.state.showEditPanel){
-            return (
-                <div className="container">
-                    <EditPanel />
-                    <div className="mt-2">
-                        <EditActions />
+        return (
+            <div
+                className="container my-5"
+                style={{width: isMobileWidth ? '95%' : '70%'}}
+            >
+                <div
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'max(90%) minmax(auto, 10%)'
+                    }}
+                >
+                    <div>
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            <Droppable droppableId="droppableExercises" type={EXERCISES}>
+                                {(provided, snapshot) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        style={{
+                                            background: snapshot.isDraggingOver ? "lightblue" : "",
+                                            padding: '10px',
+                                            borderRadius: '5px'
+                                        }}
+                                    >
+                                        <div className="column">
+                                            {exercises && exercises.map((section, i) => (
+                                                <Draggable
+                                                    key={`exercise${i}`}
+                                                    draggableId={`exercise${i}`}
+                                                    index={i}
+                                                >
+                                                    {(provided, snapshot) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            style={{
+                                                                padding: '10px',
+                                                                userSelect: 'none',
+                                                                margin: '5px',
+                                                                borderRadius: '5px',
+                                                                background: snapshot.isDragging ?
+                                                                    '#e0e0e0' : '#f0f0f0',
+                                                                ...provided.draggableProps.style
+                                                            }}
+                                                        >
+                                                            <span {...provided.dragHandleProps} >
+                                                                <div className="float-left m-1">
+                                                                    <Icon icon={faArrowsAlt} />
+                                                                </div>
+                                                            </span>
+
+                                                            <Exercise num={i}/>
+
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
+                                        <a href="#void" onClick={this.onAddExercise}>
+                                            <Icon icon={faList} className="pr-1"/>
+                                            Add test / exercise
+                                        </a>
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
+                    </div>
+                    <div>
+                        <a href="#void" onClick={this.showHelp}>
+                            <Icon className="pr-1" icon={faQuestionCircle} />
+                            Help
+                        </a>
                     </div>
                 </div>
-            );
-        }
-        else{
-            return (
-                <BigLoadingCentered />
-            )
-        }
+                <hr />
+                <EditActions />
+            </div>
+        )
     }
 }
-
-let mapStateToProps = (state) => {
-    return {
-        ...state.views.classroom.course.editExercises.services,
-        authenticatedUser: state.services.authenticatedUser
-    }
-}
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-        getCourseById: (courseId) => dispatch(getCourseById(courseId)),
-        addToast: (component, options) => dispatch(addToast(component, options)),
-        addNavItem: (item) => dispatch(addNavItem(item)),
-        removeNavItem: (id) => dispatch(removeNavItem(id))
-    }
-}
-
+let mapStateToProps = (state) => ({
+    ...state.views.classroom.course.services,
+    ...state.views.classroom.course.editExercises
+})
+let mapDispatchToProps = (dispatch) => ({
+    updateExercises: (exercises) => dispatch(updateExercises(exercises)),
+    addExercise: () => dispatch(addExercise()),
+    initData: () => dispatch(copyExercisesFromOldData()),
+    showModal: (component) => dispatch(showModal(component)),
+    hideModal: () => dispatch(hideModal()),
+    cleanup: () => dispatch(cleanup())
+})
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(EditExercises));
+)(EditExercises);

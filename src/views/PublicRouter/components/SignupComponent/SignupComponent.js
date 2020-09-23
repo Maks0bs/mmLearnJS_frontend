@@ -29,7 +29,7 @@ class SignupComponent extends Component {
 		this.setState({loading: false})
 		if (this.props.error){
 			this.props.addToast(
-				(<div>Error while trying to create the account</div>),
+				(<div>{this.props.error}</div>),
 				{ type: 'error' }
 			)
 		} else {

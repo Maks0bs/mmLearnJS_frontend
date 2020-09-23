@@ -9,7 +9,7 @@ import types from './actionTypes'
  * @param {string} options.type the type of the toast
  * @return {function(*): ReduxAction}
  *
- * @memberOf storeState.componentsActions
+ * @memberOf storeState.commonComponentsActions
  */
 export let addToast = (component, options) => dispatch => {
 	return dispatch({
@@ -26,7 +26,7 @@ export let addToast = (component, options) => dispatch => {
  * @function
  * @return {function(*): ReduxAction}
  *
- * @memberOf storeState.componentsActions
+ * @memberOf storeState.commonComponentsActions
  */
 export let deleteFirstToast = () => dispatch => {
 	return dispatch({

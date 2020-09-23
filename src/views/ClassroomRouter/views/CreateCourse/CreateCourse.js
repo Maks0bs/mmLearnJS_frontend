@@ -69,9 +69,13 @@ class CreateCourse extends Component {
 				</div>
 				<div className="form-group" style={inlineStyle}>
 					<label className="text-muted my-0 mx-2">Info about course</label>
-					<input
+					<textarea
 						onChange={this.handleChange("about")}
-						type="textarea"
+						style={{
+							borderStyle: 'solid',
+							borderWidth: '1px',
+							borderColor: 'gray'
+						}}
 						className="form-control"
 						value={about}
 					/>
@@ -91,7 +95,9 @@ class CreateCourse extends Component {
 					style={hasPassword ? inlineStyle : {display: 'none'}}
 				>
 					<label className="text-muted my-0 mx-2">Course password</label>
-					<input type="text" className="form-control"
+					<input
+						type="text"
+						className="form-control"
 						onChange={this.handleChange("password")}
 						value={password}
 					/>
@@ -101,16 +107,20 @@ class CreateCourse extends Component {
 						onChange={this.handleChange("type")}
 					>
 						<option value="open">Open</option>
-						<option value="public">Public [to be implemented]</option>
-						<option value="hidden">Hidden [to be implemented]</option>
+						<option disabled value="public">
+							Public [to be implemented]
+						</option>
+						<option disabled value="hidden">
+							Hidden [to be implemented]
+						</option>
 					</select>
 				</div>
-				<button className="btn btn-raised btn-info mx-2" type="submit">
-					Create
-				</button>
 				<Link className="btn btn-raised mx-2" to={"/classroom/courses"}>
 					Back to course list
 				</Link>
+				<button className="btn btn-raised btn-info mx-2" type="submit">
+					Create
+				</button>
 			</form>
 		);
 	}
@@ -122,10 +132,7 @@ class CreateCourse extends Component {
 			return <Redirect to={`/classroom/course/${newCourseId}`} />
 		}
 		return (
-			<div
-				className="container"
-				style={{width: '65%'}}
-			>
+			<div className="container" style={{width: '65%'}}>
 				<h2 className="mt-5 mb-5">Create a new course</h2>
 				<div
 					className="alert alert-danger"

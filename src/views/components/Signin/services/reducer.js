@@ -16,20 +16,22 @@ let initialState = {
 /**
  * @function signinReducer
  * @param {SigninState} state
- * @param {state} state.message - the message about signin status
- * @param {state|Object} state.error - any error messages that can happen during the log in process
+ * @param {string} state.message - the message about signin status
+ * @param {string|Object} state.error - any error messages that can happen during the log in process
  * @param {ReduxAction} action
  * @return {SigninState}
  *
- * @memberOf storeState.views.components
+ * @memberOf storeState.views.serviceComponents
  */
 export default function(state = initialState, action) {
 	switch(action.type){
 		case API_SIGNIN:
 			return {
 				...state,
-				message: action.payload.message,
-				error: action.payload.error ? action.payload.error.message : state.error
+				message: JSON.stringify(action.payload.message),
+				error: action.payload.error && JSON.stringify(
+					action.payload.error ? action.payload.error.message : state.error
+				)
 			}
 		case CLEAR_MESSAGES:
 			return initialState

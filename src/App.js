@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import ClassroomRouter from './views/ClassroomRouter'
 import PublicRouter from './views/PublicRouter'
 import ModalRoot from './components/ModalRoot'
-import Reload from './components/performance/Reload'
 import ToastRoot from './components/ToastRoot'
 import {getAuthenticatedUser} from "./services/main/actions";
 import {connect} from "react-redux";
@@ -22,12 +21,7 @@ class App extends Component {
                 <Router>
                     <ModalRoot />
                     <ToastRoot />
-
                     <Switch>
-                        <Route
-                            exact path="/reload"
-                            component={Reload}
-                        />
                         <Route
                             path="/classroom"
                             render={() => {

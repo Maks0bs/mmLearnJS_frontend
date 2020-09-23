@@ -22,7 +22,9 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				message: action.payload.message,
-				error: action.payload.error && action.payload.error.message
+				error: action.payload.error && JSON.stringify(
+					action.payload.error.message || action.payload.error
+				)
 			}
 		case CLEAR_MESSAGES:
 			return initialState

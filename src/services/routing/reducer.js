@@ -1,5 +1,5 @@
 import types from './actionTypes'
-import { cloneDeep } from 'lodash'
+import { assign } from 'lodash'
 let {
 	ADD_NAV_ITEM,
 	REMOVE_NAV_ITEM
@@ -29,38 +29,34 @@ let initialState = {
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case ADD_NAV_ITEM: {
-			//Don't add an item, that is already present
+			let newItems = [...state.navItems], found = false;
 			for (let i = 0; i < state.navItems.length; i++){
+				//Don't add an item, that is already present
 				if (action.payload.id === state.navItems[i].id){
-					let newItems = cloneDeep(state.navItems);
-					newItems[i] = action.payload;
-					return {
-						...state,
-						navItems: newItems
-					}
+					newItems[i] = assign(newItems[i], action.payload);
+					found = true;
 				}
+			}
+			if (!found){
+				newItems = newItems.concat([action.payload]);
 			}
 			return {
 				...state,
-				navItems: [...state.navItems, action.payload]
+				navItems: newItems
 			}
 		}
 		case REMOVE_NAV_ITEM: {
-
 			/*
 				Search for the specified id and delete the item, if present.
 				Clone the items beforehand to avoid updating redux state
 				outside of the final dispatch process
 			 */
-			let navItems = cloneDeep(state.navItems);
+			let navItems = [...state.navItems]
 			for (let i = 0; i < navItems.length; i++){
 				if (navItems[i].id === action.payload){
 					navItems.splice(i, 1);
 					break;
 				}
-			}
-			if (navItems.length === state.navItems.length){
-				return state;
 			}
 			return {
 				...state,

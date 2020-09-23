@@ -101,7 +101,7 @@ class DashboardFilter extends Component {
                     </div>
                 </div>
                 <button
-                    className="btn btn-outline mx-3 p-1"
+                    className="btn btn-raised mx-3 p-1"
                     type="submit"
                 >
                     update

@@ -10,7 +10,7 @@ let {
  * @param {?React.Component|JSX.Element} component
  * @return {function(*): ReduxAction}
  *
- * @memberOf storeState.componentsActions
+ * @memberOf storeState.commonComponentsActions
  */
 export let showModal = (component) => dispatch => {
 	return dispatch({
@@ -24,7 +24,7 @@ export let showModal = (component) => dispatch => {
  * @function
  * @return {function(*): ReduxAction}
  *
- * @memberOf storeState.componentsActions
+ * @memberOf storeState.commonComponentsActions
  */
 export let hideModal = () => dispatch => {
 	return dispatch({

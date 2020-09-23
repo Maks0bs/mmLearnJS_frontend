@@ -50,9 +50,15 @@ class ForgotPassword extends Component {
 
 	render(){
 		return (
-			<div className="container">
+			<div
+				className="container text-center"
+				style={{width: '70%'}}
+			>
 				{this.state.loading && (<BigLoadingAbsolute />)}
-				<h2 className="mt-5 mb-5">Enter email to send password reset info to</h2>
+				<h2 className="mt-5 mb-5">
+					Enter email to which the info
+					about password reset should be sent
+				</h2>
 
 				<form onSubmit={this.onSubmit}>
 

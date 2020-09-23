@@ -13,10 +13,14 @@
     "node_modules/better-docs/component",
     "node_modules/better-docs/category"],
   "templates": {
+    "search": true,
     "better-docs": {
-      "name": "My React components"
+      "name": "mmLearnJS React app",
+      "title": "",
+      "navLinks": []
     }
   },
+  "recurseDepth": 15,
   "opts": {
     "template": "node_modules/better-docs",
     "destination": "docs",

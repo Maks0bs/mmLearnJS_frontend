@@ -78,12 +78,16 @@ class ModalRoot extends Component {
                                     Increase z-index, so that
                                     the modal is shown above all other components
                                  */
-								zIndex: 10
+								zIndex: 10,
+
 							},
 							content: {
 								padding: '0px',
 								left: isMobileWidth ? '15%' : '25%',
-								right: isMobileWidth ? '15%' : '25%'
+								right: isMobileWidth ? '15%' : '25%',
+								top: '5%',
+								bottom: 'auto',
+								maxHeight: '90%'
 							}
 						}}
 					>

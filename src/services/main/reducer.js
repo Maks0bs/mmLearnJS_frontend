@@ -8,7 +8,7 @@ let {
 /**
  * @typedef ServicesBasicState
  * @type Object
- * @property {Object} authenticatedUser whole data about the
+ * @property {?Object} authenticatedUser whole data about the
  * current authenticate user
  */
 
@@ -20,7 +20,7 @@ let initialState = {
  * @function servicesReducer
  * @param {ServicesBasicState} state
  * @param {ReduxAction} action
- * @param {Object} state.authenticatedUser whole data about the
+ * @param {?Object} state.authenticatedUser whole data about the
  * current authenticate user
  * @return {ServicesBasicState}
  *

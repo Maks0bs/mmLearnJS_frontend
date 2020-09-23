@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> forumActions</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">mmLearnJS React app</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="components.html">components</a></li><li><a href="components.common.html">common</a></li><li><a href="components.views.html">views</a></li><li><a href="components.views.classroom.html">classroom</a></li><li><a href="components.views.classroom.course.html">course</a></li><li><a href="components.views.classroom.course.exercise.html">exercise</a></li><li><a href="components.views.classroom.course.forum.html">forum</a></li><li><a href="components.views.classroom.course.grades.html">grades</a></li><li><a href="components.views.classroom.user.html">user</a></li><li><a href="components.views.public.html">public</a></li><li><a href="components.views.serviceComponents.html">serviceComponents</a></li><li><a href="storeState.html">storeState</a></li><li><a href="storeState.commonComponents.html">commonComponents</a></li><li><a href="storeState.commonComponentsActions.html">commonComponentsActions</a></li><li><a href="storeState.routingActions.html">routingActions</a></li><li><a href="storeState.servicesActions.html">servicesActions</a></li><li><a href="storeState.views.html">views</a></li><li><a href="storeState.views.classroom.html">classroom</a></li><li><a href="storeState.views.classroom.course.html">course</a></li><li><a href="storeState.views.classroom.course.courseMainActions.html">courseMainActions</a></li><li><a href="storeState.views.classroom.course.courseServicesActions.html">courseServicesActions</a></li><li><a href="storeState.views.classroom.course.editContent.html">editContent</a></li><li><a href="storeState.views.classroom.course.editContent.editContentEntryEditorActions.html">editContentEntryEditorActions</a></li><li><a href="storeState.views.classroom.course.editContent.editContentServicesActions.html">editContentServicesActions</a></li><li><a href="storeState.views.classroom.course.editExercisesActions.html">editExercisesActions</a></li><li><a href="storeState.views.classroom.course.exercise.html">exercise</a></li><li><a href="storeState.views.classroom.course.exercise.exerciseAttemptActions.html">exerciseAttemptActions</a></li><li><a href="storeState.views.classroom.course.exercise.exerciseServicesActions.html">exerciseServicesActions</a></li><li><a href="storeState.views.classroom.course.forumActions.html">forumActions</a></li><li><a href="storeState.views.classroom.course.gradesActions.html">gradesActions</a></li><li><a href="storeState.views.classroom.courseListActions.html">courseListActions</a></li><li><a href="storeState.views.classroom.createCourseActions.html">createCourseActions</a></li><li><a href="storeState.views.classroom.dashboardActions.html">dashboardActions</a></li><li><a href="storeState.views.classroom.searchCoursesActions.html">searchCoursesActions</a></li><li><a href="storeState.views.classroom.userRouterActions.html">userRouterActions</a></li><li><a href="storeState.views.components.activationMessageActions.html">activationMessageActions</a></li><li><a href="storeState.views.components.signinActions.html">signinActions</a></li><li><a href="storeState.views.public.html">public</a></li><li><a href="storeState.views.public.activateAccountActions.html">activateAccountActions</a></li><li><a href="storeState.views.public.forgotPasswordActions.html">forgotPasswordActions</a></li><li><a href="storeState.views.public.homeActions.html">homeActions</a></li><li><a href="storeState.views.public.resetPasswordActions.html">resetPasswordActions</a></li><li><a href="storeState.views.public.signupActions.html">signupActions</a></li><li><a href="storeState.views.serviceComponents.html">serviceComponents</a></li><li><a href="storeStateActions.html">storeStateActions</a></li></ul><h3>Components</h3><ul><li><a href="components.App.html">App</a></li><li><a href="components.common.BigLoadingAbsolute.html">BigLoadingAbsolute</a></li><li><a href="components.common.BigLoadingCentered.html">BigLoadingCentered</a></li><li><a href="components.common.DownloadElement.html">DownloadElement</a></li><li><a href="components.common.EditSymbol.html">EditSymbol</a></li><li><a href="components.common.ModalRoot.html">ModalRoot</a></li><li><a href="components.common.NavDropdown.html">NavDropdown</a></li><li><a href="components.common.NavItem.html">NavItem</a></li><li><a href="components.common.NavLinkSecondary.html">NavLinkSecondary</a></li><li><a href="components.common.NotificationItem.html">NotificationItem</a></li><li><a href="components.common.SmallLoading.html">SmallLoading</a></li><li><a href="components.common.ToastRoot.html">ToastRoot</a></li><li><a href="components.common.UserPreview.html">UserPreview</a></li><li><a href="components.views.classroom.ClassroomMenu.html">ClassroomMenu</a></li><li><a href="components.views.classroom.ClassroomMenu.ClassroomMenuUserActions.html">ClassroomMenuUserActions</a></li><li><a href="components.views.classroom.ClassroomRouter.html">ClassroomRouter</a></li><li><a href="components.views.classroom.course.CourseMain.html">CourseMain</a></li><li><a href="components.views.classroom.course.CourseMain.CourseEnrollForm.html">CourseEnrollForm</a></li><li><a href="components.views.classroom.course.CourseMain.CourseMainData.html">CourseMainData</a></li><li><a href="components.views.classroom.course.CourseMain.CourseMainData.Section.html">Section</a></li><li><a href="components.views.classroom.course.CourseMain.CourseMainData.Section.Entry.html">Entry</a></li><li><a href="components.views.classroom.course.CourseMain.CourseMainData.SubscriptionButton.html">SubscriptionButton</a></li><li><a href="components.views.classroom.course.CourseMain.CreatorActions.html">CreatorActions</a></li><li><a href="components.views.classroom.course.CourseMain.CreatorActions.AddTeachers.html">AddTeachers</a></li><li><a href="components.views.classroom.course.CourseMain.CreatorActions.DeleteCourse.html">DeleteCourse</a></li><li><a href="components.views.classroom.course.CourseMain.InvitedTeacherInfo.html">InvitedTeacherInfo</a></li><li><a href="components.views.classroom.course.CourseMain.OpenCourseInfo.html">OpenCourseInfo</a></li><li><a href="components.views.classroom.course.CourseRouter.html">CourseRouter</a></li><li><a href="components.views.classroom.course.CourseTabs.html">CourseTabs</a></li><li><a href="components.views.classroom.course.EditContent.html">EditContent</a></li><li><a href="components.views.classroom.course.EditContent.EditContentActions.html">EditContentActions</a></li><li><a href="components.views.classroom.course.EditContent.EditContentRoot.html">EditContentRoot</a></li><li><a href="components.views.classroom.course.EditContent.EditContentRoot.EditContentSection.html">EditContentSection</a></li><li><a href="components.views.classroom.course.EditContent.EditContentRoot.EditContentSection.EditContentEntry.html">EditContentEntry</a></li><li><a href="components.views.classroom.course.EditContent.EntryEditor.html">EntryEditor</a></li><li><a href="components.views.classroom.course.EditContent.EntryEditor.FileEntryEditor.html">FileEntryEditor</a></li><li><a href="components.views.classroom.course.EditContent.EntryEditor.ForumEntryEditor.html">ForumEntryEditor</a></li><li><a href="components.views.classroom.course.EditContent.EntryEditor.TextEntryEditor.html">TextEntryEditor</a></li><li><a href="components.views.classroom.course.EditContent.SectionEditor.html">SectionEditor</a></li><li><a href="components.views.classroom.course.EditExercises.html">EditExercises</a></li><li><a href="components.views.classroom.course.EditExercises.EditExercisesActions.html">EditExercisesActions</a></li><li><a href="components.views.classroom.course.EditExercises.ExerciseContainer.html">ExerciseContainer</a></li><li><a href="components.views.classroom.course.EditExercises.ExerciseContainer.ExerciseEditor.html">ExerciseEditor</a></li><li><a href="components.views.classroom.course.EditExercises.ExerciseContainer.ExerciseEditor.MultipleChoiceTask.html">MultipleChoiceTask</a></li><li><a href="components.views.classroom.course.EditExercises.ExerciseContainer.ExerciseEditor.OneChoiceTask.html">OneChoiceTask</a></li><li><a href="components.views.classroom.course.EditExercises.ExerciseContainer.ExerciseEditor.TaskChoiceOption.html">TaskChoiceOption</a></li><li><a href="components.views.classroom.course.EditExercises.ExerciseContainer.ExerciseEditor.TaskListItem.html">TaskListItem</a></li><li><a href="components.views.classroom.course.EditExercises.ExerciseContainer.ExerciseEditor.TextTask.html">TextTask</a></li><li><a href="components.views.classroom.course.EditInfo.html">EditInfo</a></li><li><a href="components.views.classroom.course.EditorHelp.html">EditorHelp</a></li><li><a href="components.views.classroom.course.EnrolledRoute.html">EnrolledRoute</a></li><li><a href="components.views.classroom.course.exercise.Attempt.html">Attempt</a></li><li><a href="components.views.classroom.course.exercise.Attempt.ActiveAttempt.html">ActiveAttempt</a></li><li><a href="components.views.classroom.course.exercise.Attempt.ActiveAttempt.AttemptActions.html">AttemptActions</a></li><li><a href="components.views.classroom.course.exercise.Attempt.ActiveAttempt.FinishAttemptModal.html">FinishAttemptModal</a></li><li><a href="components.views.classroom.course.exercise.Attempt.MultipleChoiceTask.html">MultipleChoiceTask</a></li><li><a href="components.views.classroom.course.exercise.Attempt.OneChoiceTask.html">OneChoiceTask</a></li><li><a href="components.views.classroom.course.exercise.Attempt.TaskContainer.html">TaskContainer</a></li><li><a href="components.views.classroom.course.exercise.Attempt.TextTask.html">TextTask</a></li><li><a href="components.views.classroom.course.exercise.ExercisePreview.html">ExercisePreview</a></li><li><a href="components.views.classroom.course.exercise.ExercisePreview.AttemptTableRow.html">AttemptTableRow</a></li><li><a href="components.views.classroom.course.exercise.ExercisePreview.StudentAttempt.html">StudentAttempt</a></li><li><a href="components.views.classroom.course.exercise.ExercisePreview.StudentPreview.html">StudentPreview</a></li><li><a href="components.views.classroom.course.exercise.ExerciseRouter.html">ExerciseRouter</a></li><li><a href="components.views.classroom.course.FirstTimeInfo.html">FirstTimeInfo</a></li><li><a href="components.views.classroom.course.forum.Forum.html">Forum</a></li><li><a href="components.views.classroom.course.forum.Forum.NewTopic.html">NewTopic</a></li><li><a href="components.views.classroom.course.forum.Forum.TopicListItem.html">TopicListItem</a></li><li><a href="components.views.classroom.course.forum.ForumRouter.html">ForumRouter</a></li><li><a href="components.views.classroom.course.forum.Topic.html">Topic</a></li><li><a href="components.views.classroom.course.forum.Topic.TopicPost.html">TopicPost</a></li><li><a href="components.views.classroom.course.grades.GradesRouter.html">GradesRouter</a></li><li><a href="components.views.classroom.course.grades.GradesStatsDetails.html">GradesStatsDetails</a></li><li><a href="components.views.classroom.course.grades.GradesStatsEntryRow.html">GradesStatsEntryRow</a></li><li><a href="components.views.classroom.course.grades.GradesStatsEntryRow.GradesStatsEntryCell.html">GradesStatsEntryCell</a></li><li><a href="components.views.classroom.course.grades.StudentGradesStats.html">StudentGradesStats</a></li><li><a href="components.views.classroom.course.grades.TeacherGradesStats.html">TeacherGradesStats</a></li><li><a href="components.views.classroom.course.TeacherRoute.html">TeacherRoute</a></li><li><a href="components.views.classroom.CourseList.html">CourseList</a></li><li><a href="components.views.classroom.CourseList.CollapsibleCourseList.html">CollapsibleCourseList</a></li><li><a href="components.views.classroom.CourseList.CourseListItem.html">CourseListItem</a></li><li><a href="components.views.classroom.CourseList.MainList.html">MainList</a></li><li><a href="components.views.classroom.CourseList.StudentList.html">StudentList</a></li><li><a href="components.views.classroom.CourseList.TeacherList.html">TeacherList</a></li><li><a href="components.views.classroom.CreateCourse.html">CreateCourse</a></li><li><a href="components.views.classroom.Dashboard.html">Dashboard</a></li><li><a href="components.views.classroom.Dashboard.ChooseDashboardFilterCourses.html">ChooseDashboardFilterCourses</a></li><li><a href="components.views.classroom.Dashboard.DashboardFilter.html">DashboardFilter</a></li><li><a href="components.views.classroom.Dashboard.DashboardNews.html">DashboardNews</a></li><li><a href="components.views.classroom.Dashboard.DashboardNews.DashboardNewsEntry.html">DashboardNewsEntry</a></li><li><a href="components.views.classroom.MainClassroom.html">MainClassroom</a></li><li><a href="components.views.classroom.SearchCourses.html">SearchCourses</a></li><li><a href="components.views.classroom.SearchCourses.CourseSearchItem.html">CourseSearchItem</a></li><li><a href="components.views.classroom.user.EditUser.html">EditUser</a></li><li><a href="components.views.classroom.user.EditUser.DeleteUserDialog.html">DeleteUserDialog</a></li><li><a href="components.views.classroom.user.EditUser.EditUserBasicData.html">EditUserBasicData</a></li><li><a href="components.views.classroom.user.EditUser.EditUserHiddenFields.html">EditUserHiddenFields</a></li><li><a href="components.views.classroom.user.EditUser.EditUserHiddenFields.AvailableFieldsDroppable.html">AvailableFieldsDroppable</a></li><li><a href="components.views.classroom.user.EditUser.EditUserHiddenFields.FieldEntityDraggable.html">FieldEntityDraggable</a></li><li><a href="components.views.classroom.user.EditUser.EditUserHiddenFields.HiddenFieldsDroppable.html">HiddenFieldsDroppable</a></li><li><a href="components.views.classroom.user.EditUser.EditUserPhoto.html">EditUserPhoto</a></li><li><a href="components.views.classroom.user.User.html">User</a></li><li><a href="components.views.classroom.user.User.UserBasicInfoAndActions.html">UserBasicInfoAndActions</a></li><li><a href="components.views.classroom.user.User.UserClassroomContent.html">UserClassroomContent</a></li><li><a href="components.views.classroom.user.UserRouter.html">UserRouter</a></li><li><a href="components.views.public.ActivateAccount.html">ActivateAccount</a></li><li><a href="components.views.public.ForgotPassword.html">ForgotPassword</a></li><li><a href="components.views.public.Home.html">Home</a></li><li><a href="components.views.public.Home.NewsFeed.html">NewsFeed</a></li><li><a href="components.views.public.InviteSignup.html">InviteSignup</a></li><li><a href="components.views.public.PublicMenu.html">PublicMenu</a></li><li><a href="components.views.public.PublicRouter.html">PublicRouter</a></li><li><a href="components.views.public.ResetPassword.html">ResetPassword</a></li><li><a href="components.views.public.Signin.html">Signin</a></li><li><a href="components.views.public.Signup.html">Signup</a></li><li><a href="components.views.public.SignupComponent.html">SignupComponent</a></li><li><a href="components.views.public.SignupComponent.SignupForm.html">SignupForm</a></li><li><a href="components.views.serviceComponents.ActivationMessage.html">ActivationMessage</a></li><li><a href="components.views.serviceComponents.Signin.html">Signin</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addItemShallow">addItemShallow</a></li><li><a href="global.html#dfsTopicPosts">dfsTopicPosts</a></li><li><a href="global.html#formatTopicPosts">formatTopicPosts</a></li><li><a href="global.html#getBeautifulFieldName">getBeautifulFieldName</a></li><li><a href="global.html#getCurUserCourseStatus">getCurUserCourseStatus</a></li><li><a href="global.html#getDateHtmlFormattedString">getDateHtmlFormattedString</a></li><li><a href="global.html#getTopicFromForumContent">getTopicFromForumContent</a></li><li><a href="global.html#getUserSubscribedSet">getUserSubscribedSet</a></li><li><a href="global.html#newTaskByType">newTaskByType</a></li><li><a href="global.html#removeItemShallow">removeItemShallow</a></li><li><a href="global.html#reorderArrayShallow">reorderArrayShallow</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Namespace</p>
+                    <h1>forumActions</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="storeState.html">storeState</a><a href="storeState.views.html">.views</a><a href="storeState.views.classroom.html">.classroom</a><a href="storeState.views.classroom.course.html">.course</a>.</span>forumActions</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html" class="button">View Source</a>
+            <span>
+                <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html">views/ClassroomRouter/views/CourseRouter/views/ForumRouter/services/actions.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html#line11">line 11</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Methods</h1>
+            <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id=".exports.answerTopicPost">
+        <a class="href-link" href="#.exports.answerTopicPost">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                exports.answerTopicPost<span class="signature">(courseId, forumId, topicId, postId, post)</span><span class="type-signature"> &rarr; {function}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>courseId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>forumId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>topicId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>postId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>post</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Object</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html" class="button">View Source</a>
+            <span>
+                <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html">views/ClassroomRouter/views/CourseRouter/views/ForumRouter/services/actions.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html#line81">line 81</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">function</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id=".exports.cleanup">
+        <a class="href-link" href="#.exports.cleanup">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                exports.cleanup<span class="signature">()</span><span class="type-signature"> &rarr; {function}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html" class="button">View Source</a>
+            <span>
+                <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html">views/ClassroomRouter/views/CourseRouter/views/ForumRouter/services/actions.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html#line150">line 150</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">function</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id=".exports.createTopic">
+        <a class="href-link" href="#.exports.createTopic">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                exports.createTopic<span class="signature">(courseId, forumId, content)</span><span class="type-signature"> &rarr; {function}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>courseId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>forumId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>content</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Object</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html" class="button">View Source</a>
+            <span>
+                <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html">views/ClassroomRouter/views/CourseRouter/views/ForumRouter/services/actions.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html#line51">line 51</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">function</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id=".exports.deleteTopicPost">
+        <a class="href-link" href="#.exports.deleteTopicPost">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                exports.deleteTopicPost<span class="signature">(courseId, forumId, topicId, postId)</span><span class="type-signature"> &rarr; {function}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>courseId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>forumId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>topicId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>postId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html" class="button">View Source</a>
+            <span>
+                <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html">views/ClassroomRouter/views/CourseRouter/views/ForumRouter/services/actions.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html#line119">line 119</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">function</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id=".exports.getForumById">
+        <a class="href-link" href="#.exports.getForumById">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                exports.getForumById<span class="signature">(courseId, forumId)</span><span class="type-signature"> &rarr; {function}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>courseId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>forumId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html" class="button">View Source</a>
+            <span>
+                <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html">views/ClassroomRouter/views/CourseRouter/views/ForumRouter/services/actions.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_ForumRouter_services_actions.js.html#line23">line 23</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">function</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+</body>
+</html>
