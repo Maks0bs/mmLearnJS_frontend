@@ -20,13 +20,12 @@ class ChooseDashboardFilterCourses extends Component {
 
     componentDidMount() {
         let starting = {};
-        console.log(this.props.curChosenCourses);
         for (let c of this.props.curChosenCourses){
             starting[c] = true;
         }
-        this.coursesList = this.props.allCourses.map(c => c.course);
+        this.coursesList = this.props.allCourses.map(c => c ? c.course : {});
         this.coursesList.sort((a, b) => (
-            a.name.localeCompare(b.name)
+            a.name ? a.name.localeCompare(b.name) : -1
         ))
 
         this.setState({

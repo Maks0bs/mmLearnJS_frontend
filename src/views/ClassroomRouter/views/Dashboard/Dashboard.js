@@ -23,10 +23,10 @@ class Dashboard extends Component {
 	}
 
 	initData = (subscribedCourses) => {
-		let yesterday = new Date(), today = new Date();
-		yesterday.setDate(yesterday.getDate() - 1);
+		let lastMonth = new Date(), today = new Date();
+		lastMonth.setDate(lastMonth.getDate() - 30);
 
-		let curDateFrom = getDateHtmlFormattedString(yesterday);
+		let curDateFrom = getDateHtmlFormattedString(lastMonth);
 		let curDateTo = getDateHtmlFormattedString(today);
 
 		let chosenCourses = [];

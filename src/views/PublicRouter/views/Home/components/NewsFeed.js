@@ -29,13 +29,12 @@ class NewsFeed extends Component {
 		let { newsEntries } = this.props;
 		return (
 			<div>
-				<h1>Welcome to mmLearnJS</h1>
 				{this.state.loading && (<BigLoadingCentered />)}
 				<ul>
-					{newsEntries && newsEntries.map((e, i) => (
+					{Array.isArray(newsEntries) && newsEntries.map((e, i) => (
 						<li key={i}>
 							<p>
-								{e.message}
+								{e && e.message}
 							</p>
 						</li>
 					))}

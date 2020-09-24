@@ -111,6 +111,7 @@ class ClassroomMenu extends Component {
 							<input
 								onChange={this.handleChange("searchQuery")}
 								type="text"
+								placeholder="search courses"
 								className="form-control py-0 px-2"
 								value={this.state.searchQuery}
 							/>
