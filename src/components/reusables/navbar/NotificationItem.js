@@ -26,22 +26,12 @@ class NotificationItem extends Component {
                     background: this.state.background,
                     width: '100%'
                 }}
-                onMouseEnter={(e) => {
-                    /*
-                        Gets highlighted when mouse is hovered over
-                    */
-                    this.setState({
-                        background: '#ebebeb'
-                    })
-                }}
-                onMouseLeave={(e) => {
-                    /*
-                        Remove highlighting
-                    */
-                    this.setState({
-                        background: '#ffffff'
-                    })
-                }}
+                onMouseEnter={() => this.setState({
+                    background: '#ebebeb'
+                })}
+                onMouseLeave={() => this.setState({
+                    background: '#ffffff'
+                })}
                 tabIndex={0}
             >
                 <strong>{title}</strong>
@@ -56,9 +46,7 @@ class NotificationItem extends Component {
                         fontSize: '8px'
                     }}
                 >
-                    {/*
-                        Display the date, when the notification was created
-                    */}
+                    {/* Display the date, when the notification was created*/}
                     {`${(new Date(created)).toLocaleDateString()}, ${(new Date(created)).toLocaleTimeString()}`}
                 </span>
             </div>

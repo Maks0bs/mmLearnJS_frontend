@@ -52,13 +52,14 @@ export let signup = (user) => (dispatch) => {
  * @function
  * @param {Object} user - the user data to create a new account with (see API docs for details)
  * This object contains the invitation token with some details
+ * @param {string} token
  * @return {function(*): Promise<ReduxAction>}
  *
  * @memberOf storeState.views.public.signupActions
  */
-export let inviteSignup = (user) => (dispatch) => {
+export let inviteSignup = (user, token) => (dispatch) => {
 	configureUserData(user);
-	return fetch(`${REACT_APP_API_URL}/auth/invite-signup`, {
+	return fetch(`${REACT_APP_API_URL}/auth/invite-signup/${token}`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",

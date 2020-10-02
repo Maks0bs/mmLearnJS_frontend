@@ -18,14 +18,13 @@ let { API_ACTIVATE_ACCOUNT, CLEAR_MESSAGES } = types;
  * @memberOf storeState.views.public.activateAccountActions
  */
 export let activateAccount = (token) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/auth/activate`, {
-		method: "POST",
+	return fetch(`${REACT_APP_API_URL}/auth/activate/${token}`, {
+		method: "GET",
 		headers: {
 			Accept: "application/json",
 			"Content-Type": "application/json"
 		},
-		credentials: 'include',
-		body: JSON.stringify({token})
+		credentials: 'include'
 	})
 	.then(res => res.json())
 	.then(data => dispatch({
