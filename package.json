@@ -37,11 +37,13 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "rookout": "^0.1.104",
+    "serve": "^11.3.2",
     "uuid": "^7.0.3"
   },
   "scripts": {
     "dev": "react-scripts start",
     "build": "react-scripts build",
+    "serve": "serve -s build -l 3000",
     "test": "jest --config ./jest.config.json",
     "eject": "react-scripts eject",
     "start": "serve -s build",
