@@ -54,7 +54,7 @@ let initialState = {
     newUserData: {
         name: "", email: "", about: "",
         oldPassword: "", newPassword: "",
-        photo: "", photoSize: 0
+        photo: null, photoSize: 0
     }
 }
 

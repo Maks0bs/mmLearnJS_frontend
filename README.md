@@ -16,7 +16,7 @@ functionality.
 mmLearnJS was built with React. The React App was built with the 
 help of Redux state management.
 Styling was made with Bootstrap, and some other custom patterns.
-The website uses [the mmLearnJS API](https://github.com/Maks0bs/mmLearnJS_frontend)
+The website uses [the mmLearnJS API](https://github.com/Maks0bs/mmLearnJS_backend)
 for all requests.
 
 ## Documentation
