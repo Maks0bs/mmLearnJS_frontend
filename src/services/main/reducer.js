@@ -50,9 +50,7 @@ export default function(state = initialState, action) {
             }
         }
         case API_LOGOUT:
-            return {
-                initialState
-            }
+            return {...state}
         default:
             return state;
     }

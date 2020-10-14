@@ -74,7 +74,7 @@ export let updateUser = (data, userId) => (dispatch) => {
         // Notify the API that there isa new uploaded profile photo
         data.photo = 'new';
     }
-    form.set('newUserData', JSON.stringify(data));
+    form.set('user', JSON.stringify(data));
 
     return fetch(`${REACT_APP_API_URL}/users/${userId}`, {
         method: "PUT",
