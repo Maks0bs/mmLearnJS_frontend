@@ -41,7 +41,7 @@
     "uuid": "^7.0.3"
   },
   "scripts": {
-    "dev": "react-scripts start",
+    "dev": "NODE_ENV=development react-scripts start",
     "build": "react-scripts build",
     "serve": "serve -s build -l 3000",
     "test": "jest --config ./jest.config.json",
