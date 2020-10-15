@@ -114,7 +114,7 @@ class EditUserBasicData extends Component {
 
     render() {
         let { name, about, email,
-            newPassword, oldPassword
+            password, oldPassword
         } = this.props.newUserData
         let { onCancel, onSubmit, onShowEditFields,
             onShowDeleteUser
@@ -183,10 +183,10 @@ class EditUserBasicData extends Component {
                     &lt;div className="form-group" style={inlineStyle}>
                         &lt;label className="text-muted mx-2 my-2">New password&lt;/label>
                         &lt;input
-                            onChange={this.handleChange("newPassword")}
+                            onChange={this.handleChange("password")}
                             type="password"
                             className="form-control"
-                            value={newPassword}
+                            value={password}
                         />
                     &lt;/div>
                 &lt;/div>

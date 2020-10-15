@@ -114,13 +114,17 @@ import { COURSE_USER_STATUS } from "../../services/helpers";
  */
 class CourseMain extends Component {
 
+	componentWillUnmount() {
+		this.props.clearMessages();
+	}
+
 
 	render() {
 		let {
 			ENROLLED, NOT_ENROLLED, TEACHER, CREATOR, INVITED_TEACHER_ENROLLED,
 			NOT_AUTHENTICATED, INVITED_TEACHER
 		} = COURSE_USER_STATUS;
-		let { redirectToDashboard, course, curUserCourseStatus: status } = this.props;
+		let { redirectToDashboard, curUserCourseStatus: status } = this.props;
 		if (redirectToDashboard){
 			this.props.clearMessages();
 			return ( &lt;Redirect to="/classroom/dashboard" />)
