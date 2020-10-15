@@ -53,7 +53,7 @@ let initialState = {
     newHiddenFields: [],
     newUserData: {
         name: "", email: "", about: "",
-        oldPassword: "", newPassword: "",
+        oldPassword: "", password: "",
         photo: null, photoSize: 0
     }
 }

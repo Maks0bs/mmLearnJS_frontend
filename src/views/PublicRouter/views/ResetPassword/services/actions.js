@@ -19,7 +19,7 @@ let { API_RESET_PASSWORD } = types;
  * @memberOf storeState.views.public.resetPasswordActions
  */
 export let resetPassword = (password, token) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/auth/reset-password`, {
+	return fetch(`${REACT_APP_API_URL}/auth/reset-password/${token}`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
@@ -27,7 +27,6 @@ export let resetPassword = (password, token) => (dispatch) => {
 		},
 		credentials: 'include',
 		body: JSON.stringify({
-			token: token,
 			newPassword: password
 		})
 	})

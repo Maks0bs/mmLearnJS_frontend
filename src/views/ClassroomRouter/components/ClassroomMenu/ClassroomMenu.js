@@ -117,7 +117,6 @@ class ClassroomMenu extends Component {
 							/>
 							<Icon
 								style={{display: 'flex', cursor: 'pointer'}}
-								type="submit"
 								icon={faSearch}
 								onClick={this.onSubmitSearch}
 							/>

@@ -30,7 +30,8 @@ class ResetPassword extends Component {
 			 * After successful password reset,
 			 * the user should be redirected to the home page
 			 */
-			redirect: false
+			redirect: false,
+			loading: false
 		}
 	}
 

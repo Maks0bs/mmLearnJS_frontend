@@ -27,20 +27,18 @@ let {
 export let getUpdatesByDate = (dateFrom, dateTo,
                                courses, starting, cnt
 ) => (dispatch) => {
-    return fetch(`${REACT_APP_API_URL}/users/updates-by-date`, {
-        method: "POST",
+    let url =
+        `${REACT_APP_API_URL}/users/updates-by-date?` +
+        `dateFrom=${dateFrom}&dateTo=${dateTo}` +
+        `&starting=${starting}&cnt=${cnt}`;
+    courses.forEach(id => url += `&courses=${id}`);
+    return fetch(url, {
+        method: "GET",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
-        credentials: 'include',
-        body: JSON.stringify({
-            dateFrom,
-            dateTo,
-            courses,
-            starting,
-            cnt
-        })
+        credentials: 'include'
     })
         .then(res => res.json())
         .then(data => dispatch({

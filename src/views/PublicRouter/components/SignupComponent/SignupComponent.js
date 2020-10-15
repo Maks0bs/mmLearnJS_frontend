@@ -87,7 +87,7 @@ class SignupComponent extends Component {
 
 let mapDispatchToProps = (dispatch) => ({
 	signup: (user) => dispatch(signup(user)),
-	inviteSignup: (user, token) => dispatch(inviteSignup({...user, token})),
+	inviteSignup: (user, token) => dispatch(inviteSignup(user, token)),
 	addToast: (component, options) => dispatch(addToast(component, options))
 })
 let mapStateToProps = (state) => ({

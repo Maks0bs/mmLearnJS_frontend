@@ -81,6 +81,10 @@ class Home extends Component {
 						<p>
 							Try viewing and editing your profile (access it through the navigation bar)
 						</p>
+						<p>
+							If you don't perform any actions while logged in, the authentication cookie
+							will expire in 10 minutes and you will be logged out
+						</p>
 						<h2>News</h2>
 		                <NewsFeed />
 		            </div>
