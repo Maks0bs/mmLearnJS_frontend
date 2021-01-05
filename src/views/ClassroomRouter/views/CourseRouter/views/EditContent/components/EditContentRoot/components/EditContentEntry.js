@@ -40,10 +40,10 @@ class EditContentEntry extends Component {
 
 	render() {
 	    let { sectionNum, entryNum, newSections } = this.props;
-		let { name, type, content, _id } = newSections[sectionNum].entries[entryNum];
-        // capitalize first letter of type
-		type = type.charAt(0).toUpperCase() + type.slice(1);
-		if (type === 'Deleted'){
+	    console.log('ns', newSections);
+		let { name, kind: originalKind, content, _id } = newSections[sectionNum].entries[entryNum];
+		let kind = originalKind.slice(5);// remove the 'Entry' part of the kind
+		if (originalKind === 'deleted'){
             return (
                 <div className="pl-4">
                     <p> Deleted entry <strong> {name} </strong> </p>
@@ -69,18 +69,18 @@ class EditContentEntry extends Component {
                     type="edit"
                 />
                 <h4>
-                    {type}
+                    {kind}
                     <strong> {name}</strong>
                     {!_id && (<span style={{color: '#9759c9'}}> newly added </span>)}
                 </h4>
 				{(() => {
-                    switch(type) {
+                    switch(kind) {
                         case 'Text':
                             return(<div>{content.text}</div>)
                         case 'File':
                             if (!content.file) return null;
                             // newly uploaded file (still local)
-                        	if (!content._id || content.fileIsNew){
+                        	if (!_id || content.fileIsNew){
                         		return(
 	                        		<a
                                         href={URL.createObjectURL(content.file)}
@@ -103,10 +103,13 @@ class EditContentEntry extends Component {
                         	}
                         case 'Forum':
                             // forum already on server
-                            if (content._id){
+                            if (content && content._id){
                                 return (
                                     <Link
-                                        to={`/classroom/course/${this.props.course._id}/forum/${_id}`}
+                                        to={
+                                            `/classroom/course/${this.props.course._id}` +
+                                            `/forum/${content._id}`
+                                        }
                                         target="_blank"
                                     >
                                         {name}

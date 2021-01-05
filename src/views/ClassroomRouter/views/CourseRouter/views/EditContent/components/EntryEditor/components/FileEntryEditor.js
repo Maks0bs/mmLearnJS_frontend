@@ -22,8 +22,8 @@ class FileEntryEditor extends Component {
     }
 
     render() {
-        let { addNew } = this.props;
-        let { file, _id, fileName, fileIsNew } = this.props.content;
+        let { addNew, _id } = this.props;
+        let { file, fileName, fileIsNew } = this.props.content;
         let inlineStyle = { display: 'flex', alignItems: 'center', flexFlow: 'row wrap'}
         let fileIsUpdated = fileIsNew || !_id
         return (

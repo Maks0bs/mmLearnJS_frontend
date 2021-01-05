@@ -1,6 +1,5 @@
 import types from './actionTypes'
 import { updateCourse } from '../../../services/actions'
-import { cloneDeep } from 'lodash'
 let {
 	EDIT_ENTRY_BASIC_DATA,
 	EDIT_ENTRY_CONTENT,

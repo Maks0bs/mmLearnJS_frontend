@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getEnrollmentStatus } from '../services/actions'
 import UserPreview from "../../../../../../../components/reusables/UserPreview";
 
 /**

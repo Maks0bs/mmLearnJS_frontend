@@ -24,7 +24,7 @@ let {
  * @memberOf storeState.views.classroom.course.courseMainActions
  */
 export let enrollInCourse = (id, password) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/enroll/${id}`, {
+	return fetch(`${REACT_APP_API_URL}/course/${id}/enroll`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
@@ -49,7 +49,7 @@ export let enrollInCourse = (id, password) => (dispatch) => {
  * @memberOf storeState.views.classroom.course.courseMainActions
  */
 export let deleteCourse = (courseId) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}`, {
+	return fetch(`${REACT_APP_API_URL}/course/${courseId}`, {
 		method: 'DELETE',
 		headers: {
 			Accept: 'application/json',
@@ -72,7 +72,7 @@ export let deleteCourse = (courseId) => (dispatch) => {
  * @memberOf storeState.views.classroom.course.courseMainActions
  */
 export let acceptTeacherInvite = (courseId) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/accept-teacher-invite/${courseId}`, {
+	return fetch(`${REACT_APP_API_URL}/course/${courseId}/accept-teacher-invitation`, {
 		method: "POST",
 		headers: {
 			Accept: 'application/json'
@@ -96,7 +96,7 @@ export let acceptTeacherInvite = (courseId) => (dispatch) => {
  * @memberOf storeState.views.classroom.course.courseMainActions
  */
 export let sendTeacherInvite = (email, courseId) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/send-teacher-invite/${courseId}`, {
+	return fetch(`${REACT_APP_API_URL}/course/${courseId}/send-teacher-invitation`, {
 		method: "POST",
 		headers: {
 			Accept: 'application/json',
@@ -123,7 +123,7 @@ export let sendTeacherInvite = (email, courseId) => (dispatch) => {
  * @memberOf storeState.views.classroom.course.courseMainActions
  */
 export let subscribe = (courseId) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/subscribe/${courseId}`, {
+	return fetch(`${REACT_APP_API_URL}/course/${courseId}/subscribe`, {
 		method: "POST",
 		headers: {
 			Accept: 'application/json',
@@ -147,7 +147,7 @@ export let subscribe = (courseId) => (dispatch) => {
  * @memberOf storeState.views.classroom.course.courseMainActions
  */
 export let unsubscribe = (courseId) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/unsubscribe/${courseId}`, {
+	return fetch(`${REACT_APP_API_URL}/course/${courseId}/unsubscribe`, {
 		method: "POST",
 		headers: {
 			Accept: 'application/json',

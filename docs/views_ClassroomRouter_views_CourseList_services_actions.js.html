@@ -186,16 +186,15 @@ export let cleanup = () => (dispatch) => {
  * @memberOf storeState.views.classroom.courseListActions
  */
 export let addNotViewedNotifications = (courses) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/updates-notifications`, {
-		method: "POST",
+	let url = `${REACT_APP_API_URL}/users/updates-notifications`
+	let query = courses.length > 0 ? ('?courses=' + courses.join('&amp;courses=')) : ''
+	return fetch(url + query, {
+		method: "GET",
 		headers: {
 			Accept: "application/json",
 			"Content-Type": "application/json"
 		},
 		credentials: 'include',
-		body: JSON.stringify({
-			courses
-		})
 	})
 		.then(res => res.json())
 		.then(data => {

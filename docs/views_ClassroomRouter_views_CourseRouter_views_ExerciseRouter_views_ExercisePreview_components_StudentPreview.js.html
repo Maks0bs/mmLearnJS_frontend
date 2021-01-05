@@ -115,7 +115,7 @@ class StudentPreview extends Component {
 
     componentDidMount() {
         this.setState({loading: true})
-        this.props.getAttempts(this.props.course._id, this.props.exercise._id)
+        this.props.getAttempts(this.props.exercise._id)
             .then(() => {
                 console.log(this.props);
                 this.setState({loading: false})
@@ -130,7 +130,7 @@ class StudentPreview extends Component {
 
     onExerciseStart = (e) => {
         e.preventDefault();
-        this.props.newAttempt(this.props.course._id, this.props.exercise._id)
+        this.props.newAttempt(this.props.exercise._id)
             .then(() => {
                 if (this.props.error){
                     this.props.addToast(
@@ -214,9 +214,9 @@ let mapStateToProps = (state) => ({
     ...state.services
 })
 let mapDispatchToProps = (dispatch) => ({
-    getAttempts: (courseId, exerciseId) => dispatch(getCurUserAttempts(courseId, exerciseId)),
+    getAttempts: (exerciseId) => dispatch(getCurUserAttempts(exerciseId)),
     addToast: (toast, options) => dispatch(addToast(toast, options)),
-    newAttempt: (courseId, exerciseId) => dispatch(newAttempt(courseId, exerciseId)),
+    newAttempt: (exerciseId) => dispatch(newAttempt(exerciseId)),
     cleanup: () => dispatch(cleanup())
 })
 export default connect(

@@ -32,6 +32,7 @@ class Dashboard extends Component {
 		let chosenCourses = [];
 		if (Array.isArray(subscribedCourses)){
 			// extract ids from subscribed courses
+			console.log('sc', subscribedCourses);
 			chosenCourses = subscribedCourses.map(c => c && c.course && c.course._id)
 		}
 		// pre-populate data

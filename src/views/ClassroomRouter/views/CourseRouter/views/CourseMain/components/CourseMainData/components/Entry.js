@@ -30,7 +30,8 @@ class Entry extends Component {
 
 	render() {
 		let { entryNum, sectionNum, course } = this.props;
-		let { access, type, name, content, _id } = course.sections[sectionNum].entries[entryNum];
+		let entry = course.sections[sectionNum].entries[entryNum];
+		let { access, kind, name, _id } = entry;
 		return (
 			<div className="mt-3">
 				<span style={{display: 'flex', alignItems: 'center', flexFlow: 'row wrap'}}>
@@ -51,29 +52,32 @@ class Entry extends Component {
                 <div className="ml-3">
 
     				{(() => {
-                        switch(type) {
-                            case 'text':
-                                return(<p>{content.text}</p>)
-                            case 'file':
+                        switch(kind) {
+                            case 'EntryText':
+                                return(<p>{entry.text}</p>)
+                            case 'EntryFile':
                             	return (
                             		<h5>
 										<a
 											href={
 												`${REACT_APP_API_URL}/files/stream/`+
-												`${content.file}/${content.fileName}`
+												`${entry.file}/${entry.fileName}`
 											}
-											download={content.fileName}
+											download={entry.fileName}
 											target="_blank"
 										>
 											<Icon className="pr-1" icon={faFile}/>
-											{content.fileName}
+											{entry.fileName}
 										</a>
 									</h5>
 								)
-                            case 'forum':
+                            case 'EntryForum':
                                 return (
                                 	<h5>
-										<Link to={`/classroom/course/${course._id}/forum/${_id}`}>
+										<Link to={
+											`/classroom/course/${course._id}` +
+											`/forum/${entry.forum._id}`
+										}>
 											<Icon className="pr-1" icon={faComments}/>
 											{name}
 										</Link>

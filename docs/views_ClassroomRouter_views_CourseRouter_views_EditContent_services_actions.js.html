@@ -166,30 +166,45 @@ export let saveChangesSections = (sections, id) => (dispatch) => {
 		}
 		for (let j = 0; j &lt; sections[i].entries.length; j++){
 			let entry = sections[i].entries[j];
-			if (entry.type === 'deleted') continue;
+			if (entry.kind === 'deleted') continue;
 
 			newSections[newSections.length - 1].entries.push(entry);
 		}
 	}
 
+	console.log('nssssss', newSections);
+
 	for (let i = 0; i &lt; newSections.length; i++){
 		for (let j = 0; j &lt; newSections[i].entries.length; j++){
 			let entry = newSections[i].entries[j];
-			let fileIsUpdated = !entry.content._id || entry.content.fileIsNew;
-			if (entry.type === 'file' &amp;&amp; fileIsUpdated){
-				// append newly added files to the form
-				// to upload the to the server
-				// see API docs for details
-				form.append('files', entry.content.file);
-				delete entry.content.file;
-				delete entry.content.fileIsNew;
-				filePositions.push({ section: i, entry: j})
+			let fileIsUpdated = !entry.content.file || entry.content.fileIsNew;
+			switch (entry.kind) {
+				case 'EntryFile': {
+					if (fileIsUpdated){
+						// append newly added files to the form
+						// to upload the to the server
+						// see API docs for details
+						form.append('files', entry.content.file);
+						filePositions.push({ section: i, entry: j})
+					}
+					newSections[i].entries[j] = { ...entry, ...entry.content}
+					break;
+				}
+				case 'EntryForum': {
+					newSections[i].entries[j].forum = {...entry.content}
+					break;
+				}
+				case 'EntryText':
+				default: {
+					newSections[i].entries[j] = { ...entry, ...entry.content };
+					break;
+				}
 			}
 		}
 	}
 
 	let newCourseData = {sections: newSections}
-	form.set('newCourseData', JSON.stringify(newCourseData));
+	form.set('newCourse', JSON.stringify(newCourseData));
 	form.set('filesPositions', JSON.stringify(filePositions));
 
 	return dispatch(updateCourse(form, id))

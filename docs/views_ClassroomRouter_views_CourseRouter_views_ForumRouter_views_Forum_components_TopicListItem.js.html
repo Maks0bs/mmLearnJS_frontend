@@ -107,11 +107,10 @@ import {connect} from "react-redux";
 class TopicListItem extends Component {
 	render() {
 		let { forum, topicNum, course } = this.props;
-		//TODO get rid of content here
-		if (!forum.content || !Array.isArray(forum.content.topics)){
+		if (!forum || !Array.isArray(forum.topics)){
 			return null;
 		}
-		let { name, creator, _id, created } = forum.content.topics[topicNum];
+		let { name, creator, _id, created } = forum.topics[topicNum];
 
 		let date = new Date(created);
 		return (

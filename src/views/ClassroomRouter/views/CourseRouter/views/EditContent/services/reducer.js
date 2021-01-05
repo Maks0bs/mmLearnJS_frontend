@@ -61,9 +61,43 @@ let initialState = {
 let editContentServicesReducer = function(state = initialState, action) {
 	switch(action.type){
 		case COPY_SECTIONS_FROM_OLD_DATA: {
+			//!!!!!!!!!!!!!!!!!!!!!!
+			// all data entry data, except for name, access and kind
+			// is saved under entry.content.etc
+			// this was done to edit content more easily
+			// see EntryEditor component and its reducer.
+			// It would have been VERY difficult to write code if
+			// all data were saved in one object
+			//TODO maybe find a better way to work with the
+			// established backend Entry schema (without entry.content)
+			let newSections = cloneDeep(action.payload);
+			for (let s of newSections){
+				if (Array.isArray(s.entries)){
+					s.entries.forEach((e, i) => {
+						switch (e.kind){
+							case 'EntryFile': {
+								s.entries[i].content = {file: e.file, fileName: e.fileName}
+								break;
+							}
+							case 'EntryText': {
+								s.entries[i].content = { text: e.text}
+								break;
+							}
+							case 'EntryForum': {
+								s.entries[i].content = {...e.forum}
+								break;
+							}
+							default:{
+								s.entries[i].content = {};
+								break;
+							}
+						}
+					})
+				}
+			}
 			return {
 				...state,
-				newSections: cloneDeep(action.payload)
+				newSections: newSections
 			}
 		}
 		case UPDATE_SECTIONS: {
@@ -161,7 +195,7 @@ let editContentServicesReducer = function(state = initialState, action) {
 			let deletedEntry = {...newEntries[entryNum]}
 			newEntries[entryNum] = {
 				deletedId: curId,
-				type: 'deleted',
+				kind: 'deleted',
 				name: deletedEntry.name
 			}
 			newSections[sectionNum].entries = newEntries;

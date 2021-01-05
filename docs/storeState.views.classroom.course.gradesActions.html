@@ -187,7 +187,7 @@
         
         <span class="code-name">
             
-                exports.getExerciseSummaries<span class="signature">(courseId, param)</span><span class="type-signature"> &rarr; {function}</span>
+                exports.getExerciseSummaries<span class="signature">(courseId, allStudents)</span><span class="type-signature"> &rarr; {function}</span>
             
         </span>
     </h4>
@@ -255,13 +255,13 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>param</code></td>
+      <td class="name"><code>allStudents</code></td>
   
 
   <td class="type">
   
       
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
   
@@ -271,8 +271,9 @@
 
   
 
-  <td class="description last"><p>specifies what set of summaries should be received.
-See API docs for details.</p></td>
+  <td class="description last"><p>set to true if the authenticated
+user is a teacher and wants to get summaries about exercises
+among all students. See API docs for details (<code>?all</code> param)</p></td>
 </tr>
 
 
@@ -320,7 +321,7 @@ See API docs for details.</p></td>
         <p class="tag-source">
             <a href="views_ClassroomRouter_views_CourseRouter_views_GradesRouter_services_actions.js.html" class="button">View Source</a>
             <span>
-                <a href="views_ClassroomRouter_views_CourseRouter_views_GradesRouter_services_actions.js.html">views/ClassroomRouter/views/CourseRouter/views/GradesRouter/services/actions.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_GradesRouter_services_actions.js.html#line20">line 20</a>
+                <a href="views_ClassroomRouter_views_CourseRouter_views_GradesRouter_services_actions.js.html">views/ClassroomRouter/views/CourseRouter/views/GradesRouter/services/actions.js</a>, <a href="views_ClassroomRouter_views_CourseRouter_views_GradesRouter_services_actions.js.html#line21">line 21</a>
             </span>
         </p>
     

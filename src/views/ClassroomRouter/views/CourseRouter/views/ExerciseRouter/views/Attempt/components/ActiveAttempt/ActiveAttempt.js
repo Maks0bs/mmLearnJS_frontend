@@ -15,8 +15,9 @@ class ActiveAttempt extends Component {
 
     render() {
         //TODO make a floating panel for saving / finishing attempt
-        // TODO make it with react-beautiful dnd
+        // make it with react-beautiful dnd
         let { name, tasks } = this.props.exercise;
+        console.log('pp', this.props);
         return (
             <div className="container my-2">
                 <div className="row">

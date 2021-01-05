@@ -23,9 +23,7 @@ class Attempt extends Component {
     }
 
     componentDidMount() {
-        this.props.getAttemptById(
-            this.props.course._id, this.props.exercise._id,
-            this.props.match.params.attemptId)
+        this.props.getAttemptById(this.props.match.params.attemptId)
             .then(() => {
                 if (this.props.error){
                     this.displayError('Problem loading attempt')
@@ -101,8 +99,7 @@ let mapStateToProps = (state) => ({
     course: state.views.classroom.course.services.course,
 })
 let mapDispatchToProps = (dispatch) => ({
-    getAttemptById: (courseId, exerciseId, attemptId) =>
-        dispatch(getAttemptById(courseId, exerciseId, attemptId)),
+    getAttemptById: (attemptId) => dispatch(getAttemptById(attemptId)),
     addToast: (component, options) => dispatch(addToast(component, options)),
     cleanup: () => dispatch(cleanup())
 })

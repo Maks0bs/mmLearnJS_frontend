@@ -106,8 +106,11 @@ import PropTypes from 'prop-types';
 class DashboardNewsEntry extends Component {
     render() {
         let { kind, courseId, oldName, newName, newAbout, timeString,
-            courseName, newEntries, deletedEntries
+            courseName, newEntries, deletedEntries, newExercises,
+            deletedExercises
         } = this.props;
+        let formatEntryType = (kind) =>
+            kind.substring(5).toLowerCase()
         switch(kind){
             case 'UpdateNewInfo': {
                 return (
@@ -126,6 +129,7 @@ class DashboardNewsEntry extends Component {
                 )
             }
             case 'UpdateNewEntries': {
+                if (!Array.isArray(newEntries)) return kind;
                 return (
                     &lt;div>
                         &lt;h4>
@@ -135,19 +139,21 @@ class DashboardNewsEntry extends Component {
                             &lt;/Link> { }
                         &lt;/h4>
                         &lt;ul>
-                            {newEntries.map((entry, j) => {
-                                return (
-                                    &lt;li key={j}>
-                                        &lt;p>{`New ${entry.type} "${entry.name}"`}&lt;/p>
-                                    &lt;/li>
-                                )
-                            })}
+                            {newEntries.map((entry, j) => (
+                                &lt;li key={j}>
+                                    &lt;p>{
+                                        `New ${formatEntryType(entry.kind)} ` +
+                                        `"${entry.name}"`
+                                    }&lt;/p>
+                                &lt;/li>
+                            ))}
                         &lt;/ul>
                         &lt;i>{timeString}&lt;/i>
                     &lt;/div>
                 )
             }
             case 'UpdateDeletedEntries': {
+                if (!Array.isArray(deletedEntries)) return kind;
                 return (
                     &lt;div>
                         &lt;h4>
@@ -157,38 +163,77 @@ class DashboardNewsEntry extends Component {
                             &lt;/Link> { }
                         &lt;/h4>
                         &lt;ul>
-                            {deletedEntries.map((entry, j) => {
-                                return (
-                                    &lt;li key={j}>
-                                        &lt;p>{`Removed ${entry.type} "${entry.name}"`}&lt;/p>
-                                    &lt;/li>
-                                )
-                            })}
+                            {Array.isArray(deletedEntries) &amp;&amp; deletedEntries.map((entry, j) => (
+                                &lt;li key={j}>
+                                    &lt;p>{
+                                        `Removed ${formatEntryType(entry.kind)} ` +
+                                        `"${entry.name}"`
+                                    }&lt;/p>
+                                &lt;/li>
+                            ))}
+                        &lt;/ul>
+                        &lt;i>{timeString}&lt;/i>
+                    &lt;/div>
+                )
+            }
+            case 'UpdateNewExercises': {
+                if (!Array.isArray(newExercises)) return kind;
+                return (
+                    &lt;div>
+                        &lt;h4>
+                            New exercises have been added to course { }
+                            &lt;Link to={`/classroom/course/${courseId}`}>
+                                {courseName}
+                            &lt;/Link> { }
+                        &lt;/h4>
+                        &lt;ul>
+                            {newExercises.map((ex, j) => (
+                                &lt;li key={j}>&lt;p>{`${ex.name}`}&lt;/p>&lt;/li>
+                            ))}
+                        &lt;/ul>
+                        &lt;i>{timeString}&lt;/i>
+                    &lt;/div>
+                )
+            }
+            case 'UpdateDeletedExercises': {
+                if (!Array.isArray(deletedExercises)) return kind;
+                return (
+                    &lt;div>
+                        &lt;h4>
+                            Exercises have been removed from course { }
+                            &lt;Link to={`/classroom/course/${courseId}`}>
+                                {courseName}
+                            &lt;/Link> { }
+                        &lt;/h4>
+                        &lt;ul>
+                            {deletedExercises.map((ex, j) => (
+                                &lt;li key={j}>
+                                    &lt;p>{`"${ex.name}"`}&lt;/p>
+                                &lt;/li>
+                            ))}
                         &lt;/ul>
                         &lt;i>{timeString}&lt;/i>
                     &lt;/div>
                 )
             }
             default: {
-                return (
-                    &lt;div>{kind}&lt;/div>
-                )
+                return (&lt;div>{kind}&lt;/div>)
             }
         }
     }
 }
 DashboardNewsEntry.propTypes = {
     deletedEntries: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string,
+        kind: PropTypes.string,
         name: PropTypes.string
     })),
-    'deletedEntries.type': PropTypes.string,
+    'deletedEntries.kind': PropTypes.string,
     'deletedEntries.name': PropTypes.string,
     newEntries: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string,
+        kind: PropTypes.string,
         name: PropTypes.string
     })),
-    'newEntries.type': PropTypes.string,
+    'newEntries.kind': PropTypes.string,
     'newEntries.name': PropTypes.string,
     courseName: PropTypes.string,
     timeString: PropTypes.string,

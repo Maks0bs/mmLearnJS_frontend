@@ -53,7 +53,7 @@ export default function(state = initialState, action) {
 			}
 			return {
 				...state,
-				attempt: action.payload.attempt
+				attempt: action.payload
 			}
 		}
 		case GET_ATTEMPT_BY_ID: {
@@ -67,8 +67,8 @@ export default function(state = initialState, action) {
 			}
 			return {
 				...state,
-				attempt: action.payload.attempt,
-				oldAttempt: cloneDeep(action.payload.attempt)
+				attempt: action.payload,
+				oldAttempt: cloneDeep(action.payload)
 			}
 		}
 		case TOGGLE_ATTEMPT_ANSWER: {

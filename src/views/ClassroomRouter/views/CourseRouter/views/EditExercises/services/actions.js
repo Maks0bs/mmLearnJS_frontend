@@ -82,7 +82,7 @@ export let saveChangesExercises = (exercises, id) => (dispatch) => {
         }
     }
     let newCourseData = {exercises: newExercises}
-    form.set('newCourseData', JSON.stringify(newCourseData));
+    form.set('newCourse', JSON.stringify(newCourseData));
     return dispatch(updateCourse(form, id))
 }
 

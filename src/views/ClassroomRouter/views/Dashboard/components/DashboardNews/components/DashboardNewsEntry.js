@@ -11,8 +11,11 @@ import PropTypes from 'prop-types';
 class DashboardNewsEntry extends Component {
     render() {
         let { kind, courseId, oldName, newName, newAbout, timeString,
-            courseName, newEntries, deletedEntries
+            courseName, newEntries, deletedEntries, newExercises,
+            deletedExercises
         } = this.props;
+        let formatEntryType = (kind) =>
+            kind.substring(5).toLowerCase()
         switch(kind){
             case 'UpdateNewInfo': {
                 return (
@@ -31,6 +34,7 @@ class DashboardNewsEntry extends Component {
                 )
             }
             case 'UpdateNewEntries': {
+                if (!Array.isArray(newEntries)) return kind;
                 return (
                     <div>
                         <h4>
@@ -40,19 +44,21 @@ class DashboardNewsEntry extends Component {
                             </Link> { }
                         </h4>
                         <ul>
-                            {newEntries.map((entry, j) => {
-                                return (
-                                    <li key={j}>
-                                        <p>{`New ${entry.type} "${entry.name}"`}</p>
-                                    </li>
-                                )
-                            })}
+                            {newEntries.map((entry, j) => (
+                                <li key={j}>
+                                    <p>{
+                                        `New ${formatEntryType(entry.kind)} ` +
+                                        `"${entry.name}"`
+                                    }</p>
+                                </li>
+                            ))}
                         </ul>
                         <i>{timeString}</i>
                     </div>
                 )
             }
             case 'UpdateDeletedEntries': {
+                if (!Array.isArray(deletedEntries)) return kind;
                 return (
                     <div>
                         <h4>
@@ -62,38 +68,77 @@ class DashboardNewsEntry extends Component {
                             </Link> { }
                         </h4>
                         <ul>
-                            {deletedEntries.map((entry, j) => {
-                                return (
-                                    <li key={j}>
-                                        <p>{`Removed ${entry.type} "${entry.name}"`}</p>
-                                    </li>
-                                )
-                            })}
+                            {Array.isArray(deletedEntries) && deletedEntries.map((entry, j) => (
+                                <li key={j}>
+                                    <p>{
+                                        `Removed ${formatEntryType(entry.kind)} ` +
+                                        `"${entry.name}"`
+                                    }</p>
+                                </li>
+                            ))}
+                        </ul>
+                        <i>{timeString}</i>
+                    </div>
+                )
+            }
+            case 'UpdateNewExercises': {
+                if (!Array.isArray(newExercises)) return kind;
+                return (
+                    <div>
+                        <h4>
+                            New exercises have been added to course { }
+                            <Link to={`/classroom/course/${courseId}`}>
+                                {courseName}
+                            </Link> { }
+                        </h4>
+                        <ul>
+                            {newExercises.map((ex, j) => (
+                                <li key={j}><p>{`${ex.name}`}</p></li>
+                            ))}
+                        </ul>
+                        <i>{timeString}</i>
+                    </div>
+                )
+            }
+            case 'UpdateDeletedExercises': {
+                if (!Array.isArray(deletedExercises)) return kind;
+                return (
+                    <div>
+                        <h4>
+                            Exercises have been removed from course { }
+                            <Link to={`/classroom/course/${courseId}`}>
+                                {courseName}
+                            </Link> { }
+                        </h4>
+                        <ul>
+                            {deletedExercises.map((ex, j) => (
+                                <li key={j}>
+                                    <p>{`"${ex.name}"`}</p>
+                                </li>
+                            ))}
                         </ul>
                         <i>{timeString}</i>
                     </div>
                 )
             }
             default: {
-                return (
-                    <div>{kind}</div>
-                )
+                return (<div>{kind}</div>)
             }
         }
     }
 }
 DashboardNewsEntry.propTypes = {
     deletedEntries: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string,
+        kind: PropTypes.string,
         name: PropTypes.string
     })),
-    'deletedEntries.type': PropTypes.string,
+    'deletedEntries.kind': PropTypes.string,
     'deletedEntries.name': PropTypes.string,
     newEntries: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string,
+        kind: PropTypes.string,
         name: PropTypes.string
     })),
-    'newEntries.type': PropTypes.string,
+    'newEntries.kind': PropTypes.string,
     'newEntries.name': PropTypes.string,
     courseName: PropTypes.string,
     timeString: PropTypes.string,

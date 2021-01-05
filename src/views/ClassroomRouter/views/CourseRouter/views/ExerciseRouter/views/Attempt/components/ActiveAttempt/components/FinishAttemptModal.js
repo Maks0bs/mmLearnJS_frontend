@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import { updateAttempt, finishAttempt, getAttemptById  } from "../../../services/actions";
+import { updateAttemptAnswers, finishAttempt, getAttemptById  } from "../../../services/actions";
 import { addToast } from "../../../../../../../../../../../components/ToastRoot/services/actions";
 import PropTypes from "prop-types";
 import TaskContainer from "../../TaskContainer";
@@ -30,17 +30,13 @@ class FinishAttemptModal extends Component {
     onSaveAndFinish = (e) => {
         e.preventDefault();
         this.props.updateAttempt(
-            this.props.course._id, this.props.exercise._id,
-            this.props.attempt._id, this.props.attempt
+            this.props.attempt._id, this.props.attempt.answers
         )
             .then(() => {
                 if (this.props.error){
                     this.displayError(this.props.error)
                 } else {
-                    return this.props.finishAttempt(
-                        this.props.course._id, this.props.exercise._id,
-                        this.props.attempt._id
-                    )
+                    return this.props.finishAttempt(this.props.attempt._id)
                 }
             })
             .then(() => {
@@ -51,10 +47,7 @@ class FinishAttemptModal extends Component {
                         (<div>Attempt saved and finished</div>),
                         {type: 'success'}
                     )
-                    this.props.getAttemptById(
-                        this.props.course._id, this.props.exercise._id,
-                        this.props.attempt._id
-                    )
+                    this.props.getAttemptById(this.props.attempt._id)
                     this.handleLeave();
                 }
             })
@@ -62,11 +55,7 @@ class FinishAttemptModal extends Component {
 
     onFinish = (e) => {
         e.preventDefault();
-        this.props.finishAttempt(
-            this.props.course._id,
-            this.props.exercise._id,
-            this.props.attempt._id
-        )
+        this.props.finishAttempt(this.props.attempt._id)
             .then(() => {
                 if (this.props.error){
                     this.displayError(this.props.error)
@@ -75,10 +64,7 @@ class FinishAttemptModal extends Component {
                         (<div>Attempt finished</div>),
                         {type: 'info'}
                     )
-                    this.props.getAttemptById(
-                        this.props.course._id, this.props.exercise._id,
-                        this.props.attempt._id
-                    )
+                    this.props.getAttemptById(this.props.attempt._id)
                     this.handleLeave();
                 }
             })
@@ -128,13 +114,11 @@ let mapStateToProps = (state) => ({
     ...state.views.classroom.course.exercise.attempt
 })
 let mapDispatchToProps = (dispatch) => ({
-    updateAttempt: (courseId, exerciseId, attemptId, attempt) =>
-        dispatch(updateAttempt(courseId, exerciseId, attemptId, attempt)),
+    updateAttempt: (attemptId, answers) =>
+        dispatch(updateAttemptAnswers(attemptId, answers)),
     addToast: (component, options) => dispatch(addToast(component, options)),
-    finishAttempt: (courseId, exerciseId, attemptId) =>
-        dispatch(finishAttempt(courseId, exerciseId, attemptId)),
-    getAttemptById: (courseId, exerciseId, attemptId) =>
-        dispatch(getAttemptById(courseId, exerciseId, attemptId)),
+    finishAttempt: (attemptId) => dispatch(finishAttempt(attemptId)),
+    getAttemptById: (attemptId) => dispatch(getAttemptById(attemptId)),
 })
 TaskContainer.propTypes = {
     /**

@@ -29,6 +29,7 @@ let {
 /**
  * @typedef CourseExerciseAttempt
  * @type Object
+ * @property {Object[]} answers
  */
 
 /**
@@ -49,7 +50,7 @@ let {
  * @type Object
  * @property {string} name
  * @property {Object|any} content
- * @property {string} type
+ * @property {string} kind
  * @property {string} access
  * @property {?string} [deletedId] - the id of the deleted entry while editing
  */
