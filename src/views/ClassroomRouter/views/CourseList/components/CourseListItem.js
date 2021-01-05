@@ -56,7 +56,7 @@ class CourseListItem extends Component {
                             </mark>
                         )}
                         {course.name}
-                        {notifications && (
+                        {Number.isInteger(notifications) && (notifications > 0) && (
                             <mark style={{background: 'yellow'}}>
                                 {notifications}
                             </mark>

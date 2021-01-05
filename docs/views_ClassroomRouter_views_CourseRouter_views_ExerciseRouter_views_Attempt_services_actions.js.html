@@ -111,14 +111,12 @@ let {
 /**
  * @function
  * @async
- * @param {string} courseId
- * @param {string} exerciseId
  * @param {string} attemptId
  * @return {function(*): Promise&lt;any|Response>}
  * @memberOf storeState.views.classroom.course.exercise.exerciseAttemptActions
  */
-export let getAttemptById = (courseId, exerciseId, attemptId) => dispatch => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/attempt/${attemptId}`, {
+export let getAttemptById = (attemptId) => dispatch => {
+	return fetch(`${REACT_APP_API_URL}/exercise-attempt/${attemptId}`, {
 		method: "GET",
 		headers: {
 			Accept: "application/json",
@@ -151,22 +149,21 @@ export let toggleAttemptValue = (taskNum, value) => (dispatch) => {
 /**
  * @function
  * @async
- * @param {string} courseId
- * @param {string} exerciseId
+ *
  * @param {string} attemptId
- * @param {CourseExerciseAttempt} attempt
+ * @param {Object[]} answers
  * @return {function(*): Promise&lt;any|Response>}
  * @memberOf storeState.views.classroom.course.exercise.exerciseAttemptActions
  */
-export let updateAttempt = (courseId, exerciseId, attemptId, attempt) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/attempt/${attemptId}`, {
+export let updateAttemptAnswers = (attemptId, answers) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/exercise-attempt/${attemptId}`, {
 		method: "PUT",
 		headers: {
 			Accept: "application/json",
 			"Content-Type": "application/json"
 		},
 		credentials: 'include',
-		body: JSON.stringify(attempt)
+		body: JSON.stringify(answers)
 	})
 		.then(res => res.json())
 		.then(data => dispatch({
@@ -179,14 +176,12 @@ export let updateAttempt = (courseId, exerciseId, attemptId, attempt) => (dispat
 /**
  * @function
  * @async
- * @param {string} courseId
- * @param {string} exerciseId
  * @param {string} attemptId
  * @return {function(*): Promise&lt;any|Response>}
  * @memberOf storeState.views.classroom.course.exercise.exerciseAttemptActions
  */
-export let finishAttempt = (courseId, exerciseId, attemptId) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/attempt/${attemptId}/finish`, {
+export let finishAttempt = (attemptId) => (dispatch) => {
+	return fetch(`${REACT_APP_API_URL}/exercise-attempt/${attemptId}/finish`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",

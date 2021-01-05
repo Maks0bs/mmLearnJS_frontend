@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { editEntry, preDeleteEntry, addEntry } from "../../services/actions";
-import {editEntryBasicData, copyDataFromServices, clearEntry} from "./services/actions";
+import { copyDataFromServices, clearEntry, editEntryBasicData} from "./services/actions";
 import { connect } from 'react-redux'
 import PropTypes from "prop-types";
 import TextEntryEditor from "./components/TextEntryEditor";
@@ -34,10 +34,10 @@ class EntryEditor extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        let { sectionNum, entryNum, name, content, access, addNew, type } = this.props;
+        let { sectionNum, entryNum, name, content, access, addNew, kind } = this.props;
         if (addNew){
             this.props.addEntry(
-                {name, content, access, type},
+                {name, content, access, kind},
                 sectionNum
             )
         }
@@ -60,7 +60,7 @@ class EntryEditor extends Component {
     }
 
     render() {
-        let { name, access, type, addNew, editorError: error } = this.props;
+        let { name, access, kind, addNew, editorError: error } = this.props;
         let inlineStyle = { display: 'flex', alignItems: 'center'}
         return (
             <div className="container my-3">
@@ -74,15 +74,15 @@ class EntryEditor extends Component {
                     <div className="form-group" style={{...inlineStyle, flexFlow: 'row wrap'}}>
                         {addNew && (
                             <select
-                                name="type"
+                                name="kind"
                                 style={{padding: '5px'}}
-                                value={type}
-                                onChange={this.handleChange("type")}
+                                value={kind}
+                                onChange={this.handleChange("kind")}
                             >
                                 <option value="">Choose entry type</option>
-                                <option value="file">File</option>
-                                <option value="forum">Forum</option>
-                                <option value="text">Text</option>
+                                <option value="EntryFile">File</option>
+                                <option value="EntryForum">Forum</option>
+                                <option value="EntryText">Text</option>
                             </select>
                         )}
                         <div style={inlineStyle}>
@@ -96,12 +96,12 @@ class EntryEditor extends Component {
                         </div>
                     </div>
                     {(() => {
-                        switch (type){
-                            case 'text':
+                        switch (kind){
+                            case 'EntryText':
                                 return (<TextEntryEditor addNew={addNew}/>)
-                            case 'file':
+                            case 'EntryFile':
                                 return (<FileEntryEditor addNew={addNew}/> )
-                            case 'forum':
+                            case 'EntryForum':
                                 return (<ForumEntryEditor addNew={addNew}/>)
                             default:
                                 return null
@@ -134,7 +134,7 @@ class EntryEditor extends Component {
                     >
                         Delete
                     </button>
-                    {type && name && access && (
+                    {kind && name && access && (
                         <button
                             className="btn btn-raised btn-success ml-3"
                             type="submit"

@@ -31,7 +31,7 @@ let {
  * @memberOf storeState.views.classroom.course.courseServicesActions
  */
 export let updateCourse = (updateData, id, returnDispatchType) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/update/${id}`, {
+	return fetch(`${REACT_APP_API_URL}/course/${id}`, {
 		method: "PUT",
 		headers: {},
 		credentials: 'include',
@@ -59,7 +59,7 @@ export let updateCourse = (updateData, id, returnDispatchType) => (dispatch) => 
  */
 export let updateCourseJSON = (courseData, id) => (dispatch) => {
 	let form = new FormData();
-	form.set('newCourseData', JSON.stringify(courseData));
+	form.set('newCourse', JSON.stringify(courseData));
 	return dispatch(updateCourse(
 		form, id,
 		API_UPDATE_COURSE_JSON_ONLY
@@ -99,8 +99,8 @@ export let getCourseById = (courseId, user) => (dispatch) => {
  * @memberOf storeState.views.classroom.course.courseServicesActions
  */
 export let viewCourse = (courseId) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/view/${courseId}`, {
-		method: "POST",
+	return fetch(`${REACT_APP_API_URL}/course/${courseId}/view`, {
+		method: "GET",
 		headers: {},
 		credentials: 'include'
 	})

@@ -59,7 +59,7 @@ let servicesReducer =  function(state = initialState, action) {
 			}
 			return {
 				...state,
-				attempts: action.payload.attempts
+				attempts: action.payload
 			}
 		}
 		case API_GET_EXERCISE_BY_ID: {
@@ -87,7 +87,7 @@ let servicesReducer =  function(state = initialState, action) {
 			}
 			return {
 				...state,
-				newAttemptId: action.payload.newAttempt._id
+				newAttemptId: action.payload._id
 			}
 		}
 		case CLEANUP: {

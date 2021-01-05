@@ -12,13 +12,17 @@ let {
  * @function
  * @async
  * @param {string} courseId
- * @param {string} param - specifies what set of summaries should be received.
- * See API docs for details.
+ * @param {boolean} allStudents - set to true if the authenticated
+ * user is a teacher and wants to get summaries about exercises
+ * among all students. See API docs for details (`?all` param)
  * @return {function(*): Promise<any|Response>}
  * @memberOf storeState.views.classroom.course.gradesActions
  */
-export let getExerciseSummaries = (courseId, param) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise-summary/${param}`, {
+export let getExerciseSummaries = (courseId, allStudents) => (dispatch) => {
+	let url =
+		`${REACT_APP_API_URL}/course/${courseId}/exercise-summary` +
+		(allStudents ? '?all=true' : '')
+	return fetch(url, {
 		method: "GET",
 		headers: {
 			Accept: "application/json",

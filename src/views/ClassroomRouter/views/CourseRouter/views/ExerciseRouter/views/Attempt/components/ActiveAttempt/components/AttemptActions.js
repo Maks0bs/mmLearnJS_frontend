@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Link, withRouter} from "react-router-dom";
-import { updateAttempt, getAttemptById } from "../../../services/actions";
+import { updateAttemptAnswers, getAttemptById } from "../../../services/actions";
 import { addToast } from "../../../../../../../../../../../components/ToastRoot/services/actions";
 import { showModal, hideModal } from "../../../../../../../../../../../components/ModalRoot/services/actions";
 import FinishModal from "./FinishAttemptModal";
@@ -24,8 +24,7 @@ class AttemptActions extends Component {
     onSaveChanges = (e) => {
         e.preventDefault();
         this.props.updateAttempt(
-            this.props.course._id, this.props.exercise._id,
-            this.props.attempt._id, this.props.attempt
+            this.props.attempt._id, this.props.attempt.answers
         )
             .then(() => {
                 if (this.props.error){
@@ -36,10 +35,7 @@ class AttemptActions extends Component {
                         {type: 'success'}
                     )
                     // this causes a reload and a fetch of updated attempt data
-                    this.props.getAttemptById(
-                        this.props.course._id, this.props.exercise._id,
-                        this.props.attempt._id
-                    )
+                    this.props.getAttemptById(this.props.attempt._id)
                 }
             })
     }
@@ -97,13 +93,12 @@ let mapStateToProps = (state) => ({
     ...state.views.classroom.course.exercise.attempt
 })
 let mapDispatchToProps = (dispatch) => ({
-    updateAttempt: (courseId, exerciseId, attemptId, attempt) =>
-        dispatch(updateAttempt(courseId, exerciseId, attemptId, attempt)),
+    updateAttempt: (attemptId, answers) =>
+        dispatch(updateAttemptAnswers(attemptId, answers)),
     addToast: (component, options) => dispatch(addToast(component, options)),
     showModal: (component) => dispatch(showModal(component)),
     hideModal: () => dispatch(hideModal()),
-    getAttemptById: (courseId, exerciseId, attemptId) =>
-        dispatch(getAttemptById(courseId, exerciseId, attemptId)),
+    getAttemptById: (attemptId) => dispatch(getAttemptById(attemptId)),
 })
 export default connect(
     mapStateToProps,

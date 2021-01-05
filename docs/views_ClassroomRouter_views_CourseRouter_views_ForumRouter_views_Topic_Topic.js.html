@@ -174,7 +174,7 @@ class Topic extends Component {
 			authenticatedUser: user, forum, topicId
 		} = this.props;
 		let forumLink = `/classroom/course/${course._id}/forum/${forum._id}`;
-		let topic = getTopicFromForumContent(forum.content, topicId);
+		let topic = getTopicFromForumContent(forum, topicId);
 		if (!topic){
 			return (&lt;Redirect to={forumLink} />)
 		}
@@ -185,7 +185,7 @@ class Topic extends Component {
 		})
 		let posts = formatTopicPosts(topic.posts);
 		let isTeacher = (status === TEACHER || status === CREATOR);
-		let hasTeachersOnly = forum.content &amp;&amp; forum.content.teachersOnly;
+		let hasTeachersOnly = forum &amp;&amp; forum.teachersOnly;
 
 		return (
 			&lt;div className="m-3">

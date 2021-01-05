@@ -54,7 +54,7 @@ export let uploadFiles = (
 export let getCoursesFiltered = (
 	filter, returnDispatchType, user
 ) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/filter`, {
+	return fetch(`${REACT_APP_API_URL}/courses/`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",

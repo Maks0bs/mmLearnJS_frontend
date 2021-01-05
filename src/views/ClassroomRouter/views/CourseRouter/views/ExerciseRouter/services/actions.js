@@ -14,13 +14,14 @@ let {
 /**
  * @function
  * @async
- * @param {string} courseId
  * @param {string} exerciseId
+ * @param {string} [courseId]
  * @return {function(*): Promise<any|Response>}
  * @memberOf storeState.views.classroom.course.exercise.exerciseServicesActions
  */
-export let getExerciseById = (courseId, exerciseId) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}`, {
+export let getExerciseById = (exerciseId, courseId) => (dispatch) => {
+	let query = courseId ? `?courseRef=${courseId}` : ''
+	return fetch(`${REACT_APP_API_URL}/exercise/${exerciseId}` + query, {
 		method: "GET",
 		headers: {
 			Accept: "application/json",
@@ -40,13 +41,12 @@ export let getExerciseById = (courseId, exerciseId) => (dispatch) => {
 /**
  * @function
  * @async
- * @param {string} courseId
  * @param {string} exerciseId
  * @return {function(*): Promise<any|Response>}
  * @memberOf storeState.views.classroom.course.exercise.exerciseServicesActions
  */
-export let getCurUserAttempts = (courseId, exerciseId) => dispatch => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/user-attempts`, {
+export let getCurUserAttempts = (exerciseId) => dispatch => {
+	return fetch(`${REACT_APP_API_URL}/exercise/${exerciseId}/user-attempts`, {
 		method: "GET",
 		headers: {
 			Accept: "application/json",
@@ -71,13 +71,12 @@ export let getCurUserAttempts = (courseId, exerciseId) => dispatch => {
 /**
  * @function
  * @async
- * @param {string} courseId
  * @param {string} exerciseId
  * @return {function(*): Promise<any|Response>}
  * @memberOf storeState.views.classroom.course.exercise.exerciseServicesActions
  */
-export let newAttempt = (courseId, exerciseId) => dispatch => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/exercise/${exerciseId}/new-attempt`, {
+export let newAttempt = (exerciseId) => dispatch => {
+	return fetch(`${REACT_APP_API_URL}/exercise/${exerciseId}/new-attempt`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",

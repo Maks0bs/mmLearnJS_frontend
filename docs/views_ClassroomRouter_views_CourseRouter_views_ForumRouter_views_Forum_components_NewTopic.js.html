@@ -126,7 +126,7 @@ class NewTopic extends Component {
         this.props.createTopic(
             this.props.course._id,
             this.props.forum._id,
-            { name: name, initContent: content }
+            { name: name, content: content }
         )
             .then(() => {
                 this.setState({loading: false})

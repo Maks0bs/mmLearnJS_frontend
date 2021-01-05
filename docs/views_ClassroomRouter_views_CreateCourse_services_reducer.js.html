@@ -132,7 +132,7 @@ export default function(state = initialState, action) {
 				error: action.payload.error &amp;&amp; JSON.stringify(
 					action.payload.error.message || action.payload.error
 				),
-				newCourseId: action.payload._id &amp;&amp; action.payload._id
+				newCourseId: action.payload.course._id
 			}
 		case CLEAR_MESSAGES:
 			return initialState

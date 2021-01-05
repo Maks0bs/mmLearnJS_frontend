@@ -21,7 +21,7 @@ let {
  * @memberOf storeState.views.classroom.course.forumActions
  */
 export let getForumById = (courseId, forumId) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/forum/${forumId}`, {
+	return fetch(`${REACT_APP_API_URL}/forum/${forumId}`, {
 		method: "GET",
 		headers: {
 			Accept: "application/json",
@@ -49,7 +49,7 @@ export let getForumById = (courseId, forumId) => (dispatch) => {
  * @memberOf storeState.views.classroom.course.forumActions
  */
 export let createTopic = (courseId, forumId, content) => (dispatch) => {
-	return fetch(`${REACT_APP_API_URL}/courses/${courseId}/forum/${forumId}/new-topic`, {
+	return fetch(`${REACT_APP_API_URL}/forum/${forumId}/new-topic`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
@@ -82,7 +82,7 @@ export let answerTopicPost = (
 	courseId, forumId, topicId, postId, post
 ) => dispatch => {
 	return fetch(
-		`${REACT_APP_API_URL}/courses/${courseId}/forum/${forumId}/topic/` +
+		`${REACT_APP_API_URL}/forum/${forumId}/topic/` +
 		`${topicId}/post/${postId}/answer`,
 		{
 			method: "POST",
@@ -120,7 +120,7 @@ export let deleteTopicPost = (
 	courseId, forumId, topicId, postId
 ) => dispatch => {
 	return fetch(
-		`${REACT_APP_API_URL}/courses/${courseId}/forum/${forumId}/topic/` +
+		`${REACT_APP_API_URL}/forum/${forumId}/topic/` +
 		`${topicId}/post/${postId}`,
 		{
 			method: "DELETE",

@@ -105,7 +105,7 @@ class CourseRouter extends PureComponent {
 							let [, courseId, exerciseId] =
 								/^\/classroom\/course\/([A-Za-z0-9]+)\/exercise\/([A-Za-z0-9]+)/
 									.exec(this.props.location.pathname);
-							!this.loading && this.props.getExerciseById(courseId, exerciseId)
+							!this.loading && this.props.getExerciseById(exerciseId, courseId)
 								.then(() => this.loading = false)
 							this.loading = true;
 
@@ -120,8 +120,8 @@ class CourseRouter extends PureComponent {
 							let [, courseId, gradeFilter] =
 								/^\/classroom\/course\/([A-Za-z0-9]+)\/grades\/([A-Za-z0-9]+)/
 									.exec(this.props.location.pathname);
-							!this.loading && this.props.getExerciseSummaries(courseId,
-								(gradeFilter === 'teacher') ? 'all' : gradeFilter
+							!this.loading && this.props.getExerciseSummaries(
+								courseId, gradeFilter === 'teacher'
 							)
 								.then(() => this.loading = false)
 							this.loading = true;
@@ -144,10 +144,10 @@ let mapDispatchToProps = (dispatch) => ({
 	showModal: (component) => dispatch(showModal(component)),
 	hideModal: () => dispatch(hideModal()),
 	getForumById: (courseId, forumId) => dispatch(getForumById(courseId, forumId)),
-	getExerciseById: (courseId, exerciseId) =>
-		dispatch(getExerciseById(courseId, exerciseId)),
-	getExerciseSummaries: (courseId, param) =>
-		dispatch(getExerciseSummaries(courseId, param))
+	getExerciseById: (exerciseId, courseId) =>
+		dispatch(getExerciseById(exerciseId, courseId)),
+	getExerciseSummaries: (courseId, allStudents) =>
+		dispatch(getExerciseSummaries(courseId, allStudents))
 })
 export default connect(
 	mapStateToProps,

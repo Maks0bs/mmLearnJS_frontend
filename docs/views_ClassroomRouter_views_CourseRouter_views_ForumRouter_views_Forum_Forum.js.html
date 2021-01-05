@@ -117,9 +117,7 @@ class Forum extends Component {
 		let { TEACHER, CREATOR } = COURSE_USER_STATUS;
 		let { curUserCourseStatus: status, forum } = this.props;
 		let isTeacher = ((status === TEACHER) || (status === CREATOR))
-		// TODO get rid of content here
-		let { content, name } = forum;
-		let { topics, teachersOnly, description } = content;
+		let { teachersOnly, description, name, topics } = forum;
 		return (
 			&lt;div className="container my-3">
 				&lt;h1>Forum &lt;strong>{name}&lt;/strong> &lt;/h1>

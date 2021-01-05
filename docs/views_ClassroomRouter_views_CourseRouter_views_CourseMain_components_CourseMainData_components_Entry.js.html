@@ -125,7 +125,8 @@ class Entry extends Component {
 
 	render() {
 		let { entryNum, sectionNum, course } = this.props;
-		let { access, type, name, content, _id } = course.sections[sectionNum].entries[entryNum];
+		let entry = course.sections[sectionNum].entries[entryNum];
+		let { access, kind, name, _id } = entry;
 		return (
 			&lt;div className="mt-3">
 				&lt;span style={{display: 'flex', alignItems: 'center', flexFlow: 'row wrap'}}>
@@ -146,29 +147,32 @@ class Entry extends Component {
                 &lt;div className="ml-3">
 
     				{(() => {
-                        switch(type) {
-                            case 'text':
-                                return(&lt;p>{content.text}&lt;/p>)
-                            case 'file':
+                        switch(kind) {
+                            case 'EntryText':
+                                return(&lt;p>{entry.text}&lt;/p>)
+                            case 'EntryFile':
                             	return (
                             		&lt;h5>
 										&lt;a
 											href={
 												`${REACT_APP_API_URL}/files/stream/`+
-												`${content.file}/${content.fileName}`
+												`${entry.file}/${entry.fileName}`
 											}
-											download={content.fileName}
+											download={entry.fileName}
 											target="_blank"
 										>
 											&lt;Icon className="pr-1" icon={faFile}/>
-											{content.fileName}
+											{entry.fileName}
 										&lt;/a>
 									&lt;/h5>
 								)
-                            case 'forum':
+                            case 'EntryForum':
                                 return (
                                 	&lt;h5>
-										&lt;Link to={`/classroom/course/${course._id}/forum/${_id}`}>
+										&lt;Link to={
+											`/classroom/course/${course._id}` +
+											`/forum/${entry.forum._id}`
+										}>
 											&lt;Icon className="pr-1" icon={faComments}/>
 											{name}
 										&lt;/Link>

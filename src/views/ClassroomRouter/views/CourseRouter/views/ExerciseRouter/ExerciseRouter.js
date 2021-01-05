@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getExerciseById, cleanup } from "./services/actions";
+import { cleanup } from "./services/actions";
 import ExercisePreview from "./views/ExercisePreview/ExercisePreview";
 import Attempt from "./views/Attempt";
 import BigLoadingCentered from "../../../../../../components/reusables/BigLoadingCentered";
@@ -59,7 +59,6 @@ let mapStateToProps = (state) => ({
 	...state.views.classroom.course.services
 })
 let mapDispatchToProps = (dispatch) => ({
-	getExerciseById: (courseData, id) => dispatch(getExerciseById(courseData, id)),
 	cleanup: () => dispatch(cleanup()),
 	addNavItem: (item) => dispatch(addNavItem(item)),
 	removeNavItem: (id) => dispatch(removeNavItem(id))
